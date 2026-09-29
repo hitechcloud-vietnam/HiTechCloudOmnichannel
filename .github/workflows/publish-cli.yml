@@ -181,7 +181,7 @@ jobs:
       # Lets HiTechCloudOmnichannelIO/hitechcloudomnichannel-agent's upstream-drift-check workflow run
       # immediately instead of waiting for its next scheduled run. Optional:
       # skipped entirely (via `continue-on-error` swallowing the failure)
-      # when CHATBOTX_AGENT_DISPATCH_TOKEN isn't configured, so this publish
+      # when HITECHCLOUDOMNICHANNEL_AGENT_DISPATCH_TOKEN isn't configured, so this publish
       # never fails just because that repo hasn't been wired up yet.
       #
       # One-time setup required before this does anything:
@@ -189,7 +189,7 @@ jobs:
       #      HiTechCloudOmnichannelIO/hitechcloudomnichannel-agent repository, with "Contents: write"
       #      permission (needed to create a repository_dispatch event) and
       #      no other scopes.
-      #   2. Add it as a secret named CHATBOTX_AGENT_DISPATCH_TOKEN on this
+      #   2. Add it as a secret named HITECHCLOUDOMNICHANNEL_AGENT_DISPATCH_TOKEN on this
       #      repository (Settings → Secrets and variables → Actions).
       # The receiving workflow is .github/workflows/upstream-drift.yml in
       # hitechcloudomnichannel-agent, listening for event_type "upstream-published".
@@ -197,11 +197,11 @@ jobs:
         if: steps.guard.outputs.should_publish != 'false' && inputs.dry_run != true && steps.publish.outcome == 'success'
         continue-on-error: true
         env:
-          GH_TOKEN: ${{ secrets.CHATBOTX_AGENT_DISPATCH_TOKEN }}
+          GH_TOKEN: ${{ secrets.HITECHCLOUDOMNICHANNEL_AGENT_DISPATCH_TOKEN }}
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           if [[ -z "${GH_TOKEN}" ]]; then
-            echo "CHATBOTX_AGENT_DISPATCH_TOKEN not set — skipping hitechcloudomnichannel-agent notification." >> "$GITHUB_STEP_SUMMARY"
+            echo "HITECHCLOUDOMNICHANNEL_AGENT_DISPATCH_TOKEN not set — skipping hitechcloudomnichannel-agent notification." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           gh api repos/HiTechCloudOmnichannelIO/hitechcloudomnichannel-agent/dispatches \

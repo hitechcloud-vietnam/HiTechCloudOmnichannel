@@ -36,10 +36,10 @@ wc -l backup_*.sql
 
 ```bash
 docker compose down
-docker volume rm chatbotx_db-data
+docker volume rm HITECHCLOUDOMNICHANNEL_db-data
 ```
 
-> The volume name is `chatbotx_db-data` because the compose project is named `hitechcloudomnichannel` (set via `name:` in `docker-compose.yml`).
+> The volume name is `HITECHCLOUDOMNICHANNEL_db-data` because the compose project is named `hitechcloudomnichannel` (set via `name:` in `docker-compose.yml`).
 
 ### 3. Start the new container
 

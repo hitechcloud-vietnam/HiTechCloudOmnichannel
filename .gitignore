@@ -52,10 +52,6 @@ yarn-error.log*
 test.rest
 test-webchat
 
-# Cursor
-.cursor/skills/
-CLAUDE.md
-
 # Per-developer Claude Code overrides (hooks, personal permissions)
 .claude/settings.local.json
 

@@ -43,7 +43,7 @@ the second** (stderr warning, exit code 0 — easy to miss in CI).
 ```bash
 pnpm --filter hitechcloudomnichannel test                              # pins known collisions,
                                                           # apps/cli/__tests__/openapi-loader-command-names.test.ts
-CHATBOTX_API_URL=<local-builder-url>/api \
+HITECHCLOUDOMNICHANNEL_API_URL=<local-builder-url>/api \
   pnpm --filter hitechcloudomnichannel dev:cli -- --refresh-spec <group> --help
 ```
 
@@ -72,7 +72,7 @@ That repo also runs its own automated check
 (`HiTechCloudOmnichannelIO/hitechcloudomnichannel-agent/.github/workflows/upstream-drift.yml`): daily, and
 immediately after `publish-cli.yml`/`publish-hitechcloudomnichannel-mcp.yml` here publish a
 new version (via a `repository_dispatch` call those workflows make, gated on
-the `CHATBOTX_AGENT_DISPATCH_TOKEN` secret — see the "Notify hitechcloudomnichannel-agent"
+the `HITECHCLOUDOMNICHANNEL_AGENT_DISPATCH_TOKEN` secret — see the "Notify hitechcloudomnichannel-agent"
 step in each). It compares the live CLI `--help` output and the live MCP
 default-tool set against `hitechcloudomnichannel-agent`'s docs and opens/updates a GitHub
 issue there on drift. It is a safety net for when this manual sync step is
