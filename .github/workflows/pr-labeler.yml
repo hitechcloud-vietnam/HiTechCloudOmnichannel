@@ -1,0 +1,57 @@
+name: PR Labeler
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened]
+
+permissions:
+  pull-requests: write
+
+concurrency:
+  group: pr-labeler-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply label from PR title
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const TYPE_MAP = [
+              { re: /^feat(\([^)]+\))?!/,              labels: ['feature', 'breaking-change'] },
+              { re: /^feat(\([^)]+\))?:/,              labels: ['feature'] },
+              { re: /^(fix|bugfix)(\([^)]+\))?!/,      labels: ['bug', 'breaking-change'] },
+              { re: /^(fix|bugfix)(\([^)]+\))?:/,      labels: ['bug'] },
+              { re: /^(refactor|perf)(\([^)]+\))?!/,   labels: ['improvement', 'breaking-change'] },
+              { re: /^(refactor|perf)/,                labels: ['improvement'] },
+              { re: /^docs/,                           labels: ['docs'] },
+              { re: /^chore/,                          labels: ['chore'] },
+              { re: /^ci/,                             labels: ['ci'] },
+              { re: /^security/,                       labels: ['security'] },
+              { re: /^build\(deps\)|^chore\(deps\)/,   labels: ['dependencies'] },
+            ];
+
+            const title = context.payload.pull_request && context.payload.pull_request.title;
+            if (!title) {
+              console.log('No pull_request title in payload; skipping.');
+              return;
+            }
+            const match = TYPE_MAP.find(({ re }) => re.test(title));
+            if (!match) {
+              console.log(`No conventional commit prefix found in: "${title}"`);
+              return;
+            }
+
+            // Labels are bootstrapped once in the repo (see git history for
+            // pr-labeler.yml) rather than created here on every run — that
+            // dropped the `issues: write` scope this job used to need.
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              labels: match.labels,
+            });
+
+            console.log(`Applied labels [${match.labels.join(', ')}] to PR #${context.payload.pull_request.number}`);

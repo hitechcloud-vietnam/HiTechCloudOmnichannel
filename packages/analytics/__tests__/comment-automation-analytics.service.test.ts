@@ -1,0 +1,1144 @@
+import { beforeEach, describe, expect, test, vi } from "vitest"
+
+// ── db mock ──────────────────────────────────────────────────────────────────
+
+const findFirstAutomation = vi.fn()
+const findManyContacts = vi.fn()
+
+const db = {
+  query: {
+    commentAutomationModel: { findFirst: findFirstAutomation },
+    contactModel: { findMany: findManyContacts },
+  },
+}
+
+vi.mock("@chatbotx.io/database/client", () => ({ db }))
+
+// ── repository mock ───────────────────────────────────────────────────────────
+
+const commentAutomationStatsRepository = {
+  insertEvents: vi.fn().mockResolvedValue([]),
+  settleEvent: vi.fn().mockResolvedValue([]),
+  deleteEvent: vi.fn().mockResolvedValue([]),
+  markDelivered: vi.fn().mockResolvedValue([]),
+  markSeenForContactInboxes: vi.fn().mockResolvedValue([]),
+  markClickedForAutomationContacts: vi.fn().mockResolvedValue([]),
+  incrementCounters: vi.fn().mockResolvedValue(undefined),
+  getContacts: vi.fn(),
+  getContactIdsPage: vi.fn(),
+  getRepliesByDate: vi.fn(),
+  getUserCommentTotals: vi.fn(),
+  getBotReplyTotals: vi.fn(),
+  getErrorEvents: vi.fn(),
+}
+
+vi.mock(
+  "../src/repositories/postgres/comment-automation-stats.repository",
+  () => ({ commentAutomationStatsRepository }),
+)
+
+const commentAutomationMissRepository = {
+  insertMisses: vi.fn().mockResolvedValue([]),
+  getMissContacts: vi.fn(),
+  getMissContactIdsPage: vi.fn(),
+}
+
+vi.mock(
+  "../src/repositories/postgres/comment-automation-miss.repository",
+  () => ({
+    commentAutomationMissRepository,
+  }),
+)
+
+// ── subject ───────────────────────────────────────────────────────────────────
+
+const { CommentAutomationAnalyticsService } = await import(
+  "../src/services/comment-automation-analytics.service"
+)
+
+const service = new CommentAutomationAnalyticsService()
+
+const RANGE = {
+  workspaceId: "workspace-1",
+  automationId: "automation-1",
+  startDate: "2026-03-01T00:00:00.000Z",
+  endDate: "2026-03-03T23:59:59.999Z",
+  timezone: "UTC",
+}
+const PAGED = { ...RANGE, page: 1, perPage: 10 }
+
+beforeEach(() => {
+  vi.clearAllMocks()
+  // `type` matters now: the counters are scoped to the DM on a channel that
+  // has one and to the public comment reply on a channel that does not, so
+  // every counter assertion below is really an assertion about a Messenger
+  // automation. The public-only half is pinned in its own describe block.
+  findFirstAutomation.mockResolvedValue({
+    id: "automation-1",
+    type: "messenger",
+  })
+  findManyContacts.mockResolvedValue([])
+  commentAutomationStatsRepository.insertEvents.mockResolvedValue([])
+  commentAutomationStatsRepository.settleEvent.mockResolvedValue([])
+  commentAutomationStatsRepository.deleteEvent.mockResolvedValue([])
+  commentAutomationStatsRepository.markDelivered.mockResolvedValue([])
+  commentAutomationStatsRepository.markSeenForContactInboxes.mockResolvedValue(
+    [],
+  )
+  commentAutomationStatsRepository.markClickedForAutomationContacts.mockResolvedValue(
+    [],
+  )
+})
+
+describe("automation scoping", () => {
+  test("returns empty and runs no stat query when the automation is not in the workspace", async () => {
+    findFirstAutomation.mockResolvedValue(undefined)
+
+    const stats = await service.getReplyStatsByDateRange(RANGE)
+    const comments = await service.listUserComments(PAGED)
+
+    expect(stats).toEqual([])
+    expect(comments).toEqual({ data: [], total: 0, page: 1, pageCount: 0 })
+    expect(
+      commentAutomationStatsRepository.getRepliesByDate,
+    ).not.toHaveBeenCalled()
+    expect(
+      commentAutomationStatsRepository.getUserCommentTotals,
+    ).not.toHaveBeenCalled()
+  })
+
+  test("scopes the lookup by both workspace and automation", async () => {
+    commentAutomationStatsRepository.getRepliesByDate.mockResolvedValue([])
+
+    await service.getReplyStatsByDateRange(RANGE)
+
+    expect(findFirstAutomation).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: "automation-1", workspaceId: "workspace-1" },
+      }),
+    )
+  })
+
+  test("treats a blank automationId as no match without querying", async () => {
+    const stats = await service.getReplyStatsByDateRange({
+      ...RANGE,
+      automationId: "",
+    })
+
+    expect(stats).toEqual([])
+    expect(findFirstAutomation).not.toHaveBeenCalled()
+  })
+})
+
+describe("getReplyStatsByDateRange", () => {
+  test("fills quiet days with zero so the chart draws a continuous line", async () => {
+    commentAutomationStatsRepository.getRepliesByDate.mockResolvedValue([
+      { dateReport: "2026-03-01", count: 4 },
+      { dateReport: "2026-03-03", count: 2 },
+    ])
+
+    const stats = await service.getReplyStatsByDateRange(RANGE)
+
+    expect(stats).toEqual([
+      { dateReport: "2026-03-01", count: 4 },
+      { dateReport: "2026-03-02", count: 0 },
+      { dateReport: "2026-03-03", count: 2 },
+    ])
+  })
+
+  test("asks the repository for daily buckets on a short range", async () => {
+    commentAutomationStatsRepository.getRepliesByDate.mockResolvedValue([])
+
+    await service.getReplyStatsByDateRange(RANGE)
+
+    expect(
+      commentAutomationStatsRepository.getRepliesByDate,
+    ).toHaveBeenCalledWith(expect.objectContaining({ granularity: "day" }))
+  })
+
+  // The date filter is unbounded (only FAILED rows are purged), so a `lifeTime`
+  // range can span years. Past 60 days the series is bucketed by month — and
+  // the fill below has to agree, or the chart shows one real point followed by
+  // a run of zeroes.
+  describe("a range wider than 60 days", () => {
+    const WIDE_RANGE = {
+      ...RANGE,
+      startDate: "2026-01-15T00:00:00.000Z",
+      endDate: "2026-04-20T23:59:59.999Z",
+    }
+
+    test("asks the repository for monthly buckets", async () => {
+      commentAutomationStatsRepository.getRepliesByDate.mockResolvedValue([])
+
+      await service.getReplyStatsByDateRange(WIDE_RANGE)
+
+      expect(
+        commentAutomationStatsRepository.getRepliesByDate,
+      ).toHaveBeenCalledWith(expect.objectContaining({ granularity: "month" }))
+    })
+
+    test("fills quiet months with zero, keeping the YYYY-MM-01 key", async () => {
+      commentAutomationStatsRepository.getRepliesByDate.mockResolvedValue([
+        { dateReport: "2026-01-01", count: 7 },
+        { dateReport: "2026-04-01", count: 3 },
+      ])
+
+      const stats = await service.getReplyStatsByDateRange(WIDE_RANGE)
+
+      expect(stats).toEqual([
+        { dateReport: "2026-01-01", count: 7 },
+        { dateReport: "2026-02-01", count: 0 },
+        { dateReport: "2026-03-01", count: 0 },
+        { dateReport: "2026-04-01", count: 3 },
+      ])
+    })
+  })
+})
+
+describe("recordEvent", () => {
+  test("swallows a repository failure — analytics must not break the reply", async () => {
+    commentAutomationStatsRepository.insertEvents.mockRejectedValueOnce(
+      new Error("db down"),
+    )
+
+    await expect(
+      service.recordEvent({
+        workspaceId: "workspace-1",
+        automationId: "automation-1",
+        postId: "post-1",
+        commentId: "comment-1",
+        replyChannel: "public",
+        replyType: "text",
+        status: "sent",
+        occurredAt: new Date(),
+      }),
+    ).resolves.toBeUndefined()
+  })
+
+  test("truncates an oversized error detail", async () => {
+    await service.recordEvent({
+      workspaceId: "workspace-1",
+      automationId: "automation-1",
+      postId: "post-1",
+      commentId: "comment-1",
+      replyChannel: "private",
+      replyType: "text",
+      status: "failed",
+      errorDetail: "x".repeat(9000),
+      occurredAt: new Date(),
+    })
+
+    const [rows] = commentAutomationStatsRepository.insertEvents.mock.calls[0]
+    expect(rows[0].errorDetail).toHaveLength(8192)
+  })
+})
+
+describe("settleEvent", () => {
+  test("omitting replyText leaves the column alone — a failed send keeps the text it carried", async () => {
+    await service.settleEvent({
+      automationId: "automation-1",
+      commentId: "comment-1",
+      replyChannel: "public",
+      status: "failed",
+      errorDetail: "token revoked",
+    })
+
+    const [input] = commentAutomationStatsRepository.settleEvent.mock.calls[0]
+    expect(input).not.toHaveProperty("replyText")
+    expect(input.errorDetail).toBe("token revoked")
+  })
+
+  test("an explicit null still clears the column", async () => {
+    await service.settleEvent({
+      automationId: "automation-1",
+      commentId: "comment-1",
+      replyChannel: "public",
+      status: "failed",
+      replyText: null,
+    })
+
+    const [input] = commentAutomationStatsRepository.settleEvent.mock.calls[0]
+    expect(input.replyText).toBeNull()
+  })
+
+  test("truncates an oversized error detail", async () => {
+    await service.settleEvent({
+      automationId: "automation-1",
+      commentId: "comment-1",
+      replyChannel: "private",
+      status: "failed",
+      errorDetail: "x".repeat(9000),
+    })
+
+    const [input] = commentAutomationStatsRepository.settleEvent.mock.calls[0]
+    expect(input.errorDetail).toHaveLength(8192)
+  })
+
+  test("swallows a repository failure", async () => {
+    commentAutomationStatsRepository.settleEvent.mockRejectedValueOnce(
+      new Error("db down"),
+    )
+
+    await expect(
+      service.settleEvent({
+        automationId: "automation-1",
+        commentId: "comment-1",
+        replyChannel: "public",
+        status: "sent",
+      }),
+    ).resolves.toBeUndefined()
+  })
+})
+
+describe("discardEvent", () => {
+  test("deletes the row a deliberate skip opened", async () => {
+    await service.discardEvent({
+      automationId: "automation-1",
+      commentId: "comment-1",
+      replyChannel: "public",
+    })
+
+    expect(commentAutomationStatsRepository.deleteEvent).toHaveBeenCalledWith({
+      automationId: "automation-1",
+      commentId: "comment-1",
+      replyChannel: "public",
+    })
+  })
+
+  test("swallows a repository failure", async () => {
+    commentAutomationStatsRepository.deleteEvent.mockRejectedValueOnce(
+      new Error("db down"),
+    )
+
+    await expect(
+      service.discardEvent({
+        automationId: "automation-1",
+        commentId: "comment-1",
+        replyChannel: "public",
+      }),
+    ).resolves.toBeUndefined()
+  })
+})
+
+describe("listErrors", () => {
+  test("hydrates contact names and leaves a deleted contact null", async () => {
+    commentAutomationStatsRepository.getErrorEvents.mockResolvedValue({
+      rows: [
+        {
+          id: "1",
+          contactId: "contact-1",
+          replyChannel: "public",
+          replyType: "text",
+          errorDetail: "boom",
+          httpCode: "400",
+          commentText: "hello",
+          occurredAt: new Date("2026-03-01T10:00:00.000Z"),
+        },
+        {
+          id: "2",
+          contactId: null,
+          replyChannel: "private",
+          replyType: "text",
+          errorDetail: "boom",
+          httpCode: null,
+          commentText: null,
+          occurredAt: new Date("2026-03-01T11:00:00.000Z"),
+        },
+      ],
+      total: 2,
+    })
+    findManyContacts.mockResolvedValue([
+      { id: "contact-1", firstName: "Ada", lastName: "L", avatar: null },
+    ])
+
+    const result = await service.listErrors(PAGED)
+
+    expect(result.data[0]?.contact).toEqual({
+      firstName: "Ada",
+      lastName: "L",
+      avatar: null,
+    })
+    expect(result.data[1]?.contact).toBeNull()
+    expect(result.pageCount).toBe(1)
+  })
+
+  test("skips the contact query when no row has a contact", async () => {
+    commentAutomationStatsRepository.getErrorEvents.mockResolvedValue({
+      rows: [
+        {
+          id: "1",
+          contactId: null,
+          replyChannel: "public",
+          replyType: "text",
+          errorDetail: "boom",
+          httpCode: null,
+          commentText: null,
+          occurredAt: new Date("2026-03-01T10:00:00.000Z"),
+        },
+      ],
+      total: 1,
+    })
+
+    await service.listErrors(PAGED)
+
+    expect(findManyContacts).not.toHaveBeenCalled()
+  })
+})
+
+// ── lifetime counters ────────────────────────────────────────────────────────
+//
+// The FAILED `CommentAutomationEvent` rows are purged after 30 days, so the
+// numbers in the list table come from counters on `CommentAutomation`
+// instead — an aggregate would walk `failedCount` down every night. Every
+// increment is driven by the rows a conditional write actually returned — that
+// is the only thing standing between these counters and a redelivered webhook.
+
+// `private` deliberately: the counters measure the DM, not the comment reply.
+// Meta reports no delivery receipt for a public comment reply and it has no
+// reader, so counting it would dilute every rate on the list — they are all
+// measured against `sentCount`. Public rows are still WRITTEN (the per-automation
+// analytics page reads them); they just never reach a counter. The test below
+// pins that half.
+const EVENT = {
+  workspaceId: "workspace-1",
+  automationId: "automation-1",
+  postId: "post-1",
+  commentId: "comment-1",
+  replyChannel: "private" as const,
+  replyType: "text" as const,
+  occurredAt: new Date("2026-03-01T00:00:00.000Z"),
+}
+
+function countersFor(automationId: string) {
+  const calls =
+    commentAutomationStatsRepository.incrementCounters.mock.calls.at(-1)
+  return (calls?.[0] as Map<string, Record<string, number>>)?.get(automationId)
+}
+
+describe("recordEvent counters", () => {
+  test("counts one attempt per row that was actually inserted", async () => {
+    commentAutomationStatsRepository.insertEvents.mockResolvedValue([
+      { automationId: "automation-1", status: "sent" },
+    ])
+
+    await service.recordEvent({ ...EVENT, status: "sent" })
+
+    expect(countersFor("automation-1")).toEqual({ sentCount: 1 })
+  })
+
+  test("a retry that hits the dedup index moves nothing", async () => {
+    commentAutomationStatsRepository.insertEvents.mockResolvedValue([])
+
+    await service.recordEvent({ ...EVENT, status: "sent" })
+
+    expect(countersFor("automation-1")).toBeUndefined()
+  })
+
+  test("a row born failed counts as both an attempt and a failure", async () => {
+    commentAutomationStatsRepository.insertEvents.mockResolvedValue([
+      { automationId: "automation-1", status: "failed" },
+    ])
+
+    await service.recordEvent({ ...EVENT, status: "failed" })
+
+    expect(countersFor("automation-1")).toEqual({
+      sentCount: 1,
+      failedCount: 1,
+    })
+  })
+
+  test("stamps failedAt on a row that is failed from birth, so it can be ordered and drilled into", async () => {
+    commentAutomationStatsRepository.insertEvents.mockResolvedValue([])
+
+    await service.recordEvent({ ...EVENT, status: "failed" })
+
+    const [rows] = commentAutomationStatsRepository.insertEvents.mock.calls[0]
+    expect((rows as { failedAt: Date | null }[])[0].failedAt).toBeInstanceOf(
+      Date,
+    )
+  })
+
+  test("a public reply on a DM channel writes its row but moves no counter", async () => {
+    commentAutomationStatsRepository.insertEvents.mockResolvedValue([
+      { automationId: "automation-1", status: "sent", deliveredAt: null },
+    ])
+
+    await service.recordEvent({
+      ...EVENT,
+      replyChannel: "public",
+      status: "sent",
+    })
+
+    expect(commentAutomationStatsRepository.insertEvents).toHaveBeenCalled()
+    expect(
+      commentAutomationStatsRepository.incrementCounters,
+    ).not.toHaveBeenCalled()
+  })
+
+  // A `text` private reply goes straight out through the comment_id-anchored
+  // Send API and leaves no `Message` row for a webhook to settle against — and
+  // the dispatch completes BEFORE this row is inserted, so the `markDelivered`
+  // that used to do this matched nothing at all. Born delivered instead.
+  test("a row born delivered counts its delivery at insert time", async () => {
+    commentAutomationStatsRepository.insertEvents.mockResolvedValue([
+      {
+        automationId: "automation-1",
+        status: "sent",
+        deliveredAt: new Date("2026-03-01T00:00:05.000Z"),
+      },
+    ])
+
+    await service.recordEvent({
+      ...EVENT,
+      status: "sent",
+      deliveredAt: new Date("2026-03-01T00:00:05.000Z"),
+    })
+
+    expect(countersFor("automation-1")).toEqual({
+      sentCount: 1,
+      deliveredCount: 1,
+    })
+  })
+
+  test("passes deliveredAt through to the inserted row", async () => {
+    commentAutomationStatsRepository.insertEvents.mockResolvedValue([])
+    const deliveredAt = new Date("2026-03-01T00:00:05.000Z")
+
+    await service.recordEvent({ ...EVENT, status: "sent", deliveredAt })
+
+    const [rows] = commentAutomationStatsRepository.insertEvents.mock.calls[0]
+    expect((rows as { deliveredAt: Date | null }[])[0].deliveredAt).toEqual(
+      deliveredAt,
+    )
+  })
+})
+
+describe("settleEvent counters", () => {
+  test("counts the failure only when the row actually flipped", async () => {
+    commentAutomationStatsRepository.settleEvent.mockResolvedValue([
+      { automationId: "automation-1" },
+    ])
+
+    await service.settleEvent({
+      automationId: "automation-1",
+      commentId: "comment-1",
+      replyChannel: "private",
+      status: "failed",
+    })
+
+    expect(countersFor("automation-1")).toEqual({ failedCount: 1 })
+  })
+
+  test("a public reply on a DM channel flipping to failed writes the row but moves no counter", async () => {
+    commentAutomationStatsRepository.settleEvent.mockResolvedValue([
+      { automationId: "automation-1" },
+    ])
+
+    await service.settleEvent({
+      automationId: "automation-1",
+      commentId: "comment-1",
+      replyChannel: "public",
+      status: "failed",
+    })
+
+    // Still settled, so the Error Logs panel can explain it.
+    expect(commentAutomationStatsRepository.settleEvent).toHaveBeenCalled()
+    expect(
+      commentAutomationStatsRepository.incrementCounters,
+    ).not.toHaveBeenCalled()
+  })
+
+  test("a second settle to failed is refused by the repository and moves nothing", async () => {
+    commentAutomationStatsRepository.settleEvent.mockResolvedValue([])
+
+    await service.settleEvent({
+      automationId: "automation-1",
+      commentId: "comment-1",
+      replyChannel: "private",
+      status: "failed",
+    })
+
+    expect(countersFor("automation-1")).toBeUndefined()
+  })
+
+  test("an AI reply landing its text changes no counter — the attempt was already counted", async () => {
+    commentAutomationStatsRepository.settleEvent.mockResolvedValue([
+      { automationId: "automation-1" },
+    ])
+
+    await service.settleEvent({
+      automationId: "automation-1",
+      commentId: "comment-1",
+      replyChannel: "private",
+      status: "sent",
+      replyText: "generated",
+    })
+
+    expect(
+      commentAutomationStatsRepository.incrementCounters,
+    ).not.toHaveBeenCalled()
+  })
+})
+
+describe("discardEvent counters", () => {
+  test("unwinds everything the discarded row had been counted as", async () => {
+    commentAutomationStatsRepository.deleteEvent.mockResolvedValue([
+      {
+        automationId: "automation-1",
+        status: "sent",
+        deliveredAt: new Date(),
+        seenAt: new Date(),
+        clickedAt: null,
+        failedAt: null,
+      },
+    ])
+
+    await service.discardEvent({
+      automationId: "automation-1",
+      commentId: "comment-1",
+      replyChannel: "private",
+    })
+
+    expect(countersFor("automation-1")).toEqual({
+      sentCount: -1,
+      deliveredCount: -1,
+      seenCount: -1,
+    })
+  })
+})
+
+describe("markDelivered", () => {
+  test("counts a delivery once, and not at all when the row was already delivered", async () => {
+    commentAutomationStatsRepository.markDelivered.mockResolvedValue([
+      { automationId: "automation-1" },
+    ])
+    await service.markDelivered({
+      automationId: "automation-1",
+      commentId: "comment-1",
+      replyChannel: "private",
+    })
+    expect(countersFor("automation-1")).toEqual({ deliveredCount: 1 })
+
+    commentAutomationStatsRepository.markDelivered.mockResolvedValue([])
+    await service.markDelivered({
+      automationId: "automation-1",
+      commentId: "comment-1",
+      replyChannel: "private",
+    })
+    expect(countersFor("automation-1")).toBeUndefined()
+  })
+})
+
+// Threads has no comment-anchored DM, so the private-only counter rule left a
+// perfectly working automation reading zero down its whole list row — Replies
+// included — and the Misses column measuring itself against nothing but its own
+// misses. On that channel the public reply IS the reply. (TikTok used to belong
+// here too; Comment-to-Message gave it a DM, so it now counts like Meta — see
+// the block below.)
+describe("a channel with no private reply counts its public reply", () => {
+  const THREADS_EVENT = {
+    ...EVENT,
+    automationId: "automation-threads",
+    replyChannel: "public" as const,
+  }
+
+  // A fresh service per test: the channel-type memo is per instance and keyed
+  // by automation id, so a shared one would carry the first test's answer into
+  // the next and hide a lookup that never happened.
+  let threadsService: InstanceType<typeof CommentAutomationAnalyticsService>
+
+  beforeEach(() => {
+    findFirstAutomation.mockResolvedValue({
+      id: "automation-threads",
+      type: "threads",
+    })
+    threadsService = new CommentAutomationAnalyticsService()
+  })
+
+  test("counts the attempt at dispatch", async () => {
+    commentAutomationStatsRepository.insertEvents.mockResolvedValue([
+      { automationId: "automation-threads", status: "sent", deliveredAt: null },
+    ])
+
+    await threadsService.recordEvent({ ...THREADS_EVENT, status: "sent" })
+
+    expect(countersFor("automation-threads")).toEqual({ sentCount: 1 })
+  })
+
+  test("counts the delivery the channel acknowledged", async () => {
+    commentAutomationStatsRepository.markDelivered.mockResolvedValue([
+      { automationId: "automation-threads" },
+    ])
+
+    await threadsService.markDelivered({
+      automationId: "automation-threads",
+      commentId: "comment-1",
+      replyChannel: "public",
+    })
+
+    expect(countersFor("automation-threads")).toEqual({ deliveredCount: 1 })
+  })
+
+  test("counts a send that terminally failed", async () => {
+    commentAutomationStatsRepository.settleEvent.mockResolvedValue([
+      { automationId: "automation-threads" },
+    ])
+
+    await threadsService.settleEvent({
+      automationId: "automation-threads",
+      commentId: "comment-1",
+      replyChannel: "public",
+      status: "failed",
+    })
+
+    expect(countersFor("automation-threads")).toEqual({ failedCount: 1 })
+  })
+
+  test("unwinds what a discarded row had been counted as", async () => {
+    commentAutomationStatsRepository.deleteEvent.mockResolvedValue([
+      {
+        automationId: "automation-threads",
+        status: "sent",
+        deliveredAt: new Date(),
+        seenAt: null,
+        clickedAt: null,
+        failedAt: null,
+      },
+    ])
+
+    await threadsService.discardEvent({
+      automationId: "automation-threads",
+      commentId: "comment-1",
+      replyChannel: "public",
+    })
+
+    expect(countersFor("automation-threads")).toEqual({
+      sentCount: -1,
+      deliveredCount: -1,
+    })
+  })
+
+  // "Select all" tags the people the dialog listed, so both reads have to name
+  // the same half of the comment as the counter they were opened from.
+  test("drills into the public rows the counters came from", async () => {
+    commentAutomationStatsRepository.getContacts.mockResolvedValue({
+      contactInboxIds: [],
+      events: [],
+      contactTotal: 0,
+    })
+    commentAutomationStatsRepository.getContactIdsPage.mockResolvedValue([])
+
+    await threadsService.getContacts({
+      ...PAGED,
+      automationId: "automation-threads",
+      eventType: "message:delivered",
+    })
+    await threadsService.getContactIdsPage({
+      workspaceId: "workspace-1",
+      automationId: "automation-threads",
+      eventType: "message:delivered",
+      cursor: null,
+      limit: 100,
+    })
+
+    expect(commentAutomationStatsRepository.getContacts).toHaveBeenCalledWith(
+      expect.objectContaining({ replyChannel: "public" }),
+    )
+    expect(
+      commentAutomationStatsRepository.getContactIdsPage,
+    ).toHaveBeenCalledWith(expect.objectContaining({ replyChannel: "public" }))
+  })
+
+  test("a DM channel still drills into its private rows", async () => {
+    commentAutomationStatsRepository.getContacts.mockResolvedValue({
+      contactInboxIds: [],
+      events: [],
+      contactTotal: 0,
+    })
+    findFirstAutomation.mockResolvedValue({
+      id: "automation-1",
+      type: "messenger",
+    })
+
+    await new CommentAutomationAnalyticsService().getContacts({
+      ...PAGED,
+      eventType: "message:delivered",
+    })
+
+    expect(commentAutomationStatsRepository.getContacts).toHaveBeenCalledWith(
+      expect.objectContaining({ replyChannel: "private" }),
+    )
+  })
+
+  // A delete racing an in-flight reply. Counting it as a public-only channel
+  // would be a guess in the direction that invents numbers.
+  test("an automation that no longer exists counts nothing", async () => {
+    findFirstAutomation.mockResolvedValue(undefined)
+    commentAutomationStatsRepository.insertEvents.mockResolvedValue([
+      { automationId: "automation-threads", status: "sent", deliveredAt: null },
+    ])
+
+    await new CommentAutomationAnalyticsService().recordEvent({
+      ...THREADS_EVENT,
+      status: "sent",
+    })
+
+    expect(
+      commentAutomationStatsRepository.incrementCounters,
+    ).not.toHaveBeenCalled()
+  })
+
+  test("resolves the channel once and reuses it", async () => {
+    commentAutomationStatsRepository.insertEvents.mockResolvedValue([])
+
+    await threadsService.recordEvent({ ...THREADS_EVENT, status: "sent" })
+    await threadsService.recordEvent({ ...THREADS_EVENT, status: "sent" })
+
+    expect(findFirstAutomation).toHaveBeenCalledTimes(1)
+  })
+})
+
+// TikTok gained a comment-anchored DM with Comment-to-Message, so it moved out
+// of the public-counting group above and now behaves exactly like the Meta
+// channels. The DM fires only for comments TikTok flags as high intent, which
+// makes it rarer — but it is still the half that carries a delivery receipt,
+// and counting the public reply beside it would dilute every rate on the row.
+describe("TikTok counts its Comment-to-Message DM", () => {
+  const TIKTOK_EVENT = {
+    ...EVENT,
+    automationId: "automation-tiktok",
+  }
+
+  let tiktokService: InstanceType<typeof CommentAutomationAnalyticsService>
+
+  beforeEach(() => {
+    findFirstAutomation.mockResolvedValue({
+      id: "automation-tiktok",
+      type: "tiktok",
+    })
+    tiktokService = new CommentAutomationAnalyticsService()
+  })
+
+  test("counts a private reply", async () => {
+    commentAutomationStatsRepository.insertEvents.mockResolvedValue([
+      { automationId: "automation-tiktok", status: "sent", deliveredAt: null },
+    ])
+
+    await tiktokService.recordEvent({
+      ...TIKTOK_EVENT,
+      replyChannel: "private",
+      status: "sent",
+    })
+
+    expect(countersFor("automation-tiktok")).toEqual({ sentCount: 1 })
+  })
+
+  test("does not count the public reply beside it", async () => {
+    commentAutomationStatsRepository.insertEvents.mockResolvedValue([
+      { automationId: "automation-tiktok", status: "sent", deliveredAt: null },
+    ])
+
+    await tiktokService.recordEvent({
+      ...TIKTOK_EVENT,
+      replyChannel: "public",
+      status: "sent",
+    })
+
+    expect(
+      commentAutomationStatsRepository.incrementCounters,
+    ).not.toHaveBeenCalled()
+  })
+
+  test("drills into the private rows the counters came from", async () => {
+    commentAutomationStatsRepository.getContacts.mockResolvedValue({
+      contactInboxIds: [],
+      events: [],
+      contactTotal: 0,
+    })
+
+    await tiktokService.getContacts({
+      ...PAGED,
+      automationId: "automation-tiktok",
+      eventType: "message:delivered",
+    })
+
+    expect(commentAutomationStatsRepository.getContacts).toHaveBeenCalledWith(
+      expect.objectContaining({ replyChannel: "private" }),
+    )
+  })
+})
+
+describe("onSeen", () => {
+  test("collapses several receipts for one inbox to its latest timestamp", async () => {
+    const earlier = new Date("2026-03-01T10:00:00.000Z")
+    const later = new Date("2026-03-01T11:00:00.000Z")
+
+    await service.onSeen([
+      { context: { contactInboxId: "inbox-1" }, occurredAt: later },
+      { context: { contactInboxId: "inbox-1" }, occurredAt: earlier },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ] as any)
+
+    expect(
+      commentAutomationStatsRepository.markSeenForContactInboxes,
+    ).toHaveBeenCalledWith([{ contactInboxId: "inbox-1", occurredAt: later }])
+  })
+
+  test("never queries for a payload with no inbox — a receipt without one names nothing", async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await service.onSeen([{ context: {}, occurredAt: new Date() }] as any)
+
+    expect(
+      commentAutomationStatsRepository.markSeenForContactInboxes,
+    ).not.toHaveBeenCalled()
+  })
+})
+
+describe("onClicked", () => {
+  test("ignores clicks from broadcasts and sequences, which carry no automation id", async () => {
+    await service.onClicked([
+      {
+        action: { broadcastId: "broadcast-1" },
+        context: { contactInboxId: "inbox-1" },
+        occurredAt: new Date(),
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ] as any)
+
+    expect(
+      commentAutomationStatsRepository.markClickedForAutomationContacts,
+    ).not.toHaveBeenCalled()
+  })
+
+  test("counts a click once per row the repository actually claimed", async () => {
+    commentAutomationStatsRepository.markClickedForAutomationContacts.mockResolvedValue(
+      [{ automationId: "automation-1" }],
+    )
+
+    await service.onClicked([
+      {
+        action: { commentAutomationId: "automation-1" },
+        context: { contactInboxId: "inbox-1" },
+        occurredAt: new Date("2026-03-01T10:00:00.000Z"),
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ] as any)
+
+    expect(countersFor("automation-1")).toEqual({ clickedCount: 1 })
+  })
+})
+
+describe("never-throws contract", () => {
+  test("a counter write that fails does not take down the reply it was counting", async () => {
+    commentAutomationStatsRepository.insertEvents.mockResolvedValue([
+      { automationId: "automation-1", status: "sent" },
+    ])
+    commentAutomationStatsRepository.incrementCounters.mockRejectedValueOnce(
+      new Error("connection lost"),
+    )
+
+    await expect(
+      service.recordEvent({ ...EVENT, status: "sent" }),
+    ).resolves.toBeUndefined()
+  })
+})
+
+// A `flow` reply is several messages but ONE reply. `sendFlowStep` swallows a
+// step's error and carries on, so a 3-step reply can settle in either order.
+// The rule both ways round: any step through means delivered and not failed;
+// only every step failing counts as a failure.
+describe("multi-step flow reply: delivered and failed are mutually exclusive", () => {
+  test("a later step failing after one landed is not counted — the reply arrived", async () => {
+    // The repository refuses the write (`deliveredAt IS NULL` on the settle),
+    // so there is nothing to count.
+    commentAutomationStatsRepository.settleEvent.mockResolvedValue([])
+
+    await service.settleEvent({
+      automationId: "automation-1",
+      commentId: "comment-1",
+      replyChannel: "private",
+      status: "failed",
+      errorDetail: "step 3 threw",
+    })
+
+    expect(
+      commentAutomationStatsRepository.incrementCounters,
+    ).toHaveBeenCalledWith(new Map())
+  })
+
+  test("a step landing after an earlier one failed takes the failure back out", async () => {
+    commentAutomationStatsRepository.markDelivered.mockResolvedValue([
+      { automationId: "automation-1", clearedFailure: true },
+    ])
+
+    await service.markDelivered({
+      automationId: "automation-1",
+      commentId: "comment-1",
+      replyChannel: "private",
+    })
+
+    expect(countersFor("automation-1")).toEqual({
+      deliveredCount: 1,
+      failedCount: -1,
+    })
+  })
+
+  test("the first step landing costs no failure to unwind", async () => {
+    commentAutomationStatsRepository.markDelivered.mockResolvedValue([
+      { automationId: "automation-1", clearedFailure: false },
+    ])
+
+    await service.markDelivered({
+      automationId: "automation-1",
+      commentId: "comment-1",
+      replyChannel: "private",
+    })
+
+    expect(countersFor("automation-1")).toEqual({ deliveredCount: 1 })
+  })
+
+  test("every step failing counts exactly one failure, not three", async () => {
+    commentAutomationStatsRepository.settleEvent
+      .mockResolvedValueOnce([{ automationId: "automation-1" }])
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce([])
+
+    const settleFailure = (detail: string) =>
+      service.settleEvent({
+        automationId: "automation-1",
+        commentId: "comment-1",
+        replyChannel: "private",
+        status: "failed",
+        errorDetail: detail,
+      })
+
+    await settleFailure("step 1 threw")
+    expect(countersFor("automation-1")).toEqual({ failedCount: 1 })
+
+    await settleFailure("step 2 threw")
+    expect(countersFor("automation-1")).toBeUndefined()
+
+    await settleFailure("step 3 threw")
+    expect(countersFor("automation-1")).toBeUndefined()
+  })
+})
+
+describe("recordMisses", () => {
+  const MISS = {
+    id: "miss-1",
+    workspaceId: "workspace-1",
+    automationId: "automation-1",
+    contactId: "contact-1",
+    contactInboxId: "inbox-1",
+    postId: "post-1",
+    commentId: "comment-1",
+    commentText: "how much?",
+    reason: "keywordsNotMatched" as const,
+    occurredAt: new Date("2026-03-02T10:00:00.000Z"),
+  }
+
+  test("counts the rows the insert RETURNED, not the rows passed in", async () => {
+    // Two automations declined, but one row already existed — a redelivered
+    // webhook or a BullMQ retry — so `onConflictDoNothing` returned only one.
+    commentAutomationMissRepository.insertMisses.mockResolvedValue([
+      { automationId: "automation-1" },
+    ])
+
+    await service.recordMisses([
+      MISS,
+      { ...MISS, id: "miss-2", automationId: "automation-2" },
+    ])
+
+    expect(
+      commentAutomationStatsRepository.incrementCounters,
+    ).toHaveBeenCalledWith(new Map([["automation-1", { missedCount: 1 }]]))
+  })
+
+  test("a fully deduplicated flush moves no counter", async () => {
+    commentAutomationMissRepository.insertMisses.mockResolvedValue([])
+
+    await service.recordMisses([MISS])
+
+    expect(
+      commentAutomationStatsRepository.incrementCounters,
+    ).toHaveBeenCalledWith(new Map())
+  })
+
+  test("writes nothing at all when there is nothing to record", async () => {
+    await service.recordMisses([])
+
+    expect(commentAutomationMissRepository.insertMisses).not.toHaveBeenCalled()
+    expect(
+      commentAutomationStatsRepository.incrementCounters,
+    ).not.toHaveBeenCalled()
+  })
+
+  test("never throws — bookkeeping must not take down the reply path", async () => {
+    commentAutomationMissRepository.insertMisses.mockRejectedValue(
+      new Error("db down"),
+    )
+
+    await expect(service.recordMisses([MISS])).resolves.toBeUndefined()
+  })
+})
+
+describe("misses drill-down routing", () => {
+  const EMPTY = { contactInboxIds: [], events: [], contactTotal: 0 }
+
+  test("getContacts reads the miss table for comment:missed", async () => {
+    commentAutomationMissRepository.getMissContacts.mockResolvedValue(EMPTY)
+
+    await service.getContacts({ ...PAGED, eventType: "comment:missed" })
+
+    expect(
+      commentAutomationMissRepository.getMissContacts,
+    ).toHaveBeenCalledTimes(1)
+    expect(commentAutomationStatsRepository.getContacts).not.toHaveBeenCalled()
+  })
+
+  test("getContacts still reads the event table for a delivery stat", async () => {
+    commentAutomationStatsRepository.getContacts.mockResolvedValue(EMPTY)
+
+    await service.getContacts({ ...PAGED, eventType: "message:delivered" })
+
+    expect(commentAutomationStatsRepository.getContacts).toHaveBeenCalledTimes(
+      1,
+    )
+    expect(
+      commentAutomationMissRepository.getMissContacts,
+    ).not.toHaveBeenCalled()
+  })
+
+  test("an automation from another workspace never reaches the miss table", async () => {
+    findFirstAutomation.mockResolvedValue(undefined)
+
+    const result = await service.getContacts({
+      ...PAGED,
+      eventType: "comment:missed",
+    })
+
+    expect(result).toEqual(EMPTY)
+    expect(
+      commentAutomationMissRepository.getMissContacts,
+    ).not.toHaveBeenCalled()
+  })
+
+  test("getContactIdsPage routes comment:missed to the miss table so select-all tags what it listed", async () => {
+    commentAutomationMissRepository.getMissContactIdsPage.mockResolvedValue([])
+
+    await service.getContactIdsPage({
+      workspaceId: "workspace-1",
+      automationId: "automation-1",
+      eventType: "comment:missed",
+      cursor: null,
+      limit: 100,
+    })
+
+    expect(
+      commentAutomationMissRepository.getMissContactIdsPage,
+    ).toHaveBeenCalledTimes(1)
+    expect(
+      commentAutomationStatsRepository.getContactIdsPage,
+    ).not.toHaveBeenCalled()
+  })
+})

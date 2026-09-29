@@ -1,0 +1,10 @@
+packages:
+  - apps/*
+  - packages/*
+  - integrations/*
+
+onlyBuiltDependencies:
+  - core-js-pure
+  - esbuild
+  - isolated-vm
+  - lefthook

@@ -1,0 +1,380 @@
+# White-label tenancy
+
+ChatbotX supports white-label resellers: a reseller runs a branded instance on
+their own domain, with their own end-customers, fully isolated from the platform
+and from every other reseller. This is modeled by a first-class **`Tenant`** table
+(the Auth0-tenant / Vercel-team / Stripe-Connect shape).
+
+## The model
+
+| Concept | Where | Notes |
+|---------|-------|-------|
+| Tenant | `Tenant` table (`packages/database/src/schema/enterprise/tenant.ts`) | A white-label instance. Holds identity + lifecycle (`status`: `active`/`suspended`) + branding (logos, theme, custom CSS/JS, email templates). |
+| Root tenant | `ROOT_TENANT_ID = "1"`, `ownerId` NULL | The platform / main site. Seeded by the `add_tenant_tables` migration. Every default `tenantId` resolves here. |
+| Reseller tenant | `Tenant` row with `ownerId` → the reseller `User` | One per reseller (`Tenant_ownerId_key`, partial unique on non-null `ownerId`). |
+| Sub-account | `User` row with `tenantId` → a reseller tenant | The reseller's end-customer, isolated inside that tenant. |
+
+`ROOT_TENANT_ID` is defined in `packages/database/src/partials/shared.ts` (not in
+`tenant.ts`) so the eager constant sits outside the `tenant.ts` ↔ `auth-user.ts`
+circular FK; it is re-exported from `@chatbotx.io/database/schema`.
+
+### Keys
+
+- **`User.tenantId`** — defaults to `ROOT_TENANT_ID`. Email is unique *per tenant*
+  (`User_email_tenant_key`), never globally — the same email can exist as fully
+  separate accounts across tenants.
+- **`Workspace.tenantId`** — owner-derived, never host-derived, via
+  `workspaceService.resolveTenantForOwner` (`packages/business/src/workspace/service.ts`):
+  a sub-account inherits its own tenant; a reseller gets the tenant they own; a
+  plain platform user gets the root tenant.
+- **`CustomDomain.tenantId`** — the host → tenant routing key (was `userId`).
+
+When adding a column with `Record<ChannelType, …>`-style fan-out, remember the
+relational-query wiring: a new table needs both an `import` and a spread in
+`packages/database/src/relations/index.ts` (see `AGENTS.md` invariants).
+
+## Auth scoping
+
+Tenant scoping lives in `packages/auth/src/tenant-context.ts` and `server.ts`.
+
+- **`withTenant(tenantId, fn)` / `getTenantId()`** — an `AsyncLocalStorage` binding.
+  `getTenantId()` defaults to `ROOT_TENANT_ID` (never null), so the main site and
+  any unbound context fail safe to the platform.
+- **Tenant-scoped drizzle adapter** (`createTenantScopedAdapter`) — every better-auth
+  `User` lookup *by email* and every `User` insert is constrained to the bound
+  tenant. Lookups by id/token are untouched, so sessions stay tenant-neutral.
+- **Reseller-owner fallback** — on the reseller's own domain the bound tenant is
+  their reseller `Tenant`, but the reseller's own account lives in the root tenant
+  (they signed up on the main site). When a scoped email lookup misses, the adapter
+  resolves `Tenant.ownerId` and retries by primary key, additionally constrained to
+  `tenantId = ROOT_TENANT_ID` — the fallback resolves only the owner's root-tenant
+  account, never a user row parked in any other tenant. So a reseller signs in on
+  both the platform URL and their own domain; their sub-accounts only on the domain.
+  This applies to every auth method, including OAuth social sign-in: a social
+  sign-in with the owner's email links to the owner's existing root-tenant account
+  instead of creating a tenant-scoped duplicate (both social providers verify
+  mailbox ownership, so whoever presents the owner's email via OAuth is the owner).
+  Correspondingly, the adapter's `create` wrapper stamps a newly-linked `Account`
+  row with `ROOT_TENANT_ID` (not the bound tenant) whenever its `userId` is the
+  bound tenant's owner, so the row matches the root-tenant `User` it belongs to —
+  `Account.tenantId` has `onDelete: "restrict"`, so a mismatched stamp would block
+  that reseller tenant's deletion.
+- **OAuth state recovery** (`resolveTenantFromOAuthState`) — OAuth providers redirect
+  to a redirect URI pinned per-credential (the reseller's own active custom domain for
+  a tenant-owned credential, else the **broker host**, see below), so on `/callback/*`
+  the request's `x-domain` may not match where the flow started. The tenant is instead
+  recovered from the persisted OAuth `state` (its `callbackURL` carries the
+  originating reseller origin, exposed by `resolveOAuthStateCallbackURL`). Fails safe
+  to the root tenant.
+- **Callback relay** — the registered callback host can differ from the originating
+  branded host (inherited/platform credentials always land on the broker; a
+  tenant-owned credential lands on the reseller's own domain even when the flow
+  started on the platform host). Landing anywhere but the originating host would mint
+  the session cookie somewhere the user isn't. So on the `/callback/*` leg the auth
+  route bounces the callback (same `code` + `state`) back to the originating branded
+  host before better-auth processes it, so the session cookie is set on the host the
+  user is actually on. `skipStateCookieCheck` makes this cross-host hand-off safe
+  (state lives in the DB, not only the cookie). This mirrors `resolveRelayTarget` in
+  `apps/builder/src/lib/oauth-referer.ts`, the same relay the channel integrations use
+  (`integrations/[...integration]/callback.ts`) — it relays whenever the callback host
+  differs from the originating `referer` host.
+
+The auth route (`apps/builder/src/app/api/auth/[...all]/route.ts`) binds the tenant
+with `withTenant` around the whole better-auth pipeline.
+
+### Per-tenant social OAuth (Google, Facebook)
+
+better-auth freezes social-provider config at init, so one auth instance can sign in
+with only one app per provider. To give each reseller their own consent screen,
+`apps/builder/src/lib/auth/auth-instances.ts` builds and caches a separate auth
+instance per distinct credential (reseller's own app, else platform default), keyed
+by `(provider, clientId)`. All instances share the same secret/cookies/adapter, so
+sessions are interchangeable. `route.ts` dispatches the social/callback legs to the
+right instance (provider read from the `/callback/<provider>` path or the
+`sign-in/social` body) and uses the default `auth` instance for everything else.
+
+Providers are listed in `SOCIAL_PROVIDERS` (`packages/auth/src/server.ts`); a tenant
+sees a provider's button only when its credential resolves
+(`resolveEnabledProvidersForDomain`). **Facebook login reuses the existing Meta app
+credential** stored under `type: "messenger"`, so resellers don't register a second
+Facebook app just to sign in.
+
+The OAuth `redirect_uri` is pinned per-credential in `buildSocialProviders`
+(`packages/auth/src/server.ts`, via `AuthConfig.socialRedirectOrigin`):
+`apps/builder/src/lib/auth/auth-instances.ts` resolves it to the reseller's active
+custom domain for a tenant-owned credential (their own app, on a non-root tenant),
+else the broker host. A reseller using their own provider app registers the callback
+URL on **their own domain** (`{their-domain}/api/auth/callback/<provider>`) when they
+have an active custom domain, otherwise the *broker* callback URL
+(`{broker}/api/auth/callback/<provider>`) — the manage-credentials UI shows the exact
+URL to register. The instance cache key folds in the redirect origin, so activating a
+custom domain resolves to a fresh instance instead of reusing one pinned to the
+broker. Either way, when the callback lands on a host different from where the flow
+started, it relays back to the originating host (see "Callback relay" above) so the
+session lands there.
+
+## OAuth broker (the "white-label URL")
+
+OAuth providers (Google, Facebook, TikTok, …) only accept a fixed allowlist of
+redirect URIs — wildcards are rejected, so a URI must be registered explicitly. Every
+OAuth flow (social SSO **and** channel integrations) uses the origin registered for
+the credential in use: the **broker** — a dedicated, brand-neutral host, same pattern
+as GoHighLevel's `marketplace.leadconnectorhq.com` — for inherited/platform
+credentials and self-hosted editions, or the reseller's **own active custom domain**
+for a credential they configured themselves (`Credential.userId` set). Either way, if
+the callback lands on a host different from where the flow started, it relays back to
+the originating host so the code exchange and cookie write happen where the user's
+session actually lives.
+
+- **Config** — `NEXT_PUBLIC_BROKER_URL` (env). Optional; defaults to
+  `NEXT_PUBLIC_BUILDER_URL` so single-domain deployments are unaffected. Resolved via
+  `getBrokerUrl()` (`packages/auth/src/keys.ts`) and `getBrokerOrigin()`
+  (`apps/builder/src/lib/oauth-broker.ts`).
+- **Where redirect URIs come from** — `apps/builder/src/lib/provider-origin.ts` is the
+  single source of truth: `resolveProviderOriginForCredential`/`buildProviderCallbackUrl`
+  resolve to the reseller's active custom domain when the credential is tenant-owned
+  (`userId` set) and their tenant has one, else the broker. SSO threads the same
+  resolution through `AuthConfig.socialRedirectOrigin` (see "Per-tenant social OAuth"
+  above); integrations call `buildProviderCallbackUrl()` in each
+  `features/integration-*/libs/*.ts`, their connect/reconnect actions, and in
+  `integrations/[...integration]/callback.ts` (the token-exchange `redirect_uri` must
+  match the authorize-time one — always the same credential resolved on both legs).
+  `trustedOrigins` includes the broker, the builder URL, and every active custom
+  domain.
+- **Relay targets** — `resolveRelayTarget` relays whenever the callback's host differs
+  from the originating `referer` host, and only *to* an origin we control: the builder
+  URL or an active custom domain. `sanitizeReferer` enforces the same allowlist, so an
+  attacker-controlled `state` cannot drive an open redirect. (Integration `state` is
+  not HMAC-signed; integrity rests on this origin allowlist plus the
+  `workspace.ownerId === userId` ownership check in the callback. Signing `state` is a
+  possible future hardening.)
+- **No active domain** — a tenant-owned credential with no active custom domain falls
+  back to the broker server-side (there's nothing else to register with the
+  provider); the manage-credentials UI instead shows a literal
+  `https://<your-domain.com>` placeholder so the reseller isn't misled into
+  registering a host they don't control.
+
+### Provider-console registration runbook
+
+Register these exact URIs in each provider's developer console. For the
+platform-owned app (or a self-hosted edition), `{origin}` = `NEXT_PUBLIC_BROKER_URL`
+(or the builder URL). For a reseller-owned app, `{origin}` = the reseller's own active
+custom domain:
+
+| Provider | URI to register |
+|----------|--------------------------|
+| Google SSO | `{origin}/api/auth/callback/google` |
+| Facebook SSO | `{origin}/api/auth/callback/facebook` |
+| Google Sheets | `{origin}/integrations/google-sheets/callback` |
+| Google Calendar | `{origin}/integrations/google-calendar/callback` |
+| TikTok | `{origin}/integrations/tiktok/callback` |
+| Messenger | `{origin}/integrations/messenger/callback` |
+| Instagram | `{origin}/integrations/instagram/callback` |
+| Zalo | `{origin}/integrations/zalo/callback` |
+| WhatsApp webhook | `{origin}/integrations/whatsapp/webhook` |
+| TikTok webhook | `{origin}/integrations/tiktok/webhook` |
+
+(The WhatsApp manual-connect flow registers a per-integration variant,
+`{origin}/integrations/whatsapp/webhook/{integrationId}`, sent to Meta as
+`override_callback_uri`.)
+
+The platform-credential settings UI surfaces these URLs per provider (already resolved
+to the correct origin) so resellers can copy the exact value into their own console.
+Receive-side webhook URLs follow the same per-credential origin as OAuth callbacks —
+inherited/platform credentials on the broker host, tenant-owned credentials on the
+reseller's own active custom domain — since the provider cannot reach an unregistered
+host either way. Webhook *receive* routing itself still dispatches by request host
+(`app/integrations/[...integration]/webhook.ts`): the broker host resolves the
+platform credential, any other (now correctly-registered) host resolves the tenant
+credential for that domain.
+
+## Branding
+
+`resolveTenantSettings` / `resolveTenantSettingsByDomain`
+(`packages/business/src/platform/settings.ts`) merge env defaults with the tenant's
+branding. The root tenant carries null branding and a suspended tenant falls back to
+defaults, so platform workspaces always render defaults.
+
+## Channel-visibility policy
+
+A two-tier policy controls **which channel types a user may create** (`Tenant.hiddenChannels`,
+a `ChannelType[]` column). It is a **pure UI-visibility gate — not authorization**: it only
+governs whether the create UI *renders* a channel's entry point. It is never consulted by
+webhook handling, outbound send, or `Inbox` itself, so a channel a user already connected
+keeps working even after it is hidden. Hiding only blocks *new* creation.
+
+### The two tiers
+
+| Tier | Set by | Scope | Where |
+|------|--------|-------|-------|
+| Platform | SaaS operator | Ceiling for **every** tenant | root tenant's `hiddenChannels`, edited at `/admin/platform-channels` (superAdmin route) |
+| Reseller | White-label owner | Narrows further, **only for their own users** | reseller tenant's `hiddenChannels`, edited at `/manage/platform-channels` (active-tenant-owner route) |
+
+The two hidden sets are **unioned, never overridden** — a reseller can only narrow what the
+platform already allows, never widen it. The `/manage` UI renders platform-hidden channels as
+disabled + checked with a tooltip so a reseller cannot un-hide them.
+
+### Resolution
+
+`tenantService.resolveVisibleChannels(ownerId)`
+(`packages/business/src/enterprise/tenant/service.ts`) returns the creatable channels:
+
+```
+CREATABLE_CHANNELS
+  minus root tenant's hiddenChannels
+  minus owned tenant's hiddenChannels  (only when owned.status === "active")
+```
+
+A suspended reseller tenant contributes **nothing** to the hidden set — its policy is ignored
+until reactivated (the `/manage` route is itself blocked for non-active tenants, so a suspended
+reseller can never reach the toggles). A plain platform user with no owned tenant sees whatever
+the platform allows.
+
+The `ownerId` passed in must be the **tenant-aware owner**, resolved by
+`resolvePlatformOwnerId` / `resolveOwnerForWorkspace`
+(`apps/builder/src/lib/platform-credential-owner.ts`) — host (custom domain) wins over an
+explicit `workspaceId`, the same owner used to resolve platform OAuth credentials. Pass anything
+else and the policy silently falls back to platform-global.
+
+### Enforcement surfaces
+
+- **Create picker** (`app/(no-sidebar)/channels/create/page.tsx`) — gates every create branch
+  on `resolveVisibleChannels` before rendering, including the self-serve telegram/webchat ones,
+  so a hidden channel's entry point never renders even via a `?channel=` deep link.
+- **Settings accordion** (`.../settings/channels/layout.tsx`) — narrows the row list to visible
+  channels via `resolveVisibleChannels`, **grandfathering** any channel the workspace already has
+  a connected inbox for (`inboxService.distinctConnectedChannels`) so hiding never makes an
+  existing connection vanish. Rows are real nested routes (`settings/channels/<channel>`)
+  rendered through the route-driven accordion shell.
+- **Per-channel pages** — each `settings/channels/<channel>/page.tsx` guards itself with
+  `requireVisibleChannel(workspaceId, channel)`
+  (`apps/builder/src/lib/workspace/require-visible-channel.ts`), which 404s hidden channels and
+  returns the request-scoped `ChannelPolicy` (`ownerId`, `creatable`, `visibleChannels`) so
+  credential pages reuse the same reads. The layout and every page share one
+  `resolveChannelPolicy` resolution per request (string-keyed React `cache()`), so the rendered
+  rows and the directly-addressable routes can never disagree. The channels index page gates the
+  legacy `?channel=` deep-link redirect on the same policy, and `webchats/create/page.tsx`
+  re-checks via `resolveChannelCreatable(workspaceId, channel)`.
+
+Channels that are `manageable` but not `creatable` (currently only `smtp`) sit **outside** the
+policy entirely — `resolveVisibleChannels` only ever filters `CREATABLE_CHANNELS`, so those rows
+always show.
+
+> **Design note:** because hiding is UI visibility and not access control, the underlying connect
+> **actions** (e.g. `connectTelegramAction`) deliberately do **not** re-check the policy. A channel
+> remains creatable by invoking its server action directly; the gate exists only to shape the UI.
+> If a channel ever needs true creation-blocking, that is an authorization change (add the check to
+> the action), not a visibility change.
+
+## Quota enforcement
+
+Quota is tracked in `UserQuota` rows only — there is no separate tenant-level counter table.
+
+### Single-source design
+
+| User type | `UserQuota` rows | Enforcement |
+|-----------|-----------------|-------------|
+| Root-tenant user | One row (their own) | Gated by their own row only |
+| Reseller owner | One row (their own, acts as the pool) | Gated by their own pool row only |
+| Sub-account | One row (their own) + owner's pool row | Gated by **both** their own row **and** the owner's pool row |
+
+The owner's `*Used` columns aggregate the whole tenant: owner's own resources carry the reseller `tenantId` so they are already included in tenant-scoped DB counts. No separate summation step is needed.
+
+### Two-level enforcement (`QuotaEnforcementService`)
+
+`packages/business/src/quota-enforcement/service.ts` gates every resource creation:
+
+1. **Pool check** (`ownerId`) — `userQuotaService.hasCapacity(ownerId, metric)`. Blocks if the owner's pool is full.
+2. **User check** (`userId`) — `userQuotaService.hasCapacity(userId, metric)`. Blocks if the sub-account's own limit is reached.
+3. **Consume** — `userQuotaService.consume(ownerId, ...)` (always) + `userQuotaService.consume(userId, ...)` (sub-accounts only).
+
+A reseller acting on their own behalf only passes check 1 (their row IS the pool).
+A root-tenant user only passes check 2 (no pool).
+
+### Write-through counters
+
+Every `consume` and `incrementBy` call on `UserQuotaService` is write-through: it updates the Redis live counter **and** the DB `*Used` column in the same call (via `LiveCounterStore.consume`). This keeps the usage display (Redis-read) and the capacity gate (DB-read) in lockstep without waiting for the scheduled reconcile.
+
+### Scheduled reconcile (`syncUserQuota`)
+
+`apps/worker/src/schedule/handlers/sync-user-quota.ts` runs on every `QUOTA_SYNC_INTERVAL_SECONDS` tick. It:
+
+1. Scans Redis for `user-quota-live:*` keys (active users with live counters).
+2. Unions in all active reseller owner IDs from `tenantService.listActiveOwnerIds()` so cold owners (no Redis key yet) are always included.
+3. For each user ID:
+   - **Reseller owner with active tenant** → calls `userQuotaService.reconcileOwnerPoolUsage(ownerId, tenantId)`: runs five parallel `COUNT(*)`/`SUM` queries scoped to `workspaceModel.tenantId` and writes the authoritative current counts to both the `UserQuota` row and the Redis live hash.
+   - **Everyone else** → runs per-owner self-count queries scoped to `workspaceModel.ownerId` and writes the same columns.
+
+Counts are written directly (not `GREATEST`), so a reconcile tick always self-heals any drift.
+
+Reconcile is a **backstop**, not the only place counts shrink. `contacts`/`mac` release synchronously
+when `contactService.delete()` removes a contact, and `channels` releases synchronously when
+`inboxService.disconnect()` disconnects a channel — both call the existing
+`quotaEnforcementService.release`/`releaseBy` (pool-aware, floor-at-zero) right at the delete/disconnect
+call site, best-effort (`.catch()` + log, never blocking the delete). A workspace hard-delete
+(`workspaceService.purgeDueScheduled`) instead calls `userQuotaService.reconcileOwnerPoolUsage` for the
+affected owner immediately after the batch delete — a full absolute recount, since a workspace teardown
+cascades away its contacts/channels/MAC too. The scheduled reconcile above remains the authority for
+races, failures in the synchronous release, and any other drift.
+
+The private `quota-worker` remains the authority for plan limits and period resets; this repository
+also owns the runtime trial-expiry lifecycle: an expired cloud trial enters a blocked, read/delete-only
+state. Blocked owners cannot process new workspace work or send messages, while existing data remains
+available for export or deletion.
+
+`UserQuota.channelsTornDownAt` records when an expired trial's channel integrations were disconnected.
+The hourly `unsubscribeExpiredTrials` schedule performs that teardown after the seven-day grace period
+and is idempotent. `Workspace.scheduledDeletionAt` marks a soft-deleted workspace's grace deadline;
+the hourly `purgeWorkspaces` schedule hard-deletes workspaces after that deadline and disconnects all
+integrations. Both schedules use a distributed lock because worker replicas do not provide singleton
+cron execution. Workspace-scoped workers and inbound webhook processing use `withBlockedOwnerGuard`
+and safely acknowledge blocked work without retrying it; system, quota, and tenancy jobs are excluded.
+
+### Key files
+
+| Path | Role |
+|------|------|
+| `packages/business/src/user-quota/service.ts` | `UserQuotaService` — all quota reads/writes/reconcile |
+| `packages/business/src/quota-enforcement/service.ts` | Two-level gate (pool + user), live-counter helpers |
+| `packages/business/src/quota-shared/live-counter-store.ts` | `LiveCounterStore` — Redis HINCRBY + DB upsert + cache bust |
+| `apps/worker/src/schedule/handlers/sync-user-quota.ts` | Scheduled reconcile walker |
+| `apps/worker/src/schedule/handlers/purge-workspaces.ts` | Hourly disconnect-first soft-delete purge |
+| `apps/worker/src/schedule/handlers/unsubscribe-expired-trials.ts` | Trial+7d one-shot channel teardown |
+
+### Expired workspace lifecycle
+
+Cloud trial expiry is a degraded access state, not a redirect or hard block:
+the workspace remains read/delete-only and shows a persistent expired banner.
+Create actions use the normal trial-gated client; delete, disconnect, and cancel
+actions use `workspaceActionClientAllowExpired` so cleanup remains possible.
+
+When a user schedules deletion, `Workspace.scheduledDeletionAt` is set to now
+plus 24 hours. The row stays live during that grace window, then the hourly
+`purgeWorkspaces` handler disconnects integrations before hard-deleting the
+workspace and its cascading children. **Disconnect comes first because provider
+webhooks must be deregistered while the integration credentials still exist in
+the database.**
+
+Independently, `unsubscribeExpiredTrials` tears down channels once a trial has
+been expired for seven days. `UserQuota.channelsTornDownAt` is the one-shot
+marker, making retries safe and preventing repeated provider disconnects.
+
+## Residual security considerations
+
+- **Magic-link / verification tokens are not tenant-scoped.** The `Verification`
+  row better-auth writes carries no `tenantId`, so a token issued under one tenant
+  and replayed (host rewritten) against another tenant's domain verifies under that
+  other tenant. The send path (`server.ts` `magicLink`) only gates whether a link
+  is *sent*. A full fix needs a tenant-scoped verification lookup, which better-auth
+  does not expose as a hook today; practical exploitation requires intercepting the
+  victim's email. Tracked inline at the `magicLink` config.
+- **OAuth `state` is not HMAC-signed.** Integrity for the social and integration
+  callback relay rests on the origin allowlist (`oauth-referer.ts`) plus the
+  `workspace.ownerId === userId` ownership check. Signing `state` is possible future
+  hardening.
+
+## Known gap
+
+`tenantService.provisionForOwner` (`packages/business/src/enterprise/tenant/service.ts`)
+is idempotent and race-safe but **not yet wired into any onboarding flow** — no path
+auto-creates a reseller `Tenant` today. Wiring reseller onboarding is a follow-up.

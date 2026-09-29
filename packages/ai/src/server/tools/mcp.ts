@@ -1,0 +1,175 @@
+import { db } from "@chatbotx.io/database/client"
+import {
+  type AIMcpServerAuth,
+  aiMcpServerAuth,
+} from "@chatbotx.io/database/partials"
+import { jsonSchema, type ToolSet, tool } from "ai"
+import { normalizeError } from "universal-error-normalizer"
+import { z } from "zod"
+import { logger } from "../../logger"
+import {
+  type JsonObject,
+  type JsonValue,
+  type MCPTool,
+  mcpTextContentSchema,
+} from "../../schemas/mcp"
+
+const toolNamePattern = /^[a-zA-Z0-9_-]+$/
+
+// Resolves JSON Schema from availableTools stored in DB.
+// Old format (AI SDK jsonSchema() wrapper): { inputSchema: { jsonSchema: {...} } }
+// New format (raw MCP JSON Schema):         { inputSchema: { type, properties, ... } }
+function resolveInputSchema(raw: unknown): Record<string, unknown> | null {
+  if (!raw || typeof raw !== "object") {
+    return null
+  }
+  const schema = raw as Record<string, unknown>
+  if (schema.jsonSchema && typeof schema.jsonSchema === "object") {
+    return schema.jsonSchema as Record<string, unknown>
+  }
+  return schema
+}
+
+export type JsonPrimitive = string | number | boolean | null
+
+export type McpCallToolResult = {
+  isError: boolean
+  content: JsonValue
+}
+
+export type McpClientLike = {
+  listTools: () => Promise<MCPTool[]>
+  callTool: (toolName: string, args: JsonObject) => Promise<McpCallToolResult>
+}
+
+export type McpClientConstructor = new (params: {
+  url: string
+  auth: AIMcpServerAuth
+  name: string
+}) => McpClientLike
+
+export type McpTokenResolution =
+  | { reason: string; status: "unresolved" }
+  | { status: "resolved"; token: string }
+
+const isMcpTextContent = (
+  value: JsonValue,
+): value is z.infer<typeof mcpTextContentSchema> =>
+  mcpTextContentSchema.safeParse(value).success
+
+export async function getMCPServerTools(
+  workspaceId: string,
+  selectedMcpIds: string[],
+  options: {
+    McpClient: McpClientConstructor
+    normalizeMcpContent: (content: JsonValue) => JsonValue
+    resolveToken?: (token: string) => Promise<McpTokenResolution>
+  },
+): Promise<{ tools: ToolSet; clients: McpClientLike[] }> {
+  const { McpClient, normalizeMcpContent, resolveToken } = options
+  try {
+    const tools: ToolSet = {}
+    const clients: McpClientLike[] = []
+
+    if (selectedMcpIds.length === 0) {
+      return { tools, clients }
+    }
+
+    const mcpServers = await db.query.aiMCPServerModel.findMany({
+      where: {
+        workspaceId,
+        id: { in: selectedMcpIds },
+      },
+    })
+    if (mcpServers.length === 0) {
+      return { tools, clients }
+    }
+
+    const results = await Promise.allSettled(
+      mcpServers.map(async (mcpServer) => {
+        let auth = aiMcpServerAuth.parse(mcpServer.auth)
+        if (auth.type === "token" && resolveToken) {
+          const resolution = await resolveToken(auth.token)
+          if (resolution.status !== "resolved") {
+            return { client: null, tools: {} }
+          }
+          auth = { ...auth, token: resolution.token }
+        }
+        const client = new McpClient({
+          url: mcpServer.url,
+          auth,
+          name: mcpServer.name,
+        })
+
+        const cachedTools = (mcpServer.availableTools ?? {}) as Record<
+          string,
+          Record<string, unknown>
+        >
+        const cleanServerName = mcpServer.name.replace(/[^a-zA-Z0-9_-]/g, "_")
+        const filteredTools: ToolSet = {}
+
+        for (const toolName of mcpServer.selectedTools) {
+          const cached = cachedTools[toolName]
+          const cleanToolName = toolName.replace(/[^a-zA-Z0-9_-]/g, "_")
+          const uniqueToolName = `${cleanServerName}_${cleanToolName}`
+          if (!toolNamePattern.test(uniqueToolName)) {
+            continue
+          }
+
+          const resolvedSchema = resolveInputSchema(cached?.inputSchema)
+
+          filteredTools[uniqueToolName] = tool({
+            description: (cached?.description as string | undefined) ?? "",
+            inputSchema: resolvedSchema
+              ? jsonSchema(resolvedSchema)
+              : z.looseObject({}),
+            execute: async (args) => {
+              const result = await client.callTool(toolName, args as JsonObject)
+              if (result.isError) {
+                const errorContent = result.content
+                let errorMessage = "MCP tool returned an error"
+                if (typeof errorContent === "string") {
+                  errorMessage = errorContent
+                } else if (
+                  Array.isArray(errorContent) &&
+                  isMcpTextContent(errorContent[0])
+                ) {
+                  errorMessage = errorContent[0].text
+                }
+                throw new Error(errorMessage)
+              }
+
+              return normalizeMcpContent(result.content)
+            },
+          })
+        }
+
+        return { tools: filteredTools, client }
+      }),
+    )
+
+    for (const result of results) {
+      if (result.status === "fulfilled") {
+        Object.assign(tools, result.value.tools)
+        if (result.value.client) {
+          clients.push(result.value.client)
+        }
+      } else {
+        const normalized = normalizeError(result.reason)
+        logger.error(
+          { error: normalized, workspaceId },
+          "[ai-package] Failed to load MCP server tools",
+        )
+      }
+    }
+
+    return { tools, clients }
+  } catch (error) {
+    const normalized = normalizeError(error)
+    logger.error(
+      { error: normalized, workspaceId },
+      "[ai-package] getMCPServerTools failed",
+    )
+    return { tools: {}, clients: [] }
+  }
+}

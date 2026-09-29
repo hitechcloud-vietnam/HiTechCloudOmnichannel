@@ -1,0 +1,99 @@
+import { UiProvider } from "@chatbotx.io/ui"
+import type { Metadata, Viewport } from "next"
+import { NextIntlClientProvider } from "next-intl"
+import { getLocale } from "next-intl/server"
+import type { ReactNode } from "react"
+import { FormOptionalLabelBridge } from "@/components/form-optional-label-bridge"
+import { PublicEnvScript } from "@/components/public-env-script"
+import { SupportChatScript } from "@/components/support-chat-script"
+import { TimezoneSync } from "@/components/timezone-sync"
+import { env } from "@/env"
+import { TenantProvider } from "@/features/tenant"
+import { getTenantSettings } from "@/features/tenant/utils"
+import { getDirection } from "@/i18n/direction"
+import { getDomainFromHeader } from "@/lib/domain"
+import { QueryProvider } from "@/lib/query/query-provider"
+import { getUserTimezone } from "@/lib/timezone"
+import "./globals.css"
+import "./themes.css"
+import { DirectionProvider } from "@chatbotx.io/ui/components/ui/direction"
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  // `cover` lets the page paint under the notch/home indicator so
+  // `env(safe-area-inset-*)` reports real values. Fixed mobile chrome
+  // (the sidebar's edge handle, the inbox composer) relies on those insets.
+  viewportFit: "cover",
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { name, faviconUrl } = await getTenantSettings()
+
+  return {
+    title: name,
+    description: name,
+    icons: [
+      {
+        rel: "icon",
+        url: faviconUrl ?? "/brand/favicon/favicon-96x96.png",
+        type: "image/png",
+      },
+      {
+        rel: "apple-touch-icon",
+        url: faviconUrl ?? "/brand/favicon/apple-touch-icon.png",
+        sizes: "180x180",
+      },
+    ],
+    manifest: "/brand/favicon/site.webmanifest",
+  }
+}
+
+type Props = {
+  children: ReactNode
+}
+
+export default async function RootLayout({ children }: Props) {
+  const locale = await getLocale()
+  const dir = getDirection(locale)
+  const tenantSettings = await getTenantSettings()
+  const timezone = await getUserTimezone()
+  const domain = await getDomainFromHeader()
+  const isBuilderDomain =
+    domain === new URL(env.NEXT_PUBLIC_BUILDER_URL).hostname
+  const pancakeChatPageId = env.NEXT_PUBLIC_PANCAKE_CHAT_PAGE_ID
+
+  return (
+    <html dir={dir} lang={locale} suppressHydrationWarning>
+      <head>
+        <PublicEnvScript />
+        {isBuilderDomain && pancakeChatPageId && (
+          <SupportChatScript pageId={pancakeChatPageId} />
+        )}
+      </head>
+      <body
+        className={
+          tenantSettings.theme
+            ? `theme-${tenantSettings.theme.toLowerCase()}`
+            : undefined
+        }
+        suppressHydrationWarning
+      >
+        <TenantProvider settings={tenantSettings}>
+          <DirectionProvider direction={dir}>
+            <UiProvider>
+              <NextIntlClientProvider>
+                <FormOptionalLabelBridge>
+                  <QueryProvider>
+                    <TimezoneSync timezone={timezone} />
+                    {children}
+                  </QueryProvider>
+                </FormOptionalLabelBridge>
+              </NextIntlClientProvider>
+            </UiProvider>
+          </DirectionProvider>
+        </TenantProvider>
+      </body>
+    </html>
+  )
+}

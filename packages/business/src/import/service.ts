@@ -1,0 +1,501 @@
+import {
+  and,
+  count,
+  type DatabaseClient,
+  db,
+  desc,
+  eq,
+  ilike,
+  isDatabaseError,
+  type SQL,
+} from "@chatbotx.io/database/client"
+import type { ContactImportMeta } from "@chatbotx.io/database/partials"
+import {
+  fileContextTypes,
+  fileStatuses,
+  type ImportFormat,
+  type ImportStatus,
+  type ImportType,
+  importStatuses,
+  importTypes,
+} from "@chatbotx.io/database/partials"
+import { fileModel, importModel } from "@chatbotx.io/database/schema"
+import {
+  getPaginationWithDefaults,
+  likeContains,
+  parseOrderBy,
+} from "@chatbotx.io/database/utils"
+import { inferImportFormat } from "@chatbotx.io/imports"
+import { resolveImportFileFormat } from "@chatbotx.io/imports/file-validation"
+import { getImportEntry } from "@chatbotx.io/imports/registry"
+import { createId } from "@chatbotx.io/utils"
+import { DefaultJobAction, defaultQueue } from "@chatbotx.io/worker-config"
+import { BaseService } from "../base.service"
+import { ChatbotXException, toPublicErrorMessage } from "../errors"
+import { inboxService } from "../inbox/service"
+
+const GENERIC_IMPORT_FAILURE =
+  "The import failed. Please try again or contact support."
+
+export type ImportErrorSample = { row: number; reason: string }
+export type ImportCounters = {
+  processed: number
+  success: number
+  failed: number
+}
+
+const importListSelection = {
+  id: importModel.id,
+  workspaceId: importModel.workspaceId,
+  userId: importModel.userId,
+  fileId: importModel.fileId,
+  fileName: fileModel.fileName,
+  type: importModel.type,
+  status: importModel.status,
+  totalCount: importModel.totalCount,
+  processedCount: importModel.processedCount,
+  successCount: importModel.successCount,
+  failedCount: importModel.failedCount,
+  errorMessage: importModel.errorMessage,
+  errorSample: importModel.errorSample,
+  completedAt: importModel.completedAt,
+  createdAt: importModel.createdAt,
+  updatedAt: importModel.updatedAt,
+}
+
+const ACTIVE_PRODUCT_IMPORT_CONSTRAINT = "Import_products_active_idx"
+
+const isActiveProductImportViolation = (error: unknown): boolean =>
+  isDatabaseError(error) &&
+  error.cause.code === "23505" &&
+  "constraint" in error.cause &&
+  error.cause.constraint === ACTIVE_PRODUCT_IMPORT_CONSTRAINT
+
+class ImportService extends BaseService {
+  async startContactImport(input: {
+    workspaceId: string
+    userId: string | null
+    inboxId: string
+    fileId: string
+    meta: ContactImportMeta
+    actor?: { ipAddress?: string; userAgent?: string }
+  }): Promise<{ importId: string }> {
+    const { workspaceId } = input
+    const file = await db.query.fileModel.findFirst({
+      where: { id: input.fileId, workspaceId },
+    })
+    if (!file) {
+      throw new ChatbotXException(
+        "File not found",
+        "contactImportFileNotFound",
+        404,
+      )
+    }
+    if (
+      file.contextType !== fileContextTypes.enum.import ||
+      file.subType !== importTypes.enum.contacts
+    ) {
+      throw new ChatbotXException(
+        "File is not a contacts import",
+        "contactImportFileTypeInvalid",
+      )
+    }
+
+    const format = inferImportFormat({
+      mimeType: file.mimeType,
+      fileName: file.fileName,
+    })
+    const contactsConfig = getImportEntry(importTypes.enum.contacts).config
+    if (!(format && contactsConfig.acceptedFormats.includes(format))) {
+      throw new ChatbotXException(
+        "Unsupported file format",
+        "contactImportUnsupportedFormat",
+      )
+    }
+
+    const inbox = await inboxService.find({
+      where: { id: input.inboxId, workspaceId },
+    })
+    if (!inbox) {
+      throw new ChatbotXException(
+        "Inbox not found",
+        "contactImportInboxNotFound",
+        404,
+      )
+    }
+
+    const activeImport = await db.query.importModel.findFirst({
+      where: {
+        workspaceId,
+        type: importTypes.enum.contacts,
+        OR: [{ status: "pending" }, { status: "processing" }],
+      },
+      columns: { id: true },
+    })
+    if (activeImport) {
+      throw new ChatbotXException(
+        "An import is already in progress for this workspace. Please wait for it to complete.",
+        "contactImportAlreadyRunning",
+      )
+    }
+
+    const importId = createId()
+    const meta = input.meta
+
+    await db.transaction(async (tx) => {
+      await tx
+        .update(fileModel)
+        .set({ status: fileStatuses.enum.uploaded, uploadedAt: new Date() })
+        .where(
+          and(
+            eq(fileModel.id, file.id),
+            eq(fileModel.workspaceId, workspaceId),
+          ),
+        )
+      await tx.insert(importModel).values({
+        userId: input.userId,
+        id: importId,
+        workspaceId,
+        inboxId: input.inboxId,
+        fileId: file.id,
+        type: importTypes.enum.contacts,
+        format,
+        status: "pending",
+        meta,
+      })
+    })
+
+    const actor = input.actor
+    await defaultQueue.add(DefaultJobAction.runImport, {
+      type: DefaultJobAction.runImport,
+      data: {
+        importId,
+        ipAddress: actor?.ipAddress,
+        userAgent: actor?.userAgent,
+      },
+    })
+
+    return { importId }
+  }
+  async findForWorker(importId: string) {
+    return await db.query.importModel.findFirst({
+      where: { id: importId },
+      with: { file: true },
+    })
+  }
+
+  async findFile(input: { workspaceId: string; fileId: string }) {
+    return await db.query.fileModel.findFirst({
+      where: {
+        id: input.fileId,
+        workspaceId: input.workspaceId,
+        contextType: "import",
+      },
+    })
+  }
+
+  async startProductImport(input: {
+    workspaceId: string
+    userId: string | null
+    fileId: string
+    format: Extract<ImportFormat, "csv" | "xlsx">
+    meta: typeof importModel.$inferInsert.meta
+  }) {
+    const file = await this.findFile(input)
+    if (!file) {
+      throw new ChatbotXException(
+        "Product import file not found",
+        "productImportFileNotFound",
+      )
+    }
+    const config = getImportEntry("products").config
+    const fileFormat = resolveImportFileFormat(config, file)
+    if (file.subType !== "products" || !fileFormat) {
+      throw new ChatbotXException(
+        "Product import file type is invalid",
+        "productImportFileTypeInvalid",
+      )
+    }
+    if (fileFormat !== input.format) {
+      throw new ChatbotXException(
+        "Product import format does not match the uploaded file",
+        "productImportFormatMismatch",
+      )
+    }
+    const active = await db.query.importModel.findFirst({
+      where: {
+        workspaceId: input.workspaceId,
+        type: "products",
+        status: { in: ["pending", "processing"] },
+      },
+      columns: { id: true },
+    })
+    if (active) {
+      throw new ChatbotXException(
+        "A product import is already running",
+        "productImportAlreadyRunning",
+      )
+    }
+
+    try {
+      return await db.transaction(async (tx) => {
+        await tx
+          .update(fileModel)
+          .set({
+            status: fileStatuses.enum.uploaded,
+            uploadedAt: new Date(),
+          })
+          .where(
+            and(
+              eq(fileModel.id, input.fileId),
+              eq(fileModel.workspaceId, input.workspaceId),
+            ),
+          )
+        const [row] = await tx
+          .insert(importModel)
+          .values({
+            id: createId(),
+            workspaceId: input.workspaceId,
+            userId: input.userId,
+            fileId: input.fileId,
+            type: "products",
+            format: input.format,
+            status: importStatuses.enum.pending,
+            meta: input.meta,
+          })
+          .returning()
+        if (!row) {
+          throw new Error("Failed to start product import")
+        }
+        return row
+      })
+    } catch (error) {
+      if (isActiveProductImportViolation(error)) {
+        throw new ChatbotXException(
+          "A product import is already running",
+          "productImportAlreadyRunning",
+        )
+      }
+      throw error
+    }
+  }
+
+  /**
+   * Validates the uploaded file belongs to this workspace and is a flow
+   * import, then marks it uploaded and creates the import row atomically so
+   * a queued job can never reference an import row that failed to persist.
+   */
+  async startFlowImport(input: {
+    workspaceId: string
+    userId: string | null
+    fileId: string
+    folderId?: string | null
+  }): Promise<
+    | { ok: true; importId: string }
+    | { ok: false; reason: "fileNotFound" | "notAFlowImport" }
+  > {
+    const file = await db.query.fileModel.findFirst({
+      where: { id: input.fileId, workspaceId: input.workspaceId },
+    })
+    if (!file) {
+      return { ok: false, reason: "fileNotFound" }
+    }
+    if (
+      file.contextType !== fileContextTypes.enum.import ||
+      file.subType !== importTypes.enum.flow
+    ) {
+      return { ok: false, reason: "notAFlowImport" }
+    }
+
+    const importId = createId()
+    await db.transaction(async (tx) => {
+      await tx
+        .update(fileModel)
+        .set({
+          status: fileStatuses.enum.uploaded,
+          uploadedAt: new Date(),
+        })
+        .where(
+          and(
+            eq(fileModel.id, file.id),
+            eq(fileModel.workspaceId, input.workspaceId),
+          ),
+        )
+
+      await tx.insert(importModel).values({
+        id: importId,
+        workspaceId: input.workspaceId,
+        userId: input.userId,
+        fileId: file.id,
+        type: importTypes.enum.flow,
+        format: "json",
+        status: "pending",
+        meta: { folderId: input.folderId ?? null },
+      })
+    })
+
+    return { ok: true, importId }
+  }
+
+  async markProcessing(importId: string) {
+    await db
+      .update(importModel)
+      .set({ status: importStatuses.enum.processing })
+      .where(eq(importModel.id, importId))
+  }
+
+  async fail(
+    importId: string,
+    /**
+     * The thrown value, not a pre-extracted message — a channel error keeps its
+     * user-facing detail on the object, and `.message` alone loses it.
+     */
+    message: unknown,
+    counters?: ImportCounters,
+    errorSample?: ImportErrorSample[],
+  ) {
+    await db
+      .update(importModel)
+      .set({
+        status: importStatuses.enum.failed,
+        // Shown in the import history, so a raw driver message — which carries
+        // the failing SQL and its bound values — must never reach it.
+        errorMessage: toPublicErrorMessage(message, GENERIC_IMPORT_FAILURE),
+        completedAt: new Date(),
+        totalCount: counters?.processed,
+        processedCount: counters?.processed,
+        successCount: counters?.success,
+        failedCount: counters?.failed,
+        errorSample,
+      })
+      .where(eq(importModel.id, importId))
+  }
+
+  async flushProgress(input: {
+    importId: string
+    counters: ImportCounters
+    errorSample?: ImportErrorSample[]
+  }) {
+    await db
+      .update(importModel)
+      .set({
+        processedCount: input.counters.processed,
+        successCount: input.counters.success,
+        failedCount: input.counters.failed,
+        errorSample: input.errorSample,
+      })
+      .where(eq(importModel.id, input.importId))
+  }
+
+  async complete(input: {
+    importId: string
+    counters: ImportCounters
+    errorSample: ImportErrorSample[]
+    /**
+     * A non-failure summary to show on the completed row — e.g. flow import's
+     * unresolved-reference warnings. Distinct from the `hiddenErrorCount`
+     * message below: that one only fires when `failed > 0`, but a warning can
+     * accompany an otherwise fully successful import (`failed: 0`).
+     */
+    warningMessage?: string
+  }) {
+    const hiddenErrorCount = Math.max(
+      0,
+      input.counters.failed - input.errorSample.length,
+    )
+    // Both parts can be present at once (a caller may report warnings on an
+    // import that also had row failures), so they are joined rather than one
+    // replacing the other — `??` here would silently drop the failure count.
+    const messages = [
+      input.warningMessage,
+      hiddenErrorCount > 0
+        ? `${input.counters.failed} rows failed; showing the first ${input.errorSample.length}`
+        : undefined,
+    ].filter((message): message is string => Boolean(message))
+    await db
+      .update(importModel)
+      .set({
+        status: importStatuses.enum.completed,
+        completedAt: new Date(),
+        totalCount: input.counters.processed,
+        processedCount: input.counters.processed,
+        successCount: input.counters.success,
+        failedCount: input.counters.failed,
+        errorSample: input.errorSample,
+        errorMessage: messages.length > 0 ? messages.join(" ") : null,
+      })
+      .where(eq(importModel.id, input.importId))
+  }
+
+  async find(input: {
+    workspaceId: string
+    id: string
+    type: ImportType
+    tx?: DatabaseClient
+  }) {
+    const { workspaceId, id, type, tx = db } = input
+    const [result] = await tx
+      .select(importListSelection)
+      .from(importModel)
+      .innerJoin(fileModel, eq(importModel.fileId, fileModel.id))
+      .where(
+        and(
+          eq(importModel.id, id),
+          eq(importModel.workspaceId, workspaceId),
+          eq(importModel.type, type),
+        ),
+      )
+      .limit(1)
+    return result
+  }
+
+  async list(input: {
+    workspaceId: string
+    type?: ImportType
+    status?: ImportStatus
+    keyword?: string | null
+    page?: number
+    perPage?: number
+    sort?: { id: string; desc: boolean }[]
+  }) {
+    const keyword = input.keyword?.trim()
+    const conditions: SQL[] = [eq(importModel.workspaceId, input.workspaceId)]
+    if (input.type) {
+      conditions.push(eq(importModel.type, input.type))
+    }
+    if (input.status) {
+      conditions.push(eq(importModel.status, input.status))
+    }
+    if (keyword) {
+      conditions.push(ilike(fileModel.fileName, likeContains(keyword)))
+    }
+    const where = and(...conditions)
+    const pagination = getPaginationWithDefaults(input)
+    const orderBy = parseOrderBy(importModel, { sort: input.sort })
+    const finalOrderBy = orderBy.length
+      ? orderBy
+      : [desc(importModel.createdAt)]
+
+    const [data, totalResult] = await Promise.all([
+      db
+        .select(importListSelection)
+        .from(importModel)
+        .innerJoin(fileModel, eq(importModel.fileId, fileModel.id))
+        .where(where)
+        .orderBy(...finalOrderBy)
+        .limit(pagination.limit)
+        .offset(pagination.offset),
+      db
+        .select({ value: count() })
+        .from(importModel)
+        .innerJoin(fileModel, eq(importModel.fileId, fileModel.id))
+        .where(where),
+    ])
+    return {
+      data,
+      pageCount: Math.ceil((totalResult[0]?.value ?? 0) / pagination.limit),
+    }
+  }
+}
+
+export const importService = new ImportService()

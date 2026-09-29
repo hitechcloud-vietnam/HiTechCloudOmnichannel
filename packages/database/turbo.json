@@ -1,0 +1,17 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "db:migrate": {
+      "cache": false
+    },
+    "db:studio": {
+      "cache": false
+    },
+    "db:seed": {
+      "cache": false
+    },
+    "db:reset": {
+      "cache": false
+    }
+  }
+}

@@ -1,0 +1,303 @@
+import {
+  type SendAudioStepSchema,
+  type SendCarouselStepSchema,
+  type SendFileStepSchema,
+  type SendImageStepSchema,
+  type SendMultipleImagesStepSchema,
+  type SendQuickReplyStepSchema,
+  type SendTextStepSchema,
+  type SendVideoStepSchema,
+  stepTypes,
+} from "@chatbotx.io/flow-config"
+import {
+  assertCommentPrivateReplyFollowUpDeliverable,
+  contentTypes,
+  type MessageHandlers,
+  type OutgoingContact,
+  type OutgoingMessage,
+  type SendFlowStepProps,
+} from "@chatbotx.io/sdk"
+import { sendPrivateReplyMessage } from "../../../apis/comment"
+import { sendMessage as sendMessageApi } from "../../../apis/message"
+import { mapToChannelError } from "../../../lib/error-mapper"
+import { logger } from "../../../lib/logger"
+import {
+  INSTAGRAM_MESSAGE_METADATA,
+  type InstagramAuthValue,
+  type InstagramMessageAttachmentPayload,
+  type InstagramSendMessage,
+  type InstagramSendMessageRequest,
+} from "../../../schema"
+import { convertCanonicalQuickReplies } from "./canonical-quick-replies"
+import { getAttachmentTemplate } from "./send-attachment"
+import { convertFlowStepCarousel } from "./send-carousel"
+import { convertFlowStepFile } from "./send-file"
+import { convertFlowStepGif } from "./send-gif"
+import { convertFlowStepMedia } from "./send-media"
+import { convertFlowStepMultipleImages } from "./send-multiple-images"
+import { convertFlowStepQuickReply } from "./send-quick-reply"
+import { convertFlowStepText } from "./send-text"
+
+export const sendMessage: MessageHandlers<InstagramAuthValue>["sendMessage"] =
+  async (props) => {
+    const {
+      ctx,
+      data: { contact, message, quickReplies },
+    } = props
+
+    const messageIds: string[] = []
+    let sentCount = 0
+    try {
+      const instagramMessages = [...convertMessage(message)]
+      const lastMessage = instagramMessages.at(-1)
+      if (lastMessage && quickReplies && quickReplies.length > 0) {
+        lastMessage.quick_replies = convertCanonicalQuickReplies(quickReplies)
+      }
+      for (const instagramMessage of instagramMessages) {
+        const payload = buildMessagePayload(contact, instagramMessage)
+        const response = await sendMessageApi(ctx.auth, payload)
+        sentCount += 1
+        if (response.message_id) {
+          messageIds.push(response.message_id)
+        }
+        logger.info(`Message sent for IGSID: ${contact.sourceId}`)
+      }
+    } catch (error) {
+      logger.error(error, "An error occurred while sending the message")
+      throw mapToChannelError(error)
+    }
+
+    return {
+      messageIds,
+      sentCount,
+    }
+  }
+
+export function* convertMessage(
+  message: OutgoingMessage,
+): Generator<InstagramSendMessage> {
+  if (message.contentType === contentTypes.enum.text) {
+    if (message.text) {
+      yield {
+        text: message.text,
+      }
+    }
+    // Multiple images in one outgoing message batch into a single Send API
+    // call via `attachments[]` (same mechanism the sendMultipleImages flow
+    // step uses), instead of one message per image; every other attachment
+    // type still sends as its own message.
+    const attachments = message.attachments || []
+    const imageAttachments = attachments.filter(
+      (attachment) => attachment.fileType === "image",
+    )
+    const otherAttachments = attachments.filter(
+      (attachment) => attachment.fileType !== "image",
+    )
+
+    if (imageAttachments.length > 1) {
+      yield {
+        attachments: imageAttachments.map((attachment) =>
+          getAttachmentTemplate(attachment.url as string, "image"),
+        ),
+      }
+    } else if (imageAttachments.length === 1) {
+      yield {
+        attachment: getAttachmentTemplate(
+          imageAttachments[0].url as string,
+          "image",
+        ),
+      }
+    }
+
+    for (const attachment of otherAttachments) {
+      switch (attachment.fileType) {
+        case "video":
+          yield {
+            attachment: getAttachmentTemplate(
+              attachment.url as string,
+              "video",
+            ),
+          }
+          continue
+        case "audio":
+          yield {
+            attachment: getAttachmentTemplate(
+              attachment.url as string,
+              "audio",
+            ),
+          }
+          continue
+        default:
+          yield {
+            attachment: getAttachmentTemplate(attachment.url as string, "file"),
+          }
+          continue
+      }
+    }
+  } else {
+    logger.warn(
+      { contentType: message.contentType },
+      "Unsupported content type — skipping outgoing message",
+    )
+  }
+}
+
+const buildMessagePayload = (
+  contact: OutgoingContact,
+  message: InstagramMessageAttachmentPayload | InstagramSendMessage,
+): InstagramSendMessageRequest => {
+  const recipientId = contact.sourceId
+
+  if (!recipientId) {
+    throw new Error("Missing recipient ID in conversation")
+  }
+
+  return {
+    recipient: { id: recipientId },
+    message: {
+      ...message,
+      metadata: INSTAGRAM_MESSAGE_METADATA,
+    },
+  }
+}
+
+// Every converter below yields a whole message (`{ text }`, `{ attachment }`,
+// `{ attachments }`), never a bare attachment payload — so `sendFlowStep` can
+// stamp `quick_replies` on the last one it gets back.
+export async function* convertFlowStep(
+  props: SendFlowStepProps<InstagramAuthValue>,
+): AsyncGenerator<InstagramSendMessage> {
+  const {
+    data: { step },
+  } = props
+
+  switch (step.stepType) {
+    case stepTypes.enum.sendText:
+      yield* convertFlowStepText(
+        props as SendFlowStepProps<InstagramAuthValue, SendTextStepSchema>,
+      ) as Generator<InstagramSendMessage>
+      break
+    case stepTypes.enum.sendImage:
+    case stepTypes.enum.sendVideo:
+      yield* convertFlowStepMedia(
+        props as SendFlowStepProps<
+          InstagramAuthValue,
+          SendImageStepSchema | SendVideoStepSchema
+        >,
+      )
+      break
+    case stepTypes.enum.sendMultipleImages:
+      yield* convertFlowStepMultipleImages(
+        props as SendFlowStepProps<
+          InstagramAuthValue,
+          SendMultipleImagesStepSchema
+        >,
+      )
+      break
+    case stepTypes.enum.sendAudio:
+    case stepTypes.enum.sendFile:
+      await (yield* convertFlowStepFile(
+        props as SendFlowStepProps<
+          InstagramAuthValue,
+          SendAudioStepSchema | SendFileStepSchema
+        >,
+      ))
+      break
+    case stepTypes.enum.sendGif:
+      yield* convertFlowStepGif(step.url) as Generator<InstagramSendMessage>
+      break
+    case stepTypes.enum.sendQuickReply:
+      yield* convertFlowStepQuickReply(
+        props as SendFlowStepProps<
+          InstagramAuthValue,
+          SendQuickReplyStepSchema
+        >,
+      ) as Generator<InstagramSendMessage>
+      break
+    case stepTypes.enum.sendCarousel:
+      yield* convertFlowStepCarousel(
+        props as SendFlowStepProps<InstagramAuthValue, SendCarouselStepSchema>,
+      ) as Generator<InstagramSendMessage>
+      break
+    default:
+      break
+  }
+}
+
+export const sendFlowStep: MessageHandlers<InstagramAuthValue>["sendFlowStep"] =
+  async (props: SendFlowStepProps<InstagramAuthValue>) => {
+    const {
+      ctx,
+      data: { contact, commentAnchor, quickReplies },
+    } = props
+    const messageIds: string[] = []
+    let sentCount = 0
+    try {
+      // Collected up front rather than sent as they stream: Instagram renders
+      // the quick replies of the *last* message only, and which message is last
+      // isn't knowable mid-stream. A step yields at most a couple of messages,
+      // and each flow step is already its own job, so nothing is held for long.
+      // Without this the `quickReplies` the worker passes in
+      // (`sendFlowStepToChannel`) were dropped on every step but sendQuickReply.
+      const instagramMessages: InstagramSendMessage[] = []
+      for await (const instagramMessage of convertFlowStep(props)) {
+        instagramMessages.push(instagramMessage)
+      }
+
+      const lastMessage = instagramMessages.at(-1)
+      if (lastMessage && quickReplies && quickReplies.length > 0) {
+        lastMessage.quick_replies = convertCanonicalQuickReplies(quickReplies)
+      }
+
+      // Claimed by the first Instagram message sent below, if an unspent private
+      // comment anchor is present — a single flow step can yield more than one
+      // message (e.g. text + attachments), so only the very first send uses the
+      // comment_id-anchored API (exempt from the messaging window). Everything
+      // after it — in this step or a later one, which arrives with `spent: true`
+      // — takes the normal path, gated by the guard below.
+      // A "public" anchor is never honored here — it's
+      // delivered via the comment channel's sendComment, not this message
+      // channel's sendFlowStep (see send-flow-step.ts). This check is
+      // defense-in-depth against a public anchor ever reaching this handler by
+      // mistake.
+      const isCommentPrivateRun = commentAnchor?.replyChannel === "private"
+      let anchorCommentId =
+        isCommentPrivateRun && !commentAnchor.spent
+          ? commentAnchor.commentId
+          : undefined
+      for (const instagramMessage of instagramMessages) {
+        // The comment bought exactly one anchored DM and it is gone; a normal DM
+        // only reaches the contact if they have messaged in the last 24h.
+        if (isCommentPrivateRun && !anchorCommentId) {
+          assertCommentPrivateReplyFollowUpDeliverable({
+            commentId: commentAnchor.commentId,
+            lastIncomingMessageAt: contact.lastIncomingMessageAt,
+          })
+        }
+        const response = anchorCommentId
+          ? await sendPrivateReplyMessage(
+              ctx.auth,
+              anchorCommentId,
+              instagramMessage,
+            )
+          : await sendMessageApi(
+              ctx.auth,
+              buildMessagePayload(contact, instagramMessage),
+            )
+        anchorCommentId = undefined
+        sentCount += 1
+        if (response.message_id) {
+          messageIds.push(response.message_id)
+        }
+        logger.info(`Message sent for IGSID: ${contact.sourceId}`)
+      }
+    } catch (error) {
+      logger.error(error, "An error occurred while sending the message")
+      throw mapToChannelError(error)
+    }
+
+    return {
+      messageIds,
+      sentCount,
+    }
+  }

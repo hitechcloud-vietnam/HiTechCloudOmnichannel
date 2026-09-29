@@ -1,0 +1,530 @@
+import { and, db, eq, inArray, sql } from "@chatbotx.io/database/client"
+import type { FolderType } from "@chatbotx.io/database/partials"
+import { triggerRepository } from "@chatbotx.io/database/repositories"
+import {
+  conditionModel,
+  triggerContactHistoryModel,
+  triggerExecutionModel,
+  triggerModel,
+  triggerStatsModel,
+} from "@chatbotx.io/database/schema"
+import type { ConditionModel, TriggerModel } from "@chatbotx.io/database/types"
+import { removeTriggerCache, updateTriggerCache } from "@chatbotx.io/events"
+import { createId } from "@chatbotx.io/utils"
+import { isSameJsonValue } from "../audit/diff"
+import { BaseService } from "../base.service"
+import { notFoundException, validationException } from "../errors"
+import { folderService } from "../folder/service"
+import { assertDeletable } from "../template/installed-resource.service"
+import {
+  type ConditionInput,
+  toConditionColumnsShared as toConditionColumns,
+} from "./condition-columns"
+import { MAX_TRIGGERS_PER_WORKSPACE } from "./constants"
+
+export type { ConditionInput } from "./condition-columns"
+
+/** `trigger-matcher.service.ts` shape: an active trigger with its conditions. */
+export type TriggerWithConditions = TriggerModel & {
+  conditions: ConditionModel[]
+}
+
+/** `datetime-trigger-evaluator.ts` fetchTriggerChunk page shape. */
+export type ActiveTriggerWithConditionsPageRow = TriggerModel & {
+  conditions: ConditionModel[]
+  workspace: { timezone: string | null } | null
+}
+
+class TriggerService extends BaseService {
+  async create(input: {
+    workspaceId: string
+    data: Omit<
+      typeof triggerModel.$inferInsert,
+      "id" | "workspaceId" | "actions"
+    > & { folderId?: string | null }
+    folderType: FolderType
+  }): Promise<TriggerModel> {
+    const { workspaceId, data, folderType } = input
+
+    const existingTriggersCount = await db.$count(
+      triggerModel,
+      eq(triggerModel.workspaceId, workspaceId),
+    )
+    if (existingTriggersCount >= MAX_TRIGGERS_PER_WORKSPACE) {
+      throw validationException("_", "validation.maxItemsReached", {
+        max: MAX_TRIGGERS_PER_WORKSPACE,
+        feature: "triggers",
+      })
+    }
+
+    if (data.folderId) {
+      await folderService.ensureExists({
+        id: data.folderId,
+        workspaceId,
+        folderType,
+      })
+    }
+
+    const [created] = await db
+      .insert(triggerModel)
+      .values({
+        id: createId(),
+        ...data,
+        actions: [],
+        workspaceId,
+      })
+      .returning()
+
+    await updateTriggerCache(workspaceId)
+
+    await this.audit("create", `created a new trigger (#${created.id})`)
+
+    return created
+  }
+
+  /**
+   * SQL-paginated triggers with their real `conditions` joined in — shared
+   * by the public API's `GET /v1/triggers` and the builder's triggers page,
+   * so both paginate identically instead of the builder hand-rolling a
+   * second implementation.
+   */
+  async list(input: {
+    workspaceId: string
+    folderId?: string | null
+    name?: string
+    page: number
+    perPage: number
+  }): Promise<{
+    data: (TriggerModel & {
+      conditions: (typeof conditionModel.$inferSelect)[]
+    })[]
+    pageCount: number
+  }> {
+    const { rows, total } = await triggerRepository.listPaginatedWithConditions(
+      {
+        workspaceId: input.workspaceId,
+        folderId: input.folderId,
+        name: input.name,
+        limit: input.perPage,
+        offset: (input.page - 1) * input.perPage,
+      },
+    )
+
+    return {
+      data: rows,
+      pageCount: Math.ceil(total / input.perPage),
+    }
+  }
+
+  /** A single trigger with its real `conditions` joined in. */
+  async findWithConditions(params: {
+    id?: string
+    workspaceId?: string
+  }): Promise<
+    | (TriggerModel & { conditions: (typeof conditionModel.$inferSelect)[] })
+    | null
+  > {
+    return await triggerRepository.findWithConditions(params)
+  }
+
+  async deleteMany(input: {
+    workspaceId: string
+    ids: string[]
+  }): Promise<void> {
+    await assertDeletable({
+      workspaceId: input.workspaceId,
+      resourceKind: "trigger",
+      resourceIds: input.ids,
+    })
+
+    const deletedTriggers = await db.query.triggerModel.findMany({
+      where: { workspaceId: input.workspaceId, id: { in: input.ids } },
+      columns: { id: true },
+    })
+
+    await db
+      .delete(triggerModel)
+      .where(
+        and(
+          eq(triggerModel.workspaceId, input.workspaceId),
+          inArray(triggerModel.id, input.ids),
+        ),
+      )
+
+    await removeTriggerCache(input.workspaceId)
+
+    if (deletedTriggers.length > 0) {
+      await this.audit(
+        "delete",
+        `deleted trigger${deletedTriggers.length > 1 ? "s" : ""} (${deletedTriggers.map((trigger) => `#${trigger.id}`).join(", ")})`,
+      )
+    }
+  }
+
+  /**
+   * Replaces a trigger's `actions` and diffs its `conditions` (delete/update/
+   * create) in one transaction. Audit and cache-invalidation only fire when
+   * something actually changed (`hasRealChange`) — a submit with no real
+   * delta is a silent no-op, matching the original action verbatim.
+   */
+  async updateWithConditions(input: {
+    workspaceId: string
+    id: string
+    actions: TriggerModel["actions"]
+    conditions: ConditionInput[]
+  }): Promise<
+    | {
+        trigger: TriggerModel
+        conditions: (typeof conditionModel.$inferSelect)[]
+      }
+    | undefined
+  > {
+    const { workspaceId, id, actions, conditions } = input
+
+    const result = await db.transaction(async (tx) => {
+      const [existingTrigger, existingConditions] = await Promise.all([
+        tx.query.triggerModel.findFirst({
+          where: {
+            id,
+            workspaceId,
+          },
+        }),
+        tx.query.conditionModel.findMany({
+          where: {
+            triggerId: id,
+          },
+        }),
+      ])
+
+      if (!existingTrigger) {
+        return {
+          trigger: undefined,
+          conditions: undefined,
+          hasRealChange: false,
+        }
+      }
+
+      const existingIds = new Set(existingConditions.map((c) => c.id))
+      const existingById = new Map(existingConditions.map((c) => [c.id, c]))
+      const submittedIds = new Set(
+        conditions.filter((c) => c.id).map((c) => c.id),
+      )
+
+      const conditionsToDelete = existingConditions.filter(
+        (existing) => !submittedIds.has(existing.id.toString()),
+      )
+
+      const conditionsToUpdate = conditions.filter(
+        (c) => c.id && existingIds.has(c.id),
+      )
+
+      const changedConditionsToUpdate = conditionsToUpdate.filter(
+        (condition) => {
+          const existing = condition.id
+            ? existingById.get(condition.id)
+            : undefined
+          if (!existing) {
+            return false
+          }
+          const next = toConditionColumns(condition)
+          return !isSameJsonValue(next, {
+            type: existing.type,
+            sourceId: existing.sourceId,
+            operator: existing.operator,
+            value: existing.value,
+          })
+        },
+      )
+
+      const conditionsToCreate = conditions.filter((c) => !c.id)
+
+      let actionsChanged = false
+      if (!isSameJsonValue(actions, existingTrigger.actions)) {
+        const updated = await tx
+          .update(triggerModel)
+          .set({ actions })
+          .where(
+            and(
+              eq(triggerModel.workspaceId, workspaceId),
+              eq(triggerModel.id, id),
+            ),
+          )
+          .returning({ id: triggerModel.id })
+
+        actionsChanged = updated.length > 0
+      }
+
+      if (conditionsToDelete.length > 0) {
+        await tx.delete(conditionModel).where(
+          inArray(
+            conditionModel.id,
+            conditionsToDelete.map((c) => c.id),
+          ),
+        )
+      }
+
+      for (const condition of changedConditionsToUpdate) {
+        await tx
+          .update(conditionModel)
+          .set(toConditionColumns(condition))
+          .where(eq(conditionModel.id, condition.id ?? ""))
+      }
+
+      if (conditionsToCreate.length > 0) {
+        await tx.insert(conditionModel).values(
+          conditionsToCreate.map((c) => ({
+            id: createId(),
+            triggerId: id,
+            ...toConditionColumns(c),
+          })),
+        )
+      }
+
+      const [trigger, updatedConditions] = await Promise.all([
+        tx.query.triggerModel.findFirst({
+          where: {
+            id,
+          },
+        }),
+        tx.query.conditionModel.findMany({
+          where: {
+            triggerId: id,
+          },
+        }),
+      ])
+
+      return {
+        trigger,
+        conditions: updatedConditions,
+        hasRealChange:
+          actionsChanged ||
+          conditionsToDelete.length > 0 ||
+          changedConditionsToUpdate.length > 0 ||
+          conditionsToCreate.length > 0,
+      }
+    })
+
+    if (result.trigger) {
+      await updateTriggerCache(workspaceId)
+    }
+
+    if (result.hasRealChange) {
+      await this.audit("update", `updated a trigger (#${id})`)
+    }
+
+    return result.trigger
+      ? { trigger: result.trigger, conditions: result.conditions ?? [] }
+      : undefined
+  }
+
+  /**
+   * Applies a settings patch (`name`/`active`) after diffing against the
+   * current row — a no-op submit returns early without writing or auditing.
+   * The audit detail branches to `enabled`/`disabled` when the only change
+   * is `active` flipping, otherwise a generic `updated` detail.
+   */
+  async updateSettings(input: {
+    workspaceId: string
+    id: string
+    name?: string
+    active?: boolean
+  }): Promise<
+    TriggerModel & { conditions: (typeof conditionModel.$inferSelect)[] }
+  > {
+    const { workspaceId, id, ...patch } = input
+
+    const trigger = await db.query.triggerModel.findFirst({
+      where: {
+        id,
+        workspaceId,
+      },
+    })
+
+    if (!trigger) {
+      throw notFoundException("Trigger not found")
+    }
+
+    const changedEntries = Object.entries(patch).filter(
+      ([key, value]) => trigger[key as keyof typeof patch] !== value,
+    )
+
+    if (changedEntries.length > 0) {
+      const updated = await db
+        .update(triggerModel)
+        .set(patch)
+        .where(eq(triggerModel.id, trigger.id))
+        .returning({ id: triggerModel.id })
+
+      if (updated.length > 0) {
+        const changedKeys = changedEntries.map(([key]) => key)
+        let detail = `updated a trigger (#${trigger.id})`
+        if (changedKeys.length === 1 && changedKeys[0] === "active") {
+          detail = patch.active
+            ? `enabled a trigger (#${trigger.id})`
+            : `disabled a trigger (#${trigger.id})`
+        }
+
+        await this.audit("update", detail)
+      }
+    }
+
+    const withConditions = await triggerRepository.findWithConditions({
+      id,
+      workspaceId,
+    })
+
+    return withConditions ?? { ...trigger, conditions: [] }
+  }
+
+  /** `trigger-matcher.service.ts` findMatchingTriggers: every active trigger in a workspace, with conditions. */
+  async listActiveWithConditions(input: {
+    workspaceId: string
+  }): Promise<TriggerWithConditions[]> {
+    return (await db.query.triggerModel.findMany({
+      where: {
+        workspaceId: input.workspaceId,
+        active: true,
+      },
+      with: {
+        conditions: true,
+      },
+    })) as TriggerWithConditions[]
+  }
+
+  /**
+   * `datetime-trigger-evaluator.ts` fetchTriggerChunk page: every active
+   * trigger (with its conditions and workspace timezone), keyset-paginated
+   * by id. The datetime-condition filtering the handler applies afterward
+   * stays in the handler — this only returns the raw page.
+   */
+  async listActiveWithConditionsPage(input: {
+    cursor?: string
+    limit: number
+  }): Promise<{
+    triggers: ActiveTriggerWithConditionsPageRow[]
+    nextCursor: string | undefined
+  }> {
+    const triggers = (await db.query.triggerModel.findMany({
+      where: {
+        active: true,
+        ...(input.cursor ? { id: { gt: input.cursor } } : {}),
+      },
+      with: {
+        conditions: true,
+        workspace: true,
+      },
+      limit: input.limit,
+      orderBy: { id: "asc" },
+    })) as ActiveTriggerWithConditionsPageRow[]
+
+    return {
+      triggers,
+      nextCursor:
+        triggers.length === input.limit ? triggers.at(-1)?.id : undefined,
+    }
+  }
+
+  /** `datetime-trigger-evaluator.ts` getExecutedTriggers: existing (triggerId, contactId) execution pairs. */
+  async listExecutedPairs(input: {
+    triggerIds: string[]
+    contactIds: string[]
+  }): Promise<{ triggerId: string; contactId: string }[]> {
+    if (input.triggerIds.length === 0 || input.contactIds.length === 0) {
+      return []
+    }
+    return await db.query.triggerExecutionModel.findMany({
+      where: {
+        triggerId: { in: input.triggerIds },
+        contactId: { in: input.contactIds },
+      },
+      columns: {
+        triggerId: true,
+        contactId: true,
+      },
+    })
+  }
+
+  /** `datetime-trigger-evaluator.ts` markTriggerExecuted: records a one-shot datetime execution. */
+  async recordExecution(input: {
+    triggerId: string
+    contactId: string
+    workspaceId: string
+  }): Promise<void> {
+    await db
+      .insert(triggerExecutionModel)
+      .values({
+        id: createId(),
+        triggerId: input.triggerId,
+        contactId: input.contactId,
+        workspaceId: input.workspaceId,
+        createdAt: new Date(),
+        executedAt: new Date(),
+      })
+      .onConflictDoNothing()
+  }
+
+  /** `datetime-trigger-evaluator.ts` cleanupOldExecutions: purge executions older than the cutoff. */
+  async purgeExecutionsOlderThan(cutoff: Date): Promise<number> {
+    const result = await db.execute(
+      sql`DELETE FROM "TriggerExecution" WHERE "executedAt" < ${cutoff}`,
+    )
+    return Number(result.rowCount ?? 0)
+  }
+
+  /** `trigger-executor.service.ts` execute: records first-entered contact history. */
+  async recordContactHistory(input: {
+    triggerId: string
+    contactId: string
+    workspaceId: string
+  }): Promise<void> {
+    await db.insert(triggerContactHistoryModel).values({
+      id: createId(),
+      triggerId: input.triggerId,
+      contactId: input.contactId,
+      workspaceId: input.workspaceId,
+      firstEnteredAt: new Date(),
+    })
+  }
+
+  /**
+   * `trigger-executor.service.ts` updateStats: daily per-trigger stats
+   * upsert. `+1` expressions and the conditional success/failure increment
+   * are moved verbatim; the date normalisation (`setHours(0,0,0,0)`) is the
+   * caller's responsibility.
+   */
+  async incrementStats(input: {
+    triggerId: string
+    workspaceId: string
+    date: Date
+    success: boolean
+  }): Promise<void> {
+    const { triggerId, workspaceId, date, success } = input
+    await db
+      .insert(triggerStatsModel)
+      .values({
+        id: createId(),
+        triggerId,
+        workspaceId,
+        date,
+        totalContacts: 1,
+        totalExecutions: 1,
+        successCount: success ? 1 : 0,
+        failureCount: success ? 0 : 1,
+      })
+      .onConflictDoUpdate({
+        target: [triggerStatsModel.triggerId, triggerStatsModel.date],
+        set: {
+          totalContacts: sql`${triggerStatsModel.totalContacts} + 1`,
+          totalExecutions: sql`${triggerStatsModel.totalExecutions} + 1`,
+          successCount: success
+            ? sql`${triggerStatsModel.successCount} + 1`
+            : triggerStatsModel.successCount,
+          failureCount: success
+            ? triggerStatsModel.failureCount
+            : sql`${triggerStatsModel.failureCount} + 1`,
+        },
+      })
+  }
+}
+
+export const triggerService = new TriggerService()

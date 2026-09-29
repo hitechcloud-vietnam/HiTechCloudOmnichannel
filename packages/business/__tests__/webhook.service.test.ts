@@ -1,0 +1,341 @@
+import { beforeEach, describe, expect, test, vi } from "vitest"
+
+// The broadcast policy import reaches quota/workspace modules these narrow mocks omit.
+vi.mock("../src/broadcast/plan-policy.service", () => ({
+  broadcastPlanPolicyService: {},
+}))
+
+const mocks = vi.hoisted(() => {
+  const insertBuilder = {
+    values: vi.fn(() => insertBuilder),
+    returning: vi.fn(async () => [{ id: "webhook-1" }]),
+  }
+  const conditionInsertBuilder = {
+    values: vi.fn(async () => undefined),
+  }
+  const tx = {
+    insert: vi.fn(),
+  }
+  const deleteBuilder = {
+    where: vi.fn(() => deleteBuilder),
+    returning: vi.fn(async () => [{ id: "webhook-1" }]),
+  }
+
+  return {
+    webhookModel: { workspaceId: "workspaceId-column", id: "id-column" },
+    conditionModel: {},
+    insertBuilder,
+    conditionInsertBuilder,
+    deleteBuilder,
+    tx,
+    count: vi.fn(async () => 0),
+    transaction: vi.fn(
+      async (fn: (tx: typeof tx) => Promise<unknown>) => await fn(tx),
+    ),
+    deleteFn: vi.fn(() => deleteBuilder),
+    listWebhooksPaginated: vi.fn(),
+    listByWebhookIds: vi.fn(async () => []),
+  }
+})
+
+vi.mock("@chatbotx.io/database/client", () => ({
+  db: {
+    $count: mocks.count,
+    transaction: mocks.transaction,
+    delete: mocks.deleteFn,
+    insert: vi.fn(() => mocks.insertBuilder),
+    query: { webhookModel: { findMany: vi.fn(async () => []) } },
+  },
+  eq: vi.fn(() => "eq"),
+  and: vi.fn(() => "and"),
+  inArray: vi.fn(() => "inArray"),
+}))
+
+vi.mock("@chatbotx.io/database/schema", () => ({
+  webhookModel: mocks.webhookModel,
+  conditionModel: mocks.conditionModel,
+}))
+
+vi.mock("@chatbotx.io/database/repositories", () => ({
+  listWebhooksPaginated: mocks.listWebhooksPaginated,
+  conditionRepository: { listByWebhookIds: mocks.listByWebhookIds },
+}))
+
+vi.mock("@chatbotx.io/events", () => ({
+  updateWebhookCache: vi.fn(async () => undefined),
+  removeWebhookCache: vi.fn(async () => undefined),
+}))
+
+const distributedLock = {
+  runExclusive: vi.fn(
+    async ({ fn }: { fn: () => Promise<unknown> }) => await fn(),
+  ),
+}
+vi.mock("@chatbotx.io/redis", () => ({ distributedLock }))
+
+let idCounter = 0
+vi.mock("@chatbotx.io/utils", () => ({
+  createId: vi.fn(() => `generated-id-${++idCounter}`),
+}))
+
+const assertPublicUrl = vi.fn(async () => undefined)
+vi.mock("../src/net/ssrf-guard", () => ({ assertPublicUrl }))
+
+const ensureExists = vi.fn()
+vi.mock("../src/folder/service", () => ({
+  folderService: { ensureExists },
+}))
+
+const dispatchAuditRecord = vi.fn(async () => undefined)
+vi.mock("../src/audit/dispatcher", () => ({ dispatchAuditRecord }))
+
+vi.mock("../src/trigger/condition-columns", () => ({
+  toConditionColumnsShared: (condition: {
+    type: string
+    sourceId?: string | null
+    operator?: string | null
+    value?: unknown
+  }) => ({
+    type: condition.type,
+    sourceId: condition.sourceId ?? null,
+    operator: condition.operator ?? null,
+    value: condition.value ?? null,
+  }),
+}))
+
+const { updateWebhookCache, removeWebhookCache } = await import(
+  "@chatbotx.io/events"
+)
+const { webhookService, MAX_WEBHOOKS_PER_WORKSPACE } = await import(
+  "../src/webhook/service"
+)
+
+const CONDITIONS = [{ type: "newContact" }]
+const MAX_ITEMS_REACHED_PATTERN = /maximum/i
+
+beforeEach(() => {
+  vi.clearAllMocks()
+  idCounter = 0
+  mocks.count.mockResolvedValue(0)
+  mocks.insertBuilder.returning.mockResolvedValue([{ id: "webhook-1" }])
+  mocks.deleteBuilder.returning.mockResolvedValue([{ id: "webhook-1" }])
+  mocks.tx.insert
+    .mockImplementationOnce(() => mocks.insertBuilder)
+    .mockImplementationOnce(() => mocks.conditionInsertBuilder)
+  assertPublicUrl.mockResolvedValue(undefined)
+  distributedLock.runExclusive.mockImplementation(
+    async ({ fn }: { fn: () => Promise<unknown> }) => await fn(),
+  )
+})
+
+describe("webhookService.register", () => {
+  test("rejects a non-public URL via the SSRF guard before writing anything", async () => {
+    assertPublicUrl.mockRejectedValueOnce(
+      new Error(
+        "[ssrf-guard] Webhook URL is not allowed: http://127.0.0.1/hook",
+      ),
+    )
+
+    await expect(
+      webhookService.register({
+        workspaceId: "workspace-1",
+        name: "n8n trigger",
+        url: "http://127.0.0.1/hook",
+        conditions: CONDITIONS,
+      }),
+    ).rejects.toMatchObject({
+      message: expect.stringContaining("not allowed"),
+      code: "invalidRequestData",
+      httpStatusCode: 422,
+    })
+
+    expect(mocks.transaction).not.toHaveBeenCalled()
+  })
+
+  test("throws once the workspace has reached the cap", async () => {
+    mocks.count.mockResolvedValue(MAX_WEBHOOKS_PER_WORKSPACE)
+
+    await expect(
+      webhookService.register({
+        workspaceId: "workspace-1",
+        name: "n8n trigger",
+        url: "https://n8n.example.com/webhook/abc",
+        conditions: CONDITIONS,
+      }),
+    ).rejects.toThrow(MAX_ITEMS_REACHED_PATTERN)
+
+    expect(mocks.transaction).not.toHaveBeenCalled()
+  })
+
+  test("creates the webhook and its conditions, then refreshes the cache", async () => {
+    const result = await webhookService.register({
+      workspaceId: "workspace-1",
+      name: "n8n trigger",
+      url: "https://n8n.example.com/webhook/abc",
+      conditions: [
+        { type: "newContact" },
+        { type: "tagApplied", sourceId: "tag-1" },
+      ],
+    })
+
+    expect(result).toEqual({ id: "webhook-1" })
+    expect(mocks.insertBuilder.values).toHaveBeenCalledWith(
+      expect.objectContaining({
+        workspaceId: "workspace-1",
+        name: "n8n trigger",
+        url: "https://n8n.example.com/webhook/abc",
+      }),
+    )
+    expect(mocks.conditionInsertBuilder.values).toHaveBeenCalledWith([
+      expect.objectContaining({
+        webhookId: "webhook-1",
+        type: "newContact",
+        sourceId: null,
+        operator: null,
+        value: null,
+      }),
+      expect.objectContaining({
+        webhookId: "webhook-1",
+        type: "tagApplied",
+        sourceId: "tag-1",
+      }),
+    ])
+    expect(updateWebhookCache).toHaveBeenCalledWith("workspace-1")
+  })
+})
+
+describe("webhookService.unregister", () => {
+  test("deletes the webhook scoped to the workspace and refreshes the cache", async () => {
+    await webhookService.unregister({
+      workspaceId: "workspace-1",
+      id: "webhook-1",
+    })
+
+    expect(mocks.deleteFn).toHaveBeenCalledWith(mocks.webhookModel)
+    expect(removeWebhookCache).toHaveBeenCalledWith("workspace-1")
+    expect(dispatchAuditRecord).toHaveBeenCalledWith({
+      action: "delete",
+      detail: "deleted webhook(s) (#webhook-1)",
+    })
+  })
+
+  test("throws not-found when no row matches the workspace", async () => {
+    mocks.deleteBuilder.returning.mockResolvedValueOnce([])
+
+    await expect(
+      webhookService.unregister({ workspaceId: "workspace-1", id: "missing" }),
+    ).rejects.toThrow("Webhook not found")
+
+    expect(removeWebhookCache).not.toHaveBeenCalled()
+  })
+})
+
+describe("webhookService.create", () => {
+  test("rejects once the workspace has reached the cap", async () => {
+    mocks.count.mockResolvedValue(MAX_WEBHOOKS_PER_WORKSPACE)
+
+    await expect(
+      webhookService.create({
+        workspaceId: "workspace-1",
+        data: { name: "My webhook" },
+        folderType: "webhook",
+      }),
+    ).rejects.toMatchObject({
+      field: "_",
+      message: "validation.maxItemsReached",
+      data: { max: MAX_WEBHOOKS_PER_WORKSPACE, feature: "webhooks" },
+    })
+
+    expect(ensureExists).not.toHaveBeenCalled()
+    expect(mocks.insertBuilder.values).not.toHaveBeenCalled()
+  })
+
+  test("checks the folder exists when a folderId is given", async () => {
+    await webhookService.create({
+      workspaceId: "workspace-1",
+      data: { name: "My webhook", folderId: "folder-1" },
+      folderType: "webhook",
+    })
+
+    expect(ensureExists).toHaveBeenCalledWith({
+      id: "folder-1",
+      workspaceId: "workspace-1",
+      folderType: "webhook",
+    })
+  })
+
+  test("inserts with an empty url, invalidates the cache, and audits on success", async () => {
+    const result = await webhookService.create({
+      workspaceId: "workspace-1",
+      data: { name: "My webhook" },
+      folderType: "webhook",
+    })
+
+    expect(mocks.insertBuilder.values).toHaveBeenCalledWith(
+      expect.objectContaining({
+        workspaceId: "workspace-1",
+        name: "My webhook",
+        url: "",
+      }),
+    )
+    expect(updateWebhookCache).toHaveBeenCalledWith("workspace-1")
+    expect(dispatchAuditRecord).toHaveBeenCalledWith({
+      action: "create",
+      detail: "created a new webhook (#webhook-1)",
+    })
+    expect(result).toEqual({ id: "webhook-1" })
+  })
+})
+
+describe("webhookService.list", () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  test("paginates via listWebhooksPaginated and joins conditions per row", async () => {
+    mocks.listWebhooksPaginated.mockResolvedValue({
+      rows: [{ id: "webhook-1" }, { id: "webhook-2" }],
+      total: 21,
+    })
+    mocks.listByWebhookIds.mockResolvedValue([
+      { id: "c1", webhookId: "webhook-1" },
+      { id: "c2", webhookId: "webhook-2" },
+    ])
+
+    const result = await webhookService.list({
+      workspaceId: "workspace-1",
+      page: 1,
+      perPage: 10,
+    })
+
+    expect(mocks.listWebhooksPaginated).toHaveBeenCalledWith({
+      workspaceId: "workspace-1",
+      folderId: undefined,
+      name: undefined,
+      limit: 10,
+      offset: 0,
+    })
+    expect(mocks.listByWebhookIds).toHaveBeenCalledWith([
+      "webhook-1",
+      "webhook-2",
+    ])
+    expect(result.data).toEqual([
+      { id: "webhook-1", conditions: [{ id: "c1", webhookId: "webhook-1" }] },
+      { id: "webhook-2", conditions: [{ id: "c2", webhookId: "webhook-2" }] },
+    ])
+    expect(result.pageCount).toBe(3)
+  })
+
+  test("returns pageCount 0 for an empty workspace", async () => {
+    mocks.listWebhooksPaginated.mockResolvedValue({ rows: [], total: 0 })
+    mocks.listByWebhookIds.mockResolvedValue([])
+
+    const result = await webhookService.list({
+      workspaceId: "workspace-1",
+      page: 1,
+      perPage: 10,
+    })
+
+    expect(result).toEqual({ data: [], pageCount: 0 })
+  })
+})

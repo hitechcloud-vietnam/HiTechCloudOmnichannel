@@ -1,0 +1,87 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git",
+    "useIgnoreFile": false
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "apps/**",
+      "packages/**",
+      "integrations/**",
+      "!**/.next",
+      "!**/next-env.d.ts",
+      "!**/messages/*.d.json.ts",
+      "!**/packages/database/drizzle",
+      "!**/.turbo",
+      "!**/packages/ui/src/components/data-table",
+      "!**/packages/ui/src/components/ui",
+      "!**/packages/ui/src/lib",
+      "!**/packages/ui/src/hooks",
+      "!**/packages/ui/src/components/carousel-snap.tsx",
+      "!**/packages/ui/src/types/data-table.ts",
+      "!**/dist",
+      "!**/coverage",
+      "!**/.github/assets/readme",
+      "!**/apps/builder/public/brand",
+      "!**/apps/builder/public/chat-widget/plugin-toggle.svg",
+      "!**/.claude"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space"
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedImports": {
+          "level": "error",
+          "fix": "safe"
+        },
+        "noUnusedVariables": {
+          "level": "error",
+          "options": {
+            "ignoreRestSiblings": true
+          }
+        },
+        "noUnknownProperty": "error"
+      },
+      "style": {
+        "useNodejsImportProtocol": "off",
+        "noMagicNumbers": "off",
+        "useConsistentTypeDefinitions": "off"
+      },
+      "suspicious": {
+        "noUnknownAtRules": "off",
+        "noDuplicateCustomProperties": "off"
+      },
+      "complexity": {
+        "noExcessiveLinesPerFunction": "off",
+        "noExcessiveCognitiveComplexity": "off"
+      },
+      "performance": {
+        "noBarrelFile": "off"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "semicolons": "asNeeded",
+      "trailingCommas": "all"
+    }
+  },
+  "extends": ["ultracite/biome/core", "ultracite/biome/next"]
+}

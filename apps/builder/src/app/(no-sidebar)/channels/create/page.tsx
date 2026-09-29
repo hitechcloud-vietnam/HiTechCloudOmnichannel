@@ -1,0 +1,219 @@
+import { platformCredentialService, tenantService } from "@chatbotx.io/business"
+import type { ChannelType } from "@chatbotx.io/database/partials"
+import { getIdFromParams } from "@chatbotx.io/utils"
+import { notFound, redirect } from "next/navigation"
+import InboxSelectCard from "@/features/inboxes/components/inbox-select-card"
+import { CreateApiForm } from "@/features/integration-api/components/create-api-form"
+import { InstagramLoginSelect } from "@/features/integration-instagram/components/instagram-login-select"
+import { generateInstagramRedirectUri } from "@/features/integration-instagram/libs/oauth"
+import { generateInstagramFacebookRedirectUri } from "@/features/integration-instagram/libs/oauth-facebook"
+import { TelegramConnect } from "@/features/integration-telegram/components/telegram-connect"
+import { generateThreadsRedirectUri } from "@/features/integration-threads/libs/oauth"
+import { generateTiktokRedirectUri } from "@/features/integration-tiktok/libs/tiktok"
+import { SimpleCreateWebchat } from "@/features/integration-webchat/simple-create-webchat"
+import WhatsappCreate from "@/features/integration-whatsapp/components/whatsapp-create"
+import { WHATSAPP_OAUTH_CALLBACK_PATH } from "@/features/integration-whatsapp/libs/embedded-signup"
+import { generateZaloRedirectUri } from "@/features/integration-zalo/libs/zalo"
+import { requireWorkspacePermission } from "@/lib/auth/require-workspace-permission"
+import { getCurrentUserId } from "@/lib/auth/utils"
+import { resolvePlatformOwnerId } from "@/lib/platform-credential-owner"
+import { buildProviderCallbackUrl } from "@/lib/provider-origin"
+import {
+  CREATE_CHANNEL_ERROR_MESSAGE_KEYS,
+  isCreateChannelErrorCode,
+} from "@/lib/workspace/create-first-workspace"
+import { filterPreviewChannels } from "@/lib/workspace/preview-channels"
+
+export const dynamic = "force-dynamic"
+
+type CreateChannelPageProps = {
+  searchParams: Promise<{
+    channel?: string | null
+    workspaceId?: string | null
+    /** Set by the OAuth callback / SSO-reuse route when the first-channel workspace could not be created (plan limit). */
+    error?: string | null
+  }>
+}
+
+export default async function CreateChannelPage(props: CreateChannelPageProps) {
+  const searchParams = await props.searchParams
+  const workspaceId = getIdFromParams(searchParams, "workspaceId")
+
+  if (workspaceId) {
+    await requireWorkspacePermission(workspaceId, "superAdmin")
+  }
+
+  const selectedChannel = searchParams.channel
+
+  const userId = await getCurrentUserId()
+  if (!userId) {
+    return notFound()
+  }
+
+  const platformOwnerId = await resolvePlatformOwnerId({ userId, workspaceId })
+
+  // Two-tier channel-visibility policy (platform admin + white-label owner).
+  // Pure UI gate — checked before every create branch (including the
+  // self-serve telegram/webchat ones) so this page never *renders* the entry
+  // point for a hidden channel, even via a direct `?channel=` deep link. This
+  // is UI visibility, not authorization: the underlying connect actions
+  // (e.g. `connectTelegramAction`) deliberately do not re-check the policy,
+  // so a hidden channel remains creatable by invoking its action directly —
+  // hiding is a hint, never an access control. Never consulted by
+  // webhooks/outbound send/`Inbox` itself, so an already-connected inbox of a
+  // hidden channel keeps working unaffected.
+  // `filterPreviewChannels` layers the pending-provider-approval allowlist
+  // (Threads) on top of that policy — same UI-only semantics.
+  const visibleChannels = await filterPreviewChannels(
+    await tenantService.resolveVisibleChannels(platformOwnerId),
+  )
+  const isVisible = (channel: ChannelType) => visibleChannels.includes(channel)
+
+  if (selectedChannel === "telegram" && isVisible("telegram")) {
+    return <TelegramConnect autoOpen={true} workspaceId={workspaceId} />
+  }
+
+  if (selectedChannel === "webchat" && isVisible("webchat")) {
+    return <SimpleCreateWebchat workspaceId={workspaceId} />
+  }
+
+  if (selectedChannel === "api" && isVisible("api")) {
+    return <CreateApiForm autoOpen={true} workspaceId={workspaceId} />
+  }
+
+  const [
+    whatsapp,
+    messenger,
+    instagram,
+    instagramFacebook,
+    threads,
+    zalo,
+    tiktok,
+  ] = await Promise.all([
+    platformCredentialService.resolveForOwner({
+      ownerId: platformOwnerId,
+      type: "whatsapp",
+    }),
+    platformCredentialService.resolveForOwner({
+      ownerId: platformOwnerId,
+      type: "messenger",
+    }),
+    platformCredentialService.resolveForOwner({
+      ownerId: platformOwnerId,
+      type: "instagram",
+    }),
+    platformCredentialService.resolveForOwner({
+      ownerId: platformOwnerId,
+      type: "instagramFacebook",
+    }),
+    platformCredentialService.resolveForOwner({
+      ownerId: platformOwnerId,
+      type: "threads",
+    }),
+    platformCredentialService.resolveForOwner({
+      ownerId: platformOwnerId,
+      type: "zalo",
+    }),
+    platformCredentialService.resolveForOwner({
+      ownerId: platformOwnerId,
+      type: "tiktok",
+    }),
+  ])
+
+  if (selectedChannel === "whatsapp" && whatsapp && isVisible("whatsapp")) {
+    const oauthCallbackUrl = await buildProviderCallbackUrl(
+      whatsapp,
+      WHATSAPP_OAUTH_CALLBACK_PATH,
+    )
+    return (
+      <WhatsappCreate
+        oauthCallbackUrl={oauthCallbackUrl}
+        settings={whatsapp.publicConfig}
+        workspaceId={workspaceId}
+      />
+    )
+  }
+
+  if (selectedChannel === "messenger" && messenger && isVisible("messenger")) {
+    // The Facebook SSO token reuse check needs to set a cookie on a hit, which
+    // a Server Component's render can't do — hand off to a Route Handler that
+    // re-checks reuse and either redirects to the Page picker (cookie set) or
+    // falls back to the full OAuth dialog. See that route's comment.
+    redirect(
+      `/channels/create/messenger${workspaceId ? `?workspaceId=${workspaceId}` : ""}`,
+    )
+  }
+
+  if (selectedChannel === "instagram" && instagram && isVisible("instagram")) {
+    return <InstagramLoginSelect workspaceId={workspaceId} />
+  }
+
+  if (
+    selectedChannel === "instagram-direct" &&
+    instagram &&
+    isVisible("instagram")
+  ) {
+    const redirectUri = await generateInstagramRedirectUri(
+      instagram,
+      workspaceId,
+    )
+    redirect(redirectUri)
+  }
+
+  // `instagram-facebook` is a login-flavor route discriminator, not its own
+  // `ChannelType` — it still creates an `instagram` channel, so it's gated on
+  // the same `instagram` visibility flag as the other IG login paths.
+  if (
+    selectedChannel === "instagram-facebook" &&
+    instagramFacebook &&
+    isVisible("instagram")
+  ) {
+    const redirectUri = await generateInstagramFacebookRedirectUri(
+      instagramFacebook,
+      workspaceId,
+    )
+    redirect(redirectUri)
+  }
+
+  if (selectedChannel === "threads" && threads && isVisible("threads")) {
+    const redirectUri = await generateThreadsRedirectUri(threads, workspaceId)
+    redirect(redirectUri)
+  }
+
+  if (selectedChannel === "zalo" && zalo && isVisible("zalo")) {
+    const redirectUri = await generateZaloRedirectUri(zalo, workspaceId)
+    redirect(redirectUri)
+  }
+
+  if (selectedChannel === "tiktok" && tiktok && isVisible("tiktok")) {
+    const redirectUri = await generateTiktokRedirectUri(tiktok, workspaceId)
+    redirect(redirectUri)
+  }
+
+  // `instagramFacebook` is deliberately absent: it is a login flavor of the
+  // `instagram` channel, never a channel of its own.
+  const configuredChannels: ChannelType[] = (
+    [
+      ["whatsapp", whatsapp],
+      ["messenger", messenger],
+      ["instagram", instagram],
+      ["threads", threads],
+      ["zalo", zalo],
+      ["tiktok", tiktok],
+    ] as const
+  )
+    .filter(([, credential]) => Boolean(credential))
+    .map(([channel]) => channel)
+
+  const errorMessageKey = isCreateChannelErrorCode(searchParams.error)
+    ? CREATE_CHANNEL_ERROR_MESSAGE_KEYS[searchParams.error]
+    : undefined
+
+  return (
+    <InboxSelectCard
+      configuredChannels={configuredChannels}
+      errorMessageKey={errorMessageKey}
+      offeredChannels={visibleChannels}
+    />
+  )
+}

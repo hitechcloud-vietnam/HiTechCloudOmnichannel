@@ -1,0 +1,196 @@
+import {
+  and,
+  type DatabaseClient,
+  db,
+  eq,
+  findOrFail,
+  inArray,
+  relationsFilterToSQL,
+} from "@chatbotx.io/database/client"
+import { rootFolderId } from "@chatbotx.io/database/partials"
+import { emailTopicModel } from "@chatbotx.io/database/schema"
+import type { EmailTopicModel } from "@chatbotx.io/database/types"
+import {
+  likeContains,
+  parseOrderByAsObject,
+  parsePagination,
+} from "@chatbotx.io/database/utils"
+import { createId } from "@chatbotx.io/utils"
+import { ChatbotXException, notFoundException } from "../errors"
+import { folderService } from "../folder/service"
+import type { PaginatedResult } from "../types"
+
+type ListEmailTopicsInput = {
+  workspaceId: string
+  folderId?: string | null
+  name?: string | null
+  page?: number | null
+  perPage?: number | null
+  sort?: { id: string; desc: boolean }[] | null
+}
+
+type CreateEmailTopicData = {
+  name: string
+  folderId?: string | null
+}
+
+type UpdateEmailTopicData = {
+  name: string
+}
+
+class EmailTopicService {
+  async findAnalyticsWorkspaceIdByToken(props: {
+    token: string
+    tx?: DatabaseClient
+  }): Promise<string | undefined> {
+    const { token, tx = db } = props
+    const row = await tx.query.analyticsEmailTopicModel.findFirst({
+      columns: { workspaceId: true },
+      where: { token },
+    })
+
+    return row?.workspaceId
+  }
+
+  async findOrFail(props: {
+    workspaceId: string
+    id: string
+    tx?: DatabaseClient
+  }): Promise<EmailTopicModel> {
+    const { workspaceId, id, tx = db } = props
+    return await findOrFail({
+      client: tx,
+      table: emailTopicModel,
+      where: { id, workspaceId },
+      message: "Email topic not found",
+    })
+  }
+
+  async list(
+    input: ListEmailTopicsInput,
+  ): Promise<PaginatedResult<EmailTopicModel>> {
+    const where = {
+      workspaceId: input.workspaceId,
+      folderId: input.folderId
+        ? // biome-ignore lint/style/noNestedTernary: allow nested ternary
+          input.folderId === rootFolderId
+          ? { isNull: true as const }
+          : input.folderId
+        : undefined,
+      name: input.name ? { ilike: likeContains(input.name) } : undefined,
+    }
+
+    const requestedOrderBy = parseOrderByAsObject(emailTopicModel, input)
+    // Falls back to a deterministic order when no sort was requested (the
+    // public `GET /v1/email-topics` sends none), so paging cannot go unstable.
+    const orderBy =
+      Object.keys(requestedOrderBy).length > 0
+        ? requestedOrderBy
+        : { createdAt: "desc" as const }
+    const pagination = parsePagination(input)
+
+    const [data, total] = await Promise.all([
+      db.query.emailTopicModel.findMany({ where, orderBy, ...pagination }),
+      db.$count(emailTopicModel, relationsFilterToSQL(emailTopicModel, where)),
+    ])
+
+    const pageCount = pagination?.limit
+      ? Math.ceil(total / pagination.limit)
+      : 1
+
+    return { data, pageCount }
+  }
+
+  async create(props: {
+    workspaceId: string
+    data: CreateEmailTopicData
+    tx?: DatabaseClient
+  }): Promise<EmailTopicModel> {
+    const { workspaceId, data, tx = db } = props
+
+    const existing = await tx.query.emailTopicModel.findFirst({
+      columns: { id: true },
+      where: { name: data.name, workspaceId },
+    })
+    if (existing) {
+      throw new ChatbotXException("Name is already taken.", "nameTaken", 400)
+    }
+
+    if (data.folderId) {
+      await folderService.ensureExists({
+        id: data.folderId,
+        workspaceId,
+        folderType: "emailTopic",
+      })
+    }
+
+    const [topic] = await tx
+      .insert(emailTopicModel)
+      .values({
+        id: createId(),
+        workspaceId,
+        ...data,
+        folderId: data.folderId ?? null,
+      })
+      .returning()
+
+    return topic
+  }
+
+  async update(props: {
+    workspaceId: string
+    id: string
+    data: UpdateEmailTopicData
+    tx?: DatabaseClient
+  }): Promise<EmailTopicModel> {
+    const { workspaceId, id, data, tx = db } = props
+
+    await this.findOrFail({ workspaceId, id, tx })
+
+    const existing = await tx.query.emailTopicModel.findFirst({
+      columns: { id: true },
+      where: { name: data.name, workspaceId, id: { ne: id } },
+    })
+    if (existing) {
+      throw new ChatbotXException("Name is already taken.", "nameTaken", 400)
+    }
+
+    const [updated] = await tx
+      .update(emailTopicModel)
+      .set({ name: data.name })
+      .where(
+        and(
+          eq(emailTopicModel.id, id),
+          eq(emailTopicModel.workspaceId, workspaceId),
+        ),
+      )
+      .returning()
+
+    if (!updated) {
+      throw notFoundException("Email topic not found")
+    }
+    return updated
+  }
+
+  async delete(props: {
+    workspaceId: string
+    ids: string[]
+    tx?: DatabaseClient
+  }): Promise<{ deletedCount: number }> {
+    const { workspaceId, ids, tx = db } = props
+
+    const deleted = await tx
+      .delete(emailTopicModel)
+      .where(
+        and(
+          eq(emailTopicModel.workspaceId, workspaceId),
+          inArray(emailTopicModel.id, ids),
+        ),
+      )
+      .returning({ id: emailTopicModel.id })
+
+    return { deletedCount: deleted.length }
+  }
+}
+
+export const emailTopicService = new EmailTopicService()

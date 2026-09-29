@@ -1,0 +1,67 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+#folder
+.idea
+*/**/.idea
+
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.prod
+.env.dev
+
+# Testing
+coverage
+.vitest-cache
+
+# Turbo
+.turbo
+
+# Vercel
+.vercel
+
+# Build Outputs
+.next/
+out/
+build
+dist
+
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+.DS_Store
+*.pem
+*.key
+.secrets/
+.idea/
+.windsurf/skills
+
+.partykit
+test.rest
+test-webchat
+
+# Cursor
+.cursor/skills/
+CLAUDE.md
+
+# Per-developer Claude Code overrides (hooks, personal permissions)
+.claude/settings.local.json
+
+.pnpm-store/
+.plans/
+
+# MCP business-evaluation harness output (episodes, manifests, server
+# snapshots) — regenerated per run via `pnpm --filter chatbotx-mcp eval:business`.
+apps/mcp-server/evals/out/

@@ -1,0 +1,60 @@
+import { getIdFromParams } from "@chatbotx.io/utils"
+import { notFound, redirect } from "next/navigation"
+import type { ReactNode } from "react"
+import { CouponTopicStoreProvider } from "@/features/coupons/provider/coupon-topic-store-context"
+import { hasWorkspacePermission } from "@/lib/auth/permission-routes"
+import { enforcePasswordCurrent } from "@/lib/auth/require-password-current"
+import {
+  getCurrentUserAndAllLinkedWorkspaces,
+  getCurrentUserAndTargetWorkspace,
+} from "@/lib/auth/utils"
+import { logger } from "@/lib/log"
+import { enforceWorkspaceNotScheduledForDeletionFromRequest } from "@/lib/workspace/require-not-scheduled-for-deletion"
+
+export type WorkspaceNoSidebarLayoutProps = {
+  params: Promise<{ workspaceId: string }>
+  children: ReactNode
+}
+
+export default async function WorkspaceNoSidebarLayout({
+  params,
+  children,
+}: WorkspaceNoSidebarLayoutProps) {
+  const workspaceId = getIdFromParams(await params, "workspaceId")
+  if (!workspaceId) {
+    return notFound()
+  }
+
+  const userAndWorkspaces = await getCurrentUserAndAllLinkedWorkspaces()
+  if (!userAndWorkspaces) {
+    logger.debug(
+      `User is not authenticated or does not have access to the workspace ${workspaceId}`,
+    )
+
+    return redirect("/")
+  }
+  enforcePasswordCurrent(userAndWorkspaces.user)
+
+  const result = await getCurrentUserAndTargetWorkspace(workspaceId)
+  if (!result) {
+    logger.debug(
+      `User is not authenticated or does not have access to the workspace ${workspaceId}`,
+    )
+
+    return redirect("/")
+  }
+
+  await enforceWorkspaceNotScheduledForDeletionFromRequest(
+    result.targetWorkspace,
+    hasWorkspacePermission(
+      result.targetWorkspaceMember.permissions,
+      "superAdmin",
+    ),
+  )
+
+  return (
+    <CouponTopicStoreProvider autoInitialize={false} workspaceId={workspaceId}>
+      {children}
+    </CouponTopicStoreProvider>
+  )
+}

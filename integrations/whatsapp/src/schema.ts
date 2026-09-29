@@ -1,0 +1,360 @@
+import type {
+  BaseConfig,
+  Context,
+  Handler,
+  Oauth2AuthValue,
+} from "@chatbotx.io/sdk"
+import type { ServerMessage } from "whatsapp-api-js/types"
+import z from "zod"
+import type { WhatsappCallingSettings } from "./api/calling"
+import type {
+  ConversationalAutomation,
+  WhatsappPhoneNumber,
+} from "./api/phone-number"
+
+export type WhatsappConfig = BaseConfig & {
+  verifyToken?: string
+  clientSecret?: string
+  /**
+   * Set by the manual-integration webhook route. Manual integrations may or may
+   * not carry a clientSecret (populated only when the owner supplied a Meta App
+   * Secret on manual connect). Combined with an empty clientSecret, this
+   * selects the legacy-unverified signature policy.
+   */
+  manualIntegration?: boolean
+  /** Set by the manual-integration webhook route, for log correlation only. */
+  integrationId?: string
+  /**
+   * Set by the manual-integration webhook route to the loaded integration's own
+   * phone number id. When present, every parsed change whose
+   * metadata.phone_number_id differs is dropped before enqueue, so a manual
+   * endpoint can only ever deliver events for its own number.
+   */
+  phoneNumberId?: string
+}
+
+export type WhatsappAuthValue = Oauth2AuthValue & {
+  metadata: {
+    wabaId: string
+    businessId: string
+    phoneNumber: WhatsappPhoneNumber
+    webhookUrl: string
+    isManual?: boolean
+    webhookVerifiedAt?: string
+    subscribeOverrideOk?: boolean
+  }
+}
+
+export type WhatsappPagination = {
+  cursors: {
+    before: string
+    after: string
+  }
+  next?: string
+}
+
+/**
+ * Stand-in cursors for list helpers that already walked every page, so there is
+ * no further page for a caller to request.
+ *
+ * Frozen because every such response hands out this same instance: a caller
+ * that mutated it would silently rewrite the cursors of every other response.
+ */
+export const EMPTY_PAGINATION: WhatsappPagination = Object.freeze({
+  cursors: Object.freeze({ before: "", after: "" }),
+})
+
+export type WhatsappFlow = {
+  id: string
+  name: string
+  status: string
+  categories: string[]
+  validation_errors: unknown[]
+}
+
+export type ListFlowsResponse = {
+  data: WhatsappFlow[]
+  paging: WhatsappPagination
+}
+
+export type WhatsappFlowScreenOutput = {
+  value: string
+  label: string
+}
+
+export type WhatsappFlowScreen = {
+  id: string
+  title: string
+  terminal: boolean
+  output: WhatsappFlowScreenOutput[]
+}
+
+export type FlowAssetEntity = {
+  name: string
+  asset_type: string
+  download_url: string
+}
+
+export type FlowAssetsResponse = {
+  data: FlowAssetEntity[]
+}
+
+export type MessageTemplateEntity = {
+  id: string
+  name: string
+  status: "APPROVED" | "PENDING" | "REJECTED"
+  language: string
+  category: "AUTHENTICATION" | "MARKETING" | "UTILITY"
+  components: JSON[]
+}
+
+export type ListMessageTemplatesReponse = {
+  data: MessageTemplateEntity[]
+  paging: {
+    next: string
+  }
+}
+
+export const whatsappWebhookEventSchema = z.object({
+  phoneID: z.string(), // bot phone number id
+  from: z.string(), // user phone number
+  message: z.object().transform((data) => data as unknown as ServerMessage),
+  name: z.string().optional(), // user name
+  // Full original webhook payload (whatsapp-api-js@6.2.1's `PostData`),
+  // carried through the job queue so `receiveMessage` can zod-safeParse
+  // BSUID/username fields not yet modeled by the library's typed shapes.
+  raw: z.unknown().optional(),
+})
+export type WhatsappWebhookEvent = z.infer<typeof whatsappWebhookEventSchema>
+
+export const whatsappStatusWebhookEventSchema = z.object({
+  phoneID: z.string(),
+  phone: z.string(),
+  // Business-Scoped User ID (BSUID) a delivery/read status targets when the
+  // message was sent via `recipient` instead of `to` (`phone`/`recipient_id`
+  // is empty in that case). Extracted from the raw payload at the webhook
+  // layer — see `lib/raw-identity.ts`.
+  recipientUserId: z.string().optional(),
+  messageId: z.string(),
+  status: z.string(),
+  error: z
+    .object({
+      code: z.number(),
+      title: z.string(),
+      message: z.string(),
+      href: z.string(),
+      error_data: z.object({
+        details: z.string(),
+      }),
+    })
+    .optional(),
+})
+export type WhatsappStatusWebhookEvent = z.infer<
+  typeof whatsappStatusWebhookEventSchema
+>
+
+export type WhatsAppTemplateComponentParameter = {
+  type: string
+  text?: string
+  // NAMED-template placeholder name ({{order_id}}); Meta rejects a named
+  // template when this is missing. Absent for positional ({{1}}) templates.
+  parameter_name?: string
+  image?: { link: string }
+  video?: { link: string }
+  document?: { link: string }
+  location?: {
+    latitude: string
+    longitude: string
+    name?: string
+    address?: string
+  }
+  coupon_code?: string
+  payload?: string
+  action?: {
+    flow_token?: string
+    flow_action_data?: Record<string, unknown>
+    thumbnail_product_retailer_id?: string
+    sections?: Array<{
+      title?: string
+      product_items?: Array<{
+        product_retailer_id: string
+      }>
+    }>
+  }
+}
+
+export type WhatsAppTemplateComponent = {
+  type: string
+  parameters?: WhatsAppTemplateComponentParameter[]
+  sub_type?: string
+  index?: number
+  cards?: Array<{
+    card_index: number
+    components: WhatsAppTemplateComponent[]
+  }>
+}
+
+export type TemplateMessage = {
+  _type: "template"
+  type: "template"
+  template: {
+    name: string
+    language: { code: string }
+    components: WhatsAppTemplateComponent[]
+  }
+}
+
+/**
+ * Meta: "Cards must include either one URL button, or one or more quick-reply
+ * buttons." The two are separate shapes rather than one shape with optional
+ * fields, so a card carrying both kinds has no valid payload at all.
+ */
+export type CarouselCardAction =
+  | {
+      buttons: Array<{
+        type: "quick_reply"
+        quick_reply: { id: string; title: string }
+      }>
+    }
+  | {
+      name: "cta_url"
+      parameters: { display_text: string; url: string }
+    }
+
+export type CarouselCard = {
+  card_index: number
+  type: "cta_url"
+  header?: {
+    type: "image"
+    image: { link: string }
+  }
+  body?: { text: string }
+  action?: CarouselCardAction
+}
+
+export type InteractiveCarouselMessage = {
+  _type: "interactive_carousel"
+  type: "interactive"
+  interactive: {
+    type: "carousel"
+    body: { text: string }
+    action: { cards: CarouselCard[] }
+  }
+}
+
+/**
+ * Cloud API `location_request_message` — Meta's native "Send location"
+ * button. `whatsapp-api-js` does not model this interactive type, so it is
+ * posted raw like templates and carousels.
+ *
+ * @see https://developers.facebook.com/docs/whatsapp/cloud-api/messages/interactive-location-request-messages
+ */
+export type LocationRequestMessage = {
+  _type: "location_request"
+  type: "interactive"
+  interactive: {
+    type: "location_request_message"
+    body: { text: string }
+    action: { name: "send_location" }
+  }
+}
+
+/**
+ * Meta's voice_call interactive — body text plus one "Call on WhatsApp" button.
+ * Not modeled by whatsapp-api-js, so it's posted raw.
+ */
+export type InteractiveVoiceCallMessage = {
+  _type: "interactive_voice_call"
+  type: "interactive"
+  interactive: {
+    type: "voice_call"
+    body: { text: string }
+    action: {
+      name: "voice_call"
+      parameters: {
+        display_text: string
+        ttl_minutes?: number
+        payload?: string
+      }
+    }
+  }
+}
+
+/**
+ * Meta's call_permission_request interactive — asks the customer to allow
+ * business-initiated WhatsApp calls. Not modeled by whatsapp-api-js, so it's
+ * posted raw.
+ */
+export type InteractiveCallPermissionRequestMessage = {
+  _type: "interactive_call_permission_request"
+  type: "interactive"
+  interactive: {
+    type: "call_permission_request"
+    body: { text: string }
+    action: { name: "call_permission_request" }
+  }
+}
+
+/** Messages posted raw because whatsapp-api-js does not model their payloads. */
+export type RawWhatsappMessage =
+  | InteractiveCallPermissionRequestMessage
+  | InteractiveCarouselMessage
+  | InteractiveVoiceCallMessage
+  | LocationRequestMessage
+  | TemplateMessage
+
+export type WhatsappActions = {
+  verifyAccessToken: Handler<
+    {
+      ctx: Context<WhatsappAuthValue>
+    },
+    WhatsappPhoneNumber
+  >
+  uploadMedia: Handler<{ ctx: Context<WhatsappAuthValue>; file: File }, string>
+  listMessageTemplates: Handler<
+    {
+      ctx: Context<WhatsappAuthValue>
+    },
+    ListMessageTemplatesReponse
+  >
+  listFlows: Handler<
+    {
+      ctx: Context<WhatsappAuthValue>
+      params: { limit: number }
+    },
+    ListFlowsResponse
+  >
+  getFlowAssets: Handler<
+    {
+      ctx: Context<WhatsappAuthValue>
+      params: { flowSourceId: string }
+    },
+    WhatsappFlowScreen[]
+  >
+  findConversationalAutomation: Handler<
+    {
+      ctx: Context<WhatsappAuthValue>
+    },
+    ConversationalAutomation
+  >
+  updateConversationalAutomation: Handler<
+    {
+      ctx: Context<WhatsappAuthValue>
+      data: ConversationalAutomation
+    },
+    void
+  >
+  getCallingSettings: Handler<
+    {
+      ctx: Context<WhatsappAuthValue>
+    },
+    WhatsappCallingSettings
+  >
+  updateCallingSettings: Handler<
+    {
+      ctx: Context<WhatsappAuthValue>
+      data: Partial<WhatsappCallingSettings>
+    },
+    void
+  >
+}

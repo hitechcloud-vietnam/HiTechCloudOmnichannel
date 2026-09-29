@@ -1,0 +1,304 @@
+import { beforeEach, describe, expect, test, vi } from "vitest"
+
+const mocks = vi.hoisted(() => ({
+  listCachedMessagingAdAccounts: vi.fn(),
+  listForChannel: vi.fn(),
+  getCachedAdAccounts: vi.fn(),
+  findByWorkspaceId: vi.fn(),
+  warn: vi.fn(),
+}))
+
+vi.mock("../src/messaging-ads-connection/graph-reads", () => ({
+  listCachedMessagingAdAccounts: mocks.listCachedMessagingAdAccounts,
+}))
+
+vi.mock("../src/messaging-ads-connection/service", () => ({
+  messagingAdsConnectionService: {
+    listForChannel: mocks.listForChannel,
+  },
+}))
+
+vi.mock("../src/integration-facebook-ads/service", () => ({
+  integrationFacebookAdsService: {
+    findByWorkspaceId: mocks.findByWorkspaceId,
+  },
+}))
+
+vi.mock("../src/integration-facebook-ads/graph-reads", () => ({
+  getCachedAdAccounts: mocks.getCachedAdAccounts,
+}))
+
+vi.mock("../src/logger", () => ({
+  logger: { warn: mocks.warn },
+}))
+
+const { resolveChannelAdAccountSources } = await import(
+  "../src/ads-analytics/channel-ad-accounts"
+)
+
+describe("resolveChannelAdAccountSources", () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    // Default: the workspace HAS a workspace-wide Facebook Ads integration, so
+    // existing cases keep exercising the `getCachedAdAccounts` leg unchanged.
+    mocks.findByWorkspaceId.mockResolvedValue({ id: "ifa-1" })
+  })
+
+  test("integrationId given -> narrows to that integration's own connection, tagged with a messaging source", async () => {
+    // Ownership guard: the narrowed branch resolves the workspace's ACTIVE
+    // connections first and only then touches the shared cache.
+    mocks.listForChannel.mockResolvedValue([
+      {
+        integrationWhatsappId: null,
+        integrationMessengerId: "im-1",
+        integrationInstagramId: null,
+      },
+    ])
+    mocks.listCachedMessagingAdAccounts.mockResolvedValue([
+      { id: "act_1", name: "One" },
+    ])
+
+    const result = await resolveChannelAdAccountSources({
+      workspaceId: "ws-1",
+      channel: "messenger",
+      integrationId: "im-1",
+    })
+
+    expect(result).toEqual([
+      {
+        id: "act_1",
+        name: "One",
+        sources: [{ kind: "messaging", integrationId: "im-1" }],
+      },
+    ])
+    expect(mocks.listForChannel).toHaveBeenCalledWith({
+      workspaceId: "ws-1",
+      channel: "messenger",
+    })
+    expect(mocks.getCachedAdAccounts).not.toHaveBeenCalled()
+    expect(mocks.listCachedMessagingAdAccounts).toHaveBeenCalledWith({
+      workspaceId: "ws-1",
+      channel: "messenger",
+      integrationId: "im-1",
+    })
+  })
+
+  test("a foreign or non-active integrationId NEVER reaches the shared cache (cross-workspace / invalid-connection guard)", async () => {
+    // `listCachedMessagingAdAccounts` keys Redis by channel:integrationId
+    // only — a warm cache would happily serve another workspace's list. The
+    // resolver must reject any integrationId that is not among THIS
+    // workspace's active connections (a foreign id and an `invalid`-status
+    // connection look identical here: absent from listForChannel).
+    mocks.listForChannel.mockResolvedValue([
+      {
+        integrationWhatsappId: null,
+        integrationMessengerId: "im-1",
+        integrationInstagramId: null,
+      },
+    ])
+
+    const result = await resolveChannelAdAccountSources({
+      workspaceId: "ws-1",
+      channel: "messenger",
+      integrationId: "im-foreign",
+    })
+
+    expect(result).toEqual([])
+    expect(mocks.listCachedMessagingAdAccounts).not.toHaveBeenCalled()
+    expect(mocks.getCachedAdAccounts).not.toHaveBeenCalled()
+  })
+
+  test("no integrationId -> unions every channel connection plus the workspace-wide fallback, deduped by id", async () => {
+    mocks.listForChannel.mockResolvedValue([
+      {
+        id: "conn_1",
+        integrationMessengerId: "im-1",
+        integrationWhatsappId: null,
+        integrationInstagramId: null,
+      },
+      {
+        id: "conn_2",
+        integrationMessengerId: "im-2",
+        integrationWhatsappId: null,
+        integrationInstagramId: null,
+      },
+    ])
+    mocks.listCachedMessagingAdAccounts.mockImplementation(
+      (input: { integrationId: string }) => {
+        if (input.integrationId === "im-1") {
+          return Promise.resolve([{ id: "act_1", name: "One" }])
+        }
+        // act_1 is ALSO reachable through im-2 — dedup must merge, not duplicate.
+        return Promise.resolve([
+          { id: "act_1", name: "One" },
+          { id: "act_2", name: "Two" },
+        ])
+      },
+    )
+    mocks.getCachedAdAccounts.mockResolvedValue([
+      { id: "act_1", name: "One" },
+      { id: "act_3", name: "Three (workspace-wide only)" },
+    ])
+
+    const result = await resolveChannelAdAccountSources({
+      workspaceId: "ws-1",
+      channel: "messenger",
+    })
+
+    expect(mocks.listForChannel).toHaveBeenCalledWith({
+      workspaceId: "ws-1",
+      channel: "messenger",
+    })
+    const byId = new Map(result.map((account) => [account.id, account]))
+    expect(byId.get("act_1")?.sources).toEqual([
+      { kind: "messaging", integrationId: "im-1" },
+      { kind: "messaging", integrationId: "im-2" },
+      { kind: "workspace" },
+    ])
+    expect(byId.get("act_2")?.sources).toEqual([
+      { kind: "messaging", integrationId: "im-2" },
+    ])
+    expect(byId.get("act_3")?.sources).toEqual([{ kind: "workspace" }])
+    expect(result).toHaveLength(3)
+  })
+
+  test("a connection whose account list fails to load is skipped (warn + skip), never fails the whole union", async () => {
+    mocks.listForChannel.mockResolvedValue([
+      {
+        id: "conn_1",
+        integrationMessengerId: "im-1",
+        integrationWhatsappId: null,
+        integrationInstagramId: null,
+      },
+      {
+        id: "conn_2",
+        integrationMessengerId: "im-2",
+        integrationWhatsappId: null,
+        integrationInstagramId: null,
+      },
+    ])
+    mocks.listCachedMessagingAdAccounts.mockImplementation(
+      (input: { integrationId: string }) => {
+        if (input.integrationId === "im-1") {
+          return Promise.reject(new Error("reconnect needed"))
+        }
+        return Promise.resolve([{ id: "act_2", name: "Two" }])
+      },
+    )
+    mocks.getCachedAdAccounts.mockRejectedValue(
+      new Error("no workspace-wide integration"),
+    )
+
+    const result = await resolveChannelAdAccountSources({
+      workspaceId: "ws-1",
+      channel: "messenger",
+    })
+
+    expect(result).toEqual([
+      {
+        id: "act_2",
+        name: "Two",
+        sources: [{ kind: "messaging", integrationId: "im-2" }],
+      },
+    ])
+    expect(mocks.warn).toHaveBeenCalled()
+  })
+
+  test("the workspace-wide fallback failing (no legacy integration) still returns the messaging-connection accounts", async () => {
+    mocks.listForChannel.mockResolvedValue([
+      {
+        id: "conn_1",
+        integrationMessengerId: "im-1",
+        integrationWhatsappId: null,
+        integrationInstagramId: null,
+      },
+    ])
+    mocks.listCachedMessagingAdAccounts.mockResolvedValue([
+      { id: "act_1", name: "One" },
+    ])
+    mocks.getCachedAdAccounts.mockRejectedValue(
+      new Error("no workspace-wide integration"),
+    )
+
+    const result = await resolveChannelAdAccountSources({
+      workspaceId: "ws-1",
+      channel: "messenger",
+    })
+
+    expect(result).toEqual([
+      {
+        id: "act_1",
+        name: "One",
+        sources: [{ kind: "messaging", integrationId: "im-1" }],
+      },
+    ])
+  })
+
+  test("a channel with no connections at all falls back to the workspace-wide accounts only", async () => {
+    mocks.listForChannel.mockResolvedValue([])
+    mocks.getCachedAdAccounts.mockResolvedValue([
+      { id: "act_1", name: "Legacy" },
+    ])
+
+    const result = await resolveChannelAdAccountSources({
+      workspaceId: "ws-1",
+      channel: "whatsapp",
+    })
+
+    expect(result).toEqual([
+      { id: "act_1", name: "Legacy", sources: [{ kind: "workspace" }] },
+    ])
+    expect(mocks.listCachedMessagingAdAccounts).not.toHaveBeenCalled()
+  })
+
+  // A workspace with no workspace-wide Facebook Ads integration is the normal
+  // case now that each box connects its own token. Absence is a STATE, not a
+  // failure: the union must simply skip that leg, without reaching for a
+  // throwing lookup and without writing a stack trace to the log. The previous
+  // implementation called `findByWorkspaceIdOrFail` through
+  // `getCachedAdAccounts`, so every ordinary dashboard load logged
+  // `WARN "Facebook Ads integration not found"` with a full stack — noise that
+  // reads like a real fault while nothing is actually wrong.
+  test("no workspace-wide integration -> skips that leg silently, no log", async () => {
+    mocks.findByWorkspaceId.mockResolvedValue(undefined)
+    mocks.listForChannel.mockResolvedValue([])
+
+    const result = await resolveChannelAdAccountSources({
+      workspaceId: "ws-1",
+      channel: "messenger",
+    })
+
+    expect(result).toEqual([])
+    expect(mocks.getCachedAdAccounts).not.toHaveBeenCalled()
+    expect(mocks.warn).not.toHaveBeenCalled()
+  })
+
+  test("a genuine failure loading the workspace-wide list is still warned about", async () => {
+    mocks.listForChannel.mockResolvedValue([])
+    mocks.getCachedAdAccounts.mockRejectedValue(new Error("graph exploded"))
+
+    const result = await resolveChannelAdAccountSources({
+      workspaceId: "ws-1",
+      channel: "messenger",
+    })
+
+    expect(result).toEqual([])
+    expect(mocks.warn).toHaveBeenCalledTimes(1)
+  })
+  // The integration lookup sits inside the same guard as the Graph call: a
+  // database blip on that preliminary read must degrade the union to "no
+  // workspace-wide accounts", exactly as a Graph failure does — never fail the
+  // whole Ads page.
+  test("a failing integration lookup degrades instead of failing the union", async () => {
+    mocks.findByWorkspaceId.mockRejectedValue(new Error("connection reset"))
+    mocks.listForChannel.mockResolvedValue([])
+
+    const result = await resolveChannelAdAccountSources({
+      workspaceId: "ws-1",
+      channel: "messenger",
+    })
+
+    expect(result).toEqual([])
+    expect(mocks.warn).toHaveBeenCalledTimes(1)
+  })
+})

@@ -1,0 +1,696 @@
+import {
+  type DatabaseClient,
+  db,
+  eq,
+  inArray,
+} from "@chatbotx.io/database/client"
+import {
+  type CustomFieldType,
+  rootFolderId,
+} from "@chatbotx.io/database/partials"
+import {
+  type FlowListInput,
+  flowRepository,
+  whatsappMessageTemplateRepository,
+} from "@chatbotx.io/database/repositories"
+import {
+  flowAnalyticsSessionModel,
+  flowModel,
+  flowVersionModel,
+} from "@chatbotx.io/database/schema"
+import type { FlowModel, FlowVersionModel } from "@chatbotx.io/database/types"
+import { parsePagination } from "@chatbotx.io/database/utils"
+import {
+  type EdgeSchema,
+  type FlowExportBotField,
+  type FlowExportCustomField,
+  type FlowVersionSchema,
+  remapFlowGraphReferences,
+  sendMessageNodeDefaultFn,
+  stepTypes,
+} from "@chatbotx.io/flow-config"
+import { createId } from "@chatbotx.io/utils"
+import { customFieldResolutionKey } from "@chatbotx.io/utils/custom-field"
+import { BaseService } from "../base.service"
+import { botFieldService } from "../bot-field/service"
+import { customFieldService } from "../custom-field/service"
+import { notFoundException } from "../errors"
+import { flowVersionService } from "../flow-version"
+import { folderService } from "../folder/service"
+import { assertDeletable } from "../template/installed-resource.service"
+import { filterFlowsByStartStepType, filterFlowsByTemplateIds } from "./filters"
+
+type FieldManifestEntry = { name: string; type: CustomFieldType }
+
+type ResolveFieldsByNameAndType = (props: {
+  workspaceId: string
+  fields: FieldManifestEntry[]
+  tx?: DatabaseClient
+}) => Promise<{ idMap: Map<string, string>; createdIds: string[] }>
+
+/**
+ * Resolves a `{ sourceId: manifestEntry }` import manifest (customField or
+ * botField) against the target workspace via `resolve`, then rekeys the
+ * result from `resolveByNameAndType`'s (name, type)-key map to the source ->
+ * target id map `remapFlowGraphReferences` expects. Shared by
+ * `importFlowExport`'s customField and botField branches, which are
+ * otherwise identical apart from which service resolves the manifest.
+ */
+const resolveManifestIdMap = async (
+  manifest: Record<string, FieldManifestEntry>,
+  resolve: ResolveFieldsByNameAndType,
+  workspaceId: string,
+  tx: DatabaseClient,
+): Promise<{ idMap: Map<string, string>; createdIds: string[] }> => {
+  const entries = Object.entries(manifest)
+  const { idMap: resolvedByKey, createdIds } = await resolve({
+    workspaceId,
+    fields: entries.map(([, field]) => field),
+    tx,
+  })
+
+  const idMap = new Map(
+    entries.flatMap(([sourceId, field]) => {
+      const targetId = resolvedByKey.get(customFieldResolutionKey(field))
+      return targetId ? [[sourceId, targetId] as const] : []
+    }),
+  )
+
+  return { idMap, createdIds }
+}
+
+/** `flows.create`'s default content when no `spec`/`nodes` is supplied: today's single "Send Message" start node. */
+const defaultDraftGraph = (): {
+  nodes: FlowVersionModel["nodes"]
+  edges: FlowVersionModel["edges"]
+  startNodeId: string
+} => {
+  const defaultNode = sendMessageNodeDefaultFn({
+    dataProps: {
+      name: "Send Message #1",
+      isStartNode: true,
+    },
+  })
+  return {
+    // biome-ignore lint/suspicious/noExplicitAny: temporary any to bypass circular dependency between flow and flow version
+    nodes: [defaultNode as any],
+    edges: [],
+    startNodeId: defaultNode.id,
+  }
+}
+
+class FlowService extends BaseService {
+  async findBy(
+    input: { workspaceId: string; id: string },
+    tx?: DatabaseClient,
+  ): Promise<FlowModel | undefined> {
+    const client = tx ?? db
+    return await client.query.flowModel.findFirst({
+      where: { id: input.id, workspaceId: input.workspaceId },
+    })
+  }
+
+  /**
+   * Paginated flow list with draft/latest versions attached. When
+   * `startType` is given, the DB-level page is re-filtered in memory by the
+   * first start node's step type (and, for WhatsApp template steps, by
+   * `integrationWhatsappId`'s bound template ids) — mirrors the pre-move
+   * `listFlows` query adapter, including recomputing `total`/`pageCount`
+   * off the filtered set rather than the DB count.
+   */
+  async list(
+    input: FlowListInput & {
+      page?: number | null
+      perPage?: number | null
+      startType?: string | null
+      integrationWhatsappId?: string | null
+    },
+  ): Promise<{
+    data: Awaited<ReturnType<typeof flowRepository.listWithVersions>>
+    pageCount: number
+    limit?: number
+    offset?: number
+  }> {
+    const pagination = parsePagination(input)
+
+    let [data, total] = await Promise.all([
+      flowRepository.listWithVersions(input),
+      flowRepository.count(input),
+    ])
+
+    if (input.startType) {
+      data = filterFlowsByStartStepType(data, input.startType)
+
+      if (input.startType === stepTypes.enum.sendWaTemplateMessage) {
+        if (input.integrationWhatsappId) {
+          const templateIds =
+            await whatsappMessageTemplateRepository.listIdsByIntegration({
+              integrationWhatsappId: input.integrationWhatsappId,
+            })
+          data = filterFlowsByTemplateIds(data, templateIds)
+        } else {
+          data = []
+        }
+      }
+
+      total = data.length
+    }
+
+    const pageCount = pagination?.limit
+      ? Math.ceil(total / pagination.limit)
+      : 1
+
+    return { data, pageCount, ...pagination }
+  }
+
+  /** Unguarded flow detail with all versions — callers enforce access. */
+  async findById(input: {
+    workspaceId: string
+    id: string
+  }): Promise<
+    NonNullable<Awaited<ReturnType<typeof flowRepository.findWithVersions>>>
+  > {
+    const flow = await flowRepository.findWithVersions(input)
+    if (!flow) {
+      throw notFoundException("Flow does not exists.")
+    }
+    return flow
+  }
+
+  async exists(
+    workspaceId: string,
+    flowId: string,
+    tx?: DatabaseClient,
+  ): Promise<boolean> {
+    const row = await this.findBy({ workspaceId, id: flowId }, tx)
+    return Boolean(row)
+  }
+
+  /**
+   * Inserts a flow, its analytics session, and a draft version in one
+   * transaction — the write shape shared by `duplicate` and `createFromImport`.
+   */
+  private async insertFlowWithDraft(
+    tx: DatabaseClient,
+    input: {
+      name: string
+      active: boolean
+      enableInInbox: boolean
+      workspaceId: string
+      folderId: string | null
+      startNodeId: string
+      nodes: FlowVersionModel["nodes"]
+      edges: FlowVersionModel["edges"]
+    },
+  ): Promise<string> {
+    const newFlowId = createId()
+    const draftVersionId = createId()
+    await tx.insert(flowModel).values({
+      id: newFlowId,
+      name: input.name,
+      active: input.active,
+      enableInInbox: input.enableInInbox,
+      workspaceId: input.workspaceId,
+      folderId: input.folderId,
+      currentVersionId: null,
+      draftVersionId,
+    })
+    await tx.insert(flowAnalyticsSessionModel).values({
+      id: createId(),
+      flowId: newFlowId,
+      workspaceId: input.workspaceId,
+    })
+    await tx.insert(flowVersionModel).values({
+      id: draftVersionId,
+      workspaceId: input.workspaceId,
+      flowId: newFlowId,
+      nodes: input.nodes,
+      edges: input.edges,
+      isDraft: true,
+      isLatest: false,
+      startNodeId: input.startNodeId,
+    })
+
+    return newFlowId
+  }
+
+  /**
+   * Inserts a flow, its analytics session, a draft version, and a published
+   * version — all in the caller's transaction — then points
+   * `flowModel.currentVersionId` at the published version. Second parallel
+   * implementation of the "insert version isLatest:true + update
+   * currentVersionId" logic in `publish-flow-action.ts` (builder layer can't
+   * share it: that action doesn't accept an external `tx`). Callers must
+   * invalidate `flowVersionService.invalidateList(flowId)` themselves after
+   * their transaction commits.
+   */
+  async createPublishedDefault(
+    tx: DatabaseClient,
+    input: {
+      name: string
+      workspaceId: string
+      folderId?: string | null
+      startNodeId: string
+      nodes: FlowVersionModel["nodes"]
+      edges: FlowVersionModel["edges"]
+    },
+  ): Promise<{
+    flowId: string
+    draftVersionId: string
+    publishedVersionId: string
+  }> {
+    const flowId = createId()
+    const draftVersionId = createId()
+    const publishedVersionId = createId()
+
+    await tx.insert(flowModel).values({
+      id: flowId,
+      name: input.name,
+      active: true,
+      enableInInbox: false,
+      workspaceId: input.workspaceId,
+      folderId: input.folderId ?? null,
+      currentVersionId: publishedVersionId,
+      draftVersionId,
+    })
+    await tx.insert(flowAnalyticsSessionModel).values({
+      id: createId(),
+      flowId,
+      workspaceId: input.workspaceId,
+    })
+    await tx.insert(flowVersionModel).values([
+      {
+        id: draftVersionId,
+        workspaceId: input.workspaceId,
+        flowId,
+        nodes: input.nodes,
+        edges: input.edges,
+        isDraft: true,
+        isLatest: false,
+        startNodeId: input.startNodeId,
+      },
+      {
+        id: publishedVersionId,
+        workspaceId: input.workspaceId,
+        flowId,
+        nodes: input.nodes,
+        edges: input.edges,
+        isDraft: false,
+        isLatest: true,
+        startNodeId: input.startNodeId,
+      },
+    ])
+
+    return { flowId, draftVersionId, publishedVersionId }
+  }
+
+  /**
+   * The builder create-flow form's flow, and the public `flows.create`
+   * API's default: a single new (unpublished) draft version. With no
+   * `graph`, it's seeded with one default "Send Message" start node
+   * (`defaultDraftGraph`); the public API passes a pre-resolved `graph`
+   * (compiled from `spec`, or normalized from a raw `nodes`/`edges` body)
+   * to seed the draft with caller-supplied content instead. Unlike
+   * `createPublishedDefault` (template install: draft + published version
+   * pair, external `tx`), this owns its own transaction and audits the
+   * result.
+   */
+  async createDraft(input: {
+    workspaceId: string
+    data: { name: string; folderId?: string | null }
+    graph?: {
+      nodes: FlowVersionModel["nodes"]
+      edges: FlowVersionModel["edges"]
+      startNodeId: string
+    }
+  }): Promise<{ id: string }> {
+    const { workspaceId, data } = input
+
+    if (data.folderId) {
+      await folderService.ensureExists({
+        id: data.folderId,
+        workspaceId,
+        folderType: "flow",
+      })
+    }
+
+    const graph = input.graph ?? defaultDraftGraph()
+
+    const flow = await db.transaction(async (tx) => {
+      const flowId = createId()
+      const [created] = await tx
+        .insert(flowModel)
+        .values({
+          ...data,
+          id: flowId,
+          workspaceId,
+        })
+        .returning()
+
+      await tx.insert(flowAnalyticsSessionModel).values({
+        id: createId(),
+        workspaceId,
+        flowId,
+      })
+
+      await tx.insert(flowVersionModel).values({
+        id: createId(),
+        workspaceId,
+        flowId,
+        nodes: graph.nodes,
+        edges: graph.edges,
+        isDraft: true,
+        startNodeId: graph.startNodeId,
+      })
+
+      return created
+    })
+
+    await this.audit("create", `created a new flow (#${flow.id})`)
+
+    return { id: flow.id }
+  }
+
+  /**
+   * The public `flows.create` API's `publish: true` path: inserts the flow,
+   * its analytics session, a draft version, and a published version — all in
+   * one transaction via `createPublishedDefault` — so a downstream failure
+   * (a DB error, a constraint, the cache invalidation) never leaves behind
+   * an orphaned, invisible, unpublished flow the caller was never told the
+   * id of. Runs the same folder guard `createDraft` runs before opening the
+   * transaction, and invalidates/audits after it commits, matching
+   * `createPublishedDefault`'s doc-comment contract.
+   */
+  async createPublished(input: {
+    workspaceId: string
+    data: { name: string; folderId?: string | null }
+    graph: {
+      nodes: FlowVersionModel["nodes"]
+      edges: FlowVersionModel["edges"]
+      startNodeId: string
+    }
+  }): Promise<{ id: string }> {
+    const { workspaceId, data, graph } = input
+
+    if (data.folderId) {
+      await folderService.ensureExists({
+        id: data.folderId,
+        workspaceId,
+        folderType: "flow",
+      })
+    }
+
+    const { flowId } = await db.transaction((tx) =>
+      this.createPublishedDefault(tx, {
+        workspaceId,
+        name: data.name,
+        folderId: data.folderId,
+        startNodeId: graph.startNodeId,
+        nodes: graph.nodes,
+        edges: graph.edges,
+      }),
+    )
+
+    await flowVersionService.invalidateList(flowId)
+    await this.audit("create", `created a new flow (#${flowId})`)
+
+    return { id: flowId }
+  }
+
+  /**
+   * Partial update of a flow's name/active/enableInInbox. No-ops (and skips
+   * the audit record) when every field matches the current row, mirroring
+   * the guard the old `update-flow-action.ts` implementation had.
+   */
+  async update(
+    ctx: { workspaceId: string; id: string },
+    data: { name?: string; active?: boolean; enableInInbox?: boolean },
+  ): Promise<void> {
+    const flow = await this.findBy(ctx)
+    if (!flow) {
+      throw notFoundException("Flow not found")
+    }
+
+    const hasChanges = Object.entries(data).some(
+      ([key, value]) => flow[key as keyof typeof data] !== value,
+    )
+    if (!hasChanges) {
+      return
+    }
+
+    const updated = await db
+      .update(flowModel)
+      .set(data)
+      .where(eq(flowModel.id, flow.id))
+      .returning({ id: flowModel.id })
+
+    if (updated.length === 0) {
+      return
+    }
+
+    await this.audit("update", `updated a flow (#${flow.id})`)
+  }
+
+  duplicate(input: { workspaceId: string; id: string }): Promise<string> {
+    return db.transaction(async (tx) => {
+      const flow = await this.findBy(input, tx)
+      if (!flow) {
+        throw notFoundException("Flow not found")
+      }
+
+      const draftVersion = await flowVersionService.findDraft(
+        {
+          flowId: flow.id,
+          workspaceId: flow.workspaceId,
+        },
+        tx,
+      )
+      if (!draftVersion) {
+        throw notFoundException("Draft version not found")
+      }
+
+      return this.insertFlowWithDraft(tx, {
+        name: `${flow.name} _copy`,
+        active: flow.active,
+        enableInInbox: flow.enableInInbox,
+        workspaceId: flow.workspaceId,
+        folderId: flow.folderId,
+        startNodeId: draftVersion.startNodeId,
+        nodes: draftVersion.nodes,
+        edges: draftVersion.edges,
+      })
+    })
+  }
+
+  /**
+   * Inserts an imported flow verbatim: node/step ids are reused as-is. Every
+   * table that keys on a nodeId also scopes by flowId/analyticsId, and this
+   * always mints a fresh flowId, so reused ids from the source workspace
+   * cannot collide here — see docs/tenancy.md and the import/export plan.
+   *
+   * Accepts an optional `tx` so the caller can share a transaction with
+   * custom-field creation (flow-import handler) — without that, a failed flow
+   * insert would leave orphan custom fields already committed in the target
+   * workspace. Opens its own transaction when no `tx` is passed (e.g. tests).
+   */
+  createFromImport(input: {
+    workspaceId: string
+    name: string
+    active: boolean
+    enableInInbox: boolean
+    startNodeId: string
+    nodes: FlowVersionSchema[]
+    edges: EdgeSchema[]
+    folderId?: string | null
+    tx?: DatabaseClient
+  }): Promise<string> {
+    const run = (tx: DatabaseClient) =>
+      this.insertFlowWithDraft(tx, {
+        name: input.name,
+        active: input.active,
+        enableInInbox: input.enableInInbox,
+        workspaceId: input.workspaceId,
+        folderId: input.folderId ?? null,
+        startNodeId: input.startNodeId,
+        nodes: input.nodes,
+        edges: input.edges,
+      })
+    return input.tx ? run(input.tx) : db.transaction(run)
+  }
+
+  /**
+   * Full flow-import orchestration: resolves the export's custom-field AND
+   * bot-field manifests against the target workspace, remaps `nodes`/`edges`
+   * to the resolved ids, and inserts the flow — all inside one transaction,
+   * so a failed flow insert cannot leave orphan custom/bot fields behind.
+   *
+   * Cache invalidation: `resolveByNameAndType` invalidates created fields
+   * inside the transaction (best-effort — a concurrent reader can repopulate
+   * Redis from a pre-commit snapshot), so the caller must STILL invalidate
+   * once more after this resolves, using the returned
+   * `createdCustomFieldIds`/`createdBotFieldIds`, to close that window.
+   */
+  async importFlowExport(input: {
+    workspaceId: string
+    name: string
+    active: boolean
+    enableInInbox: boolean
+    startNodeId: string
+    nodes: FlowVersionSchema[]
+    edges: EdgeSchema[]
+    customFields: Record<string, FlowExportCustomField>
+    botFields: Record<string, FlowExportBotField>
+    folderId?: string | null
+  }): Promise<{
+    flowId: string
+    createdCustomFieldIds: string[]
+    createdBotFieldIds: string[]
+  }> {
+    return await db.transaction(async (tx) => {
+      const { idMap: customFieldIdMap, createdIds } =
+        await resolveManifestIdMap(
+          input.customFields,
+          (props) => customFieldService.resolveByNameAndType(props),
+          input.workspaceId,
+          tx,
+        )
+
+      const { idMap: botFieldIdMap, createdIds: createdBotFieldIds } =
+        await resolveManifestIdMap(
+          input.botFields,
+          (props) => botFieldService.resolveByNameAndType(props),
+          input.workspaceId,
+          tx,
+        )
+
+      const remapped = remapFlowGraphReferences(
+        { nodes: input.nodes, edges: input.edges },
+        { customField: customFieldIdMap, botField: botFieldIdMap },
+        { kinds: ["customField", "botField"] },
+      )
+
+      const requestedFolderId =
+        !input.folderId || input.folderId === rootFolderId
+          ? null
+          : input.folderId
+      const folder = requestedFolderId
+        ? await folderService.find({
+            id: requestedFolderId,
+            workspaceId: input.workspaceId,
+            folderType: "flow",
+            tx,
+          })
+        : undefined
+      const resolvedFolderId = folder?.id ?? null
+
+      const flowId = await this.createFromImport({
+        workspaceId: input.workspaceId,
+        name: input.name,
+        active: input.active,
+        enableInInbox: input.enableInInbox,
+        startNodeId: input.startNodeId,
+        nodes: remapped.nodes,
+        edges: remapped.edges,
+        folderId: resolvedFolderId,
+        tx,
+      })
+
+      return {
+        flowId,
+        createdCustomFieldIds: createdIds,
+        createdBotFieldIds,
+      }
+    })
+  }
+
+  /**
+   * Deletes the given flows and soft-deletes their analytics sessions in one
+   * transaction, scoped to `workspaceId` so a caller cannot delete a flow
+   * belonging to another workspace by id alone.
+   */
+  async deleteMany(input: {
+    workspaceId: string
+    ids: string[]
+  }): Promise<void> {
+    const flows = await db.query.flowModel.findMany({
+      where: { workspaceId: input.workspaceId, id: { in: input.ids } },
+    })
+    if (flows.length === 0) {
+      return
+    }
+    const flowIds = flows.map((flow) => flow.id)
+
+    await assertDeletable({
+      workspaceId: input.workspaceId,
+      resourceKind: "flow",
+      resourceIds: flowIds,
+    })
+
+    await db.transaction(async (tx) => {
+      await tx.delete(flowModel).where(inArray(flowModel.id, flowIds))
+      await tx
+        .update(flowAnalyticsSessionModel)
+        .set({ deletedAt: new Date() })
+        .where(inArray(flowAnalyticsSessionModel.flowId, flowIds))
+    })
+
+    await this.audit(
+      "delete",
+      `deleted flow${flows.length > 1 ? "s" : ""} (${flows.map((flow) => `#${flow.id}`).join(", ")})`,
+    )
+  }
+
+  /**
+   * Active flow by id, scoped to workspace. Used by worker's
+   * `detectFlowVersion` to resolve the current version off `currentVersionId`,
+   * and by `trigger/services/action-executor.ts` startAnotherFlow.
+   */
+  async findActiveById(props: {
+    id: string
+    workspaceId: string
+    tx?: DatabaseClient
+  }): Promise<FlowModel | undefined> {
+    const { id, workspaceId, tx = db } = props
+    return await tx.query.flowModel.findFirst({
+      where: { id, workspaceId, active: true },
+    })
+  }
+
+  /**
+   * Any active flow in the workspace, with NO ordering — used only as
+   * button-encoding context (e.g. `send-messenger-template.ts`). The
+   * "no ordering" behavior is intentional; do not add an `orderBy`.
+   */
+  async findAnyActive(props: {
+    workspaceId: string
+    tx?: DatabaseClient
+  }): Promise<FlowModel | undefined> {
+    const { workspaceId, tx = db } = props
+    return await tx.query.flowModel.findFirst({
+      where: { workspaceId, active: true },
+    })
+  }
+
+  /** Existence check for a set of flow ids, scoped to the workspace. */
+  async assertAllExist(
+    input: {
+      workspaceId: string
+      flowIds: string[]
+    },
+    tx?: DatabaseClient,
+  ): Promise<void> {
+    const ids = await flowRepository.listIdsByIds(
+      {
+        workspaceId: input.workspaceId,
+        ids: input.flowIds,
+      },
+      tx,
+    )
+
+    if (ids.length !== input.flowIds.length) {
+      throw notFoundException("Flow does not exists.")
+    }
+  }
+}
+
+export const flowService = new FlowService()

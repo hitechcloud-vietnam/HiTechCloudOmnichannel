@@ -1,0 +1,63 @@
+import {
+  AuthType,
+  type HandleRequestProps,
+  type Oauth2Config,
+  SdkException,
+} from "@chatbotx.io/sdk"
+import { convertCodeToTokens, getZaloOAProfile } from "../api/auth"
+import type { ZaloAuthValue } from "../schema/definition"
+import { calculateExpiresAt } from "../utils"
+
+export const callbackHandler = async (
+  props: HandleRequestProps<Oauth2Config>,
+): Promise<ZaloAuthValue> => {
+  const url = new URL(props.req.url)
+  const code = url.searchParams.get("code")
+
+  if (!code?.trim()) {
+    throw new SdkException("Code parameter is required and cannot be empty")
+  }
+
+  if (!props.config.clientSecret) {
+    throw new SdkException("Client secret is required for authentication")
+  }
+
+  const { access_token, refresh_token, expires_in } = await convertCodeToTokens(
+    props.config,
+    code,
+  )
+
+  if (!access_token) {
+    throw new SdkException("Access token not received from Zalo OA")
+  }
+
+  if (!refresh_token) {
+    throw new SdkException("Refresh token not received from Zalo OA")
+  }
+
+  const oaProfile = await getZaloOAProfile(access_token)
+
+  if (!oaProfile?.oa_id) {
+    throw new SdkException("Invalid OA profile received from Zalo OA")
+  }
+
+  return {
+    authType: AuthType.oauth2,
+    clientId: props.config.clientId,
+    clientSecret: props.config.clientSecret,
+    redirectUrl: new URL(
+      "/integrations/zalo/callback",
+      props.req.url,
+    ).toString(),
+    tokens: {
+      accessToken: access_token,
+      refreshToken: refresh_token,
+      expiresAt: calculateExpiresAt(expires_in),
+    },
+    oaId: oaProfile.oa_id,
+    metadata: {
+      version: props.config.version,
+      oaName: oaProfile.name,
+    },
+  }
+}

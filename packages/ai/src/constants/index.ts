@@ -1,0 +1,162 @@
+import { z } from "zod"
+
+export const helpTexts = {
+  fileSearchNoResult: "No files matching the search query were found.",
+  fileSearchFoundPrefix: (count: number) => `Found ${count} matching file(s):`,
+  // MCP related texts
+  jsonRpcVersion: "2.0",
+  // File search tool descriptions
+  fileSearchDescription:
+    "Search the workspace's uploaded knowledge files for factual, private, or domain-specific information needed to answer the user. Use this when the answer may depend on uploaded files. Do NOT use for greetings, small talk, or casual salutations.",
+  fileSearchQueryDescription: "Search keywords to find relevant information",
+  fallbackLookup:
+    "I've found some data, but I couldn't generate a complete answer yet. Could you please specify what you're looking for (price, size, color)?",
+  toolOutputGuard: [
+    "IMPORTANT RULES (REQUIRED):",
+    "- Never send raw JSON or tool outputs directly to the user.",
+    "- If you use a tool, summarize the result concisely in natural language.",
+    "- Only provide the most relevant information the customer is asking for.",
+  ].join("\n"),
+  fabricationGuard: [
+    "TOOL DATA RULES (REQUIRED):",
+    "- Never fabricate, guess, or invent data — especially product names, prices, specifications, availability, or image URLs.",
+    "- Only include image URLs that appear exactly in tool results. Never generate, guess, or modify image URLs.",
+    "- Only include information that appears explicitly in tool results. If a tool returns no results, tell the user you could not find the information.",
+  ].join("\n"),
+  knowledgeBaseGuard: [
+    "KNOWLEDGE BASE RULES (REQUIRED):",
+    "- You MUST call search_knowledge_base BEFORE answering any question about products, services, prices, images, or company-specific details.",
+    "- Do NOT use search_knowledge_base for greetings, small talk, or simple clarification.",
+    "- If search_knowledge_base returns no results or insufficient information, tell the user you could not find matching information.",
+  ].join("\n"),
+  richResponseFormat: [
+    "Output:",
+    '{"messages":[...],"actions":[...]}',
+    "",
+    "messages[]:",
+    "- integer 0-30 (delay seconds)",
+    '- {"message":{"text":"..."}}',
+    '- {"message":{"attachment":{"type":"image","payload":{"url":"..."}}}}',
+    '- {"message":{"attachment":{"type":"template","payload":{"template_type":"button","text":"...","buttons":[{"type":"web_url","title":"...","url":"..."}]}}}}',
+    '- {"message":{"attachment":{"type":"template","payload":{"template_type":"generic","elements":[{"title":"...","image_url":"...","buttons":[...]}]}}}}',
+    '- {"message":{"text":"...","quick_replies":[{"content_type":"text","title":"...","payload":"..."}]}}',
+    '- text, attachment, quick_replies MUST be inside "message" — never beside it.',
+    "",
+    "actions[]:",
+    '- {"action":"add_tag","tag_name":"..."}',
+    '- {"action":"remove_tag","tag_name":"..."}',
+    '- {"action":"set_field_value","field_name":"...","value":"..."}',
+    '- {"action":"unset_field_value","field_name":"..."}',
+    '- {"action":"send_flow","flow_id":"..."}',
+    '- {"action":"transfer_conversation_to","value":"human"}',
+    '- {"action":"assign_conversation","admin_id":"..."}',
+    '- {"action":"unassign_conversation"}',
+    "",
+    "Rules:",
+    "- Root only has messages and actions.",
+    "- Either array may be empty, but at least one must have an item.",
+    "- Option question => quick_replies inside message + actions:[]",
+    "- Add actions only after explicit confirmation or selection.",
+    "- quick_replies <= 10, buttons <= 3, carousel elements <= 10. Titles <= 20 chars.",
+    '- Postback payload = flow_id string OR JSON string {"actions":[...]}',
+    "- No WhatsApp interactive/list/catalog/location payloads.",
+    "- Output valid JSON only. No markdown fences, no prose outside JSON.",
+    "- Balanced {} and [] — count every open bracket and close it.",
+  ].join("\n"),
+  summarizer: {
+    previousSummary: (summary: string) =>
+      `This is the previous summary of the conversation: "${summary}"`,
+    latestMessages: "Here are the latest messages:",
+    updateSummaryPrompt:
+      "Please update the previous summary by incorporating the new information. Keep the summary concise and succinct (under 1000 characters), focusing on key information such as: customer name, issues encountered, needs, order status, and agreed decisions. Return the new summary.",
+    conversationHistory: "Below is the conversation history:",
+    newSummaryPrompt:
+      "Please summarize the above conversation concisely and succinctly (under 1000 characters). Focus on key information such as: customer name, issues encountered, needs, order status, and agreed decisions. Return the summary.",
+    shortenPrompt: (summary: string) =>
+      `The following summary is too long: "${summary}". Please shorten it to under 1000 characters while still retaining the most important key points.`,
+  },
+} as const
+
+export const mcpConstants = {
+  protocolVersion: "2024-11-05",
+  clientInfo: { name: "AhaChat-Worker", version: "1.0.0" },
+  jsonRpcMethods: {
+    initialize: "initialize",
+    notificationsInitialized: "notifications/initialized",
+    toolsList: "tools/list",
+    toolsCall: "tools/call",
+  },
+} as const
+
+export const aiTimeouts = {
+  aiTotal: 120_000,
+  aiStep: 60_000,
+  aiChunk: 30_000,
+  httpDefault: 30_000,
+  mcpList: 30_000,
+  mcpCall: 60_000,
+} as const
+
+export const systemFunctionNames = {
+  connectUserToHuman: "connect_user_to_human",
+  documentReader: "document_reader",
+  imageReader: "image_reader",
+  urlContext: "url_context",
+  webSearch: "web_search",
+} as const
+
+export const systemFunctionCatalog = {
+  [systemFunctionNames.connectUserToHuman]: {
+    id: systemFunctionNames.connectUserToHuman,
+    capability: "handoff",
+    description:
+      "Transfer the current conversation to a human agent when the user explicitly asks for human support or the assistant cannot safely resolve the issue.",
+  },
+  [systemFunctionNames.documentReader]: {
+    id: systemFunctionNames.documentReader,
+    capability: "document_context",
+    description:
+      "Read and extract relevant context from user-uploaded documents in the current conversation.",
+  },
+  [systemFunctionNames.imageReader]: {
+    id: systemFunctionNames.imageReader,
+    capability: "image_context",
+    description:
+      "Analyze user-uploaded images in the current conversation and return visual context relevant to the query.",
+  },
+  [systemFunctionNames.urlContext]: {
+    id: systemFunctionNames.urlContext,
+    capability: "url_context",
+    description:
+      "Retrieve and summarize context from user-provided URLs for the current conversation.",
+  },
+  [systemFunctionNames.webSearch]: {
+    id: systemFunctionNames.webSearch,
+    capability: "web_search",
+    description:
+      "Search publicly available web information relevant to the user's request and summarize findings.",
+  },
+} as const
+
+export const aiPolicies = {
+  handoff: [
+    "HANDOFF POLICY (REQUIRED):",
+    `- Only call '${systemFunctionNames.connectUserToHuman}' if the user explicitly asks for a human agent OR if you cannot resolve the issue after 2-3 attempts.`,
+    "- If the user's intent is ambiguous, ask for confirmation (e.g., 'Would you like to speak with a human agent?') before calling the tool.",
+    "- Do NOT call this tool for greetings, small talk, or issues that can be resolved using other available tools.",
+    "- After calling the tool, inform the user that they are being connected to a human agent.",
+  ].join("\n"),
+} as const
+
+export const toolPrefixes = z.enum(["file", "fn", "mcp", "sys"])
+
+export const MAX_CONVERSATION_HISTORY = 100
+// Absolute ceiling on cached AI context history, enforced unconditionally in
+// `appendHistory` regardless of summarizer health. Unlike
+// `MAX_CONVERSATION_HISTORY` (which only triggers a summarize job), this is
+// the last-resort guard against unbounded prompt growth if summarization is
+// ever stuck/broken — 50% headroom above the trigger point so it never clips
+// history while a healthy summarize job is still catching up asynchronously.
+export const MAX_CONVERSATION_HISTORY_HARD_CAP = 150
+export const MAX_SUMMARY_LENGTH = 1000
+export const AI_MESSAGE_HISTORY_LOOKBACK_MS = 365 * 24 * 60 * 60 * 1000

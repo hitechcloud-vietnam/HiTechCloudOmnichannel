@@ -1,0 +1,366 @@
+import { beforeEach, describe, expect, test, vi } from "vitest"
+import { ChatbotXException } from "../../errors"
+
+const mocks = vi.hoisted(() => ({
+  inboxFindMany: vi.fn(),
+  inboxFindFirst: vi.fn(),
+  inboxUpdate: vi.fn(),
+  inboxUpdateSet: vi.fn(),
+  inboxUpdateWhere: vi.fn(),
+  inboxInsert: vi.fn(),
+  inboxInsertValues: vi.fn(),
+  count: vi.fn(),
+}))
+
+vi.mock("@chatbotx.io/database/client", () => ({
+  db: {
+    query: {
+      inboxModel: {
+        findMany: mocks.inboxFindMany,
+        findFirst: mocks.inboxFindFirst,
+      },
+    },
+    $count: mocks.count,
+    update: mocks.inboxUpdate,
+    insert: mocks.inboxInsert,
+  },
+  eq: vi.fn((column, value) => ({ column, value })),
+  relationsFilterToSQL: vi.fn((_, where) => where),
+}))
+
+vi.mock("@chatbotx.io/database/schema", () => ({
+  inboxModel: { id: "id" },
+  workspaceUsageModel: { workspaceId: "workspaceId-column" },
+}))
+
+// `inboxService` now imports `inboxRepository` from the repositories
+// barrel for `listChannelOptionsByWorkspace` — stubbed here (unused by any
+// test in this file) so the barrel's OTHER, unrelated repositories don't
+// drag in a transitive schema this file's `@chatbotx.io/database/schema`
+// mock never had to satisfy before.
+vi.mock("@chatbotx.io/database/repositories", () => ({
+  inboxRepository: { listOptionsByWorkspaceAndChannel: vi.fn() },
+}))
+
+vi.mock("@chatbotx.io/redis", () => ({
+  invalidateCacheByTags: vi.fn(),
+}))
+
+vi.mock("../../quota-enforcement/service", () => ({
+  quotaEnforcementService: {
+    tryConsume: vi.fn(),
+    release: vi.fn(async () => undefined),
+  },
+}))
+
+vi.mock("../../workspace-usage/service", () => ({
+  workspaceUsageService: {
+    increment: vi.fn(async () => undefined),
+    decrement: vi.fn(async () => undefined),
+  },
+}))
+
+const { inboxService } = await import("../service")
+const { quotaEnforcementService } = (await import(
+  "../../quota-enforcement/service"
+)) as unknown as {
+  quotaEnforcementService: {
+    tryConsume: ReturnType<typeof vi.fn>
+    release: ReturnType<typeof vi.fn>
+  }
+}
+const { workspaceUsageService } = (await import(
+  "../../workspace-usage/service"
+)) as unknown as {
+  workspaceUsageService: {
+    increment: ReturnType<typeof vi.fn>
+    decrement: ReturnType<typeof vi.fn>
+  }
+}
+beforeEach(() => {
+  mocks.inboxFindMany.mockReset()
+  mocks.inboxFindFirst.mockReset()
+  mocks.inboxUpdate.mockReset()
+  mocks.inboxUpdateSet.mockReset()
+  mocks.inboxUpdateWhere.mockReset()
+  mocks.inboxInsert.mockReset()
+  mocks.inboxInsertValues.mockReset()
+  mocks.count.mockReset()
+  quotaEnforcementService.tryConsume.mockReset()
+  quotaEnforcementService.release.mockReset()
+  quotaEnforcementService.release.mockResolvedValue(undefined)
+  workspaceUsageService.increment.mockReset()
+  workspaceUsageService.increment.mockResolvedValue(undefined)
+  workspaceUsageService.decrement.mockReset()
+  workspaceUsageService.decrement.mockResolvedValue(undefined)
+
+  mocks.inboxInsert.mockReturnValue({
+    values: mocks.inboxInsertValues.mockReturnValue({
+      returning: vi.fn().mockResolvedValue([{ id: "new-inbox" }]),
+    }),
+  })
+
+  mocks.inboxUpdateWhere.mockReturnValue({
+    returning: vi.fn().mockResolvedValue([{ id: "reconnected-inbox" }]),
+  })
+
+  mocks.inboxUpdate.mockReturnValue({
+    set: mocks.inboxUpdateSet.mockReturnValue({
+      where: mocks.inboxUpdateWhere,
+    }),
+  })
+})
+
+describe("InboxService.disconnect", () => {
+  test("disconnects only the requested inbox and records the reason", async () => {
+    await inboxService.disconnect({
+      inboxId: "inbox-1",
+      ownerId: "owner-1",
+      workspaceId: "workspace-1",
+      reason: "manual",
+    })
+
+    expect(mocks.inboxUpdate).toHaveBeenCalledTimes(1)
+    expect(mocks.inboxUpdateSet).toHaveBeenCalledWith({
+      status: "disconnected",
+      disconnectedAt: expect.any(Date),
+      disconnectReason: "manual",
+    })
+    expect(mocks.inboxUpdateWhere).toHaveBeenCalledWith({
+      column: "id",
+      value: "inbox-1",
+    })
+  })
+
+  test("uses an explicit transaction client when provided", async () => {
+    const tx = {
+      update: mocks.inboxUpdate,
+    }
+
+    await inboxService.disconnect({
+      inboxId: "inbox-2",
+      ownerId: "owner-1",
+      workspaceId: "workspace-1",
+      reason: "manual",
+      tx: tx as never,
+    })
+
+    expect(mocks.inboxUpdate).toHaveBeenCalledTimes(1)
+    expect(mocks.inboxUpdateWhere).toHaveBeenCalledWith({
+      column: "id",
+      value: "inbox-2",
+    })
+  })
+
+  test("releases the channels quota for the owner", async () => {
+    await inboxService.disconnect({
+      inboxId: "inbox-1",
+      ownerId: "owner-1",
+      workspaceId: "workspace-1",
+      reason: "manual",
+    })
+
+    expect(quotaEnforcementService.release).toHaveBeenCalledWith({
+      userId: "owner-1",
+      metric: "channels",
+    })
+  })
+
+  test("does not throw when the quota release fails", async () => {
+    quotaEnforcementService.release.mockRejectedValueOnce(
+      new Error("redis down"),
+    )
+
+    await expect(
+      inboxService.disconnect({
+        inboxId: "inbox-1",
+        ownerId: "owner-1",
+        workspaceId: "workspace-1",
+        reason: "manual",
+      }),
+    ).resolves.toBeUndefined()
+  })
+
+  test("decrements the workspace usage channels count", async () => {
+    await inboxService.disconnect({
+      inboxId: "inbox-1",
+      ownerId: "owner-1",
+      workspaceId: "workspace-1",
+      reason: "manual",
+    })
+
+    expect(workspaceUsageService.decrement).toHaveBeenCalledWith(
+      "workspace-1",
+      "channels",
+    )
+  })
+
+  test("does not throw when the workspace usage decrement fails", async () => {
+    workspaceUsageService.decrement.mockRejectedValueOnce(
+      new Error("redis down"),
+    )
+
+    await expect(
+      inboxService.disconnect({
+        inboxId: "inbox-1",
+        ownerId: "owner-1",
+        workspaceId: "workspace-1",
+        reason: "manual",
+      }),
+    ).resolves.toBeUndefined()
+  })
+})
+
+describe("InboxService.create", () => {
+  test("throws a typed channelLimitReached exception when the owner's quota is exhausted", async () => {
+    mocks.inboxFindFirst.mockResolvedValue(undefined)
+    quotaEnforcementService.tryConsume.mockResolvedValue({ ok: false })
+
+    const createInbox = inboxService.create({
+      data: {
+        workspaceId: "workspace-1",
+        channel: "whatsapp",
+        name: "WhatsApp",
+      } as never,
+      ownerId: "owner-1",
+    })
+
+    await expect(createInbox).rejects.toMatchObject({
+      code: "channelLimitReached",
+      message: "Channel limit reached for this plan",
+    })
+    await expect(createInbox.catch((err) => err)).resolves.toBeInstanceOf(
+      ChatbotXException,
+    )
+    expect(mocks.inboxInsert).not.toHaveBeenCalled()
+  })
+
+  test("creates the inbox and increments usage when the quota allows it", async () => {
+    mocks.inboxFindFirst.mockResolvedValue(undefined)
+    quotaEnforcementService.tryConsume.mockResolvedValue({ ok: true })
+
+    const result = await inboxService.create({
+      data: {
+        workspaceId: "workspace-1",
+        channel: "whatsapp",
+        name: "WhatsApp",
+      } as never,
+      ownerId: "owner-1",
+    })
+
+    expect(result).toEqual({ inbox: { id: "new-inbox" }, wasCreated: true })
+    expect(mocks.inboxInsert).toHaveBeenCalledTimes(1)
+    expect(workspaceUsageService.increment).toHaveBeenCalledWith(
+      "workspace-1",
+      "channels",
+    )
+  })
+
+  test("reconnects an existing disconnected inbox without consuming quota", async () => {
+    mocks.inboxFindFirst.mockResolvedValue({
+      id: "existing-inbox",
+      status: "disconnected",
+    })
+
+    await inboxService.create({
+      data: {
+        workspaceId: "workspace-1",
+        channel: "whatsapp",
+        name: "WhatsApp",
+      } as never,
+      ownerId: "owner-1",
+    })
+
+    expect(quotaEnforcementService.tryConsume).not.toHaveBeenCalled()
+    expect(mocks.inboxUpdate).toHaveBeenCalledTimes(1)
+  })
+
+  test("clears the disconnect fields on reconnect", async () => {
+    mocks.inboxFindFirst.mockResolvedValue({
+      id: "existing-inbox",
+      status: "disconnected",
+    })
+
+    await inboxService.create({
+      data: {
+        workspaceId: "workspace-1",
+        channel: "whatsapp",
+        name: "WhatsApp",
+      } as never,
+      ownerId: "owner-1",
+    })
+
+    expect(mocks.inboxUpdateSet).toHaveBeenCalledWith({
+      status: "connected",
+      name: "WhatsApp",
+      disconnectedAt: null,
+      disconnectReason: null,
+    })
+  })
+})
+
+describe("InboxService.list", () => {
+  test("includes connected inboxes and excludes disconnected inboxes", async () => {
+    mocks.inboxFindMany.mockResolvedValue([{ id: "connected-inbox" }])
+    mocks.count.mockResolvedValue(1)
+
+    const result = await inboxService.list({ workspaceId: "workspace-1" })
+
+    expect(result).toEqual({
+      data: [{ id: "connected-inbox" }],
+      pageCount: 1,
+    })
+    expect(mocks.inboxFindMany).toHaveBeenCalledWith({
+      limit: 20,
+      offset: 0,
+      where: {
+        workspaceId: "workspace-1",
+        status: "connected",
+      },
+      with: undefined,
+    })
+    expect(mocks.count).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe("InboxService.listAllConnectedByWorkspace", () => {
+  test("returns every connected inbox with no page limit and no count query", async () => {
+    mocks.inboxFindMany.mockResolvedValue([
+      { id: "inbox-1" },
+      { id: "inbox-2" },
+    ])
+
+    const result = await inboxService.listAllConnectedByWorkspace({
+      workspaceId: "workspace-1",
+    })
+
+    expect(result).toEqual({ data: [{ id: "inbox-1" }, { id: "inbox-2" }] })
+    expect(mocks.inboxFindMany).toHaveBeenCalledWith({
+      where: {
+        workspaceId: "workspace-1",
+        status: "connected",
+      },
+      with: undefined,
+    })
+    // No pagination: the 50-row `maxLimit` that caps `list` must not apply.
+    const call = mocks.inboxFindMany.mock.calls[0][0]
+    expect(call).not.toHaveProperty("limit")
+    expect(call).not.toHaveProperty("offset")
+    expect(mocks.count).not.toHaveBeenCalled()
+  })
+
+  test("eager-loads integrations when includes asks for them", async () => {
+    mocks.inboxFindMany.mockResolvedValue([])
+
+    await inboxService.listAllConnectedByWorkspace({
+      workspaceId: "workspace-1",
+      includes: ["integration"],
+    })
+
+    expect(mocks.inboxFindMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        with: expect.objectContaining({ integrationMessenger: true }),
+      }),
+    )
+  })
+})

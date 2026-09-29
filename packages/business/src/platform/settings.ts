@@ -1,0 +1,296 @@
+import type { DatabaseClient } from "@chatbotx.io/database/client"
+import { ROOT_TENANT_ID } from "@chatbotx.io/database/schema"
+import type {
+  TenantHelpItemModel,
+  TenantModel,
+} from "@chatbotx.io/database/types"
+import { parseEnvBool } from "@chatbotx.io/utils"
+import { customDomainService } from "../enterprise/custom-domain/service"
+import { tenantService } from "../enterprise/tenant/service"
+import { tenantHelpItemService } from "../enterprise/tenant-help-item/service"
+import { integrationContextEnv } from "../integration-context/keys"
+import { hasEnterpriseFeatures } from "../user/entitlements"
+import { workspaceService } from "../workspace/service"
+import { deriveUrls } from "./derive-urls"
+
+const TRAILING_SLASH_RE = /\/$/
+
+export type EmailTemplate = { subject?: string; body?: string }
+
+export type TenantSettings = {
+  appUrl: string
+  publicRealtimeUrl: string
+  storageUrl: string
+  name: string
+  logoLightUrl: string
+  logoDarkUrl: string
+  faviconUrl: string
+  theme: string | null
+  customJS: string | null
+  customCSS: string | null
+  policyUrl: string | null
+  termsOfServiceUrl: string | null
+  signupEmailTemplate: EmailTemplate | null
+  forgotPasswordEmailTemplate: EmailTemplate | null
+  magicLinkEmailTemplate: EmailTemplate | null
+  accountCredentialsEmailTemplate: EmailTemplate | null
+  helpItems: TenantHelpItemModel[]
+}
+
+const buildDefaults = (helpItems: TenantHelpItemModel[]): TenantSettings => {
+  const env = integrationContextEnv()
+  const derived = deriveUrls(
+    env.NEXT_PUBLIC_BUILDER_URL,
+    env.NEXT_PUBLIC_STORAGE_URL,
+    { forceHttps: parseEnvBool(env.FORCE_PUBLIC_HTTPS) },
+  )
+  return {
+    appUrl: derived.appUrl,
+    publicRealtimeUrl: derived.publicRealtimeUrl,
+    storageUrl: derived.storageUrl,
+    name: "ChatbotX",
+    logoLightUrl: `${derived.appUrl}/brand/logo_white.svg`,
+    logoDarkUrl: `${derived.appUrl}/brand/logo_black.svg`,
+    faviconUrl: `${derived.appUrl}/brand/icon_black.svg`,
+    theme: null,
+    customJS: null,
+    customCSS: null,
+    policyUrl: "https://chatbotx.io/privacy/",
+    termsOfServiceUrl: "https://chatbotx.io/terms/",
+    signupEmailTemplate: null,
+    forgotPasswordEmailTemplate: null,
+    magicLinkEmailTemplate: null,
+    accountCredentialsEmailTemplate: null,
+    helpItems,
+  }
+}
+
+const getDefaultSettings = async (): Promise<TenantSettings> => {
+  const helpItems = await tenantHelpItemService.listByTenant(ROOT_TENANT_ID)
+  return buildDefaults(helpItems)
+}
+
+/**
+ * Re-anchor the URL-derived settings to a white-label custom domain.
+ * The env defaults key every URL off `NEXT_PUBLIC_BUILDER_URL`; on a custom
+ * domain those must instead point at the tenant's own host so that public
+ * artifacts (inbox links, ws, fallback brand assets) resolve on the branded
+ * domain. White-label domains are always served over HTTPS in production.
+ */
+const applyCustomDomain = (
+  defaults: TenantSettings,
+  domain: string,
+  storageBaseUrl?: string,
+): TenantSettings => {
+  const derived = deriveUrls(`https://${domain}`, storageBaseUrl)
+  return {
+    ...defaults,
+    appUrl: derived.appUrl,
+    publicRealtimeUrl: derived.publicRealtimeUrl,
+    storageUrl: derived.storageUrl,
+    logoLightUrl: `${derived.appUrl}/brand/logo_white.svg`,
+    logoDarkUrl: `${derived.appUrl}/brand/logo_black.svg`,
+    faviconUrl: `${derived.appUrl}/brand/icon_black.svg`,
+  }
+}
+
+const applyTenantSetting = (
+  defaults: TenantSettings,
+  setting: TenantModel,
+  helpItems: TenantHelpItemModel[],
+  enterpriseFeaturesEnabled: boolean,
+): TenantSettings => {
+  const storageUrl = setting.storageUrl
+    ? `${setting.storageUrl.replace(TRAILING_SLASH_RE, "")}/`
+    : defaults.storageUrl
+  // Branding (name, logos, favicon, theme), custom JS/CSS, and email
+  // templates are all gated to Enterprise/Cloud. Without a valid license the
+  // stored values are ignored and defaults apply (mail falls back to the
+  // built-in templates on null).
+  return {
+    ...defaults,
+    storageUrl,
+    name: enterpriseFeaturesEnabled
+      ? (setting.brandName ?? defaults.name)
+      : defaults.name,
+    logoLightUrl:
+      enterpriseFeaturesEnabled && setting.logoLightPath
+        ? new URL(setting.logoLightPath, storageUrl).toString()
+        : defaults.logoLightUrl,
+    logoDarkUrl:
+      enterpriseFeaturesEnabled && setting.logoDarkPath
+        ? new URL(setting.logoDarkPath, storageUrl).toString()
+        : defaults.logoDarkUrl,
+    faviconUrl:
+      enterpriseFeaturesEnabled && setting.faviconPath
+        ? new URL(setting.faviconPath, storageUrl).toString()
+        : defaults.faviconUrl,
+    theme: enterpriseFeaturesEnabled ? (setting.theme ?? null) : null,
+    customJS: enterpriseFeaturesEnabled ? (setting.customJs ?? null) : null,
+    customCSS: enterpriseFeaturesEnabled ? (setting.customCss ?? null) : null,
+    policyUrl: setting.policyUrl ?? defaults.policyUrl,
+    termsOfServiceUrl: setting.termsOfServiceUrl ?? defaults.termsOfServiceUrl,
+    signupEmailTemplate: enterpriseFeaturesEnabled
+      ? setting.signupEmailTemplate
+      : null,
+    forgotPasswordEmailTemplate: enterpriseFeaturesEnabled
+      ? setting.forgotPasswordEmailTemplate
+      : null,
+    magicLinkEmailTemplate: enterpriseFeaturesEnabled
+      ? setting.magicLinkEmailTemplate
+      : null,
+    accountCredentialsEmailTemplate: enterpriseFeaturesEnabled
+      ? setting.accountCredentialsEmailTemplate
+      : null,
+    helpItems,
+  }
+}
+
+/**
+ * Resolve the public-facing tenant settings for a workspace.
+ * Merges env-based defaults with the workspace's `Tenant` branding. The root
+ * tenant carries null branding, so platform workspaces fall back to defaults.
+ * A non-active tenant (suspended) also falls back to defaults.
+ */
+export const resolveTenantSettings = async (args: {
+  workspaceId: string
+  tx?: DatabaseClient
+}): Promise<TenantSettings> => {
+  const workspace = await workspaceService.findById({
+    id: args.workspaceId,
+    tx: args.tx,
+  })
+  const tenant = await tenantService.findById(workspace.tenantId)
+
+  if (!tenant?.status || tenant.status !== "active") {
+    return getDefaultSettings()
+  }
+
+  const [defaults, helpItems] = await Promise.all([
+    getDefaultSettings(),
+    tenantHelpItemService.listByTenant(tenant.id),
+  ])
+  return applyTenantSetting(
+    defaults,
+    tenant,
+    helpItems,
+    await hasEnterpriseFeatures(),
+  )
+}
+
+/**
+ * Resolve the app URL that should be embedded in workspace-generated public
+ * links. Unlike `resolveTenantSettings`, this applies an active custom domain
+ * when the workspace belongs to a non-root tenant.
+ */
+export const resolveWorkspaceAppUrl = async (args: {
+  workspaceId: string
+  tx?: DatabaseClient
+}): Promise<string> => {
+  const workspace = await workspaceService.findById({
+    id: args.workspaceId,
+    tx: args.tx,
+  })
+
+  if (workspace.tenantId !== ROOT_TENANT_ID) {
+    const domains = await customDomainService.findByTenantId(workspace.tenantId)
+    const activeDomain = domains.find((domain) => domain.status === "active")
+    if (activeDomain) {
+      return deriveUrls(`https://${activeDomain.domain}`).appUrl
+    }
+  }
+
+  const env = integrationContextEnv()
+  return deriveUrls(env.NEXT_PUBLIC_BUILDER_URL, undefined, {
+    forceHttps: parseEnvBool(env.FORCE_PUBLIC_HTTPS),
+  }).appUrl
+}
+
+/**
+ * Resolve the shared secret used for all realtime authentication.
+ */
+export const resolveBroadcastSecret = (): string =>
+  integrationContextEnv().REALTIME_BROADCAST_SECRET
+
+/** Whether zero-interest relay responses may suppress ephemeral typing events. */
+export const resolveRealtimeDeliveryGate = (): boolean =>
+  integrationContextEnv().REALTIME_DELIVERY_GATE
+
+/**
+ * Resolve the HTTP endpoint used by server-side realtime broadcasts.
+ * This endpoint is deployment-wide on purpose — never tenant-specific or a
+ * custom domain.
+ */
+export const resolveRealtimeBroadcastUrl = (): string => {
+  const env = integrationContextEnv()
+  const url =
+    env.REALTIME_INTERNAL_URL ??
+    deriveUrls(env.NEXT_PUBLIC_BUILDER_URL, undefined, {
+      forceHttps: parseEnvBool(env.FORCE_PUBLIC_HTTPS),
+    }).publicRealtimeUrl
+  return url.endsWith("/") ? url : `${url}/`
+}
+
+/**
+ * Resolve tenant settings for a reseller/owner directly, without a request
+ * context. Used by out-of-band flows (e.g. provisioning a sub-account from an
+ * admin action) where there is no hostname or workspace to key off. Falls back
+ * to env defaults when the owner has no active tenant.
+ */
+export const resolveTenantSettingsByOwner = async (
+  ownerId: string,
+): Promise<TenantSettings> => {
+  const tenant = await tenantService.findByOwner(ownerId)
+  if (!tenant?.status || tenant.status !== "active") {
+    return getDefaultSettings()
+  }
+  const [defaults, helpItems] = await Promise.all([
+    getDefaultSettings(),
+    tenantHelpItemService.listByTenant(tenant.id),
+  ])
+  return applyTenantSetting(
+    defaults,
+    tenant,
+    helpItems,
+    await hasEnterpriseFeatures(),
+  )
+}
+
+/**
+ * Resolve tenant settings by request hostname (from the `x-domain` header set by
+ * the builder proxy). On enterprise/cloud, maps the active CustomDomain to its
+ * `Tenant` and applies that tenant's branding. On community, returns env defaults.
+ */
+export const resolveTenantSettingsByDomain = async (
+  domain: string | null | undefined,
+): Promise<TenantSettings> => {
+  if (!(domain && (await hasEnterpriseFeatures()))) {
+    return getDefaultSettings()
+  }
+
+  const customDomain = await customDomainService.findActiveByDomain(domain)
+  if (!customDomain) {
+    return getDefaultSettings()
+  }
+
+  const tenant = await tenantService.findById(customDomain.tenantId)
+  if (!tenant?.status || tenant.status !== "active") {
+    return getDefaultSettings()
+  }
+
+  const [defaults, helpItems] = await Promise.all([
+    getDefaultSettings(),
+    tenantHelpItemService.listByTenant(tenant.id),
+  ])
+  const env = integrationContextEnv()
+  return applyTenantSetting(
+    applyCustomDomain(
+      defaults,
+      customDomain.domain,
+      env.NEXT_PUBLIC_STORAGE_URL,
+    ),
+    tenant,
+    helpItems,
+    true,
+  )
+}

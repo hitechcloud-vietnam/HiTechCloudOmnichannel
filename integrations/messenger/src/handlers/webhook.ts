@@ -1,0 +1,359 @@
+import type { ContextQueue, HandleRequestProps } from "@chatbotx.io/sdk"
+import z from "zod"
+import { MessengerWebhookException } from "../exception"
+import { logger } from "../lib/logger"
+import { hmacSha256Hex, timingSafeStringEqual } from "../lib/webhook"
+import {
+  incomingWebhookEventSchema,
+  MESSENGER_MESSAGE_METADATA,
+  type MessengerConfig,
+  messengerFeedCommentValueSchema,
+  messengerLeadgenValueSchema,
+} from "../schema"
+
+const verifyWebhookSignature = async (
+  payload: string,
+  signature: string,
+  clientSecret: string,
+): Promise<boolean> => {
+  try {
+    const elements = signature.split("=")
+    if (elements.length !== 2) {
+      return false
+    }
+
+    const signatureHash = elements[1]
+    const expectedHash = await hmacSha256Hex(clientSecret, payload)
+
+    return timingSafeStringEqual(signatureHash, expectedHash)
+  } catch {
+    return false
+  }
+}
+
+const handleWebhookEvent = async (
+  req: Request,
+  config: MessengerConfig,
+  queue: ContextQueue,
+): Promise<void> => {
+  try {
+    const body = await req.text()
+    if (!body) {
+      throw new MessengerWebhookException("Empty webhook payload")
+    }
+
+    const signature = req.headers.get("x-hub-signature-256") ?? ""
+    if (!signature) {
+      throw new MessengerWebhookException("Missing webhook signature")
+    }
+
+    const isValidSignature = await verifyWebhookSignature(
+      body,
+      signature,
+      config.clientSecret,
+    )
+
+    if (!isValidSignature) {
+      throw new MessengerWebhookException("Invalid webhook signature")
+    }
+
+    const parsedWebhook = incomingWebhookEventSchema.safeParse(JSON.parse(body))
+    if (!parsedWebhook.success) {
+      logger.warn(
+        {
+          issues: parsedWebhook.error.issues.map(({ code, path }) => ({
+            code,
+            path,
+          })),
+        },
+        "messenger webhook payload unrecognized — skipping",
+      )
+      return
+    }
+    const webhookData = parsedWebhook.data
+    if (webhookData.object !== "page") {
+      throw new MessengerWebhookException(
+        `Unsupported webhook object type: ${webhookData.object}`,
+        webhookData,
+      )
+    }
+
+    // Meta batches multiple entries — and multiple messaging events per
+    // entry — into a single webhook POST (e.g. a contact sending several DMs
+    // quickly). Every entry/event must be processed, not just the first.
+    for (const entry of webhookData.entry) {
+      const labelChange = entry.changes?.find(
+        (c: { field: string }) => c.field === "inbox_labels",
+      )
+      if (labelChange) {
+        await queue?.add("channelLabelChange", {
+          type: "channelLabelChange",
+          data: {
+            integrationType: "messenger",
+            integrationIdentifier: entry.id,
+            payload: { object: webhookData.object, entry: [entry] },
+          },
+        })
+        continue
+      }
+
+      const feedChanges =
+        entry.changes?.filter((c: { field: string }) => c.field === "feed") ??
+        []
+      if (feedChanges.length > 0) {
+        for (const feedChange of feedChanges) {
+          const parsed = messengerFeedCommentValueSchema.safeParse(
+            feedChange.value,
+          )
+          if (!parsed.success) {
+            logger.warn(
+              { issues: parsed.error.issues, value: feedChange.value },
+              "Unrecognized feed webhook payload",
+            )
+            continue
+          }
+          const value = parsed.data
+          if (value.verb === "add" && value.from.id !== entry.id) {
+            // New comment from an external user — route to inbox
+            await queue?.add("incomingComment", {
+              type: "incomingComment",
+              data: {
+                integrationType: "messenger",
+                integrationIdentifier: entry.id,
+                commentData: {
+                  commentId: value.comment_id,
+                  postId: value.post_id,
+                  parentId: value.parent_id,
+                  fromId: value.from.id,
+                  fromName: value.from.name,
+                  message: value.message,
+                  tags: value.message_tags?.map(({ id, name }) => ({
+                    id,
+                    name,
+                  })),
+                  createdTime: value.created_time,
+                },
+              },
+            })
+          } else if (value.verb === "edited" && value.from.id !== entry.id) {
+            // Commenter edited their comment — sync the new text to the DB
+            await queue?.add("updateIncomingComment", {
+              type: "updateIncomingComment",
+              data: {
+                integrationType: "messenger",
+                integrationIdentifier: entry.id,
+                commentId: value.comment_id,
+                newText: value.message ?? "",
+              },
+            })
+          } else if (value.verb === "remove") {
+            // Commenter or page deleted the comment — soft-delete in the DB
+            await queue?.add("deleteIncomingComment", {
+              type: "deleteIncomingComment",
+              data: {
+                integrationType: "messenger",
+                integrationIdentifier: entry.id,
+                commentId: value.comment_id,
+              },
+            })
+          }
+        }
+        continue
+      }
+
+      const leadgenChanges =
+        entry.changes?.filter(
+          (c: { field: string }) => c.field === "leadgen",
+        ) ?? []
+      if (leadgenChanges.length > 0) {
+        for (const leadgenChange of leadgenChanges) {
+          const parsed = messengerLeadgenValueSchema.safeParse(
+            leadgenChange.value,
+          )
+          if (!parsed.success) {
+            logger.warn(
+              { issues: parsed.error.issues, value: leadgenChange.value },
+              "Unrecognized leadgen webhook payload",
+            )
+            continue
+          }
+          const value = parsed.data
+          await queue?.add("processLeadgen", {
+            type: "processLeadgen",
+            data: {
+              integrationType: "messenger",
+              integrationIdentifier: entry.id,
+              leadgenId: value.leadgen_id,
+              formId: value.form_id,
+            },
+          })
+        }
+        continue
+      }
+
+      if (!entry.messaging || entry.messaging.length === 0) {
+        continue
+      }
+
+      for (const messagingEvent of entry.messaging) {
+        // Reshape to a single-entry, single-messaging-event payload so
+        // downstream consumers — which only ever read entry[0]/messaging[0] —
+        // see exactly the one event this job is for.
+        const singleEventPayload = {
+          object: webhookData.object,
+          entry: [
+            { id: entry.id, time: entry.time, messaging: [messagingEvent] },
+          ],
+        }
+
+        if (messagingEvent.read) {
+          await queue?.add("contactMarkAsRead", {
+            type: "contactMarkAsRead",
+            data: {
+              integrationType: "messenger",
+              integrationIdentifier: entry.id,
+              sourceConversationId: messagingEvent.sender.id,
+              payload: singleEventPayload,
+            },
+          })
+          continue
+        }
+
+        if (messagingEvent.reaction) {
+          await queue?.add("messageReaction", {
+            type: "messageReaction",
+            data: {
+              integrationType: "messenger",
+              integrationIdentifier: entry.id,
+              messageId: messagingEvent.reaction.mid,
+              action: messagingEvent.reaction.action,
+              emoji: messagingEvent.reaction.emoji,
+              contactSourceId: messagingEvent.sender.id,
+            },
+          })
+          continue
+        }
+
+        if (messagingEvent.message?.is_deleted) {
+          await queue?.add("deleteIncomingMessage", {
+            type: "deleteIncomingMessage",
+            data: {
+              integrationType: "messenger",
+              integrationIdentifier: entry.id,
+              messageId: messagingEvent.message.mid,
+            },
+          })
+          continue
+        }
+
+        // Skip events that carry none of message/postback/referral (e.g. a
+        // pure delivery receipt) — nothing downstream can process them.
+        if (
+          !(
+            messagingEvent.message ||
+            messagingEvent.postback ||
+            messagingEvent.referral
+          )
+        ) {
+          continue
+        }
+
+        // Calculate integration identifier
+        const integrationIdentifier = messagingEvent.message?.is_echo
+          ? messagingEvent.sender.id
+          : messagingEvent.recipient.id
+
+        if (messagingEvent.postback) {
+          await queue?.add("incomingMessage", {
+            type: "incomingMessage",
+            data: {
+              integrationType: "messenger",
+              integrationIdentifier,
+              payload: singleEventPayload,
+              action: messagingEvent.postback.payload,
+            },
+          })
+          continue
+        }
+
+        if (
+          messagingEvent.message?.is_echo === true &&
+          messagingEvent.message?.metadata === MESSENGER_MESSAGE_METADATA
+        ) {
+          // Skip other echoes that passed schema validation
+          continue
+        }
+
+        await queue?.add("incomingMessage", {
+          type: "incomingMessage",
+          data: {
+            integrationType: "messenger",
+            integrationIdentifier,
+            payload: singleEventPayload,
+          },
+        })
+      }
+    }
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "Unknown error processing webhook"
+
+    throw new MessengerWebhookException(
+      `Failed to process webhook event: ${errorMessage}`,
+      await req.text().catch(() => null),
+    )
+  }
+}
+
+const handleSubscriptionEvent = ({
+  config,
+  req,
+}: HandleRequestProps<MessengerConfig>): string => {
+  const validation = z.object({
+    "hub.mode": z.literal("subscribe"),
+    "hub.verify_token": z.literal(config.verifyToken),
+    "hub.challenge": z.string().min(1),
+  })
+
+  const searchParams = new URL(req.url).searchParams
+  const { data } = validation.safeParse(Object.fromEntries(searchParams))
+
+  if (!data) {
+    throw new MessengerWebhookException(
+      "Invalid webhook verification parameters",
+    )
+  }
+
+  return data["hub.challenge"]
+}
+
+export const webhookHandler = async ({
+  config,
+  req,
+  queue,
+}: HandleRequestProps<MessengerConfig>): Promise<string> => {
+  try {
+    if (req.method === "GET") {
+      return handleSubscriptionEvent({ config, req })
+    }
+
+    if (req.method === "POST") {
+      await handleWebhookEvent(req, config, queue as ContextQueue)
+
+      return "ok"
+    }
+
+    throw new MessengerWebhookException(
+      `Unsupported HTTP method: ${req.method}`,
+    )
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown webhook error"
+
+    throw new MessengerWebhookException(
+      `Webhook processing failed: ${errorMessage}`,
+    )
+  }
+}

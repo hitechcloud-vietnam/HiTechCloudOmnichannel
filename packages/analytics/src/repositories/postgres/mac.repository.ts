@@ -1,0 +1,421 @@
+import {
+  and,
+  count,
+  countDistinct,
+  type DatabaseClient,
+  db,
+  desc,
+  eq,
+  gt,
+  gte,
+  inArray,
+  lte,
+  sql,
+} from "@chatbotx.io/database/client"
+import type { MacEventType } from "@chatbotx.io/database/partials"
+import {
+  contactActiveHourlyModel,
+  contactActiveMonthlyModel,
+  contactInboxModel,
+  workspaceMacModel,
+  workspaceModel,
+} from "@chatbotx.io/database/schema"
+import { logger } from "../../lib/logger"
+import { anchoredPeriod } from "../../lib/mac-period"
+
+export type WorkspaceCounterRow = {
+  workspaceMacId: string
+  macCount: number
+}
+
+export type PreparedRow = {
+  workspaceId: string
+  contactId: string
+  contactInboxId: string
+  inboxId: string
+  eventType: MacEventType
+  occurredAt: Date
+  hourBucket: Date
+  periodStart: Date
+  periodEnd: Date
+  workspaceMacId: string
+}
+
+export type WorkspaceMacDelta = {
+  workspaceMacId: string
+  count: number
+}
+
+export type CountDelta = {
+  id: string
+  count: number
+}
+
+export type HourlyPresenceRow = {
+  workspaceId: string
+  contactId: string
+  contactInboxId: string
+  inboxId: string
+  hourBucket: Date
+}
+
+type ActiveContactCount = {
+  periodStart: string | undefined
+  periodEnd: string | null | undefined
+  macCount: number
+}
+
+export function workspaceMacKey(
+  workspaceId: string,
+  periodStart: Date,
+  periodEnd: Date,
+): string {
+  return `${workspaceId}|${periodStart.toISOString()}|${periodEnd.toISOString()}`
+}
+
+function toIso(value: unknown): string | undefined {
+  return value
+    ? new Date(value as string | number | Date).toISOString()
+    : undefined
+}
+
+export class MacRepository {
+  async ensureWorkspaceMac(
+    entries: { workspaceId: string; periodStart: Date; periodEnd: Date }[],
+    client: DatabaseClient = db,
+  ): Promise<Map<string, string>> {
+    const result = new Map<string, string>()
+
+    for (const entry of entries) {
+      const [row] = await client
+        .insert(workspaceMacModel)
+        .values({
+          workspaceId: entry.workspaceId,
+          periodStart: entry.periodStart,
+          periodEnd: entry.periodEnd,
+        })
+        .onConflictDoUpdate({
+          target: [
+            workspaceMacModel.workspaceId,
+            workspaceMacModel.periodStart,
+            workspaceMacModel.periodEnd,
+          ],
+          set: { updatedAt: sql`now()` },
+        })
+        .returning({
+          id: workspaceMacModel.id,
+          workspaceId: workspaceMacModel.workspaceId,
+          periodStart: workspaceMacModel.periodStart,
+          periodEnd: workspaceMacModel.periodEnd,
+        })
+
+      if (row?.id) {
+        result.set(
+          workspaceMacKey(
+            row.workspaceId,
+            new Date(row.periodStart),
+            new Date(row.periodEnd),
+          ),
+          row.id,
+        )
+      }
+    }
+    return result
+  }
+
+  async upsertMonthlyPresence(
+    rows: PreparedRow[],
+    client: DatabaseClient = db,
+  ): Promise<WorkspaceMacDelta[]> {
+    if (rows.length === 0) {
+      return []
+    }
+
+    const insertedRows = await client
+      .insert(contactActiveMonthlyModel)
+      .values(
+        rows.map((row) => ({
+          workspaceId: row.workspaceId,
+          contactId: row.contactId,
+          contactInboxId: row.contactInboxId,
+          periodStart: row.periodStart,
+          inboxId: row.inboxId,
+          workspaceMacId: row.workspaceMacId,
+        })),
+      )
+      .onConflictDoNothing()
+      .returning({ workspaceMacId: contactActiveMonthlyModel.workspaceMacId })
+
+    const countByWorkspaceMacId = new Map<string, number>()
+    for (const row of insertedRows) {
+      countByWorkspaceMacId.set(
+        row.workspaceMacId,
+        (countByWorkspaceMacId.get(row.workspaceMacId) ?? 0) + 1,
+      )
+    }
+
+    return Array.from(countByWorkspaceMacId, ([workspaceMacId, count]) => ({
+      workspaceMacId,
+      count,
+    }))
+  }
+
+  async upsertHourlyPresence(
+    rows: HourlyPresenceRow[],
+    client: DatabaseClient = db,
+  ): Promise<void> {
+    if (rows.length === 0) {
+      return
+    }
+
+    await client
+      .insert(contactActiveHourlyModel)
+      .values(rows)
+      .onConflictDoNothing()
+  }
+
+  /**
+   * Batch-resolve `ContactInbox.inboxId` for MAC events published before
+   * message-sent producers stamped `inboxId` in their event context.
+   */
+  async getInboxIdsByContactInboxIds(
+    contactInboxIds: string[],
+    client: DatabaseClient = db,
+  ): Promise<Map<string, string>> {
+    if (contactInboxIds.length === 0) {
+      return new Map()
+    }
+
+    const rows = await client
+      .select({
+        contactInboxId: contactInboxModel.id,
+        inboxId: contactInboxModel.inboxId,
+      })
+      .from(contactInboxModel)
+      .where(inArray(contactInboxModel.id, contactInboxIds))
+
+    return new Map(rows.map((row) => [row.contactInboxId, row.inboxId]))
+  }
+
+  async addWorkspaceMacCount(
+    deltas: CountDelta[],
+    client: DatabaseClient = db,
+  ): Promise<WorkspaceCounterRow[]> {
+    const counted: WorkspaceCounterRow[] = []
+
+    for (const delta of deltas) {
+      const [updated] = await client
+        .update(workspaceMacModel)
+        .set({
+          macCount: sql`${workspaceMacModel.macCount} + ${delta.count}`,
+          updatedAt: sql`now()`,
+        })
+        .where(eq(workspaceMacModel.id, delta.id))
+        .returning({
+          id: workspaceMacModel.id,
+          macCount: workspaceMacModel.macCount,
+        })
+
+      if (updated) {
+        counted.push({
+          workspaceMacId: updated.id,
+          macCount: Number(updated.macCount),
+        })
+      } else {
+        logger.warn(
+          { workspaceMacId: delta.id, count: delta.count },
+          "[MacRepository] addWorkspaceMacCount: no WorkspaceMac row, increment dropped",
+        )
+      }
+    }
+    return counted
+  }
+
+  async getActiveContactCountByWorkspaceId(
+    input: { workspaceId: string },
+    client: DatabaseClient = db,
+  ): Promise<ActiveContactCount> {
+    const [row] = await client
+      .select({
+        periodStart: workspaceMacModel.periodStart,
+        periodEnd: workspaceMacModel.periodEnd,
+        macCount: workspaceMacModel.macCount,
+      })
+      .from(workspaceMacModel)
+      .where(
+        and(
+          eq(workspaceMacModel.workspaceId, input.workspaceId),
+          lte(workspaceMacModel.periodStart, sql`now()`),
+          gt(workspaceMacModel.periodEnd, sql`now()`),
+        ),
+      )
+      .orderBy(desc(workspaceMacModel.id))
+      .limit(1)
+
+    return {
+      periodStart: toIso(row?.periodStart),
+      periodEnd: toIso(row?.periodEnd) ?? null,
+      macCount: row ? Number(row.macCount) : 0,
+    }
+  }
+
+  /**
+   * Batched variant of {@link getActiveContactCountByWorkspaceId} for the
+   * scheduled `WorkspaceUsage.macUsed` reconcile: every workspace's current
+   * (`periodStart <= now < periodEnd`) `WorkspaceMac.macCount` in one query,
+   * instead of one round-trip per workspace. `DISTINCT ON` picks the
+   * highest-id (latest) row per workspace, matching the single-workspace
+   * method's `ORDER BY id DESC LIMIT 1`. Workspaces with no current period
+   * row (never had MAC activity this period) are simply absent from the
+   * result — callers default those to 0.
+   */
+  async getActiveContactCountsByWorkspaceIds(
+    client: DatabaseClient = db,
+  ): Promise<Map<string, number>> {
+    const rows = await client
+      .selectDistinctOn([workspaceMacModel.workspaceId], {
+        workspaceId: workspaceMacModel.workspaceId,
+        macCount: workspaceMacModel.macCount,
+      })
+      .from(workspaceMacModel)
+      .where(
+        and(
+          lte(workspaceMacModel.periodStart, sql`now()`),
+          gt(workspaceMacModel.periodEnd, sql`now()`),
+        ),
+      )
+      .orderBy(workspaceMacModel.workspaceId, desc(workspaceMacModel.id))
+
+    return new Map(rows.map((row) => [row.workspaceId, Number(row.macCount)]))
+  }
+
+  /**
+   * The owner's monthly-active-contacts count, read from the durable
+   * `ContactActiveMonthly` ledger across every workspace they own. This is the
+   * authoritative source for `UserQuota.macUsed`: every MAC increment (webchat,
+   * worker, import, message tracking) writes a presence row in the same
+   * transaction as the live-counter bump, so the ledger never under-counts.
+   *
+   *  - `cumulative: false` (resetting plans) counts only the period containing
+   *    now, anchored to `billingPeriodStart` — the standard "this month" MAC.
+   *  - `cumulative: true` (lifetime plans, which never reset) counts every
+   *    period, matching the live counter that lifetime plans accumulate.
+   *
+   * Returns 0 when there is no billing anchor (period-less owners are not
+   * MAC-tracked).
+   */
+  async countActiveContactsForOwner(
+    input: {
+      ownerId: string
+      billingPeriodStart: Date | null
+      cumulative: boolean
+    },
+    client: DatabaseClient = db,
+  ): Promise<number> {
+    const conditions = [eq(workspaceModel.ownerId, input.ownerId)]
+
+    if (!input.cumulative) {
+      if (!input.billingPeriodStart) {
+        return 0
+      }
+      const { start } = anchoredPeriod(new Date(), input.billingPeriodStart)
+      conditions.push(eq(contactActiveMonthlyModel.periodStart, start))
+    }
+
+    const [row] = await client
+      .select({ value: count() })
+      .from(contactActiveMonthlyModel)
+      .innerJoin(
+        workspaceModel,
+        eq(contactActiveMonthlyModel.workspaceId, workspaceModel.id),
+      )
+      .where(and(...conditions))
+
+    return row ? Number(row.value) : 0
+  }
+
+  async countActiveContactsByWorkspace(
+    input: { workspaceId: string; from: Date; to: Date },
+    client: DatabaseClient = db,
+  ): Promise<number> {
+    const [row] = await client
+      .select({ value: countDistinct(contactActiveHourlyModel.contactId) })
+      .from(contactActiveHourlyModel)
+      .where(
+        and(
+          eq(contactActiveHourlyModel.workspaceId, input.workspaceId),
+          gte(contactActiveHourlyModel.hourBucket, input.from),
+          lte(contactActiveHourlyModel.hourBucket, input.to),
+        ),
+      )
+
+    return row ? Number(row.value) : 0
+  }
+
+  async reconcilePeriod(
+    input: { workspaceId: string; periodStart: string },
+    client: DatabaseClient = db,
+  ): Promise<void> {
+    const periodStart = new Date(input.periodStart)
+
+    const activeContactCount = client
+      .select({ count: sql<number>`count(*)::int` })
+      .from(contactActiveMonthlyModel)
+      .where(
+        and(
+          eq(contactActiveMonthlyModel.workspaceId, input.workspaceId),
+          eq(contactActiveMonthlyModel.periodStart, periodStart),
+        ),
+      )
+
+    await client
+      .update(workspaceMacModel)
+      .set({
+        macCount: sql<number>`(${activeContactCount})`,
+        updatedAt: sql`now()`,
+      })
+      .where(
+        and(
+          eq(workspaceMacModel.workspaceId, input.workspaceId),
+          eq(workspaceMacModel.periodStart, periodStart),
+        ),
+      )
+  }
+
+  /**
+   * Which of `contactInboxIds` have a `ContactActiveMonthly` presence row for
+   * `periodStart` — i.e. are MAC-active this billing period. Used to decide
+   * whether deleting a contact should release a `mac` slot: releasing for a
+   * contact that was never MAC-active this period would over-release the pool.
+   */
+  async getActiveContactInboxIds(
+    input: {
+      workspaceId: string
+      periodStart: Date
+      contactInboxIds: string[]
+    },
+    client: DatabaseClient = db,
+  ): Promise<Set<string>> {
+    if (input.contactInboxIds.length === 0) {
+      return new Set()
+    }
+
+    const rows = await client
+      .select({ contactInboxId: contactActiveMonthlyModel.contactInboxId })
+      .from(contactActiveMonthlyModel)
+      .where(
+        and(
+          eq(contactActiveMonthlyModel.workspaceId, input.workspaceId),
+          eq(contactActiveMonthlyModel.periodStart, input.periodStart),
+          inArray(
+            contactActiveMonthlyModel.contactInboxId,
+            input.contactInboxIds,
+          ),
+        ),
+      )
+
+    return new Set(rows.map((row) => row.contactInboxId))
+  }
+}
+
+export const macRepository = new MacRepository()

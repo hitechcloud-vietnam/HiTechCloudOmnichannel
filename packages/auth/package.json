@@ -1,0 +1,37 @@
+{
+  "name": "@chatbotx.io/auth",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./server": "./src/server.ts",
+    "./client": "./src/client.ts",
+    "./provisioning": "./src/provisioning.ts",
+    "./tenant": "./src/tenant-context.ts"
+  },
+  "dependencies": {
+    "@chatbotx.io/business": "workspace:*",
+    "@chatbotx.io/database": "workspace:*",
+    "@chatbotx.io/logger": "workspace:*",
+    "@chatbotx.io/mail": "workspace:*",
+    "@chatbotx.io/sdk": "workspace:*",
+    "@chatbotx.io/utils": "workspace:*",
+    "@t3-oss/env-core": "^0.13.11",
+    "better-auth": "^1.6.22",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@chatbotx.io/typescript-config": "workspace:*",
+    "@chatbotx.io/vitest-config": "workspace:*",
+    "typescript": "^5",
+    "vitest": "^4.1.0"
+  },
+  "peerDependencies": {
+    "next": ">=16"
+  },
+  "scripts": {
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest"
+  }
+}
