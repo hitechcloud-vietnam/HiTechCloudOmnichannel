@@ -1,4 +1,4 @@
-import { ChannelErrorCategory } from "@chatbotx.io/sdk"
+import { ChannelErrorCategory } from "@hitechcloud.vn/sdk"
 import { describe, expect, test } from "vitest"
 import { mapToChannelError } from "../src/lib/error-mapper"
 import { ZaloException } from "../src/lib/exception"

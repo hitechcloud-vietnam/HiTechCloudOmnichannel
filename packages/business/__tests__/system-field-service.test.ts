@@ -19,20 +19,20 @@ const mocks = vi.hoisted(() => ({
   conversationFindByUncached: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/encryption", () => ({
+vi.mock("@hitechcloud.vn/encryption", () => ({
   signMediaToken: mocks.signMediaToken,
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: mocks.db,
   eq: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/encryption/link-signature", () => ({
+vi.mock("@hitechcloud.vn/encryption/link-signature", () => ({
   verifyMeLink: mocks.verifyMeLink,
 }))
 
-vi.mock("@chatbotx.io/filesystem", () => ({
+vi.mock("@hitechcloud.vn/filesystem", () => ({
   uploader: { deleteObject: mocks.deleteObject },
 }))
 

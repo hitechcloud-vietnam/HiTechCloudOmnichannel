@@ -4,7 +4,7 @@ import {
   Integration,
   type IntegrationDefinition,
   type Oauth2AuthValue,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { conversationHandlers } from "./handlers/conversation"
 import { messageHandlers } from "./handlers/message"
 import type { ApiActions, ApiAuthValue } from "./schema"

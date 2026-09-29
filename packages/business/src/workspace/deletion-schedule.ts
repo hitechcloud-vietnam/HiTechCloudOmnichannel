@@ -1,4 +1,4 @@
-import { PURGE_WORKSPACES_INTERVAL_MINUTES } from "@chatbotx.io/worker-config"
+import { PURGE_WORKSPACES_INTERVAL_MINUTES } from "@hitechcloud.vn/worker-config"
 
 /** Grace period between scheduling a deletion and the workspace being purged. */
 export const WORKSPACE_DELETION_GRACE_MS = 24 * 60 * 60 * 1000

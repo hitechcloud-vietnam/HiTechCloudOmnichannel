@@ -1,4 +1,4 @@
-import type { Context } from "@chatbotx.io/sdk"
+import type { Context } from "@hitechcloud.vn/sdk"
 import { DEFAULT_API_VERSION } from "../constants"
 import { MessengerAPIException, rescue } from "../exception"
 import { facebookGraphClient } from "../lib/http-client"

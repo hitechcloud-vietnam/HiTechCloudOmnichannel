@@ -19,7 +19,7 @@ const product = (overrides: Partial<CatalogProduct> = {}): CatalogProduct => ({
   isActive: true,
   images: [{ url: "https://example.com/one.jpg", type: "link" }],
   tags: [],
-  vendor: "ChatbotX",
+  vendor: "HiTechCloudOmnichannel",
   variants: [],
   ...overrides,
 })

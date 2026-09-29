@@ -1,5 +1,5 @@
-import { db } from "@chatbotx.io/database/client"
-import { invalidateCacheKeys, withCache } from "@chatbotx.io/redis"
+import { db } from "@hitechcloud.vn/database/client"
+import { invalidateCacheKeys, withCache } from "@hitechcloud.vn/redis"
 
 const getAutomatedResponseCachedKey = (workspaceId: string) =>
   `workspaces:${workspaceId}:automated-responses:all`

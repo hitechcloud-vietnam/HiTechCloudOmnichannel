@@ -4,11 +4,11 @@ import {
   Integration,
   type IntegrationDefinition,
   type Oauth2AuthValue,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import type { ChatbotxAuthValue } from "./auth"
 
 const config: IntegrationDefinition<BaseConfig, ChatbotxAuthValue> = {
-  name: "chatbotx",
+  name: "hitechcloudomnichannel",
   channels: {
     channel: {
       message: {},

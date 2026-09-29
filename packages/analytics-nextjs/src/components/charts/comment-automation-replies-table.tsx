@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@chatbotx.io/ui/components/ui/table"
+} from "@hitechcloud.vn/ui/components/ui/table"
 import { useLocale, useTranslations } from "next-intl"
 import { useMemo, useState } from "react"
 import { useAnalysisStore } from "../../provider/analysis-store-context"

@@ -1,4 +1,4 @@
-import type { sequenceStepModel } from "@chatbotx.io/database/schema"
+import type { sequenceStepModel } from "@hitechcloud.vn/database/schema"
 
 // The `delayUnit` column is a bare `text()` with no DB-level enum — this is
 // the canonical union both the builder schema (`schema/action.ts`) and this

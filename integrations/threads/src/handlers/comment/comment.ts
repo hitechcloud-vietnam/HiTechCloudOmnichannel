@@ -1,4 +1,4 @@
-import type { CommentHandlers } from "@chatbotx.io/sdk"
+import type { CommentHandlers } from "@hitechcloud.vn/sdk"
 import { hideComment as hideCommentApi } from "../../apis/comment"
 import { mapToChannelError } from "../../lib/error-mapper"
 import { getSafeErrorDetails } from "../../lib/error-sanitizer"

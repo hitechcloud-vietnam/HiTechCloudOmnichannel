@@ -1,5 +1,5 @@
-import { buttonVariants } from "@chatbotx.io/ui/components/ui/button"
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { buttonVariants } from "@hitechcloud.vn/ui/components/ui/button"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { ArrowLeftIcon } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"

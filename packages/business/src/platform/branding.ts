@@ -1,11 +1,11 @@
-import type { ChannelType } from "@chatbotx.io/database/partials"
+import type { ChannelType } from "@hitechcloud.vn/database/partials"
 
 /**
  * Label used for the self-promotion "Built with" persistent-menu entry. Kept as
  * a single source of truth so the builder UI, the integration settings actions,
  * and the worker all agree on the same string.
  */
-export const BRANDING_TITLE = "⚡ Built with chatbotx.io"
+export const BRANDING_TITLE = "⚡ Built with hitechcloud.vn"
 
 /**
  * Build the canonical branding URL for a channel's persistent menu. Pure — the

@@ -8,7 +8,7 @@
  * and of the window after which we stop waiting.
  *
  * Pure constants + predicates only: no database, no queue, no logger. The
- * worker imports it through the `@chatbotx.io/business/coexist/history`
+ * worker imports it through the `@hitechcloud.vn/business/coexist/history`
  * subpath so a flush job does not pull the whole business package in.
  */
 

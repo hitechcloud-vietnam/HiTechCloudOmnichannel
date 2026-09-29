@@ -5,10 +5,10 @@ import {
   eq,
   findOrFail,
   sql,
-} from "@chatbotx.io/database/client"
-import { integrationThreadsModel } from "@chatbotx.io/database/schema"
-import type { IntegrationThreadsModel } from "@chatbotx.io/database/types"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/client"
+import { integrationThreadsModel } from "@hitechcloud.vn/database/schema"
+import type { IntegrationThreadsModel } from "@hitechcloud.vn/database/types"
+import { createId } from "@hitechcloud.vn/utils"
 import { z } from "zod"
 import { BaseService } from "../base.service"
 import {

@@ -6,7 +6,7 @@ const mocks = vi.hoisted(() => ({
   inboxFindMany: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       integrationWhatsappModel: {
@@ -26,7 +26,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   relationsFilterToSQL: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   inboxModel: {},
   workspaceUsageModel: { workspaceId: "workspaceId-column" },
 }))
@@ -34,13 +34,13 @@ vi.mock("@chatbotx.io/database/schema", () => ({
 // `inboxService` now imports `inboxRepository` from the repositories
 // barrel for `listChannelOptionsByWorkspace` — stubbed here (unused by any
 // test in this file) so the barrel's OTHER, unrelated repositories don't
-// drag in a transitive schema this file's `@chatbotx.io/database/schema`
+// drag in a transitive schema this file's `@hitechcloud.vn/database/schema`
 // mock never had to satisfy before.
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   inboxRepository: { listOptionsByWorkspaceAndChannel: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: vi.fn(),
 }))
 

@@ -9,43 +9,43 @@ import {
   ilike,
   lt,
   sql,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   MINIGAME_PRIZE_NAME_TOKEN,
   type MinigameOutcomeMessage,
   type MinigamePlayerSettings,
   type MinigamePrizeSettings,
-} from "@chatbotx.io/database/partials"
-import { createMessageRepository } from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/partials"
+import { createMessageRepository } from "@hitechcloud.vn/database/repositories"
 import {
   contactModel,
   conversationModel,
   minigameContactModel,
   minigameModel,
   minigamePlayModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import type {
   ContactInboxModel,
   MinigameContactModel,
   MinigameModel,
-} from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/types"
 import {
   getPaginationWithDefaults,
   likeContains,
-} from "@chatbotx.io/database/utils"
-import { applySpintax } from "@chatbotx.io/utils/spintax"
+} from "@hitechcloud.vn/database/utils"
+import { applySpintax } from "@hitechcloud.vn/utils/spintax"
 import {
   ChatJobAction,
   chatQueue,
   IntegrationJobAction,
   integrationQueue,
-} from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/worker-config"
 import { normalizeError } from "universal-error-normalizer"
 import { BaseService } from "../base.service"
 import { contactCustomFieldService } from "../contact-custom-field/service"
 import { contactInboxService } from "../contact-inbox/service"
 import { conversationService } from "../conversation/service"
-import { ChatbotXException } from "../errors"
+import { HiTechCloudOmnichannelException } from "../errors"
 import { logger } from "../logger"
 import { tagService } from "../tag/service"
 import { isMinigameWithinPlayWindow } from "./play-window"
@@ -58,7 +58,7 @@ const MAX_PLAY_RECORDS = 200
 /**
  * Resolves `{{first_name}}`-style contact variables in an outcome message.
  *
- * Injected by the app layer rather than imported: `@chatbotx.io/variables`
+ * Injected by the app layer rather than imported: `@hitechcloud.vn/variables`
  * depends on this package, so importing it here would close a cycle. The one
  * caller is `playMinigameAction`. Omitting it leaves the placeholders literal
  * — the behaviour this package had before the resolver existed.
@@ -406,7 +406,7 @@ class MinigameContactService extends BaseService {
     const { minigameId, contactId, contactInboxId, minigame } = props
 
     if (!isMinigameWithinPlayWindow(minigame)) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "This minigame is not currently active",
         "minigameNotActive",
         403,
@@ -424,7 +424,7 @@ class MinigameContactService extends BaseService {
       })
 
       if (state.remaining <= 0) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "No draws remaining for this contact",
           "minigameNoDrawsLeft",
           403,

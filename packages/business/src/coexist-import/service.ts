@@ -6,14 +6,14 @@ import {
   inArray,
   or,
   type SQL,
-} from "@chatbotx.io/database/client"
-import { contactSources } from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/client"
+import { contactSources } from "@hitechcloud.vn/database/partials"
 import {
   contactInboxModel,
   contactModel,
   conversationModel,
-} from "@chatbotx.io/database/schema"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/schema"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import { messageCleanupService } from "../message-cleanup/service"
 

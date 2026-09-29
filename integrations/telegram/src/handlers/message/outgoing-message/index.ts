@@ -8,12 +8,12 @@ import {
   type SendTextStepSchema,
   type SendVideoStepSchema,
   stepTypes,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import {
   contentTypes,
   type MessageHandlers,
   type SendFlowStepProps,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import {
   sendTelegramAudio,
   sendTelegramDocument,

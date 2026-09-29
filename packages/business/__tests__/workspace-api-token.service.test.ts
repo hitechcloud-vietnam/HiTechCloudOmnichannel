@@ -26,7 +26,7 @@ const findDefaultByWorkspaceId = vi.fn(async (): Promise<unknown> => null)
 const insertDefault = vi.fn(async (): Promise<unknown> => null)
 const setEncryptedToken = vi.fn(async (): Promise<void> => undefined)
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   workspaceApiTokenRepository: {
     findByTokenHash,
     listByWorkspaceId,
@@ -49,7 +49,7 @@ const encryptText = vi.fn(async (text: string) => ({
 const decryptText = vi.fn(async (blob: { text: string }) =>
   blob.text.replace(ENCRYPTED_TEXT_PATTERN, "$1"),
 )
-vi.mock("@chatbotx.io/encryption", () => ({
+vi.mock("@hitechcloud.vn/encryption", () => ({
   encryptUtils: { encryptText, decryptText },
 }))
 
@@ -65,7 +65,7 @@ vi.mock("../src/workspace-api-token/credentials", () => ({
 const db: { transaction?: (fn: (tx: unknown) => unknown) => unknown } = {}
 const transaction = vi.fn(async (fn: (tx: unknown) => unknown) => await fn(db))
 db.transaction = transaction
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db,
 }))
 
@@ -78,7 +78,7 @@ const invalidateCacheByTags = vi.fn(async () => undefined)
 const withCache = vi.fn(
   async (_key: string, fn: () => unknown, _options?: unknown) => fn(),
 )
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags,
   withCache,
 }))

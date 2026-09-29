@@ -5,15 +5,15 @@ import {
   isSuperAdmin,
   isWorkspaceScheduledForDeletion,
   quotaEnforcementService,
-} from "@chatbotx.io/business"
+} from "@hitechcloud.vn/business"
 import {
   SidebarInset,
   SidebarMobileHandle,
   SidebarProvider,
   SidebarTrigger,
-} from "@chatbotx.io/ui/components/ui/sidebar"
-import { getIdFromParams } from "@chatbotx.io/utils"
-import { CALL_CAPABLE_CHANNELS } from "@chatbotx.io/utils/channel"
+} from "@hitechcloud.vn/ui/components/ui/sidebar"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
+import { CALL_CAPABLE_CHANNELS } from "@hitechcloud.vn/utils/channel"
 import { cookies } from "next/headers"
 import { notFound } from "next/navigation"
 import { AppSidebar } from "@/components/app-sidebar"

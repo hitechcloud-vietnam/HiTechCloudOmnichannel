@@ -66,7 +66,7 @@ const {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn((...conditions: unknown[]) => ({ conditions })),
   db: {
     $count: mockCount,
@@ -90,15 +90,15 @@ vi.mock("@chatbotx.io/database/client", () => ({
   relationsFilterToSQL: mockRelationsFilterToSQL,
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   integrationWebchatModel: { id: "id", workspaceId: "workspaceId" },
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   parsePagination: mockParsePagination,
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: mockCreateId,
 }))
 

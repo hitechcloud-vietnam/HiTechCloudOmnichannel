@@ -2,15 +2,15 @@ import {
   customDomainService,
   platformCredentialService,
   resolveTenantSettingsByDomain,
-} from "@chatbotx.io/business"
-import { db } from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/business"
+import { db } from "@hitechcloud.vn/database/client"
 import {
   accountModel,
   ROOT_TENANT_ID,
   sessionModel,
   userModel,
   verificationModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import {
   DEFAULT_FORGOT_PASSWORD_SUBJECT,
   DEFAULT_MAGIC_LINK_SUBJECT,
@@ -18,9 +18,9 @@ import {
   sendMagicLink,
   sendResetPassword,
   sendSignUpVerification,
-} from "@chatbotx.io/mail"
-import type { SmtpTransportOptions } from "@chatbotx.io/mail/transport"
-import { createId, getPublicOriginFromRequest } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/mail"
+import type { SmtpTransportOptions } from "@hitechcloud.vn/mail/transport"
+import { createId, getPublicOriginFromRequest } from "@hitechcloud.vn/utils"
 import { APIError, betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"
 import { nextCookies } from "better-auth/next-js"
@@ -740,7 +740,7 @@ export function createAuth(config: AuthConfig) {
       const staticOrigins = [
         getBrokerUrl(),
         env.NEXT_PUBLIC_BUILDER_URL,
-        // Mobile app deep-link scheme (chatbotx-mobile-app) — social sign-in relays back into the
+        // Mobile app deep-link scheme (hitechcloudomnichannel-mobile-app) — social sign-in relays back into the
         // app via this custom scheme instead of an https:// origin.
         "chatconnectxapp://",
       ]

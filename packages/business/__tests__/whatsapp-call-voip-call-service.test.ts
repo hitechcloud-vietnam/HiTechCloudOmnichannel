@@ -30,7 +30,7 @@ const mocks = vi.hoisted(() => ({
   loadCallEligibilityMember: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   casStore: {
     setIfAbsent: mocks.setIfAbsent,
     set: mocks.set,
@@ -45,7 +45,7 @@ vi.mock("../src/workspace-presence/service", () => ({
   workspacePresenceService: { listOnlineMembers: mocks.liveAgents },
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   WHATSAPP_CALL_TERMINAL_STATUSES: ["rejected", "completed", "failed"],
   whatsappCallRepository: {
     findRingingByWorkspace: mocks.findRingingByWorkspace,
@@ -100,7 +100,7 @@ const DEFAULT_ELIGIBLE_MEMBERS = Array.from({ length: 20 }, (_, i) => ({
   permissions: { contacts: true },
 }))
 
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   WHATSAPP_VOIP_SIGNAL_RETRY_OPTIONS: {
     attempts: 10,
     backoff: { type: "fixed", delay: 2000 },

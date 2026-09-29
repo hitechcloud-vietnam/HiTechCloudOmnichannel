@@ -2,7 +2,7 @@ import {
   HandleRequestType,
   Integration,
   type IntegrationDefinition,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import {
   getCommentAttachment,
   getCommentAttachmentType,

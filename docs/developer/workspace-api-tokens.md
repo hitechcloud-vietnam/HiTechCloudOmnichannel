@@ -18,7 +18,7 @@ plaintext is shown exactly once, at creation time. `tokenPrefix` stores the
 first 12 characters for display; legacy rows minted before the column existed
 have `tokenPrefix: null` and are verified by hash lookup only. New tokens are
 minted as `cbx_ws_<random>` by `generateWorkspaceToken()` from
-`@chatbotx.io/business/workspace-api-token/credentials` — the single sanctioned
+`@hitechcloud.vn/business/workspace-api-token/credentials` — the single sanctioned
 source of bearer-credential material (CSPRNG; never `Math.random()`-backed
 helpers). `hashToken()` in the same module is the single hashing
 implementation for all API bearer tokens, so generation and verification can
@@ -540,7 +540,7 @@ can reach it.
 API-channel credentials (`cbx_api_<random>` tokens and signing secrets) share
 the same credentials module: `generateApiChannelToken` /
 `generateSigningSecret` / `hashToken` from
-`@chatbotx.io/business/workspace-api-token/credentials`. They are verified
+`@hitechcloud.vn/business/workspace-api-token/credentials`. They are verified
 hash-only by `channelApiTokenAuthMidddleware` via
 `findIntegrationApiByTokenHash`. Do not add a builder-local re-export of
 these helpers — import from the business package directly.

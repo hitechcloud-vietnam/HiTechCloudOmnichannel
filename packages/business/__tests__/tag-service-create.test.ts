@@ -14,7 +14,7 @@ const insertBuilder = {
   },
 }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       tagModel: { findFirst: (...args: unknown[]) => findFirst(...args) },
@@ -28,7 +28,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   findOrFail: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   tagModel: {},
 }))
 
@@ -38,13 +38,13 @@ vi.mock("../src/tag/sync.service", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: (...args: unknown[]) => invalidateCacheByTags(...args),
   withCache: async (_key: string, callback: () => Promise<unknown>) =>
     await callback(),
 }))
 
-vi.mock("@chatbotx.io/events", () => ({
+vi.mock("@hitechcloud.vn/events", () => ({
   emitTagApplied: vi.fn(),
   emitTagRemoved: vi.fn(),
 }))
@@ -67,8 +67,8 @@ vi.mock("../src/logger", () => ({
   logger: { warn: vi.fn(), error: vi.fn(), debug: vi.fn(), info: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/utils", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@chatbotx.io/utils")>()
+vi.mock("@hitechcloud.vn/utils", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@hitechcloud.vn/utils")>()
   return { ...actual, createId: () => "generated-id" }
 })
 

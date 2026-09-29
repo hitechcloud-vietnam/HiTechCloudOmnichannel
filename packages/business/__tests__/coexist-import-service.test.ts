@@ -32,7 +32,7 @@ const { mockTransaction, mockCancelByInboxSource } = vi.hoisted(() => ({
   mockCancelByInboxSource: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn((...args: unknown[]) => ({ __and: args })),
   db: { transaction: mockTransaction },
   eq: vi.fn((left: unknown, right: unknown) => ({ __eq: [left, right] })),
@@ -42,11 +42,11 @@ vi.mock("@chatbotx.io/database/client", () => ({
   or: vi.fn((...args: unknown[]) => ({ __or: args })),
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   contactSources: { enum: { inboundMessage: "inboundMessage" } },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   contactInboxModel: {
     id: "ci.id",
     inboxId: "ci.inboxId",
@@ -58,7 +58,7 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   conversationModel: { id: "conv.id", contactId: "conv.contactId" },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: vi.fn(),
   withCache: vi.fn(),
 }))
@@ -68,7 +68,7 @@ vi.mock("../src/message-cleanup/service", () => ({
 }))
 
 let idSeq = 0
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: () => {
     idSeq += 1
     return `id-${idSeq}`

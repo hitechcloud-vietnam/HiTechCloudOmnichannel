@@ -4,7 +4,7 @@ const { findMock } = vi.hoisted(() => ({
   findMock: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn((...conditions: unknown[]) => ({ conditions })),
   asc: vi.fn((field: unknown) => ({ field, dir: "asc" })),
   count: vi.fn(() => "count"),
@@ -24,7 +24,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   sql: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   contactModel: { id: "id", fullName: "fullName" },
   conversationModel: { id: "id" },
   minigameContactModel: { id: "id", minigameId: "minigameId" },
@@ -32,11 +32,11 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   minigamePlayModel: { id: "id", createdAt: "createdAt" },
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   createMessageRepository: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   ChatJobAction: {},
   chatQueue: { add: vi.fn() },
   IntegrationJobAction: {},

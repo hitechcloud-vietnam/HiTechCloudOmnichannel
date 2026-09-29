@@ -10,7 +10,7 @@ OPUS) and the business answers with an SDP **answer** through the Graph API
 (`pre_accept` then `accept`). Media then flows over WebRTC directly between the
 answering peer and Meta.
 
-ChatbotX uses VoIP mode exclusively, with the **agent's browser** as the WebRTC
+HiTechCloudOmnichannel uses VoIP mode exclusively, with the **agent's browser** as the WebRTC
 peer, so there is no media server to operate (Meta docs:
 `.../whatsapp/calling/user-initiated-calls`). A connect webhook is routed to the
 calling path only when it carries a **validated** `session.sdp_type:"offer"`.
@@ -219,7 +219,7 @@ and that call). Transport-tagged `ended` realtime event closes the peer.
   fenced CAS and, at most once every 2 min, refreshes the row's `updatedAt` through
   `whatsappCallRepository.touchLivenessIfStale`. Nothing closes an `accepted` call on
   a timer: "no heartbeat" is evidence, never proof, that a call ended (a suspended
-  tab, or a browser that still reaches Meta's relay but not ChatbotX, looks
+  tab, or a browser that still reaches Meta's relay but not HiTechCloudOmnichannel, looks
   identical), and `sweepStaleWhatsappCalls` only ages out `ringing` rows.
 - **Dial-time recovery of a stranded call.** A call left `accepted` forever because
   its `terminate` webhook never arrived holds the one-live-call-per-contact guard.
@@ -240,9 +240,9 @@ and that call). Transport-tagged `ended` realtime event closes the peer.
   `durationSeconds` stay null rather than guessed, which also leaves a delayed
   terminate free to stamp the real values. It deliberately emits **no** activity card,
   realtime event or workflow trigger: those belong to an authoritative terminate.
-- **Manual integrations** can place calls, but ChatbotX can never confirm that the
+- **Manual integrations** can place calls, but HiTechCloudOmnichannel can never confirm that the
   customer's own Meta app is subscribed to the `calls` webhook field (unlike a
-  platform-credential integration, which ChatbotX verifies/auto-subscribes) — if it
+  platform-credential integration, which HiTechCloudOmnichannel verifies/auto-subscribes) — if it
   is not, outbound calls never receive Meta's SDP answer/status webhooks and inbound
   calls never ring. `resolveOutboundCallModeAction` reports this as
   `manualCallsSubscriptionUnverified: true` for every manual integration, and the

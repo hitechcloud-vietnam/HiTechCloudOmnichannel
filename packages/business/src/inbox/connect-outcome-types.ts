@@ -2,14 +2,14 @@
  * Pure constants + types for the shared "connect one or many accounts"
  * outcome vocabulary (Messenger page picker, Instagram account picker,
  * WhatsApp phone-number picker). This file MUST stay dependency-free (zero
- * imports) — it is the client-safe leaf `@chatbotx.io/business` exposes via
+ * imports) — it is the client-safe leaf `@hitechcloud.vn/business` exposes via
  * the `./inbox/connect-outcome-types` subpath so browser/jsdom code
  * (`apps/builder/src/features/channel-connect/**`) can read these values
  * without pulling in the full business barrel, which transitively
  * initializes the database client, Pino, etc.
  *
  * The exception-to-outcome mapping functions (`toConnectItemFailure`,
- * `toConnectSessionError`), which DO need `ChatbotXException`/`SdkException`,
+ * `toConnectSessionError`), which DO need `HiTechCloudOmnichannelException`/`SdkException`,
  * live in `./connect-outcome.ts` (server-only) and re-export everything from
  * here — never duplicate these values there.
  *

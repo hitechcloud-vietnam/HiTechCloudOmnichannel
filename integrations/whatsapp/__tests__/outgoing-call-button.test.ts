@@ -1,4 +1,4 @@
-import type { WhatsappCallButtonStepSchema } from "@chatbotx.io/flow-config"
+import type { WhatsappCallButtonStepSchema } from "@hitechcloud.vn/flow-config"
 import { describe, expect, test } from "vitest"
 import { convertFlowStepWhatsappCallButton } from "../src/handlers/message/outgoing-message/whatsapp-call-button"
 

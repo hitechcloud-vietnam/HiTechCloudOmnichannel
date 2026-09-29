@@ -1,7 +1,7 @@
-import { db } from "@chatbotx.io/database/client"
-import { triggerModel } from "@chatbotx.io/database/schema"
-import { remapReferences } from "@chatbotx.io/flow-config"
-import { createId } from "@chatbotx.io/utils"
+import { db } from "@hitechcloud.vn/database/client"
+import { triggerModel } from "@hitechcloud.vn/database/schema"
+import { remapReferences } from "@hitechcloud.vn/flow-config"
+import { createId } from "@hitechcloud.vn/utils"
 import { insertWithNameRetry } from "./naming"
 import type {
   PatchTask,

@@ -67,7 +67,7 @@ describe("Conversions API", () => {
               },
             },
           ],
-          partner_agent: "ChatbotX",
+          partner_agent: "HiTechCloudOmnichannel",
         },
       },
     )

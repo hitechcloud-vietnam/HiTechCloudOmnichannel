@@ -25,7 +25,7 @@ const mocks = vi.hoisted(() => ({
   loggerWarn: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => {
+vi.mock("@hitechcloud.vn/database/client", () => {
   const dbMock = {
     query: {
       customFieldModel: {
@@ -56,16 +56,16 @@ vi.mock("@chatbotx.io/database/client", () => {
   return { db: dbMock, and: vi.fn(), eq: vi.fn(), inArray: vi.fn() }
 })
 
-vi.mock("@chatbotx.io/events", () => ({
+vi.mock("@hitechcloud.vn/events", () => ({
   emitCustomFieldChanged: mocks.emitCustomFieldChanged,
 }))
 
-vi.mock("@chatbotx.io/redis", async (importOriginal) => ({
+vi.mock("@hitechcloud.vn/redis", async (importOriginal) => ({
   ...(await importOriginal<Record<string, unknown>>()),
   invalidateCacheByTags: mocks.invalidateCacheByTags,
 }))
 
-vi.mock("@chatbotx.io/logger", () => ({
+vi.mock("@hitechcloud.vn/logger", () => ({
   getChildLogger: () => ({
     debug: vi.fn(),
     error: vi.fn(),
@@ -77,7 +77,7 @@ vi.mock("@chatbotx.io/logger", () => ({
 const { contactCustomFieldService } = await import(
   "../src/contact-custom-field/service"
 )
-const { db } = await import("@chatbotx.io/database/client")
+const { db } = await import("@hitechcloud.vn/database/client")
 
 const DATETIME_FIELD = { id: "cf-dt", name: "booking_at", type: "datetime" }
 

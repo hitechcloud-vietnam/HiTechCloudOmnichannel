@@ -1,4 +1,4 @@
-import type { Context } from "@chatbotx.io/sdk"
+import type { Context } from "@hitechcloud.vn/sdk"
 import { afterEach, describe, expect, test, vi } from "vitest"
 import { DripApiError } from "../src/error"
 import { integration } from "../src/integration"

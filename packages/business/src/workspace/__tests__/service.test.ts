@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test, vi } from "vitest"
-import { ChatbotXException } from "../../errors"
+import { HiTechCloudOmnichannelException } from "../../errors"
 
 const mocks = vi.hoisted(() => ({
   businessLoggerError: vi.fn(),
@@ -15,12 +15,12 @@ const mocks = vi.hoisted(() => ({
   dispatchAuditRecord: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/analytics", () => ({
+vi.mock("@hitechcloud.vn/analytics", () => ({
   anchoredPeriod: vi.fn(() => ({ start: new Date(), end: new Date() })),
   macRepository: { ensureWorkspaceMac: vi.fn(async () => undefined) },
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: { userModel: { findFirst: vi.fn(async () => undefined) } },
     insert: mocks.workspaceInsert,
@@ -56,22 +56,22 @@ vi.mock("@chatbotx.io/database/client", () => ({
   sql: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/partials", async (importOriginal) => {
+vi.mock("@hitechcloud.vn/database/partials", async (importOriginal) => {
   const actual =
-    await importOriginal<typeof import("@chatbotx.io/database/partials")>()
+    await importOriginal<typeof import("@hitechcloud.vn/database/partials")>()
   return {
     ...actual,
     workspaceMemberRoles: { enum: { owner: "owner" } },
   }
 })
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   ROOT_TENANT_ID: "1",
   workspaceMemberModel: {},
   workspaceModel: {},
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   withCache: vi.fn(async (_key: string, resolver: () => unknown) => resolver()),
   invalidateCacheByTags: mocks.invalidateCacheByTags,
   distributedLock: {
@@ -80,7 +80,7 @@ vi.mock("@chatbotx.io/redis", () => ({
   createRedisConnection: vi.fn(() => ({ on: vi.fn() })),
 }))
 
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   PURGE_WORKSPACES_INTERVAL_MINUTES: 30,
 }))
 
@@ -177,7 +177,7 @@ describe("WorkspaceService.create", () => {
       message: "Workspace limit reached for this plan",
     })
     await expect(createWorkspace.catch((err) => err)).resolves.toBeInstanceOf(
-      ChatbotXException,
+      HiTechCloudOmnichannelException,
     )
     expect(mocks.workspaceInsert).not.toHaveBeenCalled()
   })

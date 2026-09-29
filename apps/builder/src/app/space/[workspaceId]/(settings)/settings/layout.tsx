@@ -1,4 +1,4 @@
-import { isWorkspaceScheduledForDeletion } from "@chatbotx.io/business"
+import { isWorkspaceScheduledForDeletion } from "@hitechcloud.vn/business"
 import type { ReactNode } from "react"
 import { resolveGuardedWorkspaceId } from "@/lib/auth/require-workspace-permission"
 import { getCurrentUserAndTargetWorkspace } from "@/lib/auth/utils"

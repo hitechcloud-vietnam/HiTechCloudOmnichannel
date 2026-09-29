@@ -4,7 +4,7 @@ import {
   invalidateCacheByTags,
   invalidateCacheKeys,
   withCache,
-} from "@chatbotx.io/redis"
+} from "@hitechcloud.vn/redis"
 import { logger } from "../logger"
 
 /** Every cache entry for one connection scope (`channel:integrationId`) is tagged with this so a single invalidation call clears all of them, regardless of the exact resource key (e.g. the effective-status batch key varies with the exact sorted ad-id set requested). */

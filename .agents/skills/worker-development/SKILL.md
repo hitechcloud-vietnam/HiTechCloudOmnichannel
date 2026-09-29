@@ -12,7 +12,7 @@ description: >-
 
 Workers run as separate Node processes in `apps/worker/`. They consume jobs from **BullMQ** queues (Redis-backed) or **Kafka** topics.
 
-**Shared config** lives in `packages/worker-config/` (`@chatbotx.io/worker-config`).
+**Shared config** lives in `packages/worker-config/` (`@hitechcloud.vn/worker-config`).
 
 ## Existing Workers
 
@@ -28,7 +28,7 @@ Workers run as separate Node processes in `apps/worker/`. They consume jobs from
 | schedule | (cron) | `src/schedule/worker.ts` |
 | sequence-scheduler | Kafka | `src/sequence-scheduler/worker*.ts` |
 | notification | `notification` | `src/notification/worker.ts` |
-| events | event-bus (not BullMQ) | `src/events/worker.ts` — `startWorker([...listeners])` from `@chatbotx.io/event-bus/worker` |
+| events | event-bus (not BullMQ) | `src/events/worker.ts` — `startWorker([...listeners])` from `@hitechcloud.vn/event-bus/worker` |
 
 `queueNames` (`packages/worker-config/src/lib/types.ts:3`) also declares `broadcast` and
 `quota`, which have queues but no dedicated worker entry — their jobs are consumed by the
@@ -152,7 +152,7 @@ Include in the `dev` script's concurrently list if needed.
 From builder or other apps:
 
 ```typescript
-import { myQueue, MyQueueJobAction } from "@chatbotx.io/worker-config"
+import { myQueue, MyQueueJobAction } from "@hitechcloud.vn/worker-config"
 
 await myQueue.add("processItem", {
   type: MyQueueJobAction.processItem,
@@ -243,8 +243,8 @@ jobs can still report failures.
 
 For high-throughput scenarios, the project uses Kafka:
 
-- **Producer**: `createProducer` from `@chatbotx.io/kafka`
-- **Consumer**: `createConsumer` from `@chatbotx.io/kafka`
+- **Producer**: `createProducer` from `@hitechcloud.vn/kafka`
+- **Consumer**: `createConsumer` from `@hitechcloud.vn/kafka`
 - Topics defined as constants
 - JSON serialization for payloads
 
@@ -254,12 +254,12 @@ Only used for sequence dispatch currently. Prefer BullMQ for standard job queues
 
 | What | Import from |
 |------|-------------|
-| Queue names, job types | `@chatbotx.io/worker-config` |
-| Redis connection, options | `@chatbotx.io/worker-config` |
-| Database | `@chatbotx.io/database/client` |
+| Queue names, job types | `@hitechcloud.vn/worker-config` |
+| Redis connection, options | `@hitechcloud.vn/worker-config` |
+| Database | `@hitechcloud.vn/database/client` |
 | Integration handlers | `../services/integrations` (within worker) |
-| Logger | `@chatbotx.io/logger` |
-| SDK types | `@chatbotx.io/sdk` |
+| Logger | `@hitechcloud.vn/logger` |
+| SDK types | `@hitechcloud.vn/sdk` |
 
 ## Logging
 

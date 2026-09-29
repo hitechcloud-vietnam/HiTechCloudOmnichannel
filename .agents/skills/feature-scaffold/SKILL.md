@@ -56,7 +56,7 @@ business logic — see the "Queries (Server-Side)" section below.
 ```typescript
 // app/space/[workspaceId]/(has-folder)/<feature>/page.tsx
 import { Suspense } from "react"
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { listItems } from "@/features/<feature>/queries"
 import { ItemsTable } from "@/features/<feature>/items-table"
 
@@ -114,7 +114,7 @@ export const ItemsTable = ({ promises, workspaceId }: Props) => {
   const [items] = use(promises)
 
   return (
-    // Table UI using @chatbotx.io/ui components
+    // Table UI using @hitechcloud.vn/ui components
   )
 }
 ```
@@ -167,8 +167,8 @@ that fits (fail closed):
 ## Queries (Server-Side)
 
 **Rule:** The chain is `action | API handler → service → repository → DB`.
-Queries must NOT import `db` or `@chatbotx.io/database/schema` directly — call
-a service from `@chatbotx.io/business`. Neither module is importable from
+Queries must NOT import `db` or `@hitechcloud.vn/database/schema` directly — call
+a service from `@hitechcloud.vn/business`. Neither module is importable from
 `apps/builder/src/features/*/queries/*.ts`. See `.agents/rules/data-access.md`
 for the full contract.
 
@@ -183,7 +183,7 @@ write the file — call the service directly from the caller:
 
 ```typescript
 // No query file needed — tagService.list needs nothing from the session.
-import { tagService } from "@chatbotx.io/business"
+import { tagService } from "@hitechcloud.vn/business"
 
 const { data } = await tagService.list({ workspaceId })
 ```
@@ -192,7 +192,7 @@ const { data } = await tagService.list({ workspaceId })
 
 ```typescript
 // queries/get-contact.query.ts
-import { contactService } from "@chatbotx.io/business"
+import { contactService } from "@hitechcloud.vn/business"
 import { requireContactPermissionScope } from "../permissions"
 
 export async function getContact(input: { workspaceId: string; id: string }) {
@@ -232,7 +232,7 @@ export const CreateItemForm = ({ workspaceId }: { workspaceId: string }) => {
 
   return (
     <form onSubmit={handleSubmitWithAction}>
-      {/* Form fields using @chatbotx.io/ui form components */}
+      {/* Form fields using @hitechcloud.vn/ui form components */}
     </form>
   )
 }
@@ -242,9 +242,9 @@ export const CreateItemForm = ({ workspaceId }: { workspaceId: string }) => {
 
 Always pick the highest-priority option that fits the field type:
 
-1. **Defined form field** from `@chatbotx.io/ui/components/form/*` — **first choice**.
+1. **Defined form field** from `@hitechcloud.vn/ui/components/form/*` — **first choice**.
    Handles label, optional marker, description, and `FormMessage` automatically.
-2. **Shadcn UI primitive** from `@chatbotx.io/ui/components/ui/*` inside a manual
+2. **Shadcn UI primitive** from `@hitechcloud.vn/ui/components/ui/*` inside a manual
    `FormField`/`FormItem` block — only when no defined field covers the use case.
 3. **Raw React/HTML element** — last resort.
 
@@ -271,12 +271,12 @@ needed as long as a `<Form {...form}>` provider wraps the form.
 ### Use the shared components, never raw HTML
 
 - **Sections:** group multi-section forms with `<Card>` / `<CardHeader>` / `<CardTitle>` /
-  `<CardContent className="space-y-4">` (`@chatbotx.io/ui/components/ui/card`). Never a plain
+  `<CardContent className="space-y-4">` (`@hitechcloud.vn/ui/components/ui/card`). Never a plain
   `<div className="rounded-lg border p-6">`.
-- **Buttons:** always `<Button>` (`@chatbotx.io/ui/components/ui/button`) — including icon-only
+- **Buttons:** always `<Button>` (`@hitechcloud.vn/ui/components/ui/button`) — including icon-only
   buttons and ones inside a base-ui trigger's `render` prop. Never a raw `<button>`. Use the
   `variant` prop (`ghost`, `outline`, `dashed`, …) rather than re-styling with `className`.
-- **Sticky save bars, empty states, and table shells** already exist in `@chatbotx.io/ui` and in
+- **Sticky save bars, empty states, and table shells** already exist in `@hitechcloud.vn/ui` and in
   sibling features — copy the nearest real page rather than rebuilding the markup.
 
 For the full component ladder (which field component to reach for first) see the
@@ -448,16 +448,16 @@ Wrap with React context provider (`provider/item-store-provider.tsx`).
 | What | Path |
 |------|------|
 | App internal | `@/features/<feature>/...`, `@/lib/...`, `@/components/...` |
-| Shared UI | `@chatbotx.io/ui/components/ui/<component>` (via the package's `exports` map) |
-| Business services | `@chatbotx.io/business` — the only way to reach data from a feature |
-| Types | `@chatbotx.io/database/types` |
-| Shared helpers | `@chatbotx.io/utils` (`getIdFromParams`, `zodBigintAsString`, …) |
+| Shared UI | `@hitechcloud.vn/ui/components/ui/<component>` (via the package's `exports` map) |
+| Business services | `@hitechcloud.vn/business` — the only way to reach data from a feature |
+| Types | `@hitechcloud.vn/database/types` |
+| Shared helpers | `@hitechcloud.vn/utils` (`getIdFromParams`, `zodBigintAsString`, …) |
 | oRPC client | `@/lib/orpc/orpc` |
 | oRPC stacks | `@/orpc` (for `authorizedAPI`, `workspaceTokenAuthAPIForScope`) |
 | Auth middleware | `@/middlewares/auth` |
 | Safe action clients | `@/lib/safe-action` |
 
-`@chatbotx.io/database/client` and `@chatbotx.io/database/schema` are **not**
+`@hitechcloud.vn/database/client` and `@hitechcloud.vn/database/schema` are **not**
 importable from `apps/builder/src/features/*` — see `.agents/rules/data-access.md`.
 
 ## Layout Patterns
@@ -482,15 +482,15 @@ skill. Read it for any UI work; it is not duplicated here.
 ## Logging
 
 Server code (actions, queries, API handlers) uses the structured logger, never `console`:
-`const logger = baseLogger.child({ feature: "myFeature" })` from `@chatbotx.io/logger`, then
+`const logger = baseLogger.child({ feature: "myFeature" })` from `@hitechcloud.vn/logger`, then
 `logger.error({ err: error }, "[myFeature] operation failed")`. **The key is `err`, not `error`** —
 see repo invariant 20 in `AGENTS.md`.
 
-## Services — business logic lives in `@chatbotx.io/business`
+## Services — business logic lives in `@hitechcloud.vn/business`
 
 **Never** create a `*.service.ts` inside a feature folder. Business logic (DB queries, domain
 mutations, cache invalidation, events) belongs in `packages/business/src/<domain>/service.ts`;
-a feature imports it: `import { integrationService } from "@chatbotx.io/business"`. If a
+a feature imports it: `import { integrationService } from "@hitechcloud.vn/business"`. If a
 legacy service already sits in a feature folder, move it before extending it.
 
 A feature folder holds only `actions/`, `api/`, `queries/`, `schema/`, `components/`, `hooks/`,

@@ -1,5 +1,5 @@
-import { integrationFacebookAdsService } from "@chatbotx.io/business"
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { integrationFacebookAdsService } from "@hitechcloud.vn/business"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { AdAccountsSection } from "@/features/integration-facebook-ads/components/ad-accounts-section"
 import { FacebookAdsManage } from "@/features/integration-facebook-ads/facebook-ads-manage"

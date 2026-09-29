@@ -1,13 +1,13 @@
 import {
   createMessageRepository,
   getSafeSinceTime,
-} from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/repositories"
 import type {
   ContactInboxModel,
   ConversationModel,
   MessageModel,
-} from "@chatbotx.io/database/types"
-import { simpleQueue } from "@chatbotx.io/redis"
+} from "@hitechcloud.vn/database/types"
+import { simpleQueue } from "@hitechcloud.vn/redis"
 import { getKey } from "./constants"
 import { dispatchAutomatedResponseReply } from "./dispatch-reply"
 import { logger } from "./lib/logger"

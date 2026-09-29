@@ -74,7 +74,7 @@ WORKDIR /app
 # warning "Cannot find base config file ../../tsconfig.base.json".
 COPY tsconfig.base.json ./tsconfig.base.json
 RUN mkdir -p /app/seed-runner \
-  && pnpm --filter "@chatbotx.io/database" exec esbuild src/seed/index.ts \
+  && pnpm --filter "@hitechcloud.vn/database" exec esbuild src/seed/index.ts \
     --bundle --platform=node --format=cjs \
     --outfile=/app/seed-runner/seed.cjs \
     --external:pg

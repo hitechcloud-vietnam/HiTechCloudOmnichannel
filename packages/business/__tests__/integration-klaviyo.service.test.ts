@@ -17,7 +17,7 @@ const updateChain = {
 
 vi.mock("../src/audit/dispatcher", () => ({ dispatchAuditRecord: vi.fn() }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       integrationKlaviyoModel: { findFirst: mocks.findFirst },
@@ -29,16 +29,16 @@ vi.mock("@chatbotx.io/database/client", () => ({
   isDatabaseError: vi.fn().mockReturnValue(false),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   integrationKlaviyoModel: { id: "id", workspaceId: "workspaceId" },
   integrationModel: { id: "id" },
 }))
 
-vi.mock("@chatbotx.io/encryption", () => ({
+vi.mock("@hitechcloud.vn/encryption", () => ({
   encryptUtils: { encryptObject: mocks.encryptObject },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: vi.fn(),
 }))
 
@@ -98,7 +98,7 @@ describe("IntegrationKlaviyoService", () => {
         constraint: "IntegrationKlaviyo_workspaceId_key",
       },
     })
-    const { isDatabaseError } = await import("@chatbotx.io/database/client")
+    const { isDatabaseError } = await import("@hitechcloud.vn/database/client")
     vi.mocked(isDatabaseError).mockImplementation(
       (error: unknown) => error === uniqueError,
     )

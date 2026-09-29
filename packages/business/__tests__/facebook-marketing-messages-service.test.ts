@@ -7,7 +7,7 @@ const authRepository = {
   updateStatus: vi.fn(),
 }
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   facebookMarketingMessagesAuthRepository: authRepository,
   facebookMarketingMessageRepository: {
     listByWorkspaceId: vi.fn(),
@@ -25,7 +25,7 @@ vi.mock("../src/audit/dispatcher", () => ({
   dispatchAuditRecord: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/encryption", () => ({
+vi.mock("@hitechcloud.vn/encryption", () => ({
   // Passthrough stand-in for the real `EncryptedData` validator: these tests
   // exercise the service's branching, not the envelope format.
   encryptedDataSchema: { parse: (value: unknown) => value },
@@ -112,7 +112,7 @@ describe("decryptAuth", () => {
   })
 
   test("returns null instead of throwing when the blob cannot be decrypted", async () => {
-    const { encryptUtils } = await import("@chatbotx.io/encryption")
+    const { encryptUtils } = await import("@hitechcloud.vn/encryption")
     vi.mocked(encryptUtils.decryptObject).mockRejectedValueOnce(
       new Error("bad key"),
     )

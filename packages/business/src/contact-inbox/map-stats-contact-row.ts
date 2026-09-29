@@ -1,5 +1,5 @@
-import type { ContactEventData } from "@chatbotx.io/analytics/schemas"
-import type { ChannelType } from "@chatbotx.io/database/partials"
+import type { ContactEventData } from "@hitechcloud.vn/analytics/schemas"
+import type { ChannelType } from "@hitechcloud.vn/database/partials"
 import type { ContactInboxWithAnalytics } from "./service"
 
 // Shared row-shape across every "stats contacts" route that pairs a

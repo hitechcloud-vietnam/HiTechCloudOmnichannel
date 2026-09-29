@@ -7,19 +7,19 @@ import {
   isDatabaseError,
   isNull,
   notInArray,
-} from "@chatbotx.io/database/client"
-import { metaCatalogItemRepository } from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/client"
+import { metaCatalogItemRepository } from "@hitechcloud.vn/database/repositories"
 import {
   integrationMetaCatalogModel,
   integrationModel,
   metaCatalogSyncRunModel,
-} from "@chatbotx.io/database/schema"
-import { encryptedDataSchema, encryptUtils } from "@chatbotx.io/encryption"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/schema"
+import { encryptedDataSchema, encryptUtils } from "@hitechcloud.vn/encryption"
+import { createId } from "@hitechcloud.vn/utils"
 import { z } from "zod"
 import { BaseService } from "../base.service"
 import {
-  ChatbotXException,
+  HiTechCloudOmnichannelException,
   notFoundException,
   toPublicErrorMessage,
 } from "../errors"
@@ -34,7 +34,7 @@ const ACTIVE_IMPORT_STATUSES = ["queued", "running"] as const
 
 const toPublicMetaCatalogImportMessage = (message: string) =>
   toPublicErrorMessage(
-    new ChatbotXException(message, "metaCatalogPublicError"),
+    new HiTechCloudOmnichannelException(message, "metaCatalogPublicError"),
     GENERIC_IMPORT_FAILURE,
   )
 
@@ -233,13 +233,13 @@ class IntegrationMetaCatalogService extends BaseService {
       throw notFoundException("Meta Catalog integration not found")
     }
     if (row.status === "invalid") {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Meta Catalog connection requires reconnection",
         "metaCatalogReconnectRequired",
       )
     }
     if (!row.encryptedAuth) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Meta Catalog connection requires reconnection",
         "metaCatalogReconnectRequired",
       )
@@ -284,7 +284,7 @@ class IntegrationMetaCatalogService extends BaseService {
     if (!row) {
       const existing = await this.findByWorkspaceId(input.workspaceId, tx)
       if (existing && ["queued", "running"].includes(existing.importStatus)) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "A Meta Catalog product import is already running",
           "metaCatalogImportAlreadyRunning",
         )
@@ -430,7 +430,7 @@ class IntegrationMetaCatalogService extends BaseService {
   }) {
     const currency = input.currency.trim().toUpperCase()
     if (!CURRENCY_CODE_REGEX.test(currency)) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Currency must be a three-letter ISO code",
         "metaCatalogInvalidCurrency",
       )
@@ -439,13 +439,13 @@ class IntegrationMetaCatalogService extends BaseService {
     try {
       storeUrl = new URL(input.storeUrl)
     } catch {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Store URL is invalid",
         "metaCatalogInvalidStoreUrl",
       )
     }
     if (!["http:", "https:"].includes(storeUrl.protocol)) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Store URL must use HTTP or HTTPS",
         "metaCatalogInvalidStoreUrl",
       )
@@ -512,7 +512,7 @@ class IntegrationMetaCatalogService extends BaseService {
           existing.importStatus as (typeof ACTIVE_IMPORT_STATUSES)[number],
         )
       ) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "Wait for the active Meta Catalog sync to finish before disconnecting",
           "metaCatalogSyncAlreadyRunning",
         )

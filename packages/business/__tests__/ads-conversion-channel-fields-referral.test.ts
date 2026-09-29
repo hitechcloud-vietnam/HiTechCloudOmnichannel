@@ -1,4 +1,4 @@
-import type { ContactInboxReferral } from "@chatbotx.io/database/schema"
+import type { ContactInboxReferral } from "@hitechcloud.vn/database/schema"
 import { describe, expect, test } from "vitest"
 import { resolveAdReferral } from "../src/ads-conversion/channel-fields"
 

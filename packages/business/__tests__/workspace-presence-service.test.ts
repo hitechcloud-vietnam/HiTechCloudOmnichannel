@@ -7,7 +7,7 @@ const mocks = vi.hoisted(() => ({
   loggerError: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   presenceStore: {
     heartbeatMany: mocks.heartbeatMany,
     liveMembers: mocks.liveMembers,

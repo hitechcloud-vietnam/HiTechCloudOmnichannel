@@ -94,7 +94,7 @@ vi.mock("../src/contact/service", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     transaction: async (cb: (tx: unknown) => unknown) => {
       const result = await cb(txHandle)
@@ -104,9 +104,9 @@ vi.mock("@chatbotx.io/database/client", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/partials", async (importOriginal) => {
+vi.mock("@hitechcloud.vn/database/partials", async (importOriginal) => {
   const actual =
-    await importOriginal<typeof import("@chatbotx.io/database/partials")>()
+    await importOriginal<typeof import("@hitechcloud.vn/database/partials")>()
   return actual
 })
 

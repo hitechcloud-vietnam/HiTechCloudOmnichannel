@@ -9,14 +9,14 @@ import {
   lt,
   lte,
   sql,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   type SmartDelayStatus,
   type SmartDelayType,
   smartDelayStatuses,
   smartDelayTypes,
-} from "@chatbotx.io/database/partials"
-import { contactOnSmartDelayModel } from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/partials"
+import { contactOnSmartDelayModel } from "@hitechcloud.vn/database/schema"
 import { BaseService } from "../base.service"
 
 export type SmartDelayRow = Omit<

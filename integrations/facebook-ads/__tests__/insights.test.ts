@@ -1,4 +1,4 @@
-import { HttpResponse, http, server } from "@chatbotx.io/vitest-config/msw"
+import { HttpResponse, http, server } from "@hitechcloud.vn/vitest-config/msw"
 import { describe, expect, test, vi } from "vitest"
 import { getAdInsights } from "../src/apis/insights"
 import { DEFAULT_API_VERSION, MAX_GRAPH_PAGES } from "../src/constants"

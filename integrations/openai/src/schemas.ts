@@ -1,4 +1,4 @@
-import type { Context, Handler, SecretTextAuthValue } from "@chatbotx.io/sdk"
+import type { Context, Handler, SecretTextAuthValue } from "@hitechcloud.vn/sdk"
 
 export type OpenAIAuthValue = SecretTextAuthValue
 

@@ -6,7 +6,7 @@ const { repositoryMock } = vi.hoisted(() => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   integrationWhatsappRepository: repositoryMock,
   whatsappSignupSessionRepository: {},
   metaCapiEventRepository: {},

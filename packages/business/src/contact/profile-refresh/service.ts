@@ -1,10 +1,10 @@
-import type { ChannelType } from "@chatbotx.io/database/partials"
+import type { ChannelType } from "@hitechcloud.vn/database/partials"
 import type {
   ContactInboxModel,
   ContactModel,
-} from "@chatbotx.io/database/types"
-import { uploader } from "@chatbotx.io/filesystem"
-import type { IncomingContact } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/database/types"
+import { uploader } from "@hitechcloud.vn/filesystem"
+import type { IncomingContact } from "@hitechcloud.vn/sdk"
 import { contactInboxService } from "../../contact-inbox/service"
 import {
   finalizeContactProfile,

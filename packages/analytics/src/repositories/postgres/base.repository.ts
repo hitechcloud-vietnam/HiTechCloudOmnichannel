@@ -1,4 +1,4 @@
-import { db } from "@chatbotx.io/database/client"
+import { db } from "@hitechcloud.vn/database/client"
 
 export type MessageEventType =
   | "message:sent"

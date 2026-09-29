@@ -1,4 +1,4 @@
-import { isUniqueViolationError } from "@chatbotx.io/database/client"
+import { isUniqueViolationError } from "@hitechcloud.vn/database/client"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
 const { mockSelectFor, mockUpdateReturning, mockUpdateSet, dbTransactionSpy } =
@@ -29,7 +29,7 @@ const { mockSelectFor, mockUpdateReturning, mockUpdateSet, dbTransactionSpy } =
     }
   })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn((...conditions: unknown[]) => ({ conditions })),
   db: {
     transaction: dbTransactionSpy,
@@ -40,7 +40,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   isUniqueViolationError: vi.fn(() => false),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   minigameModel: {
     id: "id",
     workspaceId: "workspaceId",
@@ -172,7 +172,7 @@ describe("MinigameService.update — prize quantity reconciliation", () => {
     expect(setArg.prizeSettings.prizes[0].quantity).toBeUndefined()
   })
 
-  test("maps a unique-name violation to a 409 ChatbotXException", async () => {
+  test("maps a unique-name violation to a 409 HiTechCloudOmnichannelException", async () => {
     mockSelectFor.mockResolvedValue([
       {
         prizeSettings: {
@@ -261,7 +261,7 @@ describe("MinigameService.updatePartial — partial merge over the current row",
     ).rejects.toThrow()
   })
 
-  test("maps a unique-name violation to a 409 ChatbotXException", async () => {
+  test("maps a unique-name violation to a 409 HiTechCloudOmnichannelException", async () => {
     mockSelectFor.mockResolvedValue([baseCurrentRow])
     mockUpdateReturning.mockRejectedValueOnce(new Error("unique violation"))
 

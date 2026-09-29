@@ -1,7 +1,7 @@
 import {
   resolveAdminTenantId,
   tenantHelpItemService,
-} from "@chatbotx.io/business"
+} from "@hitechcloud.vn/business"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { Suspense } from "react"

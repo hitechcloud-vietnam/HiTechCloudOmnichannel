@@ -25,7 +25,7 @@ const { repositoryMock, encryptTextMock, decryptTextMock, loggerWarnMock } =
     loggerWarnMock: vi.fn(),
   }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   integrationWhatsappRepository: repositoryMock,
   whatsappBusinessAccountRepository: {
     findByWaba: vi.fn().mockResolvedValue(null),
@@ -43,10 +43,10 @@ vi.mock("../src/logger", () => ({
   logger: { warn: loggerWarnMock },
 }))
 
-vi.mock("@chatbotx.io/encryption", async () => {
+vi.mock("@hitechcloud.vn/encryption", async () => {
   const actual = await vi.importActual<
-    typeof import("@chatbotx.io/encryption")
-  >("@chatbotx.io/encryption")
+    typeof import("@hitechcloud.vn/encryption")
+  >("@hitechcloud.vn/encryption")
   return {
     ...actual,
     encryptUtils: {
@@ -63,7 +63,7 @@ const { workspaceService } = await import("../src/workspace/service")
 const { platformCredentialService } = await import(
   "../src/platform-credential/service"
 )
-const { ChannelError, ChannelErrorCategory } = await import("@chatbotx.io/sdk")
+const { ChannelError, ChannelErrorCategory } = await import("@hitechcloud.vn/sdk")
 
 describe("integrationWhatsappService signup sessions", () => {
   beforeEach(() => {

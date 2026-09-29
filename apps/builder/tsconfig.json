@@ -1,9 +1,9 @@
 {
-  "extends": "@chatbotx.io/typescript-config/nextjs.json",
+  "extends": "@hitechcloud.vn/typescript-config/nextjs.json",
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"],
-      "@chatbotx.io/ui/*": ["../../packages/ui/src/*"]
+      "@hitechcloud.vn/ui/*": ["../../packages/ui/src/*"]
     },
     "plugins": [
       {

@@ -44,7 +44,7 @@
 
 **HiTechCloudOmnichannel** is an open-source omnichannel marketing, customer engagement and AI automation platform developed under the **HiTechCloud** ecosystem.
 
-This project is **inherited from and further developed from the open-source ChatbotX project**.
+This project is **inherited from and further developed from the open-source HiTechCloudOmnichannel project**.
 
 HiTechCloudOmnichannel continues the original foundation while evolving the platform toward:
 
@@ -459,22 +459,22 @@ pnpm --filter realtime dev
 CLI:
 
 ```bash
-pnpm --filter chatbotx dev:cli
+pnpm --filter hitechcloudomnichannel dev:cli
 ```
 
 MCP:
 
 ```bash
-pnpm --filter chatbotx-mcp dev:mcp
+pnpm --filter hitechcloudomnichannel-mcp dev:mcp
 ```
 
 Database Studio:
 
 ```bash
-pnpm --filter @chatbotx.io/database db:studio
+pnpm --filter @hitechcloud.vn/database db:studio
 ```
 
-> Some internal package names and commands may retain their original ChatbotX naming during the transition. They can be progressively migrated to HiTechCloud naming without changing the underlying architecture unnecessarily.
+> Some internal package names and commands may retain their original HiTechCloudOmnichannel naming during the transition. They can be progressively migrated to HiTechCloud naming without changing the underlying architecture unnecessarily.
 
 ---
 
@@ -636,12 +636,12 @@ Current and planned integration areas include:
 
 ## 🛠️ Roadmap
 
-The project is continuously evolving from its ChatbotX foundation into a broader HiTechCloud platform.
+The project is continuously evolving from its HiTechCloudOmnichannel foundation into a broader HiTechCloud platform.
 
 Planned areas include:
 
 * [ ] Complete HiTechCloud branding migration
-* [ ] Remove remaining ChatbotX product-facing references
+* [ ] Remove remaining HiTechCloudOmnichannel product-facing references
 * [ ] HiTechCloud AI provider integration
 * [ ] AI Sales Agents
 * [ ] AI Support Agents
@@ -664,7 +664,7 @@ Planned areas include:
 
 HiTechCloudOmnichannel is **not a completely independent project created from scratch**.
 
-It is a continuation and further development of the open-source **ChatbotX** codebase.
+It is a continuation and further development of the open-source **HiTechCloudOmnichannel** codebase.
 
 The project preserves the value of the original open-source foundation while developing its own:
 
@@ -680,7 +680,7 @@ The project preserves the value of the original open-source foundation while dev
 This project should therefore be understood as:
 
 ```text
-ChatbotX Open-Source Foundation
+HiTechCloudOmnichannel Open-Source Foundation
               │
               ▼
       HiTechCloudOmnichannel
@@ -759,5 +759,5 @@ If HiTechCloudOmnichannel is useful to you:
   <br>
   Open-source omnichannel marketing platform built for AI.
   <br><br>
-  <sub>Developed by HiTechCloud · Evolved from the ChatbotX open-source foundation</sub>
+  <sub>Developed by HiTechCloud · Evolved from the HiTechCloudOmnichannel open-source foundation</sub>
 </p>

@@ -3,7 +3,7 @@ import type {
   Context,
   IncomingAttachment,
   IncomingMessage,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import type { WhatsAppAPI } from "whatsapp-api-js"
 import type { ServerMessageTypes } from "whatsapp-api-js/types"
 import type { WhatsappAuthValue } from "../../schema"

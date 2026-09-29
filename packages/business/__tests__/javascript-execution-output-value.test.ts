@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest"
-import type { ChatbotXException } from "../src/errors"
+import type { HiTechCloudOmnichannelException } from "../src/errors"
 import { toValidatedCustomFieldValue } from "../src/javascript-execution/output-value"
 
 const validate = (props: Parameters<typeof toValidatedCustomFieldValue>[0]) =>
@@ -32,7 +32,7 @@ describe("toValidatedCustomFieldValue", () => {
       expect(() =>
         validate({ value: "Abcd 123", type: "number", fieldName: "Age" }),
       ).toThrowError(
-        expect.objectContaining<Partial<ChatbotXException>>({
+        expect.objectContaining<Partial<HiTechCloudOmnichannelException>>({
           code: "javascriptOutputTypeMismatch",
         }),
       )
@@ -46,7 +46,7 @@ describe("toValidatedCustomFieldValue", () => {
           fieldName: "Age",
         }),
       ).toThrowError(
-        expect.objectContaining<Partial<ChatbotXException>>({
+        expect.objectContaining<Partial<HiTechCloudOmnichannelException>>({
           code: "javascriptOutputTypeMismatch",
         }),
       )
@@ -57,7 +57,7 @@ describe("toValidatedCustomFieldValue", () => {
           fieldName: "Age",
         }),
       ).toThrowError(
-        expect.objectContaining<Partial<ChatbotXException>>({
+        expect.objectContaining<Partial<HiTechCloudOmnichannelException>>({
           code: "javascriptOutputTypeMismatch",
         }),
       )
@@ -67,7 +67,7 @@ describe("toValidatedCustomFieldValue", () => {
       expect(() =>
         validate({ value: { a: 1 }, type: "number", fieldName: "Age" }),
       ).toThrowError(
-        expect.objectContaining<Partial<ChatbotXException>>({
+        expect.objectContaining<Partial<HiTechCloudOmnichannelException>>({
           code: "javascriptOutputTypeMismatch",
         }),
       )
@@ -112,7 +112,7 @@ describe("toValidatedCustomFieldValue", () => {
       expect(() =>
         validate({ value: 42, type: "email", fieldName: "Email" }),
       ).toThrowError(
-        expect.objectContaining<Partial<ChatbotXException>>({
+        expect.objectContaining<Partial<HiTechCloudOmnichannelException>>({
           code: "javascriptOutputTypeMismatch",
         }),
       )
@@ -150,7 +150,7 @@ describe("toValidatedCustomFieldValue", () => {
           fieldName: "Signed up",
         }),
       ).toThrowError(
-        expect.objectContaining<Partial<ChatbotXException>>({
+        expect.objectContaining<Partial<HiTechCloudOmnichannelException>>({
           code: "javascriptOutputTypeMismatch",
         }),
       )
@@ -179,7 +179,7 @@ describe("toValidatedCustomFieldValue", () => {
     expect(() =>
       validate({ value: "", type: "number", fieldName: "Age" }),
     ).toThrowError(
-      expect.objectContaining<Partial<ChatbotXException>>({
+      expect.objectContaining<Partial<HiTechCloudOmnichannelException>>({
         code: "javascriptOutputTypeMismatch",
       }),
     )
@@ -193,7 +193,7 @@ describe("toValidatedCustomFieldValue", () => {
         fieldName: "Age",
       }),
     ).toThrowError(
-      expect.objectContaining<Partial<ChatbotXException>>({
+      expect.objectContaining<Partial<HiTechCloudOmnichannelException>>({
         code: "javascriptOutputValueTooLarge",
       }),
     )

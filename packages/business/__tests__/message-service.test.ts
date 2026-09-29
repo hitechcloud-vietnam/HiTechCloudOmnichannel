@@ -21,25 +21,25 @@ const mocks = vi.hoisted(() => {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: mocks.db,
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   createMessageRepository: mocks.createMessageRepository,
   mediaLibraryFileRepository: {},
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   withCache: mocks.withCache,
 }))
 
 // The following are reached only because messageService.createOutgoing is
 // wired in as a class field (module-scope import), not because any test here
 // exercises it — this file only covers the pre-existing read/delete methods.
-vi.mock("@chatbotx.io/filesystem", () => ({}))
-vi.mock("@chatbotx.io/partysocket-config", () => ({}))
-vi.mock("@chatbotx.io/worker-config", () => ({}))
+vi.mock("@hitechcloud.vn/filesystem", () => ({}))
+vi.mock("@hitechcloud.vn/partysocket-config", () => ({}))
+vi.mock("@hitechcloud.vn/worker-config", () => ({}))
 vi.mock("../src/contact-inbox/service", () => ({ contactInboxService: {} }))
 vi.mock("../src/conversation/service", () => ({ conversationService: {} }))
 vi.mock("../src/platform/settings", () => ({ resolveTenantSettings: vi.fn() }))

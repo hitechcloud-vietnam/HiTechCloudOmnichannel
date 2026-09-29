@@ -1,4 +1,4 @@
-import type { BaseConfig, SecretTextAuthValue } from "@chatbotx.io/sdk"
+import type { BaseConfig, SecretTextAuthValue } from "@hitechcloud.vn/sdk"
 import { z } from "zod"
 
 export type TelegramConfig = BaseConfig & {

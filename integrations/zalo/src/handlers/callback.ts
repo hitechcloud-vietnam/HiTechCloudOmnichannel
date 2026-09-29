@@ -3,7 +3,7 @@ import {
   type HandleRequestProps,
   type Oauth2Config,
   SdkException,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { convertCodeToTokens, getZaloOAProfile } from "../api/auth"
 import type { ZaloAuthValue } from "../schema/definition"
 import { calculateExpiresAt } from "../utils"

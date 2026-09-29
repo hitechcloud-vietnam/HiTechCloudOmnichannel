@@ -3,7 +3,7 @@ import {
   type HandleRequestProps,
   Integration,
   type IntegrationDefinition,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { sendMail } from "./actions"
 import type { SmtpActions, SmtpAuthValue } from "./schema"
 

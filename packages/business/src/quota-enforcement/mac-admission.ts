@@ -1,11 +1,11 @@
-import { macTrackingService } from "@chatbotx.io/analytics"
+import { macTrackingService } from "@hitechcloud.vn/analytics"
 import {
   db,
   type StatementTimeout,
   setLocalStatementTimeout,
   type Transaction,
-} from "@chatbotx.io/database/client"
-import type { UserQuotaModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/client"
+import type { UserQuotaModel } from "@hitechcloud.vn/database/types"
 import type { MacAdmissionStrategy } from "./keys"
 
 /**

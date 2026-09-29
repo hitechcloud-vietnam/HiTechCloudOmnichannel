@@ -1,14 +1,14 @@
-import { db, eq, isUniqueViolationError } from "@chatbotx.io/database/client"
+import { db, eq, isUniqueViolationError } from "@hitechcloud.vn/database/client"
 import {
   couponTopicStatuses,
   fileStatuses,
-} from "@chatbotx.io/database/partials"
-import { couponRepository } from "@chatbotx.io/database/repositories"
-import { workspaceModel } from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/partials"
+import { couponRepository } from "@hitechcloud.vn/database/repositories"
+import { workspaceModel } from "@hitechcloud.vn/database/schema"
 import { formatInTimeZone, fromZonedTime } from "date-fns-tz"
 import { BaseService } from "../base.service"
 import { type ContactAccessScope, contactService } from "../contact/service"
-import { ChatbotXException, notFoundException } from "../errors"
+import { HiTechCloudOmnichannelException, notFoundException } from "../errors"
 
 export type CouponImportBatchResult = {
   processed: number
@@ -65,7 +65,7 @@ const endOfSelectedDayInTimezone = (
     const day = formatInTimeZone(date, timezone, "yyyy-MM-dd")
     return fromZonedTime(`${day}T23:59:59.999`, timezone)
   } catch {
-    throw new ChatbotXException("Invalid validity date", "invalidValidityDate")
+    throw new HiTechCloudOmnichannelException("Invalid validity date", "invalidValidityDate")
   }
 }
 
@@ -76,13 +76,13 @@ const throwIfInvalidTopicInput = (input: {
   if (input.name !== undefined) {
     const name = normalizeName(input.name)
     if (!name) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Coupon topic name is required",
         "couponTopicNameRequired",
       )
     }
     if (name.length > NAME_MAX_LENGTH) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Coupon topic name is too long",
         "couponTopicNameTooLong",
       )
@@ -91,7 +91,7 @@ const throwIfInvalidTopicInput = (input: {
 
   const description = trimNullable(input.description)
   if (description && description.length > DESCRIPTION_MAX_LENGTH) {
-    throw new ChatbotXException(
+    throw new HiTechCloudOmnichannelException(
       "Coupon topic description is too long",
       "couponTopicDescriptionTooLong",
     )
@@ -306,7 +306,7 @@ class CouponService extends BaseService {
     return await db.transaction(async (tx) => {
       const topic = await couponRepository.lockTopic(input, tx)
       if (!topic || topic.status !== couponTopicStatuses.enum.active) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "Coupon topic is not active",
           "couponTopicInactive",
         )
@@ -322,7 +322,7 @@ class CouponService extends BaseService {
       const newCodes = codes.filter((code) => !existingCodes.has(code))
 
       if (newCodes.length > allowedRemaining) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "Coupon import exceeds topic limit",
           "couponImportLimitExceeded",
         )
@@ -451,7 +451,7 @@ class CouponService extends BaseService {
       couponRepository.findTopic(input),
     ])
     if (!file) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Coupon import file not found",
         "couponImportFileNotFound",
       )
@@ -460,13 +460,13 @@ class CouponService extends BaseService {
       !file.fileName.toLowerCase().endsWith(".csv") ||
       file.mimeType !== "text/csv"
     ) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Unsupported coupon import file",
         "couponImportUnsupportedFile",
       )
     }
     if (!topic || topic.status !== couponTopicStatuses.enum.active) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Coupon topic is not active",
         "couponTopicInactive",
       )
@@ -520,7 +520,7 @@ class CouponService extends BaseService {
   }) {
     const existing = await couponRepository.findTopicByName(input)
     if (existing) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Coupon topic name already exists",
         "couponTopicNameDuplicated",
       )
@@ -546,7 +546,7 @@ class CouponService extends BaseService {
       workspace.timezone,
     )
     if (input.rejectPast && expiresAt && expiresAt <= new Date()) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Coupon topic validity cannot be in the past",
         "couponTopicValidityInPast",
       )

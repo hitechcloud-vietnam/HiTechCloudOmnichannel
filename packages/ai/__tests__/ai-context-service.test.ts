@@ -1,4 +1,4 @@
-import { MessageShardUnavailableError } from "@chatbotx.io/database/errors"
+import { MessageShardUnavailableError } from "@hitechcloud.vn/database/errors"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
 const mocks = vi.hoisted(() => ({
@@ -15,12 +15,12 @@ const mocks = vi.hoisted(() => ({
   update: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   createMessageRepository: mocks.createMessageRepository,
   findConversationAIContextState: mocks.findConversationAIContextState,
   getSafeSinceTime: mocks.getSafeSinceTime,
 }))
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   AIJobAction: { summarizeConversation: "summarizeConversation" },
   aiAgentQueue: { add: mocks.aiAgentQueueAdd },
 }))

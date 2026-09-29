@@ -6,17 +6,17 @@ import {
   findOrFail,
   inArray,
   relationsFilterToSQL,
-} from "@chatbotx.io/database/client"
-import { rootFolderId } from "@chatbotx.io/database/partials"
-import { emailTopicModel } from "@chatbotx.io/database/schema"
-import type { EmailTopicModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/client"
+import { rootFolderId } from "@hitechcloud.vn/database/partials"
+import { emailTopicModel } from "@hitechcloud.vn/database/schema"
+import type { EmailTopicModel } from "@hitechcloud.vn/database/types"
 import {
   likeContains,
   parseOrderByAsObject,
   parsePagination,
-} from "@chatbotx.io/database/utils"
-import { createId } from "@chatbotx.io/utils"
-import { ChatbotXException, notFoundException } from "../errors"
+} from "@hitechcloud.vn/database/utils"
+import { createId } from "@hitechcloud.vn/utils"
+import { HiTechCloudOmnichannelException, notFoundException } from "../errors"
 import { folderService } from "../folder/service"
 import type { PaginatedResult } from "../types"
 
@@ -113,7 +113,7 @@ class EmailTopicService {
       where: { name: data.name, workspaceId },
     })
     if (existing) {
-      throw new ChatbotXException("Name is already taken.", "nameTaken", 400)
+      throw new HiTechCloudOmnichannelException("Name is already taken.", "nameTaken", 400)
     }
 
     if (data.folderId) {
@@ -152,7 +152,7 @@ class EmailTopicService {
       where: { name: data.name, workspaceId, id: { ne: id } },
     })
     if (existing) {
-      throw new ChatbotXException("Name is already taken.", "nameTaken", 400)
+      throw new HiTechCloudOmnichannelException("Name is already taken.", "nameTaken", 400)
     }
 
     const [updated] = await tx

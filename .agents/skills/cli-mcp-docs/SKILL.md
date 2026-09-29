@@ -3,7 +3,7 @@ name: cli-mcp-docs
 description: Use after adding, renaming, or removing a public oRPC procedure, or after changing an operation's MCP visibility. The CLI and MCP server generate their surface at runtime from the live OpenAPI spec, but repo-local docs still drift. This skill lists what to check and update, plus how to catch a silent CLI command-name collision before it ships.
 ---
 
-# CLI & MCP docs sync (ChatbotX)
+# CLI & MCP docs sync (HiTechCloudOmnichannel)
 
 `apps/cli` and `apps/mcp-server` never need a code change for a normal new
 endpoint — they both fetch `GET /api/public-spec.json` (generated from
@@ -11,7 +11,7 @@ endpoint — they both fetch `GET /api/public-spec.json` (generated from
 surface from it at runtime, cached for an hour. What does **not** update
 itself is the human-facing documentation that describes that surface. Skipping
 this after a public API change is how the docs quietly drift from what
-`chatbotx --help` / `tools/list` actually returns.
+`hitechcloudomnichannel --help` / `tools/list` actually returns.
 
 ## 1. Confirm the operation is live and named right
 
@@ -41,10 +41,10 @@ same name; `toolsToCommands` keeps the first registered and **silently drops
 the second** (stderr warning, exit code 0 — easy to miss in CI).
 
 ```bash
-pnpm --filter chatbotx test                              # pins known collisions,
+pnpm --filter hitechcloudomnichannel test                              # pins known collisions,
                                                           # apps/cli/__tests__/openapi-loader-command-names.test.ts
 CHATBOTX_API_URL=<local-builder-url>/api \
-  pnpm --filter chatbotx dev:cli -- --refresh-spec <group> --help
+  pnpm --filter hitechcloudomnichannel dev:cli -- --refresh-spec <group> --help
 ```
 
 Watch stderr for `Warning: duplicate command name "..." — skipping`. If your
@@ -64,17 +64,17 @@ disagree with the generated surface:
 | `apps/cli/README.md` | Full command reference by resource group, plus the "Known command-name collisions" section | A command group is added/renamed, or step 2 found a new collision |
 | `apps/mcp-server/README.md` | MCP default-tool table and runtime/setup notes | A `visibility: "default"` operation is added/removed/recategorized, or MCP runtime behavior changes |
 
-Published skill/agent distribution docs live in the separate `chatbotx-agent`
+Published skill/agent distribution docs live in the separate `hitechcloudomnichannel-agent`
 package, not this repo's `skills/` directory. If the public CLI/MCP surface
 changes, sync the matching docs there in the same product change.
 
 That repo also runs its own automated check
-(`ChatbotXIO/chatbotx-agent/.github/workflows/upstream-drift.yml`): daily, and
-immediately after `publish-cli.yml`/`publish-chatbotx-mcp.yml` here publish a
+(`HiTechCloudOmnichannelIO/hitechcloudomnichannel-agent/.github/workflows/upstream-drift.yml`): daily, and
+immediately after `publish-cli.yml`/`publish-hitechcloudomnichannel-mcp.yml` here publish a
 new version (via a `repository_dispatch` call those workflows make, gated on
-the `CHATBOTX_AGENT_DISPATCH_TOKEN` secret — see the "Notify chatbotx-agent"
+the `CHATBOTX_AGENT_DISPATCH_TOKEN` secret — see the "Notify hitechcloudomnichannel-agent"
 step in each). It compares the live CLI `--help` output and the live MCP
-default-tool set against `chatbotx-agent`'s docs and opens/updates a GitHub
+default-tool set against `hitechcloudomnichannel-agent`'s docs and opens/updates a GitHub
 issue there on drift. It is a safety net for when this manual sync step is
 missed, not a substitute for doing it in the same PR — the issue only
 surfaces after the surface has already shipped.
@@ -87,8 +87,8 @@ pins this README against the live default tool set and fails CI on drift.
 ## 4. Verify against a live instance, not just the docs
 
 ```bash
-pnpm --filter chatbotx dev:cli -- --refresh-spec <new-group> --help
-pnpm --filter chatbotx-mcp dev:mcp   # then call tools/list against it
+pnpm --filter hitechcloudomnichannel dev:cli -- --refresh-spec <new-group> --help
+pnpm --filter hitechcloudomnichannel-mcp dev:mcp   # then call tools/list against it
 ```
 
 Confirm the command/tool you documented actually appears with the flags you

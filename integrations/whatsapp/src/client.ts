@@ -1,4 +1,4 @@
-import type { Context } from "@chatbotx.io/sdk"
+import type { Context } from "@hitechcloud.vn/sdk"
 import { WhatsAppAPI } from "whatsapp-api-js"
 import type {
   WhatsappPhoneNumber,

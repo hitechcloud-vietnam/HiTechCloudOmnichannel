@@ -1,14 +1,14 @@
-import type { CustomFieldType } from "@chatbotx.io/database/partials"
-import { EMAIL_RE, NON_DIGIT_RE, PHONE_RE } from "@chatbotx.io/imports/parsers"
+import type { CustomFieldType } from "@hitechcloud.vn/database/partials"
+import { EMAIL_RE, NON_DIGIT_RE, PHONE_RE } from "@hitechcloud.vn/imports/parsers"
 import {
   canonicalNumberLiteral,
   coerceBooleanLiteral,
-} from "@chatbotx.io/utils/custom-field"
+} from "@hitechcloud.vn/utils/custom-field"
 import {
   type TemporalCustomFieldType,
   TemporalInputParsing,
-} from "@chatbotx.io/utils/datetime"
-import { normalizeTemporalValueForStorage } from "@chatbotx.io/utils/temporal-input"
+} from "@hitechcloud.vn/utils/datetime"
+import { normalizeTemporalValueForStorage } from "@hitechcloud.vn/utils/temporal-input"
 
 export type CustomFieldValueNormalizer = (
   raw: string,
@@ -27,7 +27,7 @@ export const normalizeBoolean = (value: string): string | null =>
 
 /**
  * Thin wrapper over the shared `number` canonicalizer in
- * `@chatbotx.io/utils/custom-field` (`canonicalNumberLiteral`) — the same
+ * `@hitechcloud.vn/utils/custom-field` (`canonicalNumberLiteral`) — the same
  * vocabulary the storage-side runtime coercion uses — mirroring how
  * `normalizeBoolean` above wraps `canonicalBooleanLiteral`. This WIDENS what
  * import/JS-execution accept from the old hand-rolled regex allowlist to

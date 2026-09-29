@@ -81,7 +81,7 @@ const main = async () => {
   const invariants = extractMarkedSection(agents, "SHARED-INVARIANTS")
   const gitRules = stripFrontmatter(await read(".agents/rules/git.md"))
 
-  await updateFile(".devin/rules/chatbotx.md", [
+  await updateFile(".devin/rules/hitechcloudomnichannel.md", [
     { name: "SHARED-INVARIANTS", replacement: invariants },
   ])
   await updateFile(".devin/rules/git.md", [

@@ -1,8 +1,8 @@
 import type {
   SendImageStepSchema,
   SendVideoStepSchema,
-} from "@chatbotx.io/flow-config"
-import type { SendFlowStepProps } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/flow-config"
+import type { SendFlowStepProps } from "@hitechcloud.vn/sdk"
 import { logger } from "../../../lib/logger"
 import type { InstagramAuthValue, InstagramSendMessage } from "../../../schema"
 import { convertMediaType, getAttachmentTemplate } from "./send-attachment"

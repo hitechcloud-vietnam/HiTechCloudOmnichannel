@@ -1,7 +1,7 @@
 import type {
   WhatsappCallStatus,
   WhatsappCallTerminalStatus,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 
 /**
  * VoIP call-control phases, persisted at voip:ctrl:<wacid> in Redis.

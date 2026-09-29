@@ -1,4 +1,4 @@
-import { SdkException } from "@chatbotx.io/sdk"
+import { SdkException } from "@hitechcloud.vn/sdk"
 
 export class KlaviyoApiError extends SdkException {
   readonly statusCode: number

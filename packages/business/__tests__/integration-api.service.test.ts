@@ -20,19 +20,19 @@ vi.mock("../src/inbox/service", () => ({
   inboxService: { disconnect: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: { transaction: mocks.transaction },
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   integrationTypes: { enum: { api: "api" } },
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   integrationApiRepository: { insert: mocks.insert },
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: mocks.createId,
 }))
 

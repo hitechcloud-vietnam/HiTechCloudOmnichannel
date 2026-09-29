@@ -14,7 +14,7 @@ export async function register() {
   // exist — only gate on the license in the nodejs runtime.
   if (process.env.NEXT_RUNTIME === "nodejs") {
     const { assertLicenseAtStartup } = await import(
-      "@chatbotx.io/business/license-startup"
+      "@hitechcloud.vn/business/license-startup"
     )
     await assertLicenseAtStartup()
   }

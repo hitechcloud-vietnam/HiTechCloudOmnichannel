@@ -6,7 +6,7 @@ const { mockIntegrationQueueAdd, mockLoggerError } = vi.hoisted(() => ({
   mockLoggerError: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   IntegrationJobAction: {
     runFlowPostback: "runFlowPostback",
     runFlowQuickReply: "runFlowQuickReply",

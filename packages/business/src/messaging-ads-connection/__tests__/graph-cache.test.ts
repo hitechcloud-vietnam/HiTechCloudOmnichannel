@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, test, vi } from "vitest"
 // ---------------------------------------------------------------------------
 // getOrRevalidate / invalidateMessagingAdsCache — the stale-while-revalidate
 // cache over Graph reads (out/plan/ctwa-ctm-ctid-box-merge.md Phase 2, v3
-// correction #7/#8). Fakes `@chatbotx.io/redis`'s cache primitives with a
+// correction #7/#8). Fakes `@hitechcloud.vn/redis`'s cache primitives with a
 // simple in-memory store (not the real Redis client) so cache-hit/stale/
 // miss/invalidation/generation-race behavior is asserted deterministically —
 // mirrors `packages/redis/__tests__/cache-utils.test.ts`'s approach of
@@ -92,7 +92,7 @@ const mocks = vi.hoisted(() => {
   }
 })
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   withCache: mocks.withCache,
   invalidateCacheKeys: mocks.invalidateCacheKeys,
   invalidateCacheByTags: mocks.invalidateCacheByTags,

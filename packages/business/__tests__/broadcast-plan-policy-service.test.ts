@@ -3,7 +3,7 @@
 import {
   broadcastPlanLimitDataSchema,
   TRIAL_BROADCAST_PLAN_POLICY,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
 const mocks = vi.hoisted(() => ({
@@ -13,14 +13,14 @@ const mocks = vi.hoisted(() => ({
   workspaceFind: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   sql: (strings: TemplateStringsArray, ...values: unknown[]) => ({
     strings: [...strings],
     values,
   }),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   broadcastRepository: { countActive: mocks.countActive },
 }))
 

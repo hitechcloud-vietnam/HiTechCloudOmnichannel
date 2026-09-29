@@ -1,14 +1,14 @@
-import { isDatabaseError } from "@chatbotx.io/database/client"
-import type { MessagingAdChannel } from "@chatbotx.io/database/partials"
-import { messagingAdsConnectionRepository } from "@chatbotx.io/database/repositories"
-import type { MessagingAdsConnectionModel } from "@chatbotx.io/database/types"
-import { encryptedDataSchema, encryptUtils } from "@chatbotx.io/encryption"
+import { isDatabaseError } from "@hitechcloud.vn/database/client"
+import type { MessagingAdChannel } from "@hitechcloud.vn/database/partials"
+import { messagingAdsConnectionRepository } from "@hitechcloud.vn/database/repositories"
+import type { MessagingAdsConnectionModel } from "@hitechcloud.vn/database/types"
+import { encryptedDataSchema, encryptUtils } from "@hitechcloud.vn/encryption"
 import {
   type FacebookAdsAuthValue,
   facebookAdsAuthSchema,
   integration as facebookAdsIntegration,
-} from "@chatbotx.io/integration-facebook-ads"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/integration-facebook-ads"
+import { createId } from "@hitechcloud.vn/utils"
 import { perChannelIntegrationIdsOrNull } from "../ads-conversion/channel-fields"
 import { logger } from "../logger"
 import { invalidateMessagingAdsCache } from "./graph-cache"

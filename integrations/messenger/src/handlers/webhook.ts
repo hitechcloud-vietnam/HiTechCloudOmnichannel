@@ -1,4 +1,4 @@
-import type { ContextQueue, HandleRequestProps } from "@chatbotx.io/sdk"
+import type { ContextQueue, HandleRequestProps } from "@hitechcloud.vn/sdk"
 import z from "zod"
 import { MessengerWebhookException } from "../exception"
 import { logger } from "../lib/logger"

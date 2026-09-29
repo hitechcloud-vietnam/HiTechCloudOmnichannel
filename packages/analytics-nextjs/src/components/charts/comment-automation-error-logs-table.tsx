@@ -1,12 +1,12 @@
 "use client"
 
-import type { CommentAutomationErrorRow } from "@chatbotx.io/analytics"
-import { COMMENT_AUTOMATION_ERROR_RETENTION_DAYS } from "@chatbotx.io/analytics/schemas"
+import type { CommentAutomationErrorRow } from "@hitechcloud.vn/analytics"
+import { COMMENT_AUTOMATION_ERROR_RETENTION_DAYS } from "@hitechcloud.vn/analytics/schemas"
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@chatbotx.io/ui/components/ui/avatar"
+} from "@hitechcloud.vn/ui/components/ui/avatar"
 import {
   Table,
   TableBody,
@@ -14,13 +14,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@chatbotx.io/ui/components/ui/table"
+} from "@hitechcloud.vn/ui/components/ui/table"
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@chatbotx.io/ui/components/ui/tooltip"
-import { useDebouncedCallback } from "@chatbotx.io/ui/hooks/use-debounced-callback"
+} from "@hitechcloud.vn/ui/components/ui/tooltip"
+import { useDebouncedCallback } from "@hitechcloud.vn/ui/hooks/use-debounced-callback"
 import { useLocale, useTranslations } from "next-intl"
 import { useState } from "react"
 import { useAnalysisStore } from "../../provider/analysis-store-context"

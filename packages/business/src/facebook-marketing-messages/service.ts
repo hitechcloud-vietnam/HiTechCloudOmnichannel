@@ -1,18 +1,18 @@
-import type { FacebookMarketingMessageBudgetType } from "@chatbotx.io/database/partials"
+import type { FacebookMarketingMessageBudgetType } from "@hitechcloud.vn/database/partials"
 import {
   facebookMarketingMessageRepository,
   facebookMarketingMessagesAuthRepository,
-} from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/repositories"
 import type {
   FacebookMarketingMessageModel,
   FacebookMarketingMessagesAuthModel,
-} from "@chatbotx.io/database/types"
-import { encryptedDataSchema, encryptUtils } from "@chatbotx.io/encryption"
+} from "@hitechcloud.vn/database/types"
+import { encryptedDataSchema, encryptUtils } from "@hitechcloud.vn/encryption"
 import {
   type FacebookAdsAuthValue,
   facebookAdsAuthSchema,
-} from "@chatbotx.io/integration-facebook-ads"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/integration-facebook-ads"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 
 export type CreateMarketingMessageInput = {

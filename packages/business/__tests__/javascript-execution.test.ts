@@ -1,9 +1,9 @@
-import type { CustomFieldType } from "@chatbotx.io/database/partials"
-import { MAX_CODE_LENGTH as FLOW_CONFIG_MAX_CODE_LENGTH } from "@chatbotx.io/flow-config"
-import { MAX_CODE_LENGTH as SANDBOX_MAX_CODE_LENGTH } from "@chatbotx.io/javascript-sandbox"
-import { HttpResponse, http, server } from "@chatbotx.io/vitest-config/msw"
+import type { CustomFieldType } from "@hitechcloud.vn/database/partials"
+import { MAX_CODE_LENGTH as FLOW_CONFIG_MAX_CODE_LENGTH } from "@hitechcloud.vn/flow-config"
+import { MAX_CODE_LENGTH as SANDBOX_MAX_CODE_LENGTH } from "@hitechcloud.vn/javascript-sandbox"
+import { HttpResponse, http, server } from "@hitechcloud.vn/vitest-config/msw"
 import { beforeEach, describe, expect, test, vi } from "vitest"
-import type { ChatbotXException } from "../src/errors"
+import type { HiTechCloudOmnichannelException } from "../src/errors"
 
 const mocks = vi.hoisted(() => ({
   setValues: vi.fn(async () => undefined),
@@ -104,7 +104,7 @@ describe("javascriptExecutionService", () => {
         code: "while (true) {}",
         input: {},
       }),
-    ).rejects.toMatchObject<Partial<ChatbotXException>>({
+    ).rejects.toMatchObject<Partial<HiTechCloudOmnichannelException>>({
       code: "javascriptTimeout",
       message: "JavaScript execution timed out",
     })
@@ -115,7 +115,7 @@ describe("javascriptExecutionService", () => {
 
     await expect(
       javascriptExecutionService.execute({ code: "return 1", input: {} }),
-    ).rejects.toMatchObject<Partial<ChatbotXException>>({
+    ).rejects.toMatchObject<Partial<HiTechCloudOmnichannelException>>({
       code: "javascriptExecutionFailed",
     })
   })
@@ -191,7 +191,7 @@ describe("javascriptExecutionService", () => {
         input: {},
         customFieldId: "field-name",
       }),
-    ).rejects.toMatchObject<Partial<ChatbotXException>>({
+    ).rejects.toMatchObject<Partial<HiTechCloudOmnichannelException>>({
       code: "javascriptOutputValueTooLarge",
     })
   })
@@ -209,7 +209,7 @@ describe("javascriptExecutionService", () => {
         input: {},
         customFieldId: "stale-field",
       }),
-    ).rejects.toMatchObject<Partial<ChatbotXException>>({
+    ).rejects.toMatchObject<Partial<HiTechCloudOmnichannelException>>({
       code: "notFound",
     })
 
@@ -268,7 +268,7 @@ describe("javascriptExecutionService", () => {
           input: {},
           customFieldId: "field-name",
         }),
-      ).rejects.toMatchObject<Partial<ChatbotXException>>({
+      ).rejects.toMatchObject<Partial<HiTechCloudOmnichannelException>>({
         code: "javascriptOutputTypeMismatch",
         message: expect.stringContaining('"Abcd 123"') as unknown as string,
       })
@@ -345,7 +345,7 @@ describe("javascriptExecutionService", () => {
           input: {},
           customFieldId: "field-name",
         }),
-      ).rejects.toMatchObject<Partial<ChatbotXException>>({
+      ).rejects.toMatchObject<Partial<HiTechCloudOmnichannelException>>({
         code: "javascriptOutputTypeMismatch",
       })
 
@@ -405,7 +405,7 @@ describe("javascriptExecutionService", () => {
           input: {},
           customFieldId: "field-name",
         }),
-      ).rejects.toMatchObject<Partial<ChatbotXException>>({
+      ).rejects.toMatchObject<Partial<HiTechCloudOmnichannelException>>({
         code: "javascriptOutputTypeMismatch",
       })
 
@@ -424,7 +424,7 @@ describe("javascriptExecutionService", () => {
           input: {},
           customFieldId: "field-name",
         }),
-      ).rejects.toMatchObject<Partial<ChatbotXException>>({
+      ).rejects.toMatchObject<Partial<HiTechCloudOmnichannelException>>({
         code: "javascriptOutputTypeMismatch",
       })
 

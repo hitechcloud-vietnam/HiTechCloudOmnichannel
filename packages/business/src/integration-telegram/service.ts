@@ -1,17 +1,17 @@
-import type { DatabaseClient } from "@chatbotx.io/database/client"
+import type { DatabaseClient } from "@hitechcloud.vn/database/client"
 import {
   and,
   db,
   eq,
   findOrFail,
   isDatabaseError,
-} from "@chatbotx.io/database/client"
-import { integrationTypes } from "@chatbotx.io/database/partials"
-import { integrationTelegramModel } from "@chatbotx.io/database/schema"
-import type { IntegrationTelegramModel } from "@chatbotx.io/database/types"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/client"
+import { integrationTypes } from "@hitechcloud.vn/database/partials"
+import { integrationTelegramModel } from "@hitechcloud.vn/database/schema"
+import type { IntegrationTelegramModel } from "@hitechcloud.vn/database/types"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
-import { ChatbotXException } from "../errors"
+import { HiTechCloudOmnichannelException } from "../errors"
 import { connectChannelIntegration } from "../inbox/connect-channel"
 import { inboxService } from "../inbox/service"
 import { workspaceService } from "../workspace"
@@ -132,7 +132,7 @@ class TelegramIntegrationService extends BaseService {
         isDatabaseError(error) &&
         error.cause.code === UNIQUE_VIOLATION_CODE
       ) {
-        throw new ChatbotXException("Bot already connected")
+        throw new HiTechCloudOmnichannelException("Bot already connected")
       }
       throw error
     }

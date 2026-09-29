@@ -1,4 +1,4 @@
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { ContactScanForm } from "@/features/contact-scan/components/contact-scan-form"
 import { requireContactScanPageAccess } from "@/features/contact-scan/lib/require-contact-scan-page-access"

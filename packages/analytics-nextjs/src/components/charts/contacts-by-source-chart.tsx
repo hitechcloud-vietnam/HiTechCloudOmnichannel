@@ -1,6 +1,6 @@
 "use client"
 
-import { DonutChart } from "@chatbotx.io/ui/components/charts/donut-chart"
+import { DonutChart } from "@hitechcloud.vn/ui/components/charts/donut-chart"
 import { useTranslations } from "next-intl"
 import { useMemo } from "react"
 import { useAnalysisStore } from "../../provider/analysis-store-context"

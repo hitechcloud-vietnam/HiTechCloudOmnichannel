@@ -1,4 +1,4 @@
-import { tenantService } from "@chatbotx.io/business"
+import { tenantService } from "@hitechcloud.vn/business"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { Suspense } from "react"

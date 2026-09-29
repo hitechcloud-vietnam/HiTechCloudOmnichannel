@@ -4,10 +4,10 @@ import {
   db,
   eq,
   inArray,
-} from "@chatbotx.io/database/client"
-import type { DevicePlatformType } from "@chatbotx.io/database/partials"
-import { userDeviceTokenModel } from "@chatbotx.io/database/schema"
-import type { UserDeviceTokenModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/client"
+import type { DevicePlatformType } from "@hitechcloud.vn/database/partials"
+import { userDeviceTokenModel } from "@hitechcloud.vn/database/schema"
+import type { UserDeviceTokenModel } from "@hitechcloud.vn/database/types"
 import { BaseService } from "../base.service"
 
 class DeviceTokenService extends BaseService {

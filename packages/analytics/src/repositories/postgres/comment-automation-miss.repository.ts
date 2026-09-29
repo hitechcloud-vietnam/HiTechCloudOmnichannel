@@ -7,10 +7,10 @@ import {
   isNotNull,
   notInArray,
   sql,
-} from "@chatbotx.io/database/client"
-import type { CommentAutomationMissReason } from "@chatbotx.io/database/partials"
-import { commentAutomationMissModel } from "@chatbotx.io/database/schema"
-import type { CommentAutomationMissInsert } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/client"
+import type { CommentAutomationMissReason } from "@hitechcloud.vn/database/partials"
+import { commentAutomationMissModel } from "@hitechcloud.vn/database/schema"
+import type { CommentAutomationMissInsert } from "@hitechcloud.vn/database/types"
 import type { ContactEventData } from "../../schemas/common"
 import { BaseRepository } from "./base.repository"
 

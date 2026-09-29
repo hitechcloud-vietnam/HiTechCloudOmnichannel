@@ -23,7 +23,7 @@ A direct volume reuse is not possible for two reasons:
 ### 1. Backup (before any change)
 
 ```bash
-docker compose exec postgres pg_dumpall -U chatbotx > backup_$(date +%Y%m%d_%H%M%S).sql
+docker compose exec postgres pg_dumpall -U hitechcloudomnichannel > backup_$(date +%Y%m%d_%H%M%S).sql
 ```
 
 Verify the dump is non-empty:
@@ -39,7 +39,7 @@ docker compose down
 docker volume rm chatbotx_db-data
 ```
 
-> The volume name is `chatbotx_db-data` because the compose project is named `chatbotx` (set via `name:` in `docker-compose.yml`).
+> The volume name is `chatbotx_db-data` because the compose project is named `hitechcloudomnichannel` (set via `name:` in `docker-compose.yml`).
 
 ### 3. Start the new container
 
@@ -56,13 +56,13 @@ docker compose ps postgres
 ### 4. Restore data
 
 ```bash
-docker compose exec -T postgres psql -U chatbotx postgres < backup_*.sql
+docker compose exec -T postgres psql -U hitechcloudomnichannel postgres < backup_*.sql
 ```
 
 ### 5. Enable TimescaleDB extension
 
 ```bash
-docker compose exec postgres psql -U chatbotx chatbotx \
+docker compose exec postgres psql -U hitechcloudomnichannel hitechcloudomnichannel \
   -c "CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;"
 ```
 
@@ -71,7 +71,7 @@ docker compose exec postgres psql -U chatbotx chatbotx \
 ### 6. Run app migrations
 
 ```bash
-pnpm --filter @chatbotx.io/database db:migrate
+pnpm --filter @hitechcloud.vn/database db:migrate
 ```
 
 ### 6a. Configure continuous aggregate refresh policies
@@ -79,7 +79,7 @@ pnpm --filter @chatbotx.io/database db:migrate
 After migrations run, the three hourly caggs exist but have no auto-refresh policy. Without this step they will only ever contain data from the initial `REFRESH MATERIALIZED VIEW` call and will go stale.
 
 ```sql
--- Run inside the chatbotx database
+-- Run inside the hitechcloudomnichannel database
 SELECT add_continuous_aggregate_policy(
   'analytics_contact_events_hourly',
   start_offset => INTERVAL '8 days',
@@ -118,7 +118,7 @@ CALL refresh_continuous_aggregate('analytics_bot_message_events_hourly', now() -
 ### 7. Smoke test
 
 ```bash
-docker compose exec postgres psql -U chatbotx chatbotx -c "\dx"
+docker compose exec postgres psql -U hitechcloudomnichannel hitechcloudomnichannel -c "\dx"
 ```
 
 The output should list both `timescaledb` and `vector`. Then bring the full stack up:

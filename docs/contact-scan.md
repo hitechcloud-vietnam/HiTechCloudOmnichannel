@@ -1,6 +1,6 @@
 # Automatic Customer Scan
 
-Creates ChatbotX contacts from a channel's existing conversation history — the
+Creates HiTechCloudOmnichannel contacts from a channel's existing conversation history — the
 operator picks a connected inbox and a "scan from" time, and a background job
 walks the channel's conversation list newest→oldest, stopping at that time, and
 imports every participant who is not already a contact. Ported from v1's

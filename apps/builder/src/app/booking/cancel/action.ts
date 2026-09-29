@@ -1,7 +1,7 @@
 "use server"
 
-import { appointmentService } from "@chatbotx.io/business"
-import { verifyAppointmentCancelToken } from "@chatbotx.io/encryption"
+import { appointmentService } from "@hitechcloud.vn/business"
+import { verifyAppointmentCancelToken } from "@hitechcloud.vn/encryption"
 import { cancelBookingRequestSchema } from "@/features/booking-webview/schema/action"
 import { actionClient } from "@/lib/safe-action"
 

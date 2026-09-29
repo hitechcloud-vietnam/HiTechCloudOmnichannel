@@ -2,7 +2,7 @@ import {
   Integration,
   type IntegrationDefinition,
   SdkException,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { mailerLiteRequest } from "./client"
 import {
   MAILER_LITE_FIELDS_PATH,

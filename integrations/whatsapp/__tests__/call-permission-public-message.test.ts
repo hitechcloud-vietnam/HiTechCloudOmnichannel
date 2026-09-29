@@ -1,4 +1,4 @@
-import { toPublicErrorMessage } from "@chatbotx.io/business/errors"
+import { toPublicErrorMessage } from "@hitechcloud.vn/business/errors"
 import { HTTPError } from "ky"
 import { describe, expect, test, vi } from "vitest"
 import { rescue } from "../src/exception"

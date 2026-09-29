@@ -1,5 +1,5 @@
-import { buttonTypes, TIKTOK_CARD_TITLE_MAX } from "@chatbotx.io/flow-config"
-import type { MessageButtonTemplate } from "@chatbotx.io/sdk"
+import { buttonTypes, TIKTOK_CARD_TITLE_MAX } from "@hitechcloud.vn/flow-config"
+import type { MessageButtonTemplate } from "@hitechcloud.vn/sdk"
 import { describe, expect, test } from "vitest"
 import { convertFlowStepText } from "../src/handlers/message/outgoing-message/send-text"
 

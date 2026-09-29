@@ -1,6 +1,6 @@
 # Ads conversion tracking
 
-ChatbotX attributes chatbot conversations back to the Meta ad that started them —
+HiTechCloudOmnichannel attributes chatbot conversations back to the Meta ad that started them —
 **CTWA** (Click to WhatsApp), **CTM** (Click to Messenger), and **CTID** (Click to
 Instagram Direct) — and reports Leads/Purchases/Revenue on the Ads dashboard, with
 delivery back to Meta via the Conversions API (CAPI) so ad platforms can optimize

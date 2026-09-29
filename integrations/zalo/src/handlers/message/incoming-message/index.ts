@@ -1,4 +1,4 @@
-import { ZALO_POSTBACK_TEXT_PREFIX } from "@chatbotx.io/flow-config"
+import { ZALO_POSTBACK_TEXT_PREFIX } from "@hitechcloud.vn/flow-config"
 import {
   type Context,
   contentTypes,
@@ -7,7 +7,7 @@ import {
   type IncomingMessage,
   type MessageHandlers,
   messageTypes,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { getMessageAttachmentEntity } from "../../../api/message"
 import { ZaloException } from "../../../lib/exception"
 import { logger } from "../../../lib/logger"

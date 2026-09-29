@@ -1,5 +1,5 @@
-import type { BaseConfig, Context } from "@chatbotx.io/sdk"
-import { customAuthSchema } from "@chatbotx.io/sdk"
+import type { BaseConfig, Context } from "@hitechcloud.vn/sdk"
+import { customAuthSchema } from "@hitechcloud.vn/sdk"
 import { z } from "zod"
 
 export const smtpProviders = z.enum([

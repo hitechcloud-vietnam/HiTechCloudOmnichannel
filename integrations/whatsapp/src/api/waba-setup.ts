@@ -2,7 +2,7 @@ import {
   ChannelError,
   ChannelErrorCategory,
   UNKNOWN_ERROR,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import ky from "ky"
 import type { WhatsappAuthValue } from ".."
 import { API_URL, DEFAULT_API_VERSION } from "../constants"

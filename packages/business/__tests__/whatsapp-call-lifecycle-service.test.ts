@@ -8,7 +8,7 @@ const mocks = vi.hoisted(() => ({
   attachTranscript: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   whatsappCallRepository: mocks,
 }))
 

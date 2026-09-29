@@ -7,7 +7,7 @@ import {
   sendMessageNodeDefaultFn,
   sendMultipleImagesStepDefaultFn,
   sendTextStepDefaultFn,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import { describe, expect, test } from "vitest"
 import { convertStartNodeToMessengerAdsJson } from "../src/messenger-ads-json"
 

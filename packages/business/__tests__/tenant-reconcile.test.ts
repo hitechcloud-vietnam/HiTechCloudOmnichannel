@@ -14,7 +14,7 @@ const state = {
   activeTenantRows: [] as { ownerId: string | null }[],
 }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       tenantModel: {
@@ -29,7 +29,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
 // Partial mock: other modules in the import chain (e.g. analytics
 // repositories) read real models off the schema, so keep the originals and
 // only override tenantModel for the query assertions below.
-vi.mock("@chatbotx.io/database/schema", async (importOriginal) => ({
+vi.mock("@hitechcloud.vn/database/schema", async (importOriginal) => ({
   ...(await importOriginal<Record<string, unknown>>()),
   tenantModel: { ownerId: "tenant.ownerId" },
 }))
@@ -37,7 +37,7 @@ vi.mock("@chatbotx.io/database/schema", async (importOriginal) => ({
 // Partial mock for the same reason as the schema mock above: analytics
 // services in the import chain read real exports (e.g. bloomFilter) at
 // module scope.
-vi.mock("@chatbotx.io/redis", async (importOriginal) => ({
+vi.mock("@hitechcloud.vn/redis", async (importOriginal) => ({
   ...(await importOriginal<Record<string, unknown>>()),
   withCache: (_key: string, fn: () => unknown) => fn(),
   invalidateCacheByTags: vi.fn(async () => undefined),

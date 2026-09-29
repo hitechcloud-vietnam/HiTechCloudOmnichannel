@@ -5,7 +5,7 @@ const updateWhereMock = vi.fn()
 const updateSetMock = vi.fn()
 const updateMock = vi.fn()
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: (...conditions: unknown[]) => ({ __and: conditions }),
   db: {
     update: (...args: unknown[]) => updateMock(...args),
@@ -16,7 +16,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   }),
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   broadcastStatuses: {
     enum: {
       cancelled: "cancelled",
@@ -26,7 +26,7 @@ vi.mock("@chatbotx.io/database/partials", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   broadcastModel: {
     id: { __column: "broadcast.id" },
     status: { __column: "broadcast.status" },

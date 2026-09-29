@@ -1,4 +1,4 @@
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { OpenRouterConnect } from "@/features/integration-openrouter/openrouter-connect"
 import { findIntegrationOpenRouter } from "@/features/integration-openrouter/queries"

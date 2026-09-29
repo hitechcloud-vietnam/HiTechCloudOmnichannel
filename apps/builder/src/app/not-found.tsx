@@ -1,4 +1,4 @@
-import { buttonVariants } from "@chatbotx.io/ui/components/ui/button"
+import { buttonVariants } from "@hitechcloud.vn/ui/components/ui/button"
 import { HouseIcon } from "lucide-react"
 import Link from "next/link"
 import { getTranslations } from "next-intl/server"

@@ -9,8 +9,8 @@ import {
   macAnalyticsService,
   messageAnalyticsService,
   timeRangeQuerySchema,
-} from "@chatbotx.io/analytics"
-import { withCache } from "@chatbotx.io/redis"
+} from "@hitechcloud.vn/analytics"
+import { withCache } from "@hitechcloud.vn/redis"
 import { os } from "@orpc/server"
 import z from "zod"
 import { logger } from "../lib/log"

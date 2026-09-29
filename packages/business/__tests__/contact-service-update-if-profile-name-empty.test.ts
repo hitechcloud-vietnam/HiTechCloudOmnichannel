@@ -26,7 +26,7 @@ const { mockDbUpdate, mockEmitContactInfoUpdated } = vi.hoisted(() => ({
 
 const sqlCalls: Array<{ strings: readonly string[]; values: unknown[] }> = []
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn((...args: unknown[]) => ({ __and: args })),
   db: { update: mockDbUpdate },
   eq: vi.fn((left: unknown, right: unknown) => ({ __eq: [left, right] })),
@@ -39,31 +39,31 @@ vi.mock("@chatbotx.io/database/client", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/schema", async (importOriginal) => {
+vi.mock("@hitechcloud.vn/database/schema", async (importOriginal) => {
   const actual =
-    await importOriginal<typeof import("@chatbotx.io/database/schema")>()
+    await importOriginal<typeof import("@hitechcloud.vn/database/schema")>()
   return actual
 })
 
-vi.mock("@chatbotx.io/event-bus", () => ({
+vi.mock("@hitechcloud.vn/event-bus", () => ({
   emit: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/events", () => ({
+vi.mock("@hitechcloud.vn/events", () => ({
   emitContactCreated: vi.fn(),
   emitContactInfoUpdated: mockEmitContactInfoUpdated,
 }))
 
-vi.mock("@chatbotx.io/filesystem", () => ({
+vi.mock("@hitechcloud.vn/filesystem", () => ({
   uploadFileFromUrl: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: vi.fn(),
   withCache: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/analytics", () => ({
+vi.mock("@hitechcloud.vn/analytics", () => ({
   macAnalyticsService: {},
 }))
 
@@ -81,7 +81,7 @@ vi.mock("../src/workspace/service", () => ({
 
 const { contactService } = await import("../src/contact/service")
 const { and: andMock, eq: eqMock } = await import(
-  "@chatbotx.io/database/client"
+  "@hitechcloud.vn/database/client"
 )
 const { PROFILE_NAME_BLANK_CHARACTERS } = await import(
   "../src/contact/profile-refresh/rules"

@@ -7,7 +7,7 @@ model: sonnet
 
 # RAG Evaluator
 
-You review changes to ChatbotX's retrieval pipelines. Two pipelines exist:
+You review changes to HiTechCloudOmnichannel's retrieval pipelines. Two pipelines exist:
 
 - **A — AI file search:** create file → chunk/embed → `AIEmbedding` (`packages/database/src/schema/ai-embedding.ts`) → `performFileSearch` (`packages/ai/src/server/knowledge-base.ts`).
 - **B — Conversation context:** document/url source → chunk/embed → `AIConversationEmbedding` (`packages/database/src/schema/ai-conversation-embedding.ts`) → automated-response context (`apps/worker/src/integration/handlers/automated-response/`).

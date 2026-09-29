@@ -16,7 +16,7 @@ import type {
   MessagesBySenderStats,
   RefLinkTimeseriesRow,
   UniqueConversationsByAdminStats,
-} from "@chatbotx.io/analytics"
+} from "@hitechcloud.vn/analytics"
 import { ORPCError } from "@orpc/client"
 import { endOfToday, startOfToday, subDays } from "date-fns"
 import { createStore } from "zustand/vanilla"

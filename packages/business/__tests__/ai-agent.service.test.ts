@@ -1,4 +1,4 @@
-import type { AIAgentModel } from "@chatbotx.io/database/types"
+import type { AIAgentModel } from "@hitechcloud.vn/database/types"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
 // The broadcast policy import reaches quota/workspace modules these narrow mocks omit.
@@ -64,7 +64,7 @@ const {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn((...conditions: unknown[]) => ({ conditions })),
   db: {
     delete: mockDelete,
@@ -86,19 +86,19 @@ vi.mock("@chatbotx.io/database/client", () => ({
   relationsFilterToSQL: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   aiAgentModel: {
     id: "id",
     workspaceId: "workspaceId",
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: mockInvalidateCacheByTags,
   withCache: mockWithCache,
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: () => "agent-1",
 }))
 

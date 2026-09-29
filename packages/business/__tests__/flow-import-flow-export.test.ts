@@ -36,26 +36,26 @@ const transaction = {
   insert: mockInsert,
 }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: { transaction: mockDbTransaction },
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   rootFolderId: "0",
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   flowRepository: { listIdsByIds: vi.fn() },
   whatsappMessageTemplateRepository: { listIdsByIntegration: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   flowAnalyticsSessionModel,
   flowModel,
   flowVersionModel,
 }))
 
-vi.mock("@chatbotx.io/flow-config", () => ({
+vi.mock("@hitechcloud.vn/flow-config", () => ({
   remapFlowGraphReferences: mockRemapFlowGraphReferences,
   sendMessageNodeDefaultFn: vi.fn(() => ({ id: "default-node" })),
   // flowService.list's startType filtering imports stepTypes for the
@@ -64,7 +64,7 @@ vi.mock("@chatbotx.io/flow-config", () => ({
   stepTypes: { enum: { sendWaTemplateMessage: "sendWaTemplateMessage" } },
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: mockCreateId,
 }))
 

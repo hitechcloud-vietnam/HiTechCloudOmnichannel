@@ -6,26 +6,26 @@ import {
   inArray,
   ne,
   relationsFilterToSQL,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   type ChannelType,
   channelTypes,
   type InboxDisconnectReason,
   inboxStatuses,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import {
   type InboxChannelOption,
   inboxRepository,
-} from "@chatbotx.io/database/repositories"
-import { inboxModel } from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/repositories"
+import { inboxModel } from "@hitechcloud.vn/database/schema"
 import type {
   InboxModel,
   InboxWithIntegrations,
   IntegrationMessengerModel,
   IntegrationWhatsappModel,
-} from "@chatbotx.io/database/types"
-import { getPaginationWithDefaults } from "@chatbotx.io/database/utils"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/types"
+import { getPaginationWithDefaults } from "@hitechcloud.vn/database/utils"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import { channelLimitReachedException, notFoundException } from "../errors"
 import { logger } from "../logger"

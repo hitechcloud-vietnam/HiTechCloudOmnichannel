@@ -1,17 +1,17 @@
 import {
   isStoredImageMedia,
   type MessagingAdCreativeMediaInput,
-} from "@chatbotx.io/database/partials"
-import { fileRepository } from "@chatbotx.io/database/repositories"
-import { uploader } from "@chatbotx.io/filesystem"
+} from "@hitechcloud.vn/database/partials"
+import { fileRepository } from "@hitechcloud.vn/database/repositories"
+import { uploader } from "@hitechcloud.vn/filesystem"
 import {
   buildMessagingAdCreativeStoragePrefix,
   MAX_MESSAGING_AD_IMAGE_BYTES,
   MESSAGING_AD_CREATIVE_UPLOAD_KIND,
   type MessagingAdImageMimeType,
-} from "@chatbotx.io/integration-facebook-ads"
+} from "@hitechcloud.vn/integration-facebook-ads"
 import { imageSize } from "image-size"
-import { ChatbotXException } from "../errors"
+import { HiTechCloudOmnichannelException } from "../errors"
 
 export type ResolvedStoredImage = {
   bytes: Uint8Array
@@ -31,7 +31,7 @@ const SNIFFED_IMAGE_FORMAT: Record<
 }
 
 function rejectPreflight(message: string): never {
-  throw new ChatbotXException(message, "invalidRequest", 400)
+  throw new HiTechCloudOmnichannelException(message, "invalidRequest", 400)
 }
 
 /**
@@ -60,7 +60,7 @@ function readStreamBounded(
       if (total > maxBytes) {
         stream.destroy()
         reject(
-          new ChatbotXException(
+          new HiTechCloudOmnichannelException(
             "This image exceeds the maximum allowed size.",
             "invalidRequest",
             400,

@@ -1,4 +1,4 @@
-import { channelTypes } from "@chatbotx.io/database/partials"
+import { channelTypes } from "@hitechcloud.vn/database/partials"
 import {
   type ClickedPayload,
   type FlowClickedPayload,
@@ -8,7 +8,7 @@ import {
   type MessagePayload,
   type MessageSentPayload,
   messageEventTypeSchema,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import { toDate } from "../lib/date"
 import { flowStatsRepository } from "../repositories"
 import type {

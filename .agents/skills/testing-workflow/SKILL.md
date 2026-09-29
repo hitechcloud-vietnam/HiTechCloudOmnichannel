@@ -1,9 +1,9 @@
 ---
 name: testing-workflow
-description: Use when adding or changing tests, or before considering a change done, in ChatbotX. Documents the real verification gate sequence (lint → types → test → coverage), where tests live, the Vitest setup, and the coverage threshold that must not be silently bypassed. Read before writing tests or claiming a task is verified.
+description: Use when adding or changing tests, or before considering a change done, in HiTechCloudOmnichannel. Documents the real verification gate sequence (lint → types → test → coverage), where tests live, the Vitest setup, and the coverage threshold that must not be silently bypassed. Read before writing tests or claiming a task is verified.
 ---
 
-# Testing Workflow (ChatbotX)
+# Testing Workflow (HiTechCloudOmnichannel)
 
 The verification gate every change passes before it is "done". CI runs Types, Lint, and Tests on every PR and on push to `main` (`.github/workflows/ci.yml`), so a failure here blocks the merge — run the gate locally first rather than discovering it in CI.
 

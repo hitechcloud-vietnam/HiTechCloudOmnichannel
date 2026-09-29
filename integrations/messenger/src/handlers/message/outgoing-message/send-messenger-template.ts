@@ -3,13 +3,13 @@ import type {
   MessengerTemplateParams,
   MetadataPayload,
   SendMessengerTemplateMessageStepSchema,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import {
   buttonTypes,
   encodeButtonPayload,
   extractMetadata,
-} from "@chatbotx.io/flow-config"
-import type { MessageHandlers } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/flow-config"
+import type { MessageHandlers } from "@hitechcloud.vn/sdk"
 import type {
   FacebookSendMessageRequest,
   MessengerAuthValue,

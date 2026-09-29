@@ -1,4 +1,4 @@
-import type { MessageFailedPayload } from "@chatbotx.io/flow-config"
+import type { MessageFailedPayload } from "@hitechcloud.vn/flow-config"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
 const transitionResult: { current: { id: string }[] } = { current: [] }
@@ -9,19 +9,19 @@ vi.mock("../src/repositories/postgres", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   contactRepository: {
     blockManyIfNotBlocked: vi.fn(async () => transitionResult.current),
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: vi.fn(async () => undefined),
 }))
 
 const { contactStatsRepository } = await import("../src/repositories/postgres")
-const { contactRepository } = await import("@chatbotx.io/database/repositories")
-const { invalidateCacheByTags } = await import("@chatbotx.io/redis")
+const { contactRepository } = await import("@hitechcloud.vn/database/repositories")
+const { invalidateCacheByTags } = await import("@hitechcloud.vn/redis")
 const { contactAnalyticsService } = await import(
   "../src/services/contact-analytics.service"
 )

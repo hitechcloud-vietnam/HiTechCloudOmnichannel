@@ -19,7 +19,7 @@ const updateChain = {
 
 vi.mock("../src/audit/dispatcher", () => ({ dispatchAuditRecord: vi.fn() }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       integrationMoosendModel: { findFirst: mocks.findFirst },
@@ -31,7 +31,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   isDatabaseError: vi.fn().mockReturnValue(false),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   integrationModel: { id: "integration-id" },
   integrationMoosendModel: {
     id: "moosend-id",
@@ -39,11 +39,11 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/encryption", () => ({
+vi.mock("@hitechcloud.vn/encryption", () => ({
   encryptUtils: { encryptObject: mocks.encryptObject },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: vi.fn(),
 }))
 
@@ -125,7 +125,7 @@ describe("IntegrationMoosendService", () => {
 
   test("recovers only from the workspace unique race", async () => {
     const error = uniqueError("IntegrationMoosend_workspaceId_key")
-    const { isDatabaseError } = await import("@chatbotx.io/database/client")
+    const { isDatabaseError } = await import("@hitechcloud.vn/database/client")
     vi.mocked(isDatabaseError).mockImplementation(
       (caught: unknown) => caught === error,
     )
@@ -145,7 +145,7 @@ describe("IntegrationMoosendService", () => {
   test("propagates unrelated unique errors and a missing race winner", async () => {
     const unrelated = uniqueError("IntegrationMoosend_integrationId_key")
     const winnerMissing = uniqueError("IntegrationMoosend_workspaceId_key")
-    const { isDatabaseError } = await import("@chatbotx.io/database/client")
+    const { isDatabaseError } = await import("@hitechcloud.vn/database/client")
     vi.mocked(isDatabaseError).mockImplementation(
       (caught: unknown) => caught === unrelated || caught === winnerMissing,
     )

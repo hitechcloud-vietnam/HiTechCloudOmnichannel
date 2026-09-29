@@ -22,10 +22,10 @@ const {
   insertReturning: vi.fn(),
 }))
 
-// Minimal ChatbotXException so `instanceof` / message assertions work without
+// Minimal HiTechCloudOmnichannelException so `instanceof` / message assertions work without
 // pulling the real business error module graph.
-vi.mock("@chatbotx.io/business/errors", () => ({
-  ChatbotXException: class ChatbotXException extends Error {
+vi.mock("@hitechcloud.vn/business/errors", () => ({
+  HiTechCloudOmnichannelException: class HiTechCloudOmnichannelException extends Error {
     code?: string
     constructor(message: string, code?: string) {
       super(message)
@@ -34,25 +34,25 @@ vi.mock("@chatbotx.io/business/errors", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/business", () => ({
+vi.mock("@hitechcloud.vn/business", () => ({
   platformCredentialService: { findDecryptedForUser },
   workspaceService: { resolveTenantForOwner },
   resolveTenantSettingsByOwner,
 }))
 
-vi.mock("@chatbotx.io/mail", () => ({
+vi.mock("@hitechcloud.vn/mail", () => ({
   DEFAULT_ACCOUNT_CREDENTIALS_SUBJECT: "Your {{brandName}} account is ready",
   sendAccountCredentials,
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   accountModel: { id: "Account.id" },
   userModel: { id: "User.id" },
 }))
 
 // `db.query.userModel.findFirst` drives idempotency; `db.transaction(cb)` runs
 // the callback with a tx whose insert chain is captured by the hoisted spies.
-vi.mock("@chatbotx.io/database/client", () => {
+vi.mock("@hitechcloud.vn/database/client", () => {
   const tx = {
     insert: () => ({
       values: (vals: unknown) => {

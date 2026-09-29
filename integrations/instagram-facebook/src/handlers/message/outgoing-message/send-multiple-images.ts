@@ -1,5 +1,5 @@
-import type { SendMultipleImagesStepSchema } from "@chatbotx.io/flow-config"
-import type { SendFlowStepProps } from "@chatbotx.io/sdk"
+import type { SendMultipleImagesStepSchema } from "@hitechcloud.vn/flow-config"
+import type { SendFlowStepProps } from "@hitechcloud.vn/sdk"
 import type { InstagramAuthValue } from "../../../schema"
 
 /**

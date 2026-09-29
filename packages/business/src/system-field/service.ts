@@ -1,24 +1,24 @@
-import { type DatabaseClient, db, eq } from "@chatbotx.io/database/client"
+import { type DatabaseClient, db, eq } from "@hitechcloud.vn/database/client"
 import {
   type MeSystemFieldPayload,
   meSystemFieldPayload,
   type SystemFieldPayload,
   type SystemFieldRowType,
-} from "@chatbotx.io/database/partials"
-import { systemFieldModel } from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/partials"
+import { systemFieldModel } from "@hitechcloud.vn/database/schema"
 import type {
   ContactInboxModel,
   ContactModel,
   ConversationModel,
   SystemFieldModel,
   TagModel,
-} from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/types"
 import {
   type MeLinkParams,
   verifyMeLink,
-} from "@chatbotx.io/encryption/link-signature"
-import { uploader } from "@chatbotx.io/filesystem"
-import { normalizeGender } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/encryption/link-signature"
+import { uploader } from "@hitechcloud.vn/filesystem"
+import { normalizeGender } from "@hitechcloud.vn/sdk"
 import { BaseService } from "../base.service"
 import { contactService } from "../contact/service"
 import { contactCustomFieldService } from "../contact-custom-field/service"

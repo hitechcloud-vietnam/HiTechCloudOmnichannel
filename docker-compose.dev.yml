@@ -1,4 +1,4 @@
-name: chatbotx
+name: hitechcloudomnichannel
 
 include:
   - docker-compose.yml
@@ -11,7 +11,7 @@ x-service-common: &service-common
   extra_hosts:
     - "host.docker.internal:host-gateway"
   networks:
-    - chatbotx-network
+    - hitechcloudomnichannel-network
 
 x-worker-common: &worker-common
   <<: *service-common
@@ -22,7 +22,7 @@ x-worker-common: &worker-common
 services:
   builder:
     <<: *service-common
-    # image: chatbotx-builder:latest
+    # image: hitechcloudomnichannel-builder:latest
     build:
       context: .
       dockerfile: apps/builder/docker/Dockerfile
@@ -49,7 +49,7 @@ services:
   worker:
     <<: *worker-common
     networks:
-      - chatbotx-network
+      - hitechcloudomnichannel-network
       - javascript-executor-network
     depends_on:
       postgres:

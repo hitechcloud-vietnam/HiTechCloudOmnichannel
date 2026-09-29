@@ -4,7 +4,7 @@ const { findFirst } = vi.hoisted(() => ({
   findFirst: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn((...args: unknown[]) => ({ __and: args })),
   db: {
     query: {
@@ -20,24 +20,24 @@ vi.mock("@chatbotx.io/database/client", () => ({
   })),
 }))
 
-vi.mock("@chatbotx.io/event-bus", () => ({
+vi.mock("@hitechcloud.vn/event-bus", () => ({
   emit: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/events", () => ({
+vi.mock("@hitechcloud.vn/events", () => ({
   emitContactCreated: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/filesystem", () => ({
+vi.mock("@hitechcloud.vn/filesystem", () => ({
   uploadFileFromUrl: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: vi.fn(),
   withCache: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/analytics", () => ({
+vi.mock("@hitechcloud.vn/analytics", () => ({
   macAnalyticsService: {},
 }))
 

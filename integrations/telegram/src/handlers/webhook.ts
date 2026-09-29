@@ -1,4 +1,4 @@
-import type { HandleRequestProps } from "@chatbotx.io/sdk"
+import type { HandleRequestProps } from "@hitechcloud.vn/sdk"
 import { TelegramWebhookException } from "../exception"
 import type { TelegramConfig } from "../schema"
 import { telegramUpdateSchema } from "../schema"

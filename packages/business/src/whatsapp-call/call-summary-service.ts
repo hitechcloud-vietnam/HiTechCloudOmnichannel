@@ -1,15 +1,15 @@
 import type {
   WhatsappCallAiSummary,
   WhatsappCallTranscriptSegments,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import {
   createMessageRepository,
   whatsappCallRepository,
-} from "@chatbotx.io/database/repositories"
-import type { WhatsappCallModel } from "@chatbotx.io/database/types"
-import { RealtimeEventType } from "@chatbotx.io/partysocket-config"
-import { distributedLock, LockAcquisitionError } from "@chatbotx.io/redis"
-import { getWhatsappCallEntity } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/database/repositories"
+import type { WhatsappCallModel } from "@hitechcloud.vn/database/types"
+import { RealtimeEventType } from "@hitechcloud.vn/partysocket-config"
+import { distributedLock, LockAcquisitionError } from "@hitechcloud.vn/redis"
+import { getWhatsappCallEntity } from "@hitechcloud.vn/sdk"
 import { contactService } from "../contact/service"
 import { contactInboxService } from "../contact-inbox/service"
 import { notFoundException, summaryAlreadyGeneratingException } from "../errors"

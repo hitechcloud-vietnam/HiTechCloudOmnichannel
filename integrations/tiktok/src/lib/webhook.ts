@@ -1,1 +1,1 @@
-export { hmacSha256Hex, timingSafeStringEqual } from "@chatbotx.io/utils/crypto"
+export { hmacSha256Hex, timingSafeStringEqual } from "@hitechcloud.vn/utils/crypto"

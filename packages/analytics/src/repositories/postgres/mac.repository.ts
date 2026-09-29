@@ -11,15 +11,15 @@ import {
   inArray,
   lte,
   sql,
-} from "@chatbotx.io/database/client"
-import type { MacEventType } from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/client"
+import type { MacEventType } from "@hitechcloud.vn/database/partials"
 import {
   contactActiveHourlyModel,
   contactActiveMonthlyModel,
   contactInboxModel,
   workspaceMacModel,
   workspaceModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import { logger } from "../../lib/logger"
 import { anchoredPeriod } from "../../lib/mac-period"
 

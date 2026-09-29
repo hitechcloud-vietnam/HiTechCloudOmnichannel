@@ -1,4 +1,4 @@
-import { getPublicUrlFromRequest } from "@chatbotx.io/utils"
+import { getPublicUrlFromRequest } from "@hitechcloud.vn/utils"
 import type { NextRequest } from "next/server"
 import { getTranslations } from "next-intl/server"
 import {

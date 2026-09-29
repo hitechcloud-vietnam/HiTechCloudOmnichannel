@@ -1,11 +1,11 @@
-import { resolveTenantByDomain } from "@chatbotx.io/auth/tenant"
+import { resolveTenantByDomain } from "@hitechcloud.vn/auth/tenant"
 import {
   isPlatformAdmin,
   isSuperAdmin,
   quotaEnforcementService,
   userQuotaService,
-} from "@chatbotx.io/business"
-import { ROOT_TENANT_ID } from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/business"
+import { ROOT_TENANT_ID } from "@hitechcloud.vn/database/schema"
 import { notFound } from "next/navigation"
 import { ExpiredBanner } from "@/components/expired-banner"
 import { WorkspaceDeletionPendingToast } from "@/components/workspace-deletion-pending-toast"

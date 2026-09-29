@@ -2546,7 +2546,7 @@
     "title": "Général"
   },
   "facebookMarketingMessages": {
-    "deleteWarning": "Cela supprime la campagne uniquement de ChatbotX. La campagne de messages Meta continue — mettez-la en pause ou supprimez-la dans le Gestionnaire de publicités.",
+    "deleteWarning": "Cela supprime la campagne uniquement de HiTechCloudOmnichannel. La campagne de messages Meta continue — mettez-la en pause ou supprimez-la dans le Gestionnaire de publicités.",
     "title": "Facebook Marketing Messages",
     "description": "Stimulez l'engagement et les ventes avec des messages promotionnels personnalisés sur Messenger.",
     "create": "Créer",
@@ -4045,7 +4045,7 @@
         "title": "Éligibilité aux appels",
         "appSubscriptionMissing": "Configurez d'abord le webhook WhatsApp de cette application dans le tableau de bord des applications Meta, puis réessayez.",
         "appSubscriptionFailed": "Impossible de vérifier l'abonnement au webhook 'calls' de l'application. Réessayez dans un instant.",
-        "callsNotSubscribed": "Cette application n'est pas abonnée au champ webhook 'calls', donc les événements d'appel ne peuvent pas atteindre ChatbotX (erreur Meta 138018 : les conditions techniques préalables ne sont pas remplies — assurez-vous qu'au moins une application abonnée au WABA dispose également du champ webhook d'appels).",
+        "callsNotSubscribed": "Cette application n'est pas abonnée au champ webhook 'calls', donc les événements d'appel ne peuvent pas atteindre HiTechCloudOmnichannel (erreur Meta 138018 : les conditions techniques préalables ne sont pas remplies — assurez-vous qu'au moins une application abonnée au WABA dispose également du champ webhook d'appels).",
         "fixButton": "Corriger",
         "fixSuccess": "L'application est désormais abonnée aux webhooks d'appel WhatsApp.",
         "manualIntegrationNotice": "Ce numéro a été connecté manuellement et ne dispose d'aucun identifiant d'application ici. Abonnez le champ webhook 'calls' de votre application dans le tableau de bord des applications Meta.",
@@ -6298,7 +6298,7 @@
     },
     "limitedDataUse": {
       "label": "Limited Data Use (US privacy)",
-      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by ChatbotX."
+      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by HiTechCloudOmnichannel."
     },
     "actionSource": {
       "label": "Source de l'action",

@@ -20,7 +20,7 @@ importers:
       '@biomejs/biome':
         specifier: ^2.4.16
         version: 2.4.16
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:packages/vitest-config
       '@types/node':
@@ -71,157 +71,157 @@ importers:
       '@bull-board/ui':
         specifier: ^9.10.1
         version: 9.10.1(bullmq@5.78.0)(typescript@5.9.3)
-      '@chatbotx.io/ai':
+      '@hitechcloud.vn/ai':
         specifier: workspace:*
         version: link:../../packages/ai
-      '@chatbotx.io/analytics':
+      '@hitechcloud.vn/analytics':
         specifier: workspace:*
         version: link:../../packages/analytics
-      '@chatbotx.io/analytics-nextjs':
+      '@hitechcloud.vn/analytics-nextjs':
         specifier: workspace:*
         version: link:../../packages/analytics-nextjs
-      '@chatbotx.io/auth':
+      '@hitechcloud.vn/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      '@chatbotx.io/automated-response':
+      '@hitechcloud.vn/automated-response':
         specifier: workspace:*
         version: link:../../packages/automated-response
-      '@chatbotx.io/business':
+      '@hitechcloud.vn/business':
         specifier: workspace:*
         version: link:../../packages/business
-      '@chatbotx.io/channel-registry':
+      '@hitechcloud.vn/channel-registry':
         specifier: workspace:*
         version: link:../../packages/channel-registry
-      '@chatbotx.io/database':
+      '@hitechcloud.vn/database':
         specifier: workspace:*
         version: link:../../packages/database
-      '@chatbotx.io/encryption':
+      '@hitechcloud.vn/encryption':
         specifier: workspace:*
         version: link:../../packages/encryption
-      '@chatbotx.io/event-bus':
+      '@hitechcloud.vn/event-bus':
         specifier: workspace:*
         version: link:../../packages/event-bus
-      '@chatbotx.io/events':
+      '@hitechcloud.vn/events':
         specifier: workspace:*
         version: link:../../packages/events
-      '@chatbotx.io/filesystem':
+      '@hitechcloud.vn/filesystem':
         specifier: workspace:*
         version: link:../../packages/filesystem
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../../packages/flow-config
-      '@chatbotx.io/imports':
+      '@hitechcloud.vn/imports':
         specifier: workspace:*
         version: link:../../packages/imports
-      '@chatbotx.io/integration-active-campaign':
+      '@hitechcloud.vn/integration-active-campaign':
         specifier: workspace:*
         version: link:../../integrations/active-campaign
-      '@chatbotx.io/integration-api':
+      '@hitechcloud.vn/integration-api':
         specifier: workspace:*
         version: link:../../integrations/api
-      '@chatbotx.io/integration-chatbotx':
+      '@hitechcloud.vn/integration-hitechcloudomnichannel':
         specifier: workspace:*
-        version: link:../../integrations/chatbotx
-      '@chatbotx.io/integration-drip':
+        version: link:../../integrations/hitechcloudomnichannel
+      '@hitechcloud.vn/integration-drip':
         specifier: workspace:*
         version: link:../../integrations/drip
-      '@chatbotx.io/integration-facebook-ads':
+      '@hitechcloud.vn/integration-facebook-ads':
         specifier: workspace:*
         version: link:../../integrations/facebook-ads
-      '@chatbotx.io/integration-get-response':
+      '@hitechcloud.vn/integration-get-response':
         specifier: workspace:*
         version: link:../../integrations/get-response
-      '@chatbotx.io/integration-google-calendar':
+      '@hitechcloud.vn/integration-google-calendar':
         specifier: workspace:*
         version: link:../../integrations/google-calendar
-      '@chatbotx.io/integration-google-sheets':
+      '@hitechcloud.vn/integration-google-sheets':
         specifier: workspace:*
         version: link:../../integrations/google-sheets
-      '@chatbotx.io/integration-instagram':
+      '@hitechcloud.vn/integration-instagram':
         specifier: workspace:*
         version: link:../../integrations/instagram
-      '@chatbotx.io/integration-instagram-facebook':
+      '@hitechcloud.vn/integration-instagram-facebook':
         specifier: workspace:*
         version: link:../../integrations/instagram-facebook
-      '@chatbotx.io/integration-klaviyo':
+      '@hitechcloud.vn/integration-klaviyo':
         specifier: workspace:*
         version: link:../../integrations/klaviyo
-      '@chatbotx.io/integration-mailchimp':
+      '@hitechcloud.vn/integration-mailchimp':
         specifier: workspace:*
         version: link:../../integrations/mailchimp
-      '@chatbotx.io/integration-mailer-lite':
+      '@hitechcloud.vn/integration-mailer-lite':
         specifier: workspace:*
         version: link:../../integrations/mailer-lite
-      '@chatbotx.io/integration-messenger':
+      '@hitechcloud.vn/integration-messenger':
         specifier: workspace:*
         version: link:../../integrations/messenger
-      '@chatbotx.io/integration-meta-catalog':
+      '@hitechcloud.vn/integration-meta-catalog':
         specifier: workspace:*
         version: link:../../integrations/meta-catalog
-      '@chatbotx.io/integration-meta-conversions':
+      '@hitechcloud.vn/integration-meta-conversions':
         specifier: workspace:*
         version: link:../../integrations/meta-conversions
-      '@chatbotx.io/integration-moosend':
+      '@hitechcloud.vn/integration-moosend':
         specifier: workspace:*
         version: link:../../integrations/moosend
-      '@chatbotx.io/integration-sendgrid':
+      '@hitechcloud.vn/integration-sendgrid':
         specifier: workspace:*
         version: link:../../integrations/sendgrid
-      '@chatbotx.io/integration-smtp':
+      '@hitechcloud.vn/integration-smtp':
         specifier: workspace:*
         version: link:../../integrations/smtp
-      '@chatbotx.io/integration-telegram':
+      '@hitechcloud.vn/integration-telegram':
         specifier: workspace:*
         version: link:../../integrations/telegram
-      '@chatbotx.io/integration-threads':
+      '@hitechcloud.vn/integration-threads':
         specifier: workspace:*
         version: link:../../integrations/threads
-      '@chatbotx.io/integration-tiktok':
+      '@hitechcloud.vn/integration-tiktok':
         specifier: workspace:*
         version: link:../../integrations/tiktok
-      '@chatbotx.io/integration-webchat':
+      '@hitechcloud.vn/integration-webchat':
         specifier: workspace:*
         version: link:../../integrations/webchat
-      '@chatbotx.io/integration-whatsapp':
+      '@hitechcloud.vn/integration-whatsapp':
         specifier: workspace:*
         version: link:../../integrations/whatsapp
-      '@chatbotx.io/integration-zalo':
+      '@hitechcloud.vn/integration-zalo':
         specifier: workspace:*
         version: link:../../integrations/zalo
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/mail':
+      '@hitechcloud.vn/mail':
         specifier: workspace:*
         version: link:../../packages/mail
-      '@chatbotx.io/minigame-ui':
+      '@hitechcloud.vn/minigame-ui':
         specifier: workspace:*
         version: link:../../packages/minigame-ui
-      '@chatbotx.io/partysocket-config':
+      '@hitechcloud.vn/partysocket-config':
         specifier: workspace:*
         version: link:../../packages/partysocket-config
-      '@chatbotx.io/redis':
+      '@hitechcloud.vn/redis':
         specifier: workspace:*
         version: link:../../packages/redis
-      '@chatbotx.io/scheduler':
+      '@hitechcloud.vn/scheduler':
         specifier: workspace:*
         version: link:../../packages/scheduler
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
-      '@chatbotx.io/sequence-scheduler':
+      '@hitechcloud.vn/sequence-scheduler':
         specifier: workspace:*
         version: link:../../packages/sequence-scheduler
-      '@chatbotx.io/ui':
+      '@hitechcloud.vn/ui':
         specifier: workspace:*
         version: link:../../packages/ui
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../../packages/utils
-      '@chatbotx.io/variables':
+      '@hitechcloud.vn/variables':
         specifier: workspace:*
         version: link:../../packages/variables
-      '@chatbotx.io/worker-config':
+      '@hitechcloud.vn/worker-config':
         specifier: workspace:*
         version: link:../../packages/worker-config
       '@codemirror/lang-css':
@@ -447,10 +447,10 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.1039.0
         version: 3.1063.0
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@lingual/i18n-check':
@@ -541,10 +541,10 @@ importers:
 
   apps/javascript-executor:
     dependencies:
-      '@chatbotx.io/javascript-sandbox':
+      '@hitechcloud.vn/javascript-sandbox':
         specifier: workspace:*
         version: link:../../packages/javascript-sandbox
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
       '@t3-oss/env-core':
@@ -560,10 +560,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -603,7 +603,7 @@ importers:
       '@ai-sdk/openai':
         specifier: ^3.0.54
         version: 3.0.68(zod@4.4.3)
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../../packages/flow-config
       '@orpc/zod':
@@ -633,10 +633,10 @@ importers:
 
   apps/realtime:
     dependencies:
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/partysocket-config':
+      '@hitechcloud.vn/partysocket-config':
         specifier: workspace:*
         version: link:../../packages/partysocket-config
       '@t3-oss/env-core':
@@ -655,10 +655,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -688,145 +688,145 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.1039.0
         version: 3.1063.0
-      '@chatbotx.io/ai':
+      '@hitechcloud.vn/ai':
         specifier: workspace:*
         version: link:../../packages/ai
-      '@chatbotx.io/analytics':
+      '@hitechcloud.vn/analytics':
         specifier: workspace:*
         version: link:../../packages/analytics
-      '@chatbotx.io/automated-response':
+      '@hitechcloud.vn/automated-response':
         specifier: workspace:*
         version: link:../../packages/automated-response
-      '@chatbotx.io/business':
+      '@hitechcloud.vn/business':
         specifier: workspace:*
         version: link:../../packages/business
-      '@chatbotx.io/channel-registry':
+      '@hitechcloud.vn/channel-registry':
         specifier: workspace:*
         version: link:../../packages/channel-registry
-      '@chatbotx.io/database':
+      '@hitechcloud.vn/database':
         specifier: workspace:*
         version: link:../../packages/database
-      '@chatbotx.io/encryption':
+      '@hitechcloud.vn/encryption':
         specifier: workspace:*
         version: link:../../packages/encryption
-      '@chatbotx.io/event-bus':
+      '@hitechcloud.vn/event-bus':
         specifier: workspace:*
         version: link:../../packages/event-bus
-      '@chatbotx.io/events':
+      '@hitechcloud.vn/events':
         specifier: workspace:*
         version: link:../../packages/events
-      '@chatbotx.io/filesystem':
+      '@hitechcloud.vn/filesystem':
         specifier: workspace:*
         version: link:../../packages/filesystem
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../../packages/flow-config
-      '@chatbotx.io/imports':
+      '@hitechcloud.vn/imports':
         specifier: workspace:*
         version: link:../../packages/imports
-      '@chatbotx.io/integration-active-campaign':
+      '@hitechcloud.vn/integration-active-campaign':
         specifier: workspace:*
         version: link:../../integrations/active-campaign
-      '@chatbotx.io/integration-api':
+      '@hitechcloud.vn/integration-api':
         specifier: workspace:*
         version: link:../../integrations/api
-      '@chatbotx.io/integration-chatbotx':
+      '@hitechcloud.vn/integration-hitechcloudomnichannel':
         specifier: workspace:*
-        version: link:../../integrations/chatbotx
-      '@chatbotx.io/integration-drip':
+        version: link:../../integrations/hitechcloudomnichannel
+      '@hitechcloud.vn/integration-drip':
         specifier: workspace:*
         version: link:../../integrations/drip
-      '@chatbotx.io/integration-facebook-ads':
+      '@hitechcloud.vn/integration-facebook-ads':
         specifier: workspace:*
         version: link:../../integrations/facebook-ads
-      '@chatbotx.io/integration-get-response':
+      '@hitechcloud.vn/integration-get-response':
         specifier: workspace:*
         version: link:../../integrations/get-response
-      '@chatbotx.io/integration-google-calendar':
+      '@hitechcloud.vn/integration-google-calendar':
         specifier: workspace:*
         version: link:../../integrations/google-calendar
-      '@chatbotx.io/integration-google-sheets':
+      '@hitechcloud.vn/integration-google-sheets':
         specifier: workspace:*
         version: link:../../integrations/google-sheets
-      '@chatbotx.io/integration-instagram':
+      '@hitechcloud.vn/integration-instagram':
         specifier: workspace:*
         version: link:../../integrations/instagram
-      '@chatbotx.io/integration-instagram-facebook':
+      '@hitechcloud.vn/integration-instagram-facebook':
         specifier: workspace:*
         version: link:../../integrations/instagram-facebook
-      '@chatbotx.io/integration-klaviyo':
+      '@hitechcloud.vn/integration-klaviyo':
         specifier: workspace:*
         version: link:../../integrations/klaviyo
-      '@chatbotx.io/integration-mailchimp':
+      '@hitechcloud.vn/integration-mailchimp':
         specifier: workspace:*
         version: link:../../integrations/mailchimp
-      '@chatbotx.io/integration-mailer-lite':
+      '@hitechcloud.vn/integration-mailer-lite':
         specifier: workspace:*
         version: link:../../integrations/mailer-lite
-      '@chatbotx.io/integration-messenger':
+      '@hitechcloud.vn/integration-messenger':
         specifier: workspace:*
         version: link:../../integrations/messenger
-      '@chatbotx.io/integration-meta-catalog':
+      '@hitechcloud.vn/integration-meta-catalog':
         specifier: workspace:*
         version: link:../../integrations/meta-catalog
-      '@chatbotx.io/integration-meta-conversions':
+      '@hitechcloud.vn/integration-meta-conversions':
         specifier: workspace:*
         version: link:../../integrations/meta-conversions
-      '@chatbotx.io/integration-moosend':
+      '@hitechcloud.vn/integration-moosend':
         specifier: workspace:*
         version: link:../../integrations/moosend
-      '@chatbotx.io/integration-sendgrid':
+      '@hitechcloud.vn/integration-sendgrid':
         specifier: workspace:*
         version: link:../../integrations/sendgrid
-      '@chatbotx.io/integration-smtp':
+      '@hitechcloud.vn/integration-smtp':
         specifier: workspace:*
         version: link:../../integrations/smtp
-      '@chatbotx.io/integration-telegram':
+      '@hitechcloud.vn/integration-telegram':
         specifier: workspace:*
         version: link:../../integrations/telegram
-      '@chatbotx.io/integration-threads':
+      '@hitechcloud.vn/integration-threads':
         specifier: workspace:*
         version: link:../../integrations/threads
-      '@chatbotx.io/integration-tiktok':
+      '@hitechcloud.vn/integration-tiktok':
         specifier: workspace:*
         version: link:../../integrations/tiktok
-      '@chatbotx.io/integration-webchat':
+      '@hitechcloud.vn/integration-webchat':
         specifier: workspace:*
         version: link:../../integrations/webchat
-      '@chatbotx.io/integration-whatsapp':
+      '@hitechcloud.vn/integration-whatsapp':
         specifier: workspace:*
         version: link:../../integrations/whatsapp
-      '@chatbotx.io/integration-zalo':
+      '@hitechcloud.vn/integration-zalo':
         specifier: workspace:*
         version: link:../../integrations/zalo
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/mail':
+      '@hitechcloud.vn/mail':
         specifier: workspace:*
         version: link:../../packages/mail
-      '@chatbotx.io/partysocket-config':
+      '@hitechcloud.vn/partysocket-config':
         specifier: workspace:*
         version: link:../../packages/partysocket-config
-      '@chatbotx.io/redis':
+      '@hitechcloud.vn/redis':
         specifier: workspace:*
         version: link:../../packages/redis
-      '@chatbotx.io/scheduler':
+      '@hitechcloud.vn/scheduler':
         specifier: workspace:*
         version: link:../../packages/scheduler
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
-      '@chatbotx.io/sequence-scheduler':
+      '@hitechcloud.vn/sequence-scheduler':
         specifier: workspace:*
         version: link:../../packages/sequence-scheduler
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../../packages/utils
-      '@chatbotx.io/variables':
+      '@hitechcloud.vn/variables':
         specifier: workspace:*
         version: link:../../packages/variables
-      '@chatbotx.io/worker-config':
+      '@hitechcloud.vn/worker-config':
         specifier: workspace:*
         version: link:../../packages/worker-config
       '@faker-js/faker':
@@ -914,10 +914,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/html-to-text':
@@ -953,10 +953,10 @@ importers:
 
   integrations/active-campaign:
     dependencies:
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       ky:
@@ -969,10 +969,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -987,19 +987,19 @@ importers:
 
   integrations/api:
     dependencies:
-      '@chatbotx.io/business':
+      '@hitechcloud.vn/business':
         specifier: workspace:*
         version: link:../../packages/business
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../../packages/flow-config
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../../packages/utils
       ky:
@@ -1009,10 +1009,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1025,9 +1025,9 @@ importers:
         specifier: ^4.1.0
         version: 4.1.8(@opentelemetry/api@1.9.1)(@types/node@24.13.1)(@vitest/coverage-v8@4.1.8)(jsdom@25.0.1)(msw@2.14.6(@types/node@24.13.1)(typescript@5.9.3))(vite@7.3.5(@types/node@24.13.1)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.23.0)(yaml@2.9.0))
 
-  integrations/chatbotx:
+  integrations/hitechcloudomnichannel:
     dependencies:
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       ky:
@@ -1037,10 +1037,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1055,10 +1055,10 @@ importers:
 
   integrations/drip:
     dependencies:
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       ky:
@@ -1071,10 +1071,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1089,13 +1089,13 @@ importers:
 
   integrations/facebook-ads:
     dependencies:
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../../packages/utils
       ky:
@@ -1108,10 +1108,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1126,7 +1126,7 @@ importers:
 
   integrations/get-response:
     dependencies:
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       ky:
@@ -1139,10 +1139,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1157,10 +1157,10 @@ importers:
 
   integrations/google-calendar:
     dependencies:
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       google-auth-library:
@@ -1173,10 +1173,10 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1191,10 +1191,10 @@ importers:
 
   integrations/google-sheets:
     dependencies:
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       google-auth-library:
@@ -1204,10 +1204,10 @@ importers:
         specifier: ^171.4.0
         version: 171.4.0
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1225,19 +1225,19 @@ importers:
 
   integrations/instagram:
     dependencies:
-      '@chatbotx.io/business':
+      '@hitechcloud.vn/business':
         specifier: workspace:*
         version: link:../../packages/business
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../../packages/flow-config
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../../packages/utils
       cross-fetch:
@@ -1256,10 +1256,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1274,22 +1274,22 @@ importers:
 
   integrations/instagram-facebook:
     dependencies:
-      '@chatbotx.io/business':
+      '@hitechcloud.vn/business':
         specifier: workspace:*
         version: link:../../packages/business
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../../packages/flow-config
-      '@chatbotx.io/integration-instagram':
+      '@hitechcloud.vn/integration-instagram':
         specifier: workspace:*
         version: link:../instagram
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../../packages/utils
       cross-fetch:
@@ -1308,10 +1308,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1326,7 +1326,7 @@ importers:
 
   integrations/klaviyo:
     dependencies:
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       ky:
@@ -1339,10 +1339,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1357,10 +1357,10 @@ importers:
 
   integrations/mailchimp:
     dependencies:
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       '@noble/hashes':
@@ -1376,7 +1376,7 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
       '@types/node':
@@ -1388,7 +1388,7 @@ importers:
 
   integrations/mailer-lite:
     dependencies:
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       ky:
@@ -1401,10 +1401,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1419,19 +1419,19 @@ importers:
 
   integrations/messenger:
     dependencies:
-      '@chatbotx.io/business':
+      '@hitechcloud.vn/business':
         specifier: workspace:*
         version: link:../../packages/business
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../../packages/flow-config
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../../packages/utils
       '@types/node':
@@ -1453,10 +1453,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       msw:
@@ -1471,19 +1471,19 @@ importers:
 
   integrations/meta-catalog:
     dependencies:
-      '@chatbotx.io/integration-facebook-ads':
+      '@hitechcloud.vn/integration-facebook-ads':
         specifier: workspace:*
         version: link:../facebook-ads
-      '@chatbotx.io/integration-messenger':
+      '@hitechcloud.vn/integration-messenger':
         specifier: workspace:*
         version: link:../messenger
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../../packages/utils
       ky:
@@ -1493,10 +1493,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1511,7 +1511,7 @@ importers:
 
   integrations/meta-conversions:
     dependencies:
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../../packages/utils
       ky:
@@ -1521,10 +1521,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1539,7 +1539,7 @@ importers:
 
   integrations/moosend:
     dependencies:
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       ky:
@@ -1549,10 +1549,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1570,17 +1570,17 @@ importers:
       '@ai-sdk/openai':
         specifier: ^3.0.54
         version: 3.0.68(zod@4.6.5)
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       ai:
         specifier: ^6.0.170
         version: 6.0.197(zod@4.6.5)
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1598,7 +1598,7 @@ importers:
 
   integrations/sendgrid:
     dependencies:
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       ky:
@@ -1608,10 +1608,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1626,7 +1626,7 @@ importers:
 
   integrations/smtp:
     dependencies:
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       nodemailer:
@@ -1636,10 +1636,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1657,16 +1657,16 @@ importers:
 
   integrations/telegram:
     dependencies:
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../../packages/flow-config
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../../packages/utils
       ky:
@@ -1679,10 +1679,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1700,10 +1700,10 @@ importers:
 
   integrations/threads:
     dependencies:
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       ky:
@@ -1713,10 +1713,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1731,16 +1731,16 @@ importers:
 
   integrations/tiktok:
     dependencies:
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../../packages/flow-config
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../../packages/utils
       '@types/node':
@@ -1756,10 +1756,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       msw:
@@ -1774,17 +1774,17 @@ importers:
 
   integrations/webchat:
     dependencies:
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       ky:
         specifier: ^2.0.2
         version: 2.0.2
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1799,22 +1799,22 @@ importers:
 
   integrations/whatsapp:
     dependencies:
-      '@chatbotx.io/business':
+      '@hitechcloud.vn/business':
         specifier: workspace:*
         version: link:../../packages/business
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../../packages/flow-config
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../../packages/utils
-      '@chatbotx.io/worker-config':
+      '@hitechcloud.vn/worker-config':
         specifier: workspace:*
         version: link:../../packages/worker-config
       '@edenchazard/tiny-chunk-array':
@@ -1845,10 +1845,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       msw:
@@ -1863,16 +1863,16 @@ importers:
 
   integrations/zalo:
     dependencies:
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../../packages/flow-config
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../../packages/logger
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../../packages/utils
       cross-fetch:
@@ -1891,10 +1891,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../../packages/vitest-config
       '@types/node':
@@ -1927,25 +1927,25 @@ importers:
       '@ai-sdk/openai-compatible':
         specifier: ^2.0.56
         version: 2.0.56(zod@4.4.3)
-      '@chatbotx.io/business':
+      '@hitechcloud.vn/business':
         specifier: workspace:*
         version: link:../business
-      '@chatbotx.io/database':
+      '@hitechcloud.vn/database':
         specifier: workspace:*
         version: link:../database
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../flow-config
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
-      '@chatbotx.io/redis':
+      '@hitechcloud.vn/redis':
         specifier: workspace:*
         version: link:../redis
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../sdk
-      '@chatbotx.io/worker-config':
+      '@hitechcloud.vn/worker-config':
         specifier: workspace:*
         version: link:../worker-config
       '@openrouter/ai-sdk-provider':
@@ -1970,10 +1970,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/mime-types':
@@ -1988,22 +1988,22 @@ importers:
 
   packages/analytics:
     dependencies:
-      '@chatbotx.io/database':
+      '@hitechcloud.vn/database':
         specifier: workspace:*
         version: link:../database
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../flow-config
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
-      '@chatbotx.io/redis':
+      '@hitechcloud.vn/redis':
         specifier: workspace:*
         version: link:../redis
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../sdk
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../utils
       date-fns:
@@ -2019,10 +2019,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -2037,19 +2037,19 @@ importers:
 
   packages/analytics-nextjs:
     dependencies:
-      '@chatbotx.io/analytics':
+      '@hitechcloud.vn/analytics':
         specifier: workspace:*
         version: link:../analytics
-      '@chatbotx.io/database':
+      '@hitechcloud.vn/database':
         specifier: workspace:*
         version: link:../database
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
-      '@chatbotx.io/redis':
+      '@hitechcloud.vn/redis':
         specifier: workspace:*
         version: link:../redis
-      '@chatbotx.io/ui':
+      '@hitechcloud.vn/ui':
         specifier: workspace:*
         version: link:../ui
       '@hookform/resolvers':
@@ -2086,10 +2086,10 @@ importers:
         specifier: ^5.0.12
         version: 5.0.14(@types/react@19.2.14)(immer@11.1.15)(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5))
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -2113,22 +2113,22 @@ importers:
 
   packages/auth:
     dependencies:
-      '@chatbotx.io/business':
+      '@hitechcloud.vn/business':
         specifier: workspace:*
         version: link:../business
-      '@chatbotx.io/database':
+      '@hitechcloud.vn/database':
         specifier: workspace:*
         version: link:../database
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
-      '@chatbotx.io/mail':
+      '@hitechcloud.vn/mail':
         specifier: workspace:*
         version: link:../mail
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../sdk
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../utils
       '@t3-oss/env-core':
@@ -2144,10 +2144,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       typescript:
@@ -2159,31 +2159,31 @@ importers:
 
   packages/automated-response:
     dependencies:
-      '@chatbotx.io/analytics':
+      '@hitechcloud.vn/analytics':
         specifier: workspace:*
         version: link:../analytics
-      '@chatbotx.io/business':
+      '@hitechcloud.vn/business':
         specifier: workspace:*
         version: link:../business
-      '@chatbotx.io/database':
+      '@hitechcloud.vn/database':
         specifier: workspace:*
         version: link:../database
-      '@chatbotx.io/events':
+      '@hitechcloud.vn/events':
         specifier: workspace:*
         version: link:../events
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
-      '@chatbotx.io/redis':
+      '@hitechcloud.vn/redis':
         specifier: workspace:*
         version: link:../redis
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../utils
-      '@chatbotx.io/variables':
+      '@hitechcloud.vn/variables':
         specifier: workspace:*
         version: link:../variables
-      '@chatbotx.io/worker-config':
+      '@hitechcloud.vn/worker-config':
         specifier: workspace:*
         version: link:../worker-config
       '@t3-oss/env-core':
@@ -2193,10 +2193,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -2211,64 +2211,64 @@ importers:
 
   packages/business:
     dependencies:
-      '@chatbotx.io/analytics':
+      '@hitechcloud.vn/analytics':
         specifier: workspace:*
         version: link:../analytics
-      '@chatbotx.io/database':
+      '@hitechcloud.vn/database':
         specifier: workspace:*
         version: link:../database
-      '@chatbotx.io/encryption':
+      '@hitechcloud.vn/encryption':
         specifier: workspace:*
         version: link:../encryption
-      '@chatbotx.io/event-bus':
+      '@hitechcloud.vn/event-bus':
         specifier: workspace:*
         version: link:../event-bus
-      '@chatbotx.io/events':
+      '@hitechcloud.vn/events':
         specifier: workspace:*
         version: link:../events
-      '@chatbotx.io/filesystem':
+      '@hitechcloud.vn/filesystem':
         specifier: workspace:*
         version: link:../filesystem
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../flow-config
-      '@chatbotx.io/imports':
+      '@hitechcloud.vn/imports':
         specifier: workspace:*
         version: link:../imports
-      '@chatbotx.io/integration-facebook-ads':
+      '@hitechcloud.vn/integration-facebook-ads':
         specifier: workspace:*
         version: link:../../integrations/facebook-ads
-      '@chatbotx.io/integration-google-calendar':
+      '@hitechcloud.vn/integration-google-calendar':
         specifier: workspace:*
         version: link:../../integrations/google-calendar
-      '@chatbotx.io/integration-tiktok':
+      '@hitechcloud.vn/integration-tiktok':
         specifier: workspace:*
         version: link:../../integrations/tiktok
-      '@chatbotx.io/javascript-sandbox':
+      '@hitechcloud.vn/javascript-sandbox':
         specifier: workspace:*
         version: link:../javascript-sandbox
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
-      '@chatbotx.io/partysocket-config':
+      '@hitechcloud.vn/partysocket-config':
         specifier: workspace:*
         version: link:../partysocket-config
-      '@chatbotx.io/redis':
+      '@hitechcloud.vn/redis':
         specifier: workspace:*
         version: link:../redis
-      '@chatbotx.io/scheduler':
+      '@hitechcloud.vn/scheduler':
         specifier: workspace:*
         version: link:../scheduler
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../sdk
-      '@chatbotx.io/sequence-scheduler':
+      '@hitechcloud.vn/sequence-scheduler':
         specifier: workspace:*
         version: link:../sequence-scheduler
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../utils
-      '@chatbotx.io/worker-config':
+      '@hitechcloud.vn/worker-config':
         specifier: workspace:*
         version: link:../worker-config
       '@napi-rs/canvas':
@@ -2311,10 +2311,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -2335,104 +2335,104 @@ importers:
 
   packages/channel-registry:
     dependencies:
-      '@chatbotx.io/business':
+      '@hitechcloud.vn/business':
         specifier: workspace:*
         version: link:../business
-      '@chatbotx.io/database':
+      '@hitechcloud.vn/database':
         specifier: workspace:*
         version: link:../database
-      '@chatbotx.io/filesystem':
+      '@hitechcloud.vn/filesystem':
         specifier: workspace:*
         version: link:../filesystem
-      '@chatbotx.io/integration-active-campaign':
+      '@hitechcloud.vn/integration-active-campaign':
         specifier: workspace:*
         version: link:../../integrations/active-campaign
-      '@chatbotx.io/integration-api':
+      '@hitechcloud.vn/integration-api':
         specifier: workspace:*
         version: link:../../integrations/api
-      '@chatbotx.io/integration-chatbotx':
+      '@hitechcloud.vn/integration-hitechcloudomnichannel':
         specifier: workspace:*
-        version: link:../../integrations/chatbotx
-      '@chatbotx.io/integration-drip':
+        version: link:../../integrations/hitechcloudomnichannel
+      '@hitechcloud.vn/integration-drip':
         specifier: workspace:*
         version: link:../../integrations/drip
-      '@chatbotx.io/integration-facebook-ads':
+      '@hitechcloud.vn/integration-facebook-ads':
         specifier: workspace:*
         version: link:../../integrations/facebook-ads
-      '@chatbotx.io/integration-get-response':
+      '@hitechcloud.vn/integration-get-response':
         specifier: workspace:*
         version: link:../../integrations/get-response
-      '@chatbotx.io/integration-google-calendar':
+      '@hitechcloud.vn/integration-google-calendar':
         specifier: workspace:*
         version: link:../../integrations/google-calendar
-      '@chatbotx.io/integration-google-sheets':
+      '@hitechcloud.vn/integration-google-sheets':
         specifier: workspace:*
         version: link:../../integrations/google-sheets
-      '@chatbotx.io/integration-instagram':
+      '@hitechcloud.vn/integration-instagram':
         specifier: workspace:*
         version: link:../../integrations/instagram
-      '@chatbotx.io/integration-instagram-facebook':
+      '@hitechcloud.vn/integration-instagram-facebook':
         specifier: workspace:*
         version: link:../../integrations/instagram-facebook
-      '@chatbotx.io/integration-klaviyo':
+      '@hitechcloud.vn/integration-klaviyo':
         specifier: workspace:*
         version: link:../../integrations/klaviyo
-      '@chatbotx.io/integration-mailchimp':
+      '@hitechcloud.vn/integration-mailchimp':
         specifier: workspace:*
         version: link:../../integrations/mailchimp
-      '@chatbotx.io/integration-mailer-lite':
+      '@hitechcloud.vn/integration-mailer-lite':
         specifier: workspace:*
         version: link:../../integrations/mailer-lite
-      '@chatbotx.io/integration-messenger':
+      '@hitechcloud.vn/integration-messenger':
         specifier: workspace:*
         version: link:../../integrations/messenger
-      '@chatbotx.io/integration-moosend':
+      '@hitechcloud.vn/integration-moosend':
         specifier: workspace:*
         version: link:../../integrations/moosend
-      '@chatbotx.io/integration-sendgrid':
+      '@hitechcloud.vn/integration-sendgrid':
         specifier: workspace:*
         version: link:../../integrations/sendgrid
-      '@chatbotx.io/integration-smtp':
+      '@hitechcloud.vn/integration-smtp':
         specifier: workspace:*
         version: link:../../integrations/smtp
-      '@chatbotx.io/integration-telegram':
+      '@hitechcloud.vn/integration-telegram':
         specifier: workspace:*
         version: link:../../integrations/telegram
-      '@chatbotx.io/integration-threads':
+      '@hitechcloud.vn/integration-threads':
         specifier: workspace:*
         version: link:../../integrations/threads
-      '@chatbotx.io/integration-tiktok':
+      '@hitechcloud.vn/integration-tiktok':
         specifier: workspace:*
         version: link:../../integrations/tiktok
-      '@chatbotx.io/integration-webchat':
+      '@hitechcloud.vn/integration-webchat':
         specifier: workspace:*
         version: link:../../integrations/webchat
-      '@chatbotx.io/integration-whatsapp':
+      '@hitechcloud.vn/integration-whatsapp':
         specifier: workspace:*
         version: link:../../integrations/whatsapp
-      '@chatbotx.io/integration-zalo':
+      '@hitechcloud.vn/integration-zalo':
         specifier: workspace:*
         version: link:../../integrations/zalo
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
-      '@chatbotx.io/redis':
+      '@hitechcloud.vn/redis':
         specifier: workspace:*
         version: link:../redis
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../sdk
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../utils
       image-size:
         specifier: ^2.0.3
         version: 2.0.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -2450,19 +2450,19 @@ importers:
 
   packages/database:
     dependencies:
-      '@chatbotx.io/encryption':
+      '@hitechcloud.vn/encryption':
         specifier: workspace:*
         version: link:../encryption
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../flow-config
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
-      '@chatbotx.io/redis':
+      '@hitechcloud.vn/redis':
         specifier: workspace:*
         version: link:../redis
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../utils
       '@t3-oss/env-core':
@@ -2487,10 +2487,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../sdk
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -2524,10 +2524,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -2542,26 +2542,26 @@ importers:
 
   packages/event-bus:
     dependencies:
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../flow-config
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
-      '@chatbotx.io/redis':
+      '@hitechcloud.vn/redis':
         specifier: workspace:*
         version: link:../redis
-      '@chatbotx.io/worker-config':
+      '@hitechcloud.vn/worker-config':
         specifier: workspace:*
         version: link:../worker-config
       zod:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -2573,23 +2573,23 @@ importers:
 
   packages/events:
     dependencies:
-      '@chatbotx.io/database':
+      '@hitechcloud.vn/database':
         specifier: workspace:*
         version: link:../database
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
-      '@chatbotx.io/worker-config':
+      '@hitechcloud.vn/worker-config':
         specifier: workspace:*
         version: link:../worker-config
       lru-cache:
         specifier: ^11.3.5
         version: 11.5.1
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       typescript:
@@ -2607,13 +2607,13 @@ importers:
       '@aws-sdk/lib-storage':
         specifier: ^3.1039.0
         version: 3.1063.0(@aws-sdk/client-s3@3.1063.0)
-      '@chatbotx.io/database':
+      '@hitechcloud.vn/database':
         specifier: workspace:*
         version: link:../database
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../utils
       '@t3-oss/env-core':
@@ -2632,10 +2632,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -2653,7 +2653,7 @@ importers:
 
   packages/flow-config:
     dependencies:
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../utils
       '@xyflow/react':
@@ -2666,10 +2666,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -2687,10 +2687,10 @@ importers:
 
   packages/imports:
     dependencies:
-      '@chatbotx.io/database':
+      '@hitechcloud.vn/database':
         specifier: workspace:*
         version: link:../database
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../utils
       csv-parse:
@@ -2706,10 +2706,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -2731,10 +2731,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -2749,7 +2749,7 @@ importers:
 
   packages/kafka:
     dependencies:
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
       '@platformatic/kafka':
@@ -2765,10 +2765,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -2790,10 +2790,10 @@ importers:
         specifier: ^10.3.1
         version: 10.3.1
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       typescript:
@@ -2818,10 +2818,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/mjml':
@@ -2845,7 +2845,7 @@ importers:
 
   packages/minigame-ui:
     dependencies:
-      '@chatbotx.io/ui':
+      '@hitechcloud.vn/ui':
         specifier: workspace:*
         version: link:../ui
       lucide-react:
@@ -2855,7 +2855,7 @@ importers:
         specifier: 19.2.5
         version: 19.2.5
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@types/react':
@@ -2867,7 +2867,7 @@ importers:
 
   packages/partysocket-config:
     dependencies:
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
       '@t3-oss/env-core':
@@ -2883,10 +2883,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -2901,7 +2901,7 @@ importers:
 
   packages/redis:
     dependencies:
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
       '@t3-oss/env-core':
@@ -2923,10 +2923,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       dotenv-cli:
@@ -2941,20 +2941,20 @@ importers:
 
   packages/scheduler:
     dependencies:
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
-      '@chatbotx.io/redis':
+      '@hitechcloud.vn/redis':
         specifier: workspace:*
         version: link:../redis
       ioredis:
         specifier: 5.10.1
         version: 5.10.1
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       typescript:
@@ -2966,20 +2966,20 @@ importers:
 
   packages/sdk:
     dependencies:
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../flow-config
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
       zod:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -2994,26 +2994,26 @@ importers:
 
   packages/sequence-scheduler:
     dependencies:
-      '@chatbotx.io/database':
+      '@hitechcloud.vn/database':
         specifier: workspace:*
         version: link:../database
-      '@chatbotx.io/redis':
+      '@hitechcloud.vn/redis':
         specifier: workspace:*
         version: link:../redis
-      '@chatbotx.io/scheduler':
+      '@hitechcloud.vn/scheduler':
         specifier: workspace:*
         version: link:../scheduler
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../utils
       date-fns:
         specifier: ^4.1.0
         version: 4.4.0
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       typescript:
@@ -3034,7 +3034,7 @@ importers:
       '@base-ui/react':
         specifier: ^1.6.0
         version: 1.6.0(@date-fns/tz@1.5.0)(@types/react@19.2.14)(date-fns@4.4.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
       '@diceui/combobox':
@@ -3152,10 +3152,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@tailwindcss/postcss':
@@ -3210,10 +3210,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -3228,34 +3228,34 @@ importers:
 
   packages/variables:
     dependencies:
-      '@chatbotx.io/business':
+      '@hitechcloud.vn/business':
         specifier: workspace:*
         version: link:../business
-      '@chatbotx.io/channel-registry':
+      '@hitechcloud.vn/channel-registry':
         specifier: workspace:*
         version: link:../channel-registry
-      '@chatbotx.io/database':
+      '@hitechcloud.vn/database':
         specifier: workspace:*
         version: link:../database
-      '@chatbotx.io/encryption':
+      '@hitechcloud.vn/encryption':
         specifier: workspace:*
         version: link:../encryption
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../flow-config
-      '@chatbotx.io/integration-instagram':
+      '@hitechcloud.vn/integration-instagram':
         specifier: workspace:*
         version: link:../../integrations/instagram
-      '@chatbotx.io/integration-messenger':
+      '@hitechcloud.vn/integration-messenger':
         specifier: workspace:*
         version: link:../../integrations/messenger
-      '@chatbotx.io/logger':
+      '@hitechcloud.vn/logger':
         specifier: workspace:*
         version: link:../logger
-      '@chatbotx.io/redis':
+      '@hitechcloud.vn/redis':
         specifier: workspace:*
         version: link:../redis
-      '@chatbotx.io/utils':
+      '@hitechcloud.vn/utils':
         specifier: workspace:*
         version: link:../utils
       date-fns-tz:
@@ -3265,10 +3265,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       '@types/node':
@@ -3302,7 +3302,7 @@ importers:
         specifier: ^4.1.8
         version: 4.1.8(@opentelemetry/api@1.9.1)(@types/node@24.13.1)(@vitest/coverage-v8@4.1.8)(jsdom@25.0.1)(msw@2.14.6(@types/node@24.13.1)(typescript@5.9.3))(vite@7.3.5(@types/node@24.13.1)(jiti@2.7.0)(lightningcss@1.32.0)(tsx@4.23.0)(yaml@2.9.0))
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@types/node':
@@ -3314,22 +3314,22 @@ importers:
 
   packages/worker-config:
     dependencies:
-      '@chatbotx.io/analytics':
+      '@hitechcloud.vn/analytics':
         specifier: workspace:*
         version: link:../analytics
-      '@chatbotx.io/database':
+      '@hitechcloud.vn/database':
         specifier: workspace:*
         version: link:../database
-      '@chatbotx.io/flow-config':
+      '@hitechcloud.vn/flow-config':
         specifier: workspace:*
         version: link:../flow-config
-      '@chatbotx.io/kafka':
+      '@hitechcloud.vn/kafka':
         specifier: workspace:*
         version: link:../kafka
-      '@chatbotx.io/redis':
+      '@hitechcloud.vn/redis':
         specifier: workspace:*
         version: link:../redis
-      '@chatbotx.io/sdk':
+      '@hitechcloud.vn/sdk':
         specifier: workspace:*
         version: link:../sdk
       '@t3-oss/env-nextjs':
@@ -3348,10 +3348,10 @@ importers:
         specifier: ^4.3.6
         version: 4.4.3
     devDependencies:
-      '@chatbotx.io/typescript-config':
+      '@hitechcloud.vn/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@chatbotx.io/vitest-config':
+      '@hitechcloud.vn/vitest-config':
         specifier: workspace:*
         version: link:../vitest-config
       typescript:

@@ -1,4 +1,4 @@
-import { macAnalyticsService } from "@chatbotx.io/analytics"
+import { macAnalyticsService } from "@hitechcloud.vn/analytics"
 import { os } from "@orpc/server"
 import { z } from "zod"
 

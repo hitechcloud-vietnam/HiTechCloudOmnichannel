@@ -55,7 +55,7 @@ export type RangeGranularity = "day" | "month"
  * followed by a run of zeroes.
  *
  * The 60-day threshold is the same one `formatTimeRangeDate` switches its axis
- * labels on in `@chatbotx.io/analytics-nextjs`.
+ * labels on in `@hitechcloud.vn/analytics-nextjs`.
  */
 export function resolveRangeGranularity(
   from: Date,

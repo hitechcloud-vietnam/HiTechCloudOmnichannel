@@ -9,7 +9,7 @@ import {
   type SendTextStepSchema,
   type SendVideoStepSchema,
   stepTypes,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import {
   assertCommentPrivateReplyFollowUpDeliverable,
   ChannelError,
@@ -25,7 +25,7 @@ import {
   type OutgoingContact,
   type OutgoingMessage,
   type SendFlowStepProps,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { sendPrivateReplyMessage } from "../../../apis/comment"
 import { sendMessage as sendMessageApi } from "../../../apis/message"
 import { ensureMessengerWhitelistedDomain } from "../../../apis/page"

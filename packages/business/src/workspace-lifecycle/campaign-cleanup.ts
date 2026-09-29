@@ -4,12 +4,12 @@ import {
   db,
   eq,
   inArray,
-} from "@chatbotx.io/database/client"
-import { broadcastStatuses } from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/client"
+import { broadcastStatuses } from "@hitechcloud.vn/database/partials"
 import {
   broadcastModel,
   contactsOnSequenceModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 
 export async function cancelInFlightBroadcastsForWorkspace(props: {
   tx?: DatabaseClient

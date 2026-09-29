@@ -1451,7 +1451,7 @@
     "unknown": "未知"
   },
   "facebookMarketingMessages": {
-    "deleteWarning": "这只会从 ChatbotX 中移除该广告系列。Meta 消息广告系列仍在投放——请在广告管理工具中暂停或删除。",
+    "deleteWarning": "这只会从 HiTechCloudOmnichannel 中移除该广告系列。Meta 消息广告系列仍在投放——请在广告管理工具中暂停或删除。",
     "title": "Facebook 营销消息",
     "description": "通过 Messenger 上的个性化推广消息提升互动与销售。",
     "create": "新建",
@@ -5608,7 +5608,7 @@
         "title": "Calling eligibility",
         "appSubscriptionMissing": "Configure the WhatsApp webhook for this app in the Meta App Dashboard first, then try again.",
         "appSubscriptionFailed": "Could not verify the app's 'calls' webhook subscription. Try again shortly.",
-        "callsNotSubscribed": "This app is not subscribed to the 'calls' webhook field, so call events cannot reach ChatbotX (Meta error 138018: technical pre-requisites are not met — ensure at least one app subscribed to the WABA also has the calls webhook field).",
+        "callsNotSubscribed": "This app is not subscribed to the 'calls' webhook field, so call events cannot reach HiTechCloudOmnichannel (Meta error 138018: technical pre-requisites are not met — ensure at least one app subscribed to the WABA also has the calls webhook field).",
         "fixButton": "Fix",
         "fixSuccess": "The app is now subscribed to WhatsApp call webhooks.",
         "manualIntegrationNotice": "This number was connected manually and has no app credentials here. Subscribe the 'calls' webhook field for your app in the Meta App Dashboard.",
@@ -6011,7 +6011,7 @@
     },
     "limitedDataUse": {
       "label": "Limited Data Use (US privacy)",
-      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by ChatbotX."
+      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by HiTechCloudOmnichannel."
     },
     "actionSource": {
       "label": "操作来源",

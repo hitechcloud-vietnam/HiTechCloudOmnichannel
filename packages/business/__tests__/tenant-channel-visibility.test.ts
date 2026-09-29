@@ -10,17 +10,17 @@ import { beforeEach, describe, expect, test, vi } from "vitest"
 // offer on the create picker.
 // ---------------------------------------------------------------------------
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: { query: { tenantModel: { findFirst: vi.fn() } } },
   eq: vi.fn((a: unknown, b: unknown) => ({ eq: [a, b] })),
 }))
 
-vi.mock("@chatbotx.io/database/schema", async (importOriginal) => ({
+vi.mock("@hitechcloud.vn/database/schema", async (importOriginal) => ({
   ...(await importOriginal<Record<string, unknown>>()),
   tenantModel: { ownerId: "tenant.ownerId" },
 }))
 
-vi.mock("@chatbotx.io/redis", async (importOriginal) => ({
+vi.mock("@hitechcloud.vn/redis", async (importOriginal) => ({
   ...(await importOriginal<Record<string, unknown>>()),
   withCache: (_key: string, fn: () => unknown) => fn(),
   invalidateCacheByTags: vi.fn(async () => undefined),

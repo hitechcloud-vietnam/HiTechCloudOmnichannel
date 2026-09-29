@@ -1,8 +1,8 @@
-import { db } from "@chatbotx.io/database/client"
-import { ChatbotXException } from "../errors"
+import { db } from "@hitechcloud.vn/database/client"
+import { HiTechCloudOmnichannelException } from "../errors"
 
 export const templateAllowDeleteViolationException = () =>
-  new ChatbotXException(
+  new HiTechCloudOmnichannelException(
     "This resource was installed from a template that disallows deletion",
     "templateAllowDeleteViolation",
   )

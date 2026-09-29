@@ -19,7 +19,7 @@ const tx = {
   insert: mocks.insert,
 }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     transaction: mocks.transaction,
     query: {
@@ -31,7 +31,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   eq: (column: unknown, value: unknown) => ({ column, value }),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   productCategoryRepository: {
     find: (...args: unknown[]) => mocks.categoryFind(...args),
   },
@@ -44,13 +44,13 @@ vi.mock("@chatbotx.io/database/repositories", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   productAddonModel: { productId: "addon-product-id" },
   productVariantModel: { productId: "variant-product-id" },
   productVariantOptionModel: { productId: "option-product-id" },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: vi.fn(),
 }))
 

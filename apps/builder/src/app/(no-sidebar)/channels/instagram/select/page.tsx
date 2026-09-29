@@ -1,4 +1,4 @@
-import { getInstagramAccount } from "@chatbotx.io/integration-instagram"
+import { getInstagramAccount } from "@hitechcloud.vn/integration-instagram"
 import { redirect } from "next/navigation"
 import { SelectAccount } from "@/features/integration-instagram/components/select-accounts"
 import {

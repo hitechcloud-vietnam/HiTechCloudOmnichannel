@@ -1,11 +1,11 @@
 import {
   channelTypes,
   commentAutomationMissReasons,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import {
   flowEventTypeSchema,
   messageEventTypeSchema,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import { z } from "zod"
 
 /**

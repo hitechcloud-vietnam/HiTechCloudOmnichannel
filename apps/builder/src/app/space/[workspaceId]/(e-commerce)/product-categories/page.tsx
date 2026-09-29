@@ -1,4 +1,4 @@
-import { productCategoryService } from "@chatbotx.io/business"
+import { productCategoryService } from "@hitechcloud.vn/business"
 import { ManageCategories } from "@/features/product-categories/components/manage-categories"
 import { assertCurrentUserCanAccessChatbot } from "@/lib/auth/utils"
 

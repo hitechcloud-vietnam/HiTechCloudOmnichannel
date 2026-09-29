@@ -2,13 +2,13 @@ import {
   exportSubTypes,
   fileContextTypes,
   fileStatuses,
-} from "@chatbotx.io/database/partials"
-import type { ContactFilterCriteriaInput } from "@chatbotx.io/database/queries"
-import { fileRepository } from "@chatbotx.io/database/repositories"
-import { uploader } from "@chatbotx.io/filesystem"
-import { createId } from "@chatbotx.io/utils"
-import { DefaultJobAction, defaultQueue } from "@chatbotx.io/worker-config"
-import { stripContactPIIFields } from "@chatbotx.io/worker-config/contact-pii"
+} from "@hitechcloud.vn/database/partials"
+import type { ContactFilterCriteriaInput } from "@hitechcloud.vn/database/queries"
+import { fileRepository } from "@hitechcloud.vn/database/repositories"
+import { uploader } from "@hitechcloud.vn/filesystem"
+import { createId } from "@hitechcloud.vn/utils"
+import { DefaultJobAction, defaultQueue } from "@hitechcloud.vn/worker-config"
+import { stripContactPIIFields } from "@hitechcloud.vn/worker-config/contact-pii"
 import { BaseService } from "../base.service"
 import { notFoundException } from "../errors"
 

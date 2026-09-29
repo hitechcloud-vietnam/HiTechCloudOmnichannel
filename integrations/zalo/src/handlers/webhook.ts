@@ -2,7 +2,7 @@ import {
   type ContextQueue,
   type HandleRequestProps,
   SdkException,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { sha256Hex, timingSafeStringEqual } from "../lib/webhook"
 import type { ZaloConfig } from "../schema/definition"
 import {

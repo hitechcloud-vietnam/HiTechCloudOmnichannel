@@ -111,7 +111,7 @@ export function getCampaign(input: {
 /** Meta's `?ids=` multi-get caps at 50 objects per request. */
 const MULTI_GET_CHUNK = 50
 
-/** Lists every ChatbotX-created campaign still live on the ad account, with `effective_status`. */
+/** Lists every HiTechCloudOmnichannel-created campaign still live on the ad account, with `effective_status`. */
 export function listCampaignsByIds(input: {
   accessToken: string
   campaignIds: string[]

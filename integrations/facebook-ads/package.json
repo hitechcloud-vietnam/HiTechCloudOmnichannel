@@ -1,19 +1,19 @@
 {
-  "name": "@chatbotx.io/integration-facebook-ads",
+  "name": "@hitechcloud.vn/integration-facebook-ads",
   "version": "0.0.1",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@chatbotx.io/logger": "workspace:*",
-    "@chatbotx.io/sdk": "workspace:*",
-    "@chatbotx.io/utils": "workspace:*",
+    "@hitechcloud.vn/logger": "workspace:*",
+    "@hitechcloud.vn/sdk": "workspace:*",
+    "@hitechcloud.vn/utils": "workspace:*",
     "ky": "^2.0.2",
     "libphonenumber-js": "^1.12.42",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@chatbotx.io/typescript-config": "workspace:*",
-    "@chatbotx.io/vitest-config": "workspace:*",
+    "@hitechcloud.vn/typescript-config": "workspace:*",
+    "@hitechcloud.vn/vitest-config": "workspace:*",
     "@types/node": "^24.10.4",
     "typescript": "^5",
     "vitest": "^4.1.0"

@@ -14,11 +14,11 @@ const mockUnblockIfBlocked = vi.fn()
 const mockPublishToWorkspaceParty = vi.fn()
 const mockLoggerWarn = vi.fn()
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   createMessageRepository: mockCreateMessageRepository,
 }))
 
-vi.mock("@chatbotx.io/partysocket-config", () => ({
+vi.mock("@hitechcloud.vn/partysocket-config", () => ({
   RealtimeEventType: { messageCreated: "messageCreated" },
 }))
 

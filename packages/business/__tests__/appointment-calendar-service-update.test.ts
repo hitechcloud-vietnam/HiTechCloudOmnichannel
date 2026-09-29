@@ -13,7 +13,7 @@ const mocks = vi.hoisted(() => ({
   rescheduleFutureForCalendar: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     transaction: mocks.transaction,
   },
@@ -23,7 +23,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   isUniqueViolationError: mocks.isUniqueViolationError,
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   appointmentCalendarRepository: {
     findBy: mocks.findBy,
     update: mocks.update,

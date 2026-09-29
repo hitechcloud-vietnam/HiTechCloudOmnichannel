@@ -1,5 +1,5 @@
-import { type DatabaseClient, db } from "@chatbotx.io/database/client"
-import type { CoexistRunType } from "@chatbotx.io/database/partials"
+import { type DatabaseClient, db } from "@hitechcloud.vn/database/client"
+import type { CoexistRunType } from "@hitechcloud.vn/database/partials"
 import {
   type CoexistChannel,
   type CoexistIntegrationRow,
@@ -12,9 +12,9 @@ import {
   type IncrementProgressCounters,
   type PickedCoexistRun,
   type PullCoexistChannel,
-} from "@chatbotx.io/database/repositories"
-import type { CoexistSyncRunModel } from "@chatbotx.io/database/types"
-import { IntegrationJobAction } from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/database/repositories"
+import type { CoexistSyncRunModel } from "@hitechcloud.vn/database/types"
+import { IntegrationJobAction } from "@hitechcloud.vn/worker-config"
 import { BaseService } from "../base.service"
 import {
   COEXIST_HISTORY_TIMEOUT_ERROR,

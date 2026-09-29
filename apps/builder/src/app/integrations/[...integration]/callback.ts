@@ -11,52 +11,52 @@ import {
   messengerIntegrationService,
   platformCredentialService,
   workspaceService,
-} from "@chatbotx.io/business"
-import { auditService, withAuditContext } from "@chatbotx.io/business/audit"
-import { ChatbotXException } from "@chatbotx.io/business/errors"
-import { db } from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/business"
+import { auditService, withAuditContext } from "@hitechcloud.vn/business/audit"
+import { HiTechCloudOmnichannelException } from "@hitechcloud.vn/business/errors"
+import { db } from "@hitechcloud.vn/database/client"
 import {
   type IntegrationType,
   type MessagingAdChannel,
   messagingAdChannelTypes,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import {
   integrationGoogleSheetsModel,
   integrationModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import {
   exchangeCodeForToken as exchangeFacebookAdsCode,
   exchangeLongLivedToken as exchangeFacebookAdsLongLivedToken,
   type FacebookAdsAuthValue,
-} from "@chatbotx.io/integration-facebook-ads"
-import { exchangeCodeForToken as exchangeInstagramCode } from "@chatbotx.io/integration-instagram"
+} from "@hitechcloud.vn/integration-facebook-ads"
+import { exchangeCodeForToken as exchangeInstagramCode } from "@hitechcloud.vn/integration-instagram"
 import {
   exchangeCodeForToken as exchangeInstagramFacebookCode,
   getFacebookUser as getInstagramFacebookUser,
-} from "@chatbotx.io/integration-instagram-facebook"
+} from "@hitechcloud.vn/integration-instagram-facebook"
 import {
   exchangeCodeForToken as exchangeMessengerCode,
   type FacebookUser,
   getFacebookUser as getMessengerFacebookUser,
-} from "@chatbotx.io/integration-messenger"
-import { exchangeLongLivedToken as exchangeMessengerLongLivedToken } from "@chatbotx.io/integration-messenger/apis/page"
-import type { MetaCatalogAuthValue } from "@chatbotx.io/integration-meta-catalog/schemas"
+} from "@hitechcloud.vn/integration-messenger"
+import { exchangeLongLivedToken as exchangeMessengerLongLivedToken } from "@hitechcloud.vn/integration-messenger/apis/page"
+import type { MetaCatalogAuthValue } from "@hitechcloud.vn/integration-meta-catalog/schemas"
 import {
   buildThreadsAuthValue,
   exchangeCodeForToken as exchangeThreadsCode,
   getThreadsProfile,
-} from "@chatbotx.io/integration-threads"
-import { TiktokMissingScopesError } from "@chatbotx.io/integration-tiktok"
+} from "@hitechcloud.vn/integration-threads"
+import { TiktokMissingScopesError } from "@hitechcloud.vn/integration-tiktok"
 import {
   AuthType,
   type AuthValue,
   type Oauth2AuthValue,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import {
   createId,
   getPublicUrlFromRequest,
   zodBigintAsString,
-} from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/utils"
 import { cookies } from "next/headers"
 import { notFound, redirect } from "next/navigation"
 import type { NextRequest } from "next/server"
@@ -824,7 +824,7 @@ export const handleCallback = async (
         // duplicated-channel toast instead of a 500 page. `redirect()` throws
         // NEXT_REDIRECT, so it must stay out of the `try` above.
         if (
-          error instanceof ChatbotXException &&
+          error instanceof HiTechCloudOmnichannelException &&
           error.code === "channelDuplicated"
         ) {
           return redirect(

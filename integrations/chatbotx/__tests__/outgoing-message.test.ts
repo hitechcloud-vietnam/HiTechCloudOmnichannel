@@ -21,7 +21,7 @@ vi.mock("ky", async () => {
   }
 })
 
-import type { Context } from "@chatbotx.io/sdk"
+import type { Context } from "@hitechcloud.vn/sdk"
 import type { ChatbotxAuthValue } from "../src/auth"
 import { broadcastMessageToWorkspaceParty } from "../src/lib/outgoing-message"
 
@@ -45,7 +45,7 @@ const buildMessage = (workspaceId = "ws-abc-123") =>
     id: "msg-1",
     content: { type: "text", text: "hello" },
     createdAt: new Date().toISOString(),
-  }) as unknown as import("@chatbotx.io/sdk").OutgoingMessage
+  }) as unknown as import("@hitechcloud.vn/sdk").OutgoingMessage
 
 // ---------------------------------------------------------------------------
 // Tests

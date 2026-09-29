@@ -1,5 +1,5 @@
-import type { TemplateCustomFieldManifestEntry } from "@chatbotx.io/flow-config"
-import { customFieldResolutionKey } from "@chatbotx.io/utils/custom-field"
+import type { TemplateCustomFieldManifestEntry } from "@hitechcloud.vn/flow-config"
+import { customFieldResolutionKey } from "@hitechcloud.vn/utils/custom-field"
 import { customFieldService } from "../../../custom-field/service"
 import type { TemplateInstallContext } from "../types"
 

@@ -1,11 +1,11 @@
-import { db } from "@chatbotx.io/database/client"
+import { db } from "@hitechcloud.vn/database/client"
 import {
   type FillableContactKey,
   fillableContactKeys,
   genderTypes,
-} from "@chatbotx.io/database/partials"
-import type { ContactModel } from "@chatbotx.io/database/types"
-import { isNumericId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/partials"
+import type { ContactModel } from "@hitechcloud.vn/database/types"
+import { isNumericId } from "@hitechcloud.vn/utils"
 import { dispatchAuditRecord } from "../audit/dispatcher"
 import { contactCustomFieldService } from "../contact-custom-field/service"
 import { contactInboxService } from "../contact-inbox/service"

@@ -6,7 +6,7 @@ import {
   eq,
   isNull,
   sql,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   type CredentialByType,
   type CredentialPublicByType,
@@ -14,11 +14,11 @@ import {
   credentialEncryptedSchema,
   credentialPublicSchemas,
   credentialSchemas,
-} from "@chatbotx.io/database/partials"
-import { platformCredentialModel } from "@chatbotx.io/database/schema"
-import type { PlatformCredentialModel } from "@chatbotx.io/database/types"
-import { encryptUtils } from "@chatbotx.io/encryption"
-import { withCache } from "@chatbotx.io/redis"
+} from "@hitechcloud.vn/database/partials"
+import { platformCredentialModel } from "@hitechcloud.vn/database/schema"
+import type { PlatformCredentialModel } from "@hitechcloud.vn/database/types"
+import { encryptUtils } from "@hitechcloud.vn/encryption"
+import { withCache } from "@hitechcloud.vn/redis"
 import type { z } from "zod"
 import { BaseService } from "../base.service"
 import { tenantService } from "../enterprise/tenant/service"

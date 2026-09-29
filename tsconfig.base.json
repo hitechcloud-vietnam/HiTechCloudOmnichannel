@@ -20,6 +20,6 @@
   },
   "include": ["src/**/*.ts"],
   "paths": {
-    "@chatbotx.io/utils": ["./packages/utils/src/index.ts"]
+    "@hitechcloud.vn/utils": ["./packages/utils/src/index.ts"]
   }
 }

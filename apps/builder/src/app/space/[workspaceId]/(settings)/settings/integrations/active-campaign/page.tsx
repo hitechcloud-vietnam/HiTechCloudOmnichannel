@@ -1,5 +1,5 @@
-import { integrationActiveCampaignService } from "@chatbotx.io/business"
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { integrationActiveCampaignService } from "@hitechcloud.vn/business"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { ManageActiveCampaign } from "@/features/integration-active-campaign/components/manage-active-campaign"
 

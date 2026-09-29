@@ -1,4 +1,4 @@
-import { distributedStore } from "@chatbotx.io/redis" // packages/redis/src/index.ts:15
+import { distributedStore } from "@hitechcloud.vn/redis" // packages/redis/src/index.ts:15
 import { logger } from "../../logger"
 
 export const PROFILE_REFRESH_COOLDOWN_SECONDS = 5 * 60 // owner decision

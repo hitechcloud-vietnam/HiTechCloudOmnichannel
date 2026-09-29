@@ -2,11 +2,11 @@ import type {
   ButtonStepProps,
   MessengerTemplateComponent,
   SendMessengerTemplateMessageStepSchema,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import {
   decodeButtonPayload,
   extractMessengerTemplateParams,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 import { sendFlowStep } from "../src/handlers/message/outgoing-message"
 import {

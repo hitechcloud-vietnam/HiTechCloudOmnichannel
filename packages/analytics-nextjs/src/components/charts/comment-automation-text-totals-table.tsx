@@ -1,6 +1,6 @@
 "use client"
 
-import type { ListCommentAutomationTextTotalsResponse } from "@chatbotx.io/analytics"
+import type { ListCommentAutomationTextTotalsResponse } from "@hitechcloud.vn/analytics"
 import {
   Table,
   TableBody,
@@ -8,7 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@chatbotx.io/ui/components/ui/table"
+} from "@hitechcloud.vn/ui/components/ui/table"
 import { useTranslations } from "next-intl"
 import { AnalyticsTableCard } from "./analytics-table-card"
 

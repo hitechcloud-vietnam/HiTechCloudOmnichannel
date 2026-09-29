@@ -5,11 +5,11 @@ import {
   eq,
   inArray,
   isUniqueViolationError,
-} from "@chatbotx.io/database/client"
-import { reflinkRepository } from "@chatbotx.io/database/repositories"
-import { reflinkModel } from "@chatbotx.io/database/schema"
-import type { ReflinkModel } from "@chatbotx.io/database/types"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/client"
+import { reflinkRepository } from "@hitechcloud.vn/database/repositories"
+import { reflinkModel } from "@hitechcloud.vn/database/schema"
+import type { ReflinkModel } from "@hitechcloud.vn/database/types"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import { notFoundException, validationException } from "../errors"
 import { assertDeletable } from "../template/installed-resource.service"

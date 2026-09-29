@@ -3,8 +3,8 @@ import {
   type SendMultipleImagesStepSchema,
   type SendTextStepSchema,
   stepTypes,
-} from "@chatbotx.io/flow-config"
-import type { MessageHandlers } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/flow-config"
+import type { MessageHandlers } from "@hitechcloud.vn/sdk"
 import { sendMessage as sendMessageApi } from "../../../apis/message"
 import { mapToChannelError } from "../../../lib/error-mapper"
 import { requireConversationId } from "../../../lib/guards"

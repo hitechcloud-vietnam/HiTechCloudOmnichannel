@@ -102,7 +102,7 @@ export function requiresSpecialAdCategoryCountry(
  * an explicit `targeting.targeting_automation.advantage_audience` (0|1) or
  * Meta rejects with code 100 "Advantage Audience Flag Required" — even for
  * countries-only targeting. The flag is set in `mapTargeting`
- * (`@chatbotx.io/business` messaging-ads mappers), typed required on
+ * (`@hitechcloud.vn/business` messaging-ads mappers), typed required on
  * `MessagingAdTargeting`.
  */
 export const MESSAGING_AD_SET_OPTIMIZATION_GOAL = "CONVERSATIONS" as const

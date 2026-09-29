@@ -60,14 +60,14 @@ const tx = {
   insert: mockTxInsert,
 }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: { transaction: mockDbTransaction },
   and: (...args: unknown[]) => ({ and: args }),
   eq: (...args: unknown[]) => ({ eq: args }),
   inArray: (...args: unknown[]) => ({ inArray: args }),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   conditionModel: { id: "conditionModel.id" },
   triggerModel: {
     id: "triggerModel.id",
@@ -75,16 +75,16 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   triggerRepository: { listPaginatedWithConditions: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/events", () => ({
+vi.mock("@hitechcloud.vn/events", () => ({
   removeTriggerCache: vi.fn(),
   updateTriggerCache: mockUpdateTriggerCache,
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: mockCreateId,
 }))
 

@@ -1,10 +1,10 @@
-import type { DatabaseClient } from "@chatbotx.io/database/client"
-import { ROOT_TENANT_ID } from "@chatbotx.io/database/schema"
+import type { DatabaseClient } from "@hitechcloud.vn/database/client"
+import { ROOT_TENANT_ID } from "@hitechcloud.vn/database/schema"
 import type {
   TenantHelpItemModel,
   TenantModel,
-} from "@chatbotx.io/database/types"
-import { parseEnvBool } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/types"
+import { parseEnvBool } from "@hitechcloud.vn/utils"
 import { customDomainService } from "../enterprise/custom-domain/service"
 import { tenantService } from "../enterprise/tenant/service"
 import { tenantHelpItemService } from "../enterprise/tenant-help-item/service"
@@ -48,15 +48,15 @@ const buildDefaults = (helpItems: TenantHelpItemModel[]): TenantSettings => {
     appUrl: derived.appUrl,
     publicRealtimeUrl: derived.publicRealtimeUrl,
     storageUrl: derived.storageUrl,
-    name: "ChatbotX",
+    name: "HiTechCloudOmnichannel",
     logoLightUrl: `${derived.appUrl}/brand/logo_white.svg`,
     logoDarkUrl: `${derived.appUrl}/brand/logo_black.svg`,
     faviconUrl: `${derived.appUrl}/brand/icon_black.svg`,
     theme: null,
     customJS: null,
     customCSS: null,
-    policyUrl: "https://chatbotx.io/privacy/",
-    termsOfServiceUrl: "https://chatbotx.io/terms/",
+    policyUrl: "https://hitechcloud.vn/privacy/",
+    termsOfServiceUrl: "https://hitechcloud.vn/terms/",
     signupEmailTemplate: null,
     forgotPasswordEmailTemplate: null,
     magicLinkEmailTemplate: null,

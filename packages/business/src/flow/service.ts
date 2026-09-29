@@ -3,23 +3,23 @@ import {
   db,
   eq,
   inArray,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   type CustomFieldType,
   rootFolderId,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import {
   type FlowListInput,
   flowRepository,
   whatsappMessageTemplateRepository,
-} from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/repositories"
 import {
   flowAnalyticsSessionModel,
   flowModel,
   flowVersionModel,
-} from "@chatbotx.io/database/schema"
-import type { FlowModel, FlowVersionModel } from "@chatbotx.io/database/types"
-import { parsePagination } from "@chatbotx.io/database/utils"
+} from "@hitechcloud.vn/database/schema"
+import type { FlowModel, FlowVersionModel } from "@hitechcloud.vn/database/types"
+import { parsePagination } from "@hitechcloud.vn/database/utils"
 import {
   type EdgeSchema,
   type FlowExportBotField,
@@ -28,9 +28,9 @@ import {
   remapFlowGraphReferences,
   sendMessageNodeDefaultFn,
   stepTypes,
-} from "@chatbotx.io/flow-config"
-import { createId } from "@chatbotx.io/utils"
-import { customFieldResolutionKey } from "@chatbotx.io/utils/custom-field"
+} from "@hitechcloud.vn/flow-config"
+import { createId } from "@hitechcloud.vn/utils"
+import { customFieldResolutionKey } from "@hitechcloud.vn/utils/custom-field"
 import { BaseService } from "../base.service"
 import { botFieldService } from "../bot-field/service"
 import { customFieldService } from "../custom-field/service"

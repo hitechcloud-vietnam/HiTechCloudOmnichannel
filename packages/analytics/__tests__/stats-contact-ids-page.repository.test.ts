@@ -13,7 +13,7 @@ queryBuilder.limit.mockResolvedValue([])
 
 const select = vi.fn(() => queryBuilder)
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: { select },
   and: (...args: unknown[]) => ({ op: "and", args }),
   count: vi.fn(),
@@ -34,7 +34,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   sql: (strings: TemplateStringsArray) => ({ op: "sql", value: strings[0] }),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   contactsOnBroadcastsModel: {
     broadcastId: "ContactOnBroadcast.broadcastId",
     contactId: "ContactOnBroadcast.contactId",

@@ -2,7 +2,7 @@ import {
   type Context,
   type IncomingContact,
   normalizeGender,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { ZALO_API_ENDPOINTS } from "../constants"
 import { handleZaloError, ZaloException } from "../lib/exception"
 import { ZaloHttpClient } from "../lib/http-client"

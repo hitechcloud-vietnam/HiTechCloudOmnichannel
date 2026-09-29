@@ -9,7 +9,7 @@ const { mockInstalledResourceFindMany, mockInstallationFindMany } = vi.hoisted(
   }),
 )
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       templateInstalledResourceModel: {

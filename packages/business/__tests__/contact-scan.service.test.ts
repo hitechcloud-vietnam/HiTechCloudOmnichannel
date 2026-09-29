@@ -18,7 +18,7 @@ const mocks = vi.hoisted(() => ({
   listContactScanRuns: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   coexistSyncRunRepository: {
     findLatestContactScanRun: mocks.findLatestContactScanRun,
     createContactScanRun: mocks.createContactScanRun,
@@ -43,7 +43,7 @@ vi.mock("../src/inbox/service", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: vi.fn(),
 }))
 

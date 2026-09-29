@@ -1,7 +1,7 @@
 import {
   decodeButtonPayload,
   encodeButtonPayload,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 import { receiveMessage } from "../src/handlers/message/incomming-message"
 import {

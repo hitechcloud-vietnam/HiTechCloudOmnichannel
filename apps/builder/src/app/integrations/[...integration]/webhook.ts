@@ -2,17 +2,17 @@ import {
   customDomainService,
   platformCredentialService,
   tenantService,
-} from "@chatbotx.io/business"
-import { db, eq } from "@chatbotx.io/database/client"
-import { inboxStatuses } from "@chatbotx.io/database/partials"
-import { inboxModel } from "@chatbotx.io/database/schema"
-import { getSafeErrorDetails } from "@chatbotx.io/integration-threads"
+} from "@hitechcloud.vn/business"
+import { db, eq } from "@hitechcloud.vn/database/client"
+import { inboxStatuses } from "@hitechcloud.vn/database/partials"
+import { inboxModel } from "@hitechcloud.vn/database/schema"
+import { getSafeErrorDetails } from "@hitechcloud.vn/integration-threads"
 import type {
   TiktokAuthValue,
   TiktokConfig,
-} from "@chatbotx.io/integration-tiktok"
-import { SdkException } from "@chatbotx.io/sdk"
-import { integrationQueue } from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/integration-tiktok"
+import { SdkException } from "@hitechcloud.vn/sdk"
+import { integrationQueue } from "@hitechcloud.vn/worker-config"
 import type { NextRequest } from "next/server"
 import { isCloud } from "@/env"
 import { findIntegrationTelegramByBotId } from "@/features/integration-telegram/queries"

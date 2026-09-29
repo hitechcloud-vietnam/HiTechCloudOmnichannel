@@ -7,7 +7,7 @@ const updateReturning = vi.fn()
 const enqueueDelete = vi.fn()
 const invalidateCacheByTags = vi.fn()
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     update: (...args: unknown[]) => {
       dbUpdate(...args)
@@ -33,7 +33,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   findOrFail: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   tagModel: {},
 }))
 
@@ -43,13 +43,13 @@ vi.mock("../src/tag/sync.service", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: (...args: unknown[]) => invalidateCacheByTags(...args),
   withCache: async (_key: string, callback: () => Promise<unknown>) =>
     await callback(),
 }))
 
-vi.mock("@chatbotx.io/events", () => ({
+vi.mock("@hitechcloud.vn/events", () => ({
   emitTagApplied: vi.fn(),
   emitTagRemoved: vi.fn(),
 }))

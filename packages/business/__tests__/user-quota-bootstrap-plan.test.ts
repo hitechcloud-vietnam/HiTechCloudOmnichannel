@@ -41,7 +41,7 @@ const {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     insert: dbInsert,
     query: { userQuotaModel: { findFirst: vi.fn(async () => null) } },
@@ -50,12 +50,12 @@ vi.mock("@chatbotx.io/database/client", () => ({
   sql: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   ROOT_TENANT_ID: "1",
   userQuotaModel,
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   cacheConnections: {
     useExisting: vi.fn(async () => ({
       hget: vi.fn(async () => null),

@@ -1,4 +1,4 @@
-import { stepTypes } from "@chatbotx.io/flow-config"
+import { stepTypes } from "@hitechcloud.vn/flow-config"
 import { describe, expect, test } from "vitest"
 import {
   filterFlowsByStartStepType,

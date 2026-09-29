@@ -8,7 +8,7 @@ const mocks = vi.hoisted(() => ({
   resolveTenantSettings: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   mediaLibraryFileRepository: {
     list: mocks.list,
     findByPath: mocks.findByPath,

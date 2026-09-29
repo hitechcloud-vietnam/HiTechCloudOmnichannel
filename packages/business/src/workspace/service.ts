@@ -1,4 +1,4 @@
-import { anchoredPeriod, macRepository } from "@chatbotx.io/analytics"
+import { anchoredPeriod, macRepository } from "@hitechcloud.vn/analytics"
 import {
   type DatabaseClient,
   db,
@@ -6,15 +6,15 @@ import {
   eq,
   inArray,
   sql,
-} from "@chatbotx.io/database/client"
-import { workspaceMemberRoles } from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/client"
+import { workspaceMemberRoles } from "@hitechcloud.vn/database/partials"
 import {
   ROOT_TENANT_ID,
   workspaceMemberModel,
   workspaceModel,
-} from "@chatbotx.io/database/schema"
-import type { WorkspaceModel } from "@chatbotx.io/database/types"
-import { distributedLock, withCache } from "@chatbotx.io/redis"
+} from "@hitechcloud.vn/database/schema"
+import type { WorkspaceModel } from "@hitechcloud.vn/database/types"
+import { distributedLock, withCache } from "@hitechcloud.vn/redis"
 import { formatInTimeZone } from "date-fns-tz"
 import { dispatchAuditRecord } from "../audit/dispatcher"
 import { BaseService } from "../base.service"

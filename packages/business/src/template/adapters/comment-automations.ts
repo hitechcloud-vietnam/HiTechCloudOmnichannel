@@ -1,6 +1,6 @@
-import { db } from "@chatbotx.io/database/client"
-import { commentAutomationModel } from "@chatbotx.io/database/schema"
-import { createId } from "@chatbotx.io/utils"
+import { db } from "@hitechcloud.vn/database/client"
+import { commentAutomationModel } from "@hitechcloud.vn/database/schema"
+import { createId } from "@hitechcloud.vn/utils"
 import type {
   PatchTask,
   ResourceAdapter,

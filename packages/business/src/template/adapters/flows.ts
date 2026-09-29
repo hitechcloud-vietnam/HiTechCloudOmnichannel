@@ -1,14 +1,14 @@
-import { db, eq } from "@chatbotx.io/database/client"
-import { rootFolderId } from "@chatbotx.io/database/partials"
-import { flowVersionModel } from "@chatbotx.io/database/schema"
+import { db, eq } from "@hitechcloud.vn/database/client"
+import { rootFolderId } from "@hitechcloud.vn/database/partials"
+import { flowVersionModel } from "@hitechcloud.vn/database/schema"
 import type {
   FlowExportedFlow,
   TemplateFlowEntry,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import {
   collectFieldReferences,
   remapFlowGraphReferences,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import { flowService } from "../../flow"
 import { flowVersionService } from "../../flow-version"
 import type {

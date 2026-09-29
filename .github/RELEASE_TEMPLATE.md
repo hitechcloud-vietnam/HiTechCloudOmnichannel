@@ -34,9 +34,9 @@
 ## Docker Images
 
 ```
-ghcr.io/ahachatai/chatbotx-builder:VERSION
-ghcr.io/ahachatai/chatbotx-worker:VERSION
-ghcr.io/ahachatai/chatbotx-realtime:VERSION
+ghcr.io/ahachatai/hitechcloudomnichannel-builder:VERSION
+ghcr.io/ahachatai/hitechcloudomnichannel-worker:VERSION
+ghcr.io/ahachatai/hitechcloudomnichannel-realtime:VERSION
 ```
 
 ## Upgrade Notes

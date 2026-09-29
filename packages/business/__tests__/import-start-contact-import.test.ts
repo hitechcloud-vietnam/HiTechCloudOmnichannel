@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
-// importService.startContactImport: one case per ChatbotXException code the
+// importService.startContactImport: one case per HiTechCloudOmnichannelException code the
 // guard chain can throw (file missing, wrong file type, unsupported format,
 // inbox missing, an import already running) plus the happy-path enqueue
 // payload once every gate passes.
@@ -20,7 +20,7 @@ const txHandle = {
   insert: vi.fn(() => ({ values: vi.fn() })),
 }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       fileModel: {
@@ -37,41 +37,41 @@ vi.mock("@chatbotx.io/database/client", () => ({
   eq: (col: unknown, val: unknown) => ({ eq: [col, val] }),
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   fileContextTypes: { enum: { import: "import" } },
   fileStatuses: { enum: { uploaded: "uploaded" } },
   importStatuses: { enum: {} },
   importTypes: { enum: { contacts: "contacts" } },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   fileModel: { id: "fileModel.id", workspaceId: "fileModel.workspaceId" },
   importModel: { id: "importModel.id" },
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   getPaginationWithDefaults: vi.fn(),
   likeContains: vi.fn(),
   parseOrderBy: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/imports", () => ({
+vi.mock("@hitechcloud.vn/imports", () => ({
   inferImportFormat: (...args: unknown[]) => mocks.inferImportFormat(...args),
 }))
 
-vi.mock("@chatbotx.io/imports/file-validation", () => ({
+vi.mock("@hitechcloud.vn/imports/file-validation", () => ({
   resolveImportFileFormat: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/imports/registry", () => ({
+vi.mock("@hitechcloud.vn/imports/registry", () => ({
   getImportEntry: (...args: unknown[]) => mocks.getImportEntry(...args),
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: () => "import-1",
 }))
 
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   DefaultJobAction: { runImport: "runImport" },
   defaultQueue: { add: (...args: unknown[]) => mocks.queueAdd(...args) },
 }))

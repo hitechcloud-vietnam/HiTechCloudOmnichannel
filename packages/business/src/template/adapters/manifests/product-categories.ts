@@ -1,5 +1,5 @@
-import { productCategoryRepository } from "@chatbotx.io/database/repositories"
-import type { TemplateProductCategoryManifestEntry } from "@chatbotx.io/flow-config"
+import { productCategoryRepository } from "@hitechcloud.vn/database/repositories"
+import type { TemplateProductCategoryManifestEntry } from "@hitechcloud.vn/flow-config"
 import type { TemplateInstallContext } from "../types"
 
 const normalizeName = (name: string): string => name.trim()

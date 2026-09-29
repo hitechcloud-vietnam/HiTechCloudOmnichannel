@@ -2,10 +2,10 @@ import {
   flowVersionService,
   magicLinkService,
   resolveTenantSettings,
-} from "@chatbotx.io/business"
-import { wrapOpenLinkUrl } from "@chatbotx.io/business/open-link"
-import { contactInboxRepository } from "@chatbotx.io/database/repositories"
-import { emit } from "@chatbotx.io/event-bus"
+} from "@hitechcloud.vn/business"
+import { wrapOpenLinkUrl } from "@hitechcloud.vn/business/open-link"
+import { contactInboxRepository } from "@hitechcloud.vn/database/repositories"
+import { emit } from "@hitechcloud.vn/event-bus"
 import {
   clickTypeSchema,
   decodeButtonPayload,
@@ -13,8 +13,8 @@ import {
   flowEventTypeSchema,
   matchDeepLinkApp,
   resolveFlowActionTarget,
-} from "@chatbotx.io/flow-config"
-import { interpolate } from "@chatbotx.io/variables"
+} from "@hitechcloud.vn/flow-config"
+import { interpolate } from "@hitechcloud.vn/variables"
 import { type NextRequest, NextResponse } from "next/server"
 import { logger } from "@/lib/log"
 import { loadServableWorkspace } from "@/lib/workspace/load-servable-workspace"

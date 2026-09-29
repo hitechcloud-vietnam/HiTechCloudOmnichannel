@@ -35,7 +35,7 @@ const {
 
 const botFieldModel = { table: "BotField" }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: mockDb,
   and: vi.fn(),
   eq: vi.fn(),
@@ -44,21 +44,21 @@ vi.mock("@chatbotx.io/database/client", () => ({
   sql: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   rootFolderId: "root",
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   botFieldModel,
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   likeContains: vi.fn(),
   parseOrderByAsObject: vi.fn(),
   parsePagination: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/flow-config", () => ({
+vi.mock("@hitechcloud.vn/flow-config", () => ({
   FieldOperationType: {
     set: "set",
     append: "append",
@@ -68,20 +68,20 @@ vi.mock("@chatbotx.io/flow-config", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   withCache: (_key: string, fn: () => unknown) => fn(),
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: mockCreateId,
 }))
 
-vi.mock("@chatbotx.io/utils/custom-field", () => ({
+vi.mock("@hitechcloud.vn/utils/custom-field", () => ({
   customFieldResolutionKey: (field: { name: string; type: string }) =>
     `${field.type}:${field.name.trim().toLowerCase()}`,
 }))
 
-vi.mock("@chatbotx.io/utils/datetime", () => ({
+vi.mock("@hitechcloud.vn/utils/datetime", () => ({
   SourceTimezoneStrategy: { Workspace: "workspace" },
 }))
 
@@ -100,14 +100,14 @@ vi.mock("../src/contact-custom-field/normalize", () => ({
 
 // This suite doesn't exercise value normalization, so mock away the (real)
 // module the same way `contact-custom-field/normalize` is mocked above —
-// otherwise it would pull in `@chatbotx.io/utils/temporal-input`, which needs
-// more of the real `@chatbotx.io/utils/datetime` than this file mocks.
+// otherwise it would pull in `@hitechcloud.vn/utils/temporal-input`, which needs
+// more of the real `@hitechcloud.vn/utils/datetime` than this file mocks.
 vi.mock("../src/javascript-execution/custom-field-value", () => ({
   normalizeNumber: vi.fn(),
 }))
 
 vi.mock("../src/errors", () => ({
-  ChatbotXException: class ChatbotXException extends Error {},
+  HiTechCloudOmnichannelException: class HiTechCloudOmnichannelException extends Error {},
   notFoundException: (message: string) => new Error(message),
 }))
 

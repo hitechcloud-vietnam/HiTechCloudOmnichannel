@@ -54,7 +54,7 @@ const render = (node: unknown): string => {
   return ""
 }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: { execute, query: {} },
   sql,
 }))
@@ -67,7 +67,7 @@ const resolvedTimezoneFragment = (timezone: string) => ({
 })
 const resolvedTimezone = vi.fn(resolvedTimezoneFragment)
 
-vi.mock("@chatbotx.io/database/queries/date-bucket", () => ({
+vi.mock("@hitechcloud.vn/database/queries/date-bucket", () => ({
   resolvedTimezone,
 }))
 

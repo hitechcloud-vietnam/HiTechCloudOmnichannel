@@ -4,11 +4,11 @@ import {
   db,
   desc,
   eq,
-} from "@chatbotx.io/database/client"
-import { flowModel, flowVersionModel } from "@chatbotx.io/database/schema"
-import type { FlowVersionModel } from "@chatbotx.io/database/types"
-import { withCache } from "@chatbotx.io/redis"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/client"
+import { flowModel, flowVersionModel } from "@hitechcloud.vn/database/schema"
+import type { FlowVersionModel } from "@hitechcloud.vn/database/types"
+import { withCache } from "@hitechcloud.vn/redis"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import { notFoundException } from "../errors"
 

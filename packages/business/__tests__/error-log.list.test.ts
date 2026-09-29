@@ -5,15 +5,15 @@ const mocks = vi.hoisted(() => ({
   count: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/event-bus", () => ({
+vi.mock("@hitechcloud.vn/event-bus", () => ({
   emit: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   isNoRedisEnv: () => true,
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: () => "id-1",
 }))
 
@@ -21,7 +21,7 @@ vi.mock("../src/logger", () => ({
   logger: { warn: vi.fn(), error: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: { errorLogModel: { findMany: mocks.findMany } },
     $count: mocks.count,
@@ -29,7 +29,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   relationsFilterToSQL: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   errorLogModel: { _: "ErrorLog" },
 }))
 

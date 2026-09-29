@@ -6,21 +6,21 @@ import {
   inArray,
   relationsFilterToSQL,
   sql,
-} from "@chatbotx.io/database/client"
-import type { AutomatedResponseType } from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/client"
+import type { AutomatedResponseType } from "@hitechcloud.vn/database/partials"
 import {
   automatedResponseFolderTypeByType,
   rootFolderId,
-} from "@chatbotx.io/database/partials"
-import { automatedResponseModel } from "@chatbotx.io/database/schema"
-import type { AutomatedResponseModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/partials"
+import { automatedResponseModel } from "@hitechcloud.vn/database/schema"
+import type { AutomatedResponseModel } from "@hitechcloud.vn/database/types"
 import {
   getPaginationWithDefaults,
   likeContains,
   parseOrderByAsObject,
-} from "@chatbotx.io/database/utils"
-import { invalidateCacheKeys } from "@chatbotx.io/redis"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/utils"
+import { invalidateCacheKeys } from "@hitechcloud.vn/redis"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import { notFoundException, validationException } from "../errors"
 import { flowService } from "../flow/service"

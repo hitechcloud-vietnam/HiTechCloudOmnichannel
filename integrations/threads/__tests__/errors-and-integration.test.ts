@@ -2,7 +2,7 @@ import {
   AuthException,
   ChannelError,
   ChannelErrorCategory,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { HTTPError } from "ky"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
@@ -53,8 +53,8 @@ describe("threads integration dispatch", () => {
   test("getProfile delegates to the auth API with the current token and version", async () => {
     getThreadsProfileMock.mockResolvedValue({
       id: "profile-1",
-      username: "chatbotx",
-      name: "chatbotx",
+      username: "hitechcloudomnichannel",
+      name: "hitechcloudomnichannel",
     })
 
     await expect(
@@ -68,8 +68,8 @@ describe("threads integration dispatch", () => {
       } as never),
     ).resolves.toEqual({
       id: "profile-1",
-      username: "chatbotx",
-      name: "chatbotx",
+      username: "hitechcloudomnichannel",
+      name: "hitechcloudomnichannel",
     })
 
     expect(getThreadsProfileMock).toHaveBeenCalledWith("threads-token", "v2.1")

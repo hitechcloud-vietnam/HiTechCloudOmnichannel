@@ -1,9 +1,9 @@
-import { and, db, eq, findOrFail } from "@chatbotx.io/database/client"
-import { externalWebhookModel } from "@chatbotx.io/database/schema"
-import type { ExternalWebhookModel } from "@chatbotx.io/database/types"
-import { createId } from "@chatbotx.io/utils"
+import { and, db, eq, findOrFail } from "@hitechcloud.vn/database/client"
+import { externalWebhookModel } from "@hitechcloud.vn/database/schema"
+import type { ExternalWebhookModel } from "@hitechcloud.vn/database/types"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
-import { ChatbotXException, notFoundException } from "../errors"
+import { HiTechCloudOmnichannelException, notFoundException } from "../errors"
 import { assertPublicUrl } from "../net/ssrf-guard"
 
 const MAX_WEBHOOKS_PER_WORKSPACE = 50
@@ -25,7 +25,7 @@ class ExternalWebhookService extends BaseService {
     try {
       await assertPublicUrl(url, "Webhook URL")
     } catch (error) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         error instanceof Error ? error.message : "Invalid webhook URL",
         "invalidRequestData",
         422,
@@ -44,7 +44,7 @@ class ExternalWebhookService extends BaseService {
       eq(externalWebhookModel.workspaceId, workspaceId),
     )
     if (count >= MAX_WEBHOOKS_PER_WORKSPACE) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         `Workspace has reached the maximum of ${MAX_WEBHOOKS_PER_WORKSPACE} external webhooks`,
         "externalWebhookLimitReached",
       )

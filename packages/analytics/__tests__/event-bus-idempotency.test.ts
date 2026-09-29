@@ -1,4 +1,4 @@
-import { EVENT_BUS_MESSAGE_ID } from "@chatbotx.io/flow-config"
+import { EVENT_BUS_MESSAGE_ID } from "@hitechcloud.vn/flow-config"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
 const capturedInsertValues: unknown[] = []
@@ -13,7 +13,7 @@ const insertChain = {
 
 const dbInsert = vi.fn(() => insertChain)
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     execute: vi.fn(async () => ({ rows: [] })),
     insert: dbInsert,
@@ -23,9 +23,9 @@ vi.mock("@chatbotx.io/database/client", () => ({
   }),
 }))
 
-vi.mock("@chatbotx.io/database/schema", async (importOriginal) => {
+vi.mock("@hitechcloud.vn/database/schema", async (importOriginal) => {
   const actual =
-    await importOriginal<typeof import("@chatbotx.io/database/schema")>()
+    await importOriginal<typeof import("@hitechcloud.vn/database/schema")>()
   return {
     ...actual,
     analyticsBotMessageEventModel: { name: "AnalyticsBotMessageEvent" },
@@ -35,8 +35,8 @@ vi.mock("@chatbotx.io/database/schema", async (importOriginal) => {
   }
 })
 
-vi.mock("@chatbotx.io/utils", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@chatbotx.io/utils")>()
+vi.mock("@hitechcloud.vn/utils", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@hitechcloud.vn/utils")>()
   return {
     ...actual,
     createId: vi.fn(() => "generated-id"),

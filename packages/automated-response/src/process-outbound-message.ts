@@ -1,7 +1,7 @@
 import type {
   ContactInboxModel,
   ConversationModel,
-} from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/types"
 import { dispatchAutomatedResponseReply } from "./dispatch-reply"
 import { automatedResponseService } from "./utils"
 

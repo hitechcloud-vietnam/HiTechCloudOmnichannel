@@ -1,10 +1,10 @@
 import {
   type FileContextType,
   fileStatuses,
-} from "@chatbotx.io/database/partials"
-import { fileRepository } from "@chatbotx.io/database/repositories"
-import type { FileModel } from "@chatbotx.io/database/types"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/partials"
+import { fileRepository } from "@hitechcloud.vn/database/repositories"
+import type { FileModel } from "@hitechcloud.vn/database/types"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 
 type CreatePendingInput = {

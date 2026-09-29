@@ -1,4 +1,4 @@
-import { decodeButtonPayload, getButtonLinkUrl } from "@chatbotx.io/flow-config"
+import { decodeButtonPayload, getButtonLinkUrl } from "@hitechcloud.vn/flow-config"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
 const { mockGetWhatsappClient, mockSendMessage, mockLogger } = vi.hoisted(

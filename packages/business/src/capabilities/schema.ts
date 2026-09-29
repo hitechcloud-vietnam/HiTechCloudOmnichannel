@@ -1,4 +1,4 @@
-import { waTemplateParamsSchema } from "@chatbotx.io/flow-config"
+import { waTemplateParamsSchema } from "@hitechcloud.vn/flow-config"
 import { z } from "zod"
 
 export const capabilitiesInboxSchema = z

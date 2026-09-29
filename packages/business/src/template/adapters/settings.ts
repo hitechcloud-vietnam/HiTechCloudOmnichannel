@@ -1,6 +1,6 @@
-import { db } from "@chatbotx.io/database/client"
-import { savedReplyModel } from "@chatbotx.io/database/schema"
-import { createId } from "@chatbotx.io/utils"
+import { db } from "@hitechcloud.vn/database/client"
+import { savedReplyModel } from "@hitechcloud.vn/database/schema"
+import { createId } from "@hitechcloud.vn/utils"
 import { botFieldService } from "../../bot-field/service"
 import type {
   PatchTask,

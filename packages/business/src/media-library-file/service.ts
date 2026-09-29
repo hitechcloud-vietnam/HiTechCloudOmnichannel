@@ -1,4 +1,4 @@
-import { mediaLibraryFileRepository } from "@chatbotx.io/database/repositories"
+import { mediaLibraryFileRepository } from "@hitechcloud.vn/database/repositories"
 import { BaseService } from "../base.service"
 import { resolveTenantSettings } from "../platform/settings"
 import { getPublicFileUrl } from "../utils"

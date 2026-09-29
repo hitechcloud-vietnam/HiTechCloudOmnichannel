@@ -1,4 +1,4 @@
-import { db } from "@chatbotx.io/database/client"
+import { db } from "@hitechcloud.vn/database/client"
 import { type ToolSet, tool } from "ai"
 import { z } from "zod"
 import { logger } from "../../logger"

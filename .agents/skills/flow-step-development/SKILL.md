@@ -69,7 +69,7 @@ Only `success`, `error`, and `skip` trigger state-based routing to a connected n
 Create or update `src/steps/<step-name>.ts`:
 
 ```typescript
-import { createId, zodBigintAsString } from "@chatbotx.io/utils"
+import { createId, zodBigintAsString } from "@hitechcloud.vn/utils"
 import { z } from "zod"
 import {
   errorStateDefaultFn,
@@ -152,8 +152,8 @@ Create `apps/builder/src/features/flows/react-flow/steps/<my-step>/viewer.tsx`:
 ```typescript
 "use client"
 
-import type { MyStepSchema } from "@chatbotx.io/flow-config"
-import { Card, CardContent } from "@chatbotx.io/ui/components/ui/card"
+import type { MyStepSchema } from "@hitechcloud.vn/flow-config"
+import { Card, CardContent } from "@hitechcloud.vn/ui/components/ui/card"
 import { MyIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { BaseStateViewer } from "../../states/viewer"
@@ -189,7 +189,7 @@ export default MyStepViewer
 In `apps/builder/src/features/flows/react-flow/steps/<my-step>/index.ts`:
 
 ```typescript
-import type { MyStepSchema } from "@chatbotx.io/flow-config"
+import type { MyStepSchema } from "@hitechcloud.vn/flow-config"
 import type { StepDefinition } from "../definition"
 import MyStepViewer from "./viewer"
 import { MyStepEditor } from "./editor"

@@ -2688,7 +2688,7 @@
     "title": "عام"
   },
   "facebookMarketingMessages": {
-    "deleteWarning": "يؤدي هذا إلى إزالة الحملة من ChatbotX فقط. تستمر حملة رسائل ميتا في العمل — أوقفها مؤقتًا أو احذفها من مدير الإعلانات.",
+    "deleteWarning": "يؤدي هذا إلى إزالة الحملة من HiTechCloudOmnichannel فقط. تستمر حملة رسائل ميتا في العمل — أوقفها مؤقتًا أو احذفها من مدير الإعلانات.",
     "title": "الرسائل التسويقية على فيسبوك",
     "description": "عزّز التفاعل والمبيعات برسائل ترويجية مخصصة على ماسنجر.",
     "create": "إنشاء جديد",
@@ -3399,8 +3399,8 @@
   },
   "coexist": {
     "title": "هل تريد مزامنة جهات الاتصال وسجل الدردشة الحاليين؟",
-    "descriptionWhatsapp": "عند التفعيل، سيستورد ChatbotX جهات الاتصال وما يصل إلى 6 أشهر من سجل الدردشة من رقم WhatsApp هذا.",
-    "descriptionMessenger": "عند التفعيل، سيستورد ChatbotX جهات اتصال Messenger الحالية وما يصل إلى 3 أشهر من سجل المحادثات من هذه الصفحة.",
+    "descriptionWhatsapp": "عند التفعيل، سيستورد HiTechCloudOmnichannel جهات الاتصال وما يصل إلى 6 أشهر من سجل الدردشة من رقم WhatsApp هذا.",
+    "descriptionMessenger": "عند التفعيل، سيستورد HiTechCloudOmnichannel جهات اتصال Messenger الحالية وما يصل إلى 3 أشهر من سجل المحادثات من هذه الصفحة.",
     "descriptionInstagram": "When enabled, existing Instagram contacts and up to 3 months of conversation history will be imported from this Instagram account.",
     "enable": "تفعيل المزامنة",
     "decline": "عدم المزامنة",
@@ -4045,7 +4045,7 @@
         "title": "أهلية المكالمات",
         "appSubscriptionMissing": "قم بتكوين webhook الخاص بـ WhatsApp لهذا التطبيق في لوحة تحكم تطبيق Meta أولاً، ثم حاول مرة أخرى.",
         "appSubscriptionFailed": "تعذّر التحقق من اشتراك التطبيق في webhook الخاص بـ 'calls'. حاول مرة أخرى بعد قليل.",
-        "callsNotSubscribed": "هذا التطبيق غير مشترك في حقل webhook الخاص بـ 'calls'، لذا لا يمكن لأحداث المكالمات الوصول إلى ChatbotX (خطأ Meta 138018: المتطلبات التقنية غير مستوفاة — تأكد من أن تطبيقًا واحدًا على الأقل مشتركًا في WABA يحتوي أيضًا على حقل webhook الخاص بالمكالمات).",
+        "callsNotSubscribed": "هذا التطبيق غير مشترك في حقل webhook الخاص بـ 'calls'، لذا لا يمكن لأحداث المكالمات الوصول إلى HiTechCloudOmnichannel (خطأ Meta 138018: المتطلبات التقنية غير مستوفاة — تأكد من أن تطبيقًا واحدًا على الأقل مشتركًا في WABA يحتوي أيضًا على حقل webhook الخاص بالمكالمات).",
         "fixButton": "إصلاح",
         "fixSuccess": "التطبيق مشترك الآن في webhooks مكالمات WhatsApp.",
         "manualIntegrationNotice": "تم توصيل هذا الرقم يدويًا وليس لديه بيانات اعتماد تطبيق هنا. اشترك في حقل webhook الخاص بـ 'calls' لتطبيقك في لوحة تحكم تطبيق Meta.",
@@ -4413,8 +4413,8 @@
     "unknownContact": "جهة اتصال غير معروفة"
   },
   "developerAccessToken": {
-    "title": "رمز الوصول إلى ChatbotX API",
-    "description": "أنشئ رمزًا للسماح لمساحة عملك بالوصول إلى واجهات ChatbotX API. احتفظ بسرية هذا الرمز ولا تشاركه مع أي شخص.",
+    "title": "رمز الوصول إلى HiTechCloudOmnichannel API",
+    "description": "أنشئ رمزًا للسماح لمساحة عملك بالوصول إلى واجهات HiTechCloudOmnichannel API. احتفظ بسرية هذا الرمز ولا تشاركه مع أي شخص.",
     "createDialogTitle": "إنشاء رمز API",
     "namePlaceholder": "مثال: تكامل Zapier",
     "empty": "لا توجد رموز API حتى الآن.",
@@ -6298,7 +6298,7 @@
     },
     "limitedDataUse": {
       "label": "Limited Data Use (US privacy)",
-      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by ChatbotX."
+      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by HiTechCloudOmnichannel."
     },
     "actionSource": {
       "label": "مصدر الإجراء",

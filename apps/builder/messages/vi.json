@@ -2688,7 +2688,7 @@
     "title": "Chung"
   },
   "facebookMarketingMessages": {
-    "deleteWarning": "Thao tác này chỉ xóa chiến dịch khỏi ChatbotX. Chiến dịch tin nhắn Meta vẫn chạy — hãy tạm dừng hoặc xóa trong Trình quản lý quảng cáo.",
+    "deleteWarning": "Thao tác này chỉ xóa chiến dịch khỏi HiTechCloudOmnichannel. Chiến dịch tin nhắn Meta vẫn chạy — hãy tạm dừng hoặc xóa trong Trình quản lý quảng cáo.",
     "title": "Facebook Marketing Messages",
     "description": "Tăng tương tác và doanh số bằng tin nhắn quảng cáo được cá nhân hóa trên Messenger.",
     "create": "Tạo mới",
@@ -4045,7 +4045,7 @@
         "title": "Điều kiện gọi điện",
         "appSubscriptionMissing": "Hãy cấu hình webhook WhatsApp cho app này trong App Dashboard của Meta trước, sau đó thử lại.",
         "appSubscriptionFailed": "Không xác minh được việc app đăng ký webhook 'calls'. Vui lòng thử lại sau.",
-        "callsNotSubscribed": "App này chưa đăng ký trường webhook 'calls', nên các sự kiện cuộc gọi không thể đến ChatbotX (lỗi Meta 138018: chưa đủ điều kiện kỹ thuật — cần có ít nhất một app đăng ký với WABA cũng có trường webhook calls).",
+        "callsNotSubscribed": "App này chưa đăng ký trường webhook 'calls', nên các sự kiện cuộc gọi không thể đến HiTechCloudOmnichannel (lỗi Meta 138018: chưa đủ điều kiện kỹ thuật — cần có ít nhất một app đăng ký với WABA cũng có trường webhook calls).",
         "fixButton": "Sửa",
         "fixSuccess": "App đã được đăng ký webhook cuộc gọi WhatsApp.",
         "manualIntegrationNotice": "Số này được kết nối thủ công và không có thông tin app ở đây. Hãy đăng ký trường webhook 'calls' cho app của bạn trong App Dashboard của Meta.",
@@ -6298,7 +6298,7 @@
     },
     "limitedDataUse": {
       "label": "Limited Data Use (US privacy)",
-      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by ChatbotX."
+      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by HiTechCloudOmnichannel."
     },
     "actionSource": {
       "label": "Nguồn hành động",

@@ -4,11 +4,11 @@ import {
   db,
   eq,
   findOrFail,
-} from "@chatbotx.io/database/client"
-import { contactNoteModel } from "@chatbotx.io/database/schema"
-import type { ContactNoteModel } from "@chatbotx.io/database/types"
-import { withCache } from "@chatbotx.io/redis"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/client"
+import { contactNoteModel } from "@hitechcloud.vn/database/schema"
+import type { ContactNoteModel } from "@hitechcloud.vn/database/types"
+import { withCache } from "@hitechcloud.vn/redis"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import { type ContactAccessScope, contactService } from "../contact/service"
 import { notFoundException } from "../errors"

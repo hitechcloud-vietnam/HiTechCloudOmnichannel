@@ -5,11 +5,11 @@ import {
   coexistSyncRunRepository,
   type IncrementProgressCounters,
   type PickedCoexistRun,
-} from "@chatbotx.io/database/repositories"
-import type { CoexistSyncRunModel } from "@chatbotx.io/database/types"
-import { isContactScanChannel } from "@chatbotx.io/utils/channel"
+} from "@hitechcloud.vn/database/repositories"
+import type { CoexistSyncRunModel } from "@hitechcloud.vn/database/types"
+import { isContactScanChannel } from "@hitechcloud.vn/utils/channel"
 import { BaseService } from "../base.service"
-import { ChatbotXException } from "../errors"
+import { HiTechCloudOmnichannelException } from "../errors"
 import { inboxService } from "../inbox/service"
 import {
   type ContactScanAvailability,
@@ -74,24 +74,24 @@ export type ContactScanHistoryView = {
 }
 
 /**
- * One `ChatbotXException` factory per `ContactScanAvailability.blockedReason`
+ * One `HiTechCloudOmnichannelException` factory per `ContactScanAvailability.blockedReason`
  * — a table instead of an if/cooldown-else-running branch, so a third
  * blocked reason added to the type is a compile error here.
  */
 const scheduleBlockedExceptions = {
   cooldown: () =>
-    new ChatbotXException(
+    new HiTechCloudOmnichannelException(
       "This inbox was scanned recently. Please wait before scanning again.",
       "contactScanCooldown",
       409,
     ),
   running: () =>
-    new ChatbotXException(
+    new HiTechCloudOmnichannelException(
       "A scan is already running for this inbox.",
       "contactScanAlreadyRunning",
       409,
     ),
-} satisfies Record<ContactScanBlockedReason, () => ChatbotXException>
+} satisfies Record<ContactScanBlockedReason, () => HiTechCloudOmnichannelException>
 
 /**
  * Terminal statuses `finish` can write. One handler per status — a table,
@@ -166,7 +166,7 @@ class ContactScanService extends BaseService {
   /**
    * Schedules a new Automatic Customer Scan. Steps exactly follow plan
    * §3.2 (`docs/plans/2026-09-09-automatic-contact-scan.md`) — each failure
-   * is a distinct `ChatbotXException` code/status so the builder action can
+   * is a distinct `HiTechCloudOmnichannelException` code/status so the builder action can
    * map it to a field-level validation error.
    */
   async schedule(input: ContactScanScheduleInput): Promise<{ runId: string }> {
@@ -174,7 +174,7 @@ class ContactScanService extends BaseService {
 
     // 1. `scanFromAt` must be in the past.
     if (scanFromAt.getTime() >= Date.now()) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Scan-from time must be in the past.",
         "contactScanFromTimeInvalid",
         400,
@@ -186,7 +186,7 @@ class ContactScanService extends BaseService {
       where: { id: inboxId, workspaceId },
     })
     if (!inbox) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Inbox not found.",
         "contactScanInboxNotFound",
         404,
@@ -195,7 +195,7 @@ class ContactScanService extends BaseService {
 
     // 3. Channel must support the scan.
     if (!isContactScanChannel(inbox.channel)) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "This channel does not support Automatic Customer Scan.",
         "contactScanChannelUnsupported",
         400,
@@ -205,7 +205,7 @@ class ContactScanService extends BaseService {
     // 4. Inbox must be connected AND carry the channel's integration relation.
     const integrationRef = contactScanIntegrationRefs[inbox.channel](inbox)
     if (inbox.status !== "connected" || !integrationRef) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "This inbox is not connected.",
         "contactScanIntegrationDisconnected",
         400,

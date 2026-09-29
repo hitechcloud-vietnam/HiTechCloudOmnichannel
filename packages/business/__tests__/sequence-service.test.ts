@@ -73,7 +73,7 @@ const {
   }
 })
 
-vi.mock("@chatbotx.io/analytics", () => ({
+vi.mock("@hitechcloud.vn/analytics", () => ({
   broadcastAnalyticsService: { getContacts: vi.fn() },
   sequenceAnalyticsService: { getContacts: vi.fn() },
 }))
@@ -82,7 +82,7 @@ vi.mock("../src/contact-inbox/service", () => ({
   contactInboxService: { findManyByIds: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     insert: (model: unknown) =>
       model === sequenceStepModelStub ? mockStepInsert() : mockInsert(),
@@ -99,16 +99,16 @@ vi.mock("@chatbotx.io/database/client", () => ({
   isUniqueViolationError: mockIsUniqueViolationError,
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   sequenceModel: sequenceModelStub,
   sequenceStepModel: sequenceStepModelStub,
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: mockCreateId,
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   sequenceRepository: {
     listWithCounts: vi.fn().mockResolvedValue([]),
     count: vi.fn().mockResolvedValue(0),
@@ -116,7 +116,7 @@ vi.mock("@chatbotx.io/database/repositories", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   getPaginationWithDefaults: (input: { page?: number; perPage?: number }) => ({
     limit: input.perPage ?? 10,
     offset: ((input.page ?? 1) - 1) * (input.perPage ?? 10),

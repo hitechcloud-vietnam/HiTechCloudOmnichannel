@@ -1,10 +1,10 @@
-import type { DatabaseClient } from "@chatbotx.io/database/client"
+import type { DatabaseClient } from "@hitechcloud.vn/database/client"
 import {
   integrationWhatsappRepository,
   whatsappSignupSessionRepository,
-} from "@chatbotx.io/database/repositories"
-import type { IntegrationWhatsappModel } from "@chatbotx.io/database/types"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/repositories"
+import type { IntegrationWhatsappModel } from "@hitechcloud.vn/database/types"
+import { createId } from "@hitechcloud.vn/utils"
 import { dispatchAuditRecordSafely } from "../audit/dispatcher"
 import { connectSessionExpiredException } from "../errors"
 import {

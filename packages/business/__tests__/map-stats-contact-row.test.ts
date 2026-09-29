@@ -1,4 +1,4 @@
-import type { ContactEventData } from "@chatbotx.io/analytics/schemas"
+import type { ContactEventData } from "@hitechcloud.vn/analytics/schemas"
 import { describe, expect, test } from "vitest"
 import { mapStatsContactRow } from "../src/contact-inbox/map-stats-contact-row"
 import type { ContactInboxWithAnalytics } from "../src/contact-inbox/service"

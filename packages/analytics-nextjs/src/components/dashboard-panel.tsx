@@ -1,8 +1,8 @@
 "use client"
 
-import { ChartCardProvider } from "@chatbotx.io/ui/components/charts/chart-card-context"
-import { Card, CardContent } from "@chatbotx.io/ui/components/ui/card"
-import { Skeleton } from "@chatbotx.io/ui/components/ui/skeleton"
+import { ChartCardProvider } from "@hitechcloud.vn/ui/components/charts/chart-card-context"
+import { Card, CardContent } from "@hitechcloud.vn/ui/components/ui/card"
+import { Skeleton } from "@hitechcloud.vn/ui/components/ui/skeleton"
 import { useTranslations } from "next-intl"
 import type { ReactNode } from "react"
 import type { DashboardLoadAction } from "../provider/analysis-store"

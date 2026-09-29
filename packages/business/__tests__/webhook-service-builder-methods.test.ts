@@ -49,7 +49,7 @@ const {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     insert: mockInsert,
     delete: mockDelete,
@@ -67,7 +67,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   inArray: (...args: unknown[]) => ({ inArray: args }),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   conditionModel: {},
   webhookModel: {
     id: "webhookModel.id",
@@ -75,21 +75,21 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   listWebhooksPaginated: vi.fn(),
   conditionRepository: { listByWebhookIds: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/events", () => ({
+vi.mock("@hitechcloud.vn/events", () => ({
   updateWebhookCache: mockUpdateWebhookCache,
   removeWebhookCache: mockRemoveWebhookCache,
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   distributedLock: { runExclusive: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: mockCreateId,
 }))
 

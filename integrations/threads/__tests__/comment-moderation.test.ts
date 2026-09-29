@@ -1,4 +1,4 @@
-import { HttpResponse, http, server } from "@chatbotx.io/vitest-config/msw"
+import { HttpResponse, http, server } from "@hitechcloud.vn/vitest-config/msw"
 import { describe, expect, test, vi } from "vitest"
 import {
   getReplyGifUrl,
@@ -16,7 +16,7 @@ const auth = {
   tokens: { accessToken: "threads-token" },
   metadata: {
     threadsUserId: "threads-user-1",
-    username: "chatbotx",
+    username: "hitechcloudomnichannel",
     version: "v1.0",
   },
 } as ThreadsAuthValue

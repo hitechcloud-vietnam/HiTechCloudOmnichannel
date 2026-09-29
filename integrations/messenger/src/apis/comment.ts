@@ -1,4 +1,4 @@
-import type { Context, IncomingAttachment } from "@chatbotx.io/sdk"
+import type { Context, IncomingAttachment } from "@hitechcloud.vn/sdk"
 import { DEFAULT_API_VERSION } from "../constants"
 import { rescue } from "../exception"
 import { facebookGraphClient } from "../lib/http-client"

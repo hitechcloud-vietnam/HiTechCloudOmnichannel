@@ -1,4 +1,4 @@
-import { db } from "@chatbotx.io/database/client"
+import { db } from "@hitechcloud.vn/database/client"
 import type { ProductImageInput } from "../../product/service"
 import {
   type ProductWriteData,

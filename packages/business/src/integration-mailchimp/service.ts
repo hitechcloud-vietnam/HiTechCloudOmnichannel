@@ -1,11 +1,11 @@
-import { db, eq } from "@chatbotx.io/database/client"
+import { db, eq } from "@hitechcloud.vn/database/client"
 import {
   integrationMailchimpModel,
   integrationModel,
-} from "@chatbotx.io/database/schema"
-import { encryptUtils } from "@chatbotx.io/encryption"
-import type { AuthValue } from "@chatbotx.io/sdk"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/schema"
+import { encryptUtils } from "@hitechcloud.vn/encryption"
+import type { AuthValue } from "@hitechcloud.vn/sdk"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 
 class IntegrationMailchimpService extends BaseService {

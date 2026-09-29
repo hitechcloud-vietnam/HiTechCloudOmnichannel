@@ -1,5 +1,5 @@
-import { createId } from "@chatbotx.io/utils"
-import { DefaultJobAction, defaultQueue } from "@chatbotx.io/worker-config"
+import { createId } from "@hitechcloud.vn/utils"
+import { DefaultJobAction, defaultQueue } from "@hitechcloud.vn/worker-config"
 import { normalizeError } from "universal-error-normalizer"
 import { logger } from "../logger"
 import { getAuditActor } from "./context"

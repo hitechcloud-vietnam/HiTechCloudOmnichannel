@@ -1,4 +1,4 @@
-import { db } from "@chatbotx.io/database/client"
+import { db } from "@hitechcloud.vn/database/client"
 import {
   type CommentAutomationEventStatus,
   type CommentAutomationMissReason,
@@ -7,17 +7,17 @@ import {
   type CommentReplyType,
   commentAutomationChannelSupportsPrivateReply,
   commentAutomationTypes,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import type {
   CommentAutomationEventInsert,
   CommentAutomationMissInsert,
-} from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/types"
 import type {
   FlowClickedPayload,
   MessageSeenPayload,
-} from "@chatbotx.io/flow-config"
-import { logDiagnostic } from "@chatbotx.io/logger"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/flow-config"
+import { logDiagnostic } from "@hitechcloud.vn/logger"
+import { createId } from "@hitechcloud.vn/utils"
 import { toDate } from "../lib/date"
 import { logger } from "../lib/logger"
 import {

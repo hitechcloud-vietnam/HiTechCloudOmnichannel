@@ -1,28 +1,28 @@
 import type {
   AdsConversionChannel,
   ContactInboxReferral,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import {
   type AdReferralChannelType,
   adReferralChannelTypes,
   adsEligibleChannelTypes,
-} from "@chatbotx.io/utils/channel"
+} from "@hitechcloud.vn/utils/channel"
 import {
   PAID_AD_REFERRAL_SOURCES,
   type PaidAdReferralSource,
-} from "@chatbotx.io/utils/referral"
+} from "@hitechcloud.vn/utils/referral"
 
-// Deliberately imports ONLY a type from `@chatbotx.io/database` (erased at
+// Deliberately imports ONLY a type from `@hitechcloud.vn/database` (erased at
 // build time — zero runtime import). This file is also published as its own
-// package subpath (`@chatbotx.io/business/ads-conversion/channel-fields`,
+// package subpath (`@hitechcloud.vn/business/ads-conversion/channel-fields`,
 // see package.json `exports`) specifically so `"use client"` builder
 // components (e.g. `ads-analytics-view.tsx`, `conversion-events-view.tsx`)
-// can pull these maps/helpers WITHOUT importing the root `@chatbotx.io/
+// can pull these maps/helpers WITHOUT importing the root `@hitechcloud.vn/
 // business` barrel — that barrel re-exports `service.ts`, which eagerly
-// loads `@chatbotx.io/database/repositories` and, transitively, the DB
+// loads `@hitechcloud.vn/database/repositories` and, transitively, the DB
 // client (`env.DATABASE_URL`), which crashes in a browser/client bundle or
 // test environment. The ONLY permitted runtime import is
-// `@chatbotx.io/utils/channel` (zod-only, already client-safe — it is the
+// `@hitechcloud.vn/utils/channel` (zod-only, already client-safe — it is the
 // canonical home of the channel value lists); keep everything else out.
 
 /**
@@ -47,7 +47,7 @@ export type AdsEligibleChannel = Extract<
   (typeof adsEligibleChannelTypes.options)[number]
 >
 
-// Canonical value list lives in `@chatbotx.io/utils/channel`
+// Canonical value list lives in `@hitechcloud.vn/utils/channel`
 // (`adsEligibleChannelTypes`) so the database layer — which cannot import
 // this package — derives from the same source. The `satisfies` re-checks it
 // against the DB `AdsConversionChannel` enum: a value present in utils but

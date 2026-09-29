@@ -1,4 +1,4 @@
-import type { Context } from "@chatbotx.io/sdk"
+import type { Context } from "@hitechcloud.vn/sdk"
 import { ZALO_API_ENDPOINTS } from "../constants"
 import { handleZaloError } from "../lib/exception"
 import { ZaloHttpClient } from "../lib/http-client"

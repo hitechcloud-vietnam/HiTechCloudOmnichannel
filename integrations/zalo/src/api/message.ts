@@ -2,8 +2,8 @@ import {
   type Context,
   guessFileTypeFromMimeType,
   type IncomingAttachment,
-} from "@chatbotx.io/sdk"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/sdk"
+import { createId } from "@hitechcloud.vn/utils"
 import { fetch } from "cross-fetch"
 import imageSize from "image-size"
 import { ZALO_API_ENDPOINTS } from "../constants"
@@ -50,7 +50,7 @@ export const getMessageAttachmentEntity = ({
     const response = await fetch(attachment.payload.url, {
       headers: {
         Authorization: `Bearer ${ctx.auth.tokens.accessToken}`,
-        "User-Agent": "Mozilla/5.0 (compatible; ChatbotX/1.0)",
+        "User-Agent": "Mozilla/5.0 (compatible; HiTechCloudOmnichannel/1.0)",
       },
     })
 

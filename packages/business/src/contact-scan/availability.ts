@@ -1,5 +1,5 @@
-import type { CoexistRunStatus } from "@chatbotx.io/database/repositories"
-import type { CoexistSyncRunModel } from "@chatbotx.io/database/types"
+import type { CoexistRunStatus } from "@hitechcloud.vn/database/repositories"
+import type { CoexistSyncRunModel } from "@hitechcloud.vn/database/types"
 import { CONTACT_SCAN_COOLDOWN_MS, CONTACT_SCAN_ETA_MS } from "./constants"
 
 export type ContactScanBlockedReason = "cooldown" | "running"

@@ -6,16 +6,16 @@ import {
   ilike,
   inArray,
   isUniqueViolationError,
-} from "@chatbotx.io/database/client"
-import { flowModel, reflinkModel } from "@chatbotx.io/database/schema"
-import type { FlowModel, ReflinkModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/client"
+import { flowModel, reflinkModel } from "@hitechcloud.vn/database/schema"
+import type { FlowModel, ReflinkModel } from "@hitechcloud.vn/database/types"
 import {
   getPaginationWithDefaults,
   likeContains,
   parseOrderBy,
-} from "@chatbotx.io/database/utils"
-import { withCache } from "@chatbotx.io/redis"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/utils"
+import { withCache } from "@hitechcloud.vn/redis"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import { notFoundException, validationException } from "../errors"
 import { flowService } from "../flow/service"

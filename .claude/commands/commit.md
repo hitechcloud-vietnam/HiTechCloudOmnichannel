@@ -1,9 +1,9 @@
 ---
-description: Stage specific files and create a conventional commit following ChatbotX git rules
+description: Stage specific files and create a conventional commit following HiTechCloudOmnichannel git rules
 allowed-tools: Bash, Read
 ---
 
-Create a git commit for the current changes following the ChatbotX conventions in `.agents/rules/git.md`.
+Create a git commit for the current changes following the HiTechCloudOmnichannel conventions in `.agents/rules/git.md`.
 
 ## Steps
 

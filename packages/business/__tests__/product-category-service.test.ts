@@ -14,13 +14,13 @@ const mocks = vi.hoisted(() => ({
   update: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: { name: "default-db" },
   isUniqueViolationError: (...args: unknown[]) =>
     mocks.isUniqueViolationError(...args),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   productCategoryRepository: {
     create: (...args: unknown[]) => mocks.create(...args),
     createMissingByName: (...args: unknown[]) =>
@@ -36,7 +36,7 @@ vi.mock("@chatbotx.io/database/repositories", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: (...args: unknown[]) =>
     mocks.invalidateCacheByTags(...args),
 }))

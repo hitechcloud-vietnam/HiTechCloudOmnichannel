@@ -1,5 +1,5 @@
-import type { SendTextStepSchema } from "@chatbotx.io/flow-config"
-import type { MessageHandlers } from "@chatbotx.io/sdk"
+import type { SendTextStepSchema } from "@hitechcloud.vn/flow-config"
+import type { MessageHandlers } from "@hitechcloud.vn/sdk"
 import { MAX_INLINE_BUTTONS_PER_ROW } from "../../../constants"
 import type {
   TelegramAuthValue,

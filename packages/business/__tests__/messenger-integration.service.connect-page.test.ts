@@ -18,7 +18,7 @@ const mocks = vi.hoisted(() => ({
   transaction: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: mocks.and,
   db: { select: mocks.select, transaction: mocks.transaction },
   eq: mocks.eq,
@@ -27,14 +27,14 @@ vi.mock("@chatbotx.io/database/client", () => ({
   sql: mocks.sql,
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   integrationMessengerRepository: {
     findConnectedPageIds: mocks.findConnectedPageIds,
     insert: mocks.insert,
   },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   MESSENGER_PAGE_ID_UNIQUE_CONSTRAINT: "IntegrationMessenger_pageId_key",
   integrationMessengerModel: {
     pageId: "pageId",
@@ -45,11 +45,11 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   channelTypes: { enum: { messenger: "messenger" } },
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: mocks.createId,
 }))
 

@@ -11,7 +11,7 @@ const mocks = vi.hoisted(() => ({
   listOptionsByWorkspaceAndChannel: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   inboxRepository: {
     listOptionsByWorkspaceAndChannel: mocks.listOptionsByWorkspaceAndChannel,
   },

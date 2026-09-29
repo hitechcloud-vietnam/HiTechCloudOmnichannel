@@ -1,4 +1,4 @@
-import { ChannelError, ChannelErrorCategory } from "@chatbotx.io/sdk"
+import { ChannelError, ChannelErrorCategory } from "@hitechcloud.vn/sdk"
 import { HTTPError } from "ky"
 import { ThreadsException } from "../exception"
 import { sanitizeSensitiveText } from "./error-sanitizer"

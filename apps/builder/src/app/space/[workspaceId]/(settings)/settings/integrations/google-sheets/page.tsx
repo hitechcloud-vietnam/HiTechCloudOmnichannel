@@ -1,5 +1,5 @@
-import { integrationGoogleSheetService } from "@chatbotx.io/business"
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { integrationGoogleSheetService } from "@hitechcloud.vn/business"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { GoogleSheetsManage } from "@/features/integration-google-sheets/google-sheets-manage"
 import { integrationGoogleSheetsResource } from "@/features/integration-google-sheets/schema"

@@ -1,7 +1,7 @@
 import type {
   HashedCapiUserData,
   PurchaseContentItem,
-} from "@chatbotx.io/utils/meta-capi"
+} from "@hitechcloud.vn/utils/meta-capi"
 import ky from "ky"
 import { z } from "zod"
 import { API_URL, DEFAULT_API_VERSION } from "../constants"
@@ -223,7 +223,7 @@ export function sendConversionEvent({
         },
         json: {
           data: [buildConversionEventPayload(event)],
-          partner_agent: "ChatbotX",
+          partner_agent: "HiTechCloudOmnichannel",
         },
       })
       .json()

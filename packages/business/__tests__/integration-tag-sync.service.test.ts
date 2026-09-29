@@ -15,7 +15,7 @@ const { mockUpdate, mockReturning, mockInvalidateCacheByTags } = vi.hoisted(
   },
 )
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn((...conditions: unknown[]) => ({ conditions })),
   db: { update: mockUpdate },
   eq: vi.fn((field: unknown, value: unknown) => ({ field, value })),
@@ -24,7 +24,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   sql: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   MESSENGER_PAGE_ID_UNIQUE_CONSTRAINT: "IntegrationMessenger_pageId_key",
   integrationMessengerModel: {
     id: "id",
@@ -42,19 +42,19 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   channelTypes: { enum: { messenger: "messenger", zalo: "zalo" } },
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   integrationMessengerRepository: {},
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: mockInvalidateCacheByTags,
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: vi.fn(() => "generated-id"),
 }))
 

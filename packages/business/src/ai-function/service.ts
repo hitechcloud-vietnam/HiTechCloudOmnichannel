@@ -5,14 +5,14 @@ import {
   eq,
   type RelationsFieldFilter,
   relationsFilterToSQL,
-} from "@chatbotx.io/database/client"
-import { aiFunctionModel } from "@chatbotx.io/database/schema"
-import type { AIFunctionModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/client"
+import { aiFunctionModel } from "@hitechcloud.vn/database/schema"
+import type { AIFunctionModel } from "@hitechcloud.vn/database/types"
 import {
   getPaginationWithDefaults,
   parseOrderByAsObject,
-} from "@chatbotx.io/database/utils"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/utils"
+import { createId } from "@hitechcloud.vn/utils"
 import { isSameJsonValue } from "../audit/diff"
 import { BaseService } from "../base.service"
 import { notFoundException, validationException } from "../errors"

@@ -2,10 +2,10 @@ import {
   type DatabaseClient,
   db,
   isUniqueViolationError,
-} from "@chatbotx.io/database/client"
-import { productCategoryRepository } from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/client"
+import { productCategoryRepository } from "@hitechcloud.vn/database/repositories"
 import { BaseService } from "../base.service"
-import { ChatbotXException, notFoundException } from "../errors"
+import { HiTechCloudOmnichannelException, notFoundException } from "../errors"
 
 const normalizeCategoryName = (name: string): string => name.trim()
 
@@ -38,7 +38,7 @@ class ProductCategoryService extends BaseService {
   }) {
     const name = normalizeCategoryName(input.name)
     if (!name) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Product category name is required",
         "productCategoryNameRequired",
       )
@@ -50,7 +50,7 @@ class ProductCategoryService extends BaseService {
       return row
     } catch (error) {
       if (isUniqueViolationError(error)) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "Product category already exists",
           "productCategoryDuplicated",
         )
@@ -67,7 +67,7 @@ class ProductCategoryService extends BaseService {
   }) {
     const name = normalizeCategoryName(input.name)
     if (!name) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Product category name is required",
         "productCategoryNameRequired",
       )
@@ -85,7 +85,7 @@ class ProductCategoryService extends BaseService {
       return row
     } catch (error) {
       if (isUniqueViolationError(error)) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "Product category already exists",
           "productCategoryDuplicated",
         )
@@ -280,7 +280,7 @@ class ProductCategoryService extends BaseService {
       return
     }
     if (input.parentId === input.categoryId) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "A product category cannot be its own parent",
         "productCategoryParentSelf",
       )
@@ -293,7 +293,7 @@ class ProductCategoryService extends BaseService {
       throw notFoundException("Parent product category not found")
     }
     if (parent.parentId) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "A sub-category cannot contain further sub-categories",
         "productCategoryNestingTooDeep",
       )
@@ -314,7 +314,7 @@ class ProductCategoryService extends BaseService {
       parentId: input.categoryId,
     })
     if (children.length > 0) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "A category with sub-categories cannot itself become a sub-category",
         "productCategoryNestingTooDeep",
       )

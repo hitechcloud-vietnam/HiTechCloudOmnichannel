@@ -1,4 +1,4 @@
-import type { Context, IncomingContact } from "@chatbotx.io/sdk"
+import type { Context, IncomingContact } from "@hitechcloud.vn/sdk"
 import { getTelegramFileUrl } from "../apis/bot"
 import { rescue } from "../exception"
 import { createTelegramClient } from "../lib/http-client"

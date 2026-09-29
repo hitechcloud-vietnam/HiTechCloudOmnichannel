@@ -2,7 +2,7 @@ import {
   DEFAULT_GRAPH_PAGE_LIMIT,
   fetchAllNextPages,
   type NextUrlPaginatedResponse,
-} from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/utils"
 import ky from "ky"
 import { logger } from "./logger"
 

@@ -1,5 +1,5 @@
 import { getLicenseStatus } from "../enterprise/license/service"
-import { ChatbotXException } from "../errors"
+import { HiTechCloudOmnichannelException } from "../errors"
 import { isCloud, isEnterprise } from "../keys"
 
 /**
@@ -17,7 +17,7 @@ export const hasEnterpriseFeatures = async (): Promise<boolean> => {
 }
 
 export const enterpriseFeatureRequiredException = () =>
-  new ChatbotXException(
+  new HiTechCloudOmnichannelException(
     "This feature requires an enterprise license",
     "enterpriseFeatureRequired",
     403,
@@ -25,7 +25,7 @@ export const enterpriseFeatureRequiredException = () =>
 
 /**
  * Server-side guard for enterprise-only mutations and queries. Throws a 403
- * ChatbotXException when the deployment has no valid license, so it works in
+ * HiTechCloudOmnichannelException when the deployment has no valid license, so it works in
  * server actions, oRPC handlers, and plain queries alike.
  */
 export const assertEnterpriseFeatures = async (): Promise<void> => {

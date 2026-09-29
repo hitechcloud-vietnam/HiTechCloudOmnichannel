@@ -10,7 +10,7 @@ const mocks = vi.hoisted(() => ({
 
 const transactionClient = { name: "transaction-client" }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     transaction: (...args: unknown[]) => mocks.transaction(...args),
   },

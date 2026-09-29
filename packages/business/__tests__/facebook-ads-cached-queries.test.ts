@@ -20,7 +20,7 @@ vi.mock("../src/integration-facebook-ads/service", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/encryption", () => ({
+vi.mock("@hitechcloud.vn/encryption", () => ({
   encryptedDataSchema: {
     parse: (value: unknown) => value,
   },
@@ -29,14 +29,14 @@ vi.mock("@chatbotx.io/encryption", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/integration-facebook-ads", () => ({
+vi.mock("@hitechcloud.vn/integration-facebook-ads", () => ({
   facebookAdsAuthSchema: {},
   integration: {
     runAction: mocks.runAction,
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   withCache: async <T>(
     key: string,
     loader: () => Promise<T>,
@@ -170,7 +170,7 @@ describe("Facebook Ads cached queries", () => {
 
   test("accepts a context resolver from a different source (e.g. a box's per-integration connection) — getContext is generic, not tied to buildFacebookAdsContext", async () => {
     // Mirrors the shape `buildMessagingAdsContext`
-    // (`@chatbotx.io/business/messaging-ads-connection`) produces — the Ads
+    // (`@hitechcloud.vn/business/messaging-ads-connection`) produces — the Ads
     // dashboard's per-source context routing (`ads-analytics/service.ts`'s
     // `buildContextResolverBySource`) passes resolvers like this one
     // interchangeably with `buildFacebookAdsContext`'s.

@@ -1,4 +1,4 @@
-import { shouldAddressBySourceUserId } from "@chatbotx.io/sdk"
+import { shouldAddressBySourceUserId } from "@hitechcloud.vn/sdk"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
 const {
@@ -17,7 +17,7 @@ const {
   mockUpdateIdentityGuarded: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       contactInboxModel: {
@@ -36,7 +36,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   sql: Object.assign(vi.fn(), { join: vi.fn() }),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   contactInboxOperationalColumns: { sourceIdentityHistory: false },
   contactInboxRepository: {
     findWithContact: mockFindWithContact,
@@ -44,7 +44,7 @@ vi.mock("@chatbotx.io/database/repositories", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   CONTACT_INBOX_IDENTITY_CHANGE_REASONS: {
     parentFallback: "parentFallback",
     phoneChanged: "phoneChanged",
@@ -65,7 +65,7 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: mockInvalidateCacheByTags,
   withCache: vi.fn((_key: string, fn: () => unknown) => fn()),
 }))

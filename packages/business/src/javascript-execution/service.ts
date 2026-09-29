@@ -1,12 +1,12 @@
 import {
   createJavascriptExecutorClient,
   JavascriptSandboxError,
-} from "@chatbotx.io/javascript-sandbox"
-import { TemporalInputParsing } from "@chatbotx.io/utils/datetime"
+} from "@hitechcloud.vn/javascript-sandbox"
+import { TemporalInputParsing } from "@hitechcloud.vn/utils/datetime"
 import { BaseService } from "../base.service"
 import { contactCustomFieldService } from "../contact-custom-field/service"
 import { customFieldService } from "../custom-field/service"
-import { ChatbotXException, notFoundException } from "../errors"
+import { HiTechCloudOmnichannelException, notFoundException } from "../errors"
 import { javascriptExecutionEnv } from "./keys"
 import {
   collectJavascriptOutputWrites,
@@ -29,7 +29,7 @@ class JavascriptExecutionService extends BaseService {
       return await client.execute(props)
     } catch (error) {
       if (error instanceof JavascriptSandboxError) {
-        throw new ChatbotXException(error.message, error.code, 400)
+        throw new HiTechCloudOmnichannelException(error.message, error.code, 400)
       }
       throw error
     }

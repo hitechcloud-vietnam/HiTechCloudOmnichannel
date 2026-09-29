@@ -4,7 +4,7 @@ import {
   type Context,
   customAuthSchema,
   type Handler,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { z } from "zod"
 
 export type MailerLiteConfig = BaseConfig

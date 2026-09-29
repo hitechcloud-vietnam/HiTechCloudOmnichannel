@@ -1,5 +1,5 @@
-import type { MinigameOutcomeMessage } from "@chatbotx.io/database/partials"
-import type { ContactInboxModel } from "@chatbotx.io/database/types"
+import type { MinigameOutcomeMessage } from "@hitechcloud.vn/database/partials"
+import type { ContactInboxModel } from "@hitechcloud.vn/database/types"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
 const {
@@ -18,7 +18,7 @@ const {
   mockWarn: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn(),
   asc: vi.fn(),
   count: vi.fn(),
@@ -34,7 +34,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   sql: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   contactModel: { id: "id" },
   conversationModel: { id: "id" },
   minigameContactModel: { id: "id" },
@@ -42,13 +42,13 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   minigamePlayModel: { id: "id" },
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   createMessageRepository: vi.fn(async () => ({
     create: mockRepositoryCreate,
   })),
 }))
 
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   ChatJobAction: { sendChannelMessage: "sendChannelMessage" },
   chatQueue: { add: mockChatQueueAdd },
   IntegrationJobAction: { sendFlow: "sendFlow" },

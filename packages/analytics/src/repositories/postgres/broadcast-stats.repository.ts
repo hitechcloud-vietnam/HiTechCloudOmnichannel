@@ -9,11 +9,11 @@ import {
   notInArray,
   or,
   sql,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   broadcastModel,
   contactsOnBroadcastsModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import type {
   BroadcastBulkUpdateItem,
   BroadcastEventType,

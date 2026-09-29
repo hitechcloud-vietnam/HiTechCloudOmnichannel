@@ -1,7 +1,7 @@
 ---
 name: business-data-access
 description: >-
-  Implement or modify ChatbotX business services, repositories, cache
+  Implement or modify HiTechCloudOmnichannel business services, repositories, cache
   invalidation, event emission, and data-access boundaries. Use when app,
   worker, or integration code needs database-backed reads or mutations without
   importing db directly.
@@ -29,11 +29,11 @@ Do not add direct database imports in:
 - `apps/worker`
 - `integrations`
 
-These layers call services from `@chatbotx.io/business`. Legacy direct `db`
+These layers call services from `@hitechcloud.vn/business`. Legacy direct `db`
 imports are exceptions, not examples to copy. The one narrow exception is a
 **pure read with zero business logic** — no cache, no validation, no
 cross-table composition — which may call a repository from
-`@chatbotx.io/database/repositories` directly; this is the exception, not
+`@hitechcloud.vn/database/repositories` directly; this is the exception, not
 the default, so reach for a service first.
 
 Allowed direct `db` usage:
@@ -48,7 +48,7 @@ A service owns:
 - Input validation and authorization-adjacent checks (e.g. quota, ownership).
 - Orchestration across one or more repositories.
 - Cache invalidation (`this.invalidateCacheTags(...)`).
-- Event emission (`emit*` from `@chatbotx.io/events`, `@chatbotx.io/event-bus`).
+- Event emission (`emit*` from `@hitechcloud.vn/events`, `@hitechcloud.vn/event-bus`).
 - Audit records (`this.audit(...)`).
 - An optional `tx?: DatabaseClient` passthrough so callers can compose it into
   their own transaction.
@@ -81,7 +81,7 @@ Services live in `packages/business/src/<domain>/`.
 Typical shape:
 
 ```typescript
-import { type DatabaseClient, db } from "@chatbotx.io/database/client"
+import { type DatabaseClient, db } from "@hitechcloud.vn/database/client"
 import { BaseService } from "../base.service"
 
 class ExampleService extends BaseService {
@@ -112,7 +112,7 @@ Also export from:
 ## Cache and Events
 
 - Extend `BaseService` to use `invalidateCacheTags()`.
-- Use `withCache` from `@chatbotx.io/redis` only around stable reads with clear keys.
+- Use `withCache` from `@hitechcloud.vn/redis` only around stable reads with clear keys.
 - Emit domain events from services when mutations affect downstream workflows.
 - Fire-and-forget events should handle `.catch(() => {})` if the local pattern does.
 
@@ -138,7 +138,7 @@ it directly from wherever it's needed (a page, another query), with no
 `.query.ts` adapter in between:
 
 ```typescript
-import { tagService } from "@chatbotx.io/business"
+import { tagService } from "@hitechcloud.vn/business"
 
 const { data } = await tagService.list({ workspaceId })
 ```
@@ -154,7 +154,7 @@ can call the service — that's the shape a query file exists for:
 
 ```typescript
 // apps/builder/src/features/contacts/queries/get-contact.query.ts
-import { contactService } from "@chatbotx.io/business"
+import { contactService } from "@hitechcloud.vn/business"
 import { requireContactPermissionScope } from "../permissions"
 
 export async function getContact(input: { workspaceId: string; id: string }) {

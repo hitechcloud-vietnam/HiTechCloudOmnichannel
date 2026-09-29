@@ -1,4 +1,4 @@
-import { db } from "@chatbotx.io/database/client"
+import { db } from "@hitechcloud.vn/database/client"
 import type {
   IntegrationClaudeModel,
   IntegrationDeepseekModel,
@@ -6,8 +6,8 @@ import type {
   IntegrationOpenAIModel,
   IntegrationOpenaiCompatibleModel,
   IntegrationOpenrouterModel,
-} from "@chatbotx.io/database/types"
-import { secretTextAuthSchema } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/database/types"
+import { secretTextAuthSchema } from "@hitechcloud.vn/sdk"
 import type { ImageModel } from "ai"
 import { providerSdkFactories } from "../core/factory"
 import { type AIProvider, aiProviders } from "../schemas"

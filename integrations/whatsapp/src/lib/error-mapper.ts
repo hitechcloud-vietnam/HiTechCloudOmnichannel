@@ -2,8 +2,8 @@ import {
   ChannelError,
   ChannelErrorCategory,
   UNKNOWN_ERROR,
-} from "@chatbotx.io/sdk"
-import { formatGraphErrorMessage } from "@chatbotx.io/utils/graph-error"
+} from "@hitechcloud.vn/sdk"
+import { formatGraphErrorMessage } from "@hitechcloud.vn/utils/graph-error"
 import { WHATSAPP_CALLING_ERROR_CODES } from "../constants"
 import {
   type ChannelErrorSource,

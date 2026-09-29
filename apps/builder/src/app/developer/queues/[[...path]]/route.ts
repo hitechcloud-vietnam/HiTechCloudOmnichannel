@@ -1,7 +1,7 @@
 import { createBullBoard } from "@bull-board/api"
 import { BullMQAdapter } from "@bull-board/api/bullMQAdapter"
 import { HonoAdapter } from "@bull-board/hono"
-import { isSuperAdmin } from "@chatbotx.io/business"
+import { isSuperAdmin } from "@hitechcloud.vn/business"
 import {
   aiAgentQueue,
   chatQueue,
@@ -14,7 +14,7 @@ import {
   scheduleQueue,
   triggerQueue,
   webhookQueue,
-} from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/worker-config"
 import { serveStatic } from "@hono/node-server/serve-static"
 import { Hono } from "hono"
 import { handle } from "hono/vercel"

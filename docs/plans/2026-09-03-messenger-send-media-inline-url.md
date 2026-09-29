@@ -43,7 +43,7 @@ Recipients **without a role on the Page/App** see, on messenger.com (web):
 > "File đính kèm không được hỗ trợ — File đính kèm này có thể đã bị gỡ hoặc
 > người chia sẻ không có quyền chia sẻ với bạn."
 
-Verified by the owner with raw Graph API calls (no ChatbotX code involved):
+Verified by the owner with raw Graph API calls (no HiTechCloudOmnichannel code involved):
 
 | Payload sent via Graph API Explorer (page `1178975828637770`, `is_published: true`) | API result | messenger.com (no-role user) |
 |---|---|---|
@@ -165,8 +165,8 @@ manual test used the same body. **Decision: reuse the helper unchanged.**
 import type {
   SendImageStepSchema,
   SendVideoStepSchema,
-} from "@chatbotx.io/flow-config"
-import type { SendFlowStepProps } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/flow-config"
+import type { SendFlowStepProps } from "@hitechcloud.vn/sdk"
 import type { FacebookMessage, MessengerAuthValue } from "../../../schema"
 import { convertMediaType, getAttachmentTemplate } from "./send-attachment"
 import { convertFlowStepMedia } from "./send-media"
@@ -329,7 +329,7 @@ access, no new queue, no new state, no new dependency.
 
 - [x] Write `integrations/messenger/__tests__/send-media-v2.test.ts` §4.1 (red).
 - [x] Create `send-media-v2.ts` as in §2.2 (green).
-- [x] `pnpm --filter @chatbotx.io/integration-messenger check-types` — passed
+- [x] `pnpm --filter @hitechcloud.vn/integration-messenger check-types` — passed
       as-is; `facebookElementSchema` untouched.
 
 ### Phase 2 — dispatcher
@@ -340,8 +340,8 @@ access, no new queue, no new state, no new dependency.
 ### Phase 3 — verification gate (`.agents/skills/testing-workflow`)
 
 - [x] `pnpm lint`
-- [x] `pnpm --filter @chatbotx.io/integration-messenger check-types`
-- [x] `pnpm --filter @chatbotx.io/integration-messenger test` (32 files, 235 tests) (coverage ≥ 80 %,
+- [x] `pnpm --filter @hitechcloud.vn/integration-messenger check-types`
+- [x] `pnpm --filter @hitechcloud.vn/integration-messenger test` (32 files, 235 tests) (coverage ≥ 80 %,
       no threshold skip)
 - [x] `invariant-guard` subagent on the diff — PASS.
 - [ ] Manual (owner, page `Chatbot XXX01`, no-role recipient, messenger.com

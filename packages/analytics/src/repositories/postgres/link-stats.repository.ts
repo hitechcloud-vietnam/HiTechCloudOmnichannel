@@ -4,12 +4,12 @@ import {
   type PgTable,
   sql,
   type Table,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 // Narrow subpath, NOT the `queries` barrel: that barrel re-exports the
 // contact-filter modules, which dereference schema tables at module scope
-// and therefore crash any suite that mocks `@chatbotx.io/database/schema`
+// and therefore crash any suite that mocks `@hitechcloud.vn/database/schema`
 // narrowly. Analytics only needs the one timezone helper.
-import { resolvedTimezone } from "@chatbotx.io/database/queries/date-bucket"
+import { resolvedTimezone } from "@hitechcloud.vn/database/queries/date-bucket"
 import { BaseRepository } from "./base.repository"
 
 type LinkStatColumns = {

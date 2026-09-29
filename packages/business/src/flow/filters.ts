@@ -1,4 +1,4 @@
-import { stepTypes } from "@chatbotx.io/flow-config"
+import { stepTypes } from "@hitechcloud.vn/flow-config"
 
 const LEGACY_STEP_TYPE_ALIASES: Record<string, readonly string[]> = {
   [stepTypes.enum.sendWaTemplateMessage]: ["WA_TM01"],

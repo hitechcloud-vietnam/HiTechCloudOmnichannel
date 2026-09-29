@@ -2,7 +2,7 @@ import {
   ChannelErrorCategory,
   PERMANENT_CATEGORIES,
   RETRYABLE_CATEGORIES,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { describe, expect, test } from "vitest"
 import { WhatsappException } from "../src/exception"
 import { mapToChannelError } from "../src/lib/error-mapper"

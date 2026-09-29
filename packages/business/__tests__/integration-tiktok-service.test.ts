@@ -34,7 +34,7 @@ const {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     delete: mockDelete,
     transaction: mockTransaction,
@@ -45,15 +45,15 @@ vi.mock("@chatbotx.io/database/client", () => ({
   inArray: vi.fn((field: unknown, values: unknown[]) => ({ field, values })),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   integrationTiktokModel: { id: "id", openId: "openId" },
 }))
 
-// Partial: the service now pulls in `@chatbotx.io/integration-tiktok` for
+// Partial: the service now pulls in `@hitechcloud.vn/integration-tiktok` for
 // `getPostDetails`, and that graph reads other helpers (`zodBigintAsString`)
 // from this module. Only `createId` needs to be deterministic here.
-vi.mock("@chatbotx.io/utils", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@chatbotx.io/utils")>()),
+vi.mock("@hitechcloud.vn/utils", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@hitechcloud.vn/utils")>()),
   createId: () => "integration-1",
 }))
 

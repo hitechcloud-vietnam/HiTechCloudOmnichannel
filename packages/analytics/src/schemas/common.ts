@@ -1,4 +1,4 @@
-import { zodBigintAsString } from "@chatbotx.io/utils"
+import { zodBigintAsString } from "@hitechcloud.vn/utils"
 import { z } from "zod"
 
 const FROM_FLOOR = new Date("2020-01-01T00:00:00.000Z")

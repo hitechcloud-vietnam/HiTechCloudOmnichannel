@@ -153,7 +153,7 @@ Delivery and state are two different things, and a comment splits them:
   Every message after that one — later in the same step, or in a later step — is a plain
   DM, which Meta only accepts inside the 24-hour window the contact's own message opens.
   A comment does not open one, so each channel's `sendFlowStep` calls
-  `assertCommentPrivateReplyFollowUpDeliverable` (`@chatbotx.io/sdk`) against
+  `assertCommentPrivateReplyFollowUpDeliverable` (`@hitechcloud.vn/sdk`) against
   `contact.lastIncomingMessageAt` first: inside the window it sends normally, outside it
   throws `comment_private_reply_already_used`, which `sendFlowStep`'s catch records as the
   message's `sendError` so the inbox says why the rest of the flow never arrived. Before
@@ -190,7 +190,7 @@ A comment anchors its conversation to the post (`Conversation.sourceId = postId`
 
 | Reply channel | Conversation | Why |
 |---|---|---|
-| `private` | the **DM** conversation, resolved by `resolveDirectMessageConversationId` (`findDMByContact`, falling back to `findOrCreate({ sourceId: null })`) | The contact answers in the DM. Running the flow on the comment conversation parks its state where no reply can reach it — the flow stalls at its first waiting step with no error anywhere ([#1063](https://github.com/ChatbotXIO/ChatbotX/issues/1063)). |
+| `private` | the **DM** conversation, resolved by `resolveDirectMessageConversationId` (`findDMByContact`, falling back to `findOrCreate({ sourceId: null })`) | The contact answers in the DM. Running the flow on the comment conversation parks its state where no reply can reach it — the flow stalls at its first waiting step with no error anywhere ([#1063](https://github.com/HiTechCloudOmnichannelIO/HiTechCloudOmnichannel/issues/1063)). |
 | `public` | the **comment-anchored** conversation (`ctx.conversationId`, unchanged) | The contact answers with another comment, which `receiveComment` resolves back to that same conversation. Switching this one to the DM conversation would break it. |
 | `AIAgent` | **AI agent id** | Enqueues a delayed `commentAIReply` job → `processCommentAIReply` generates text with the **selected** agent (`generateAIReplyText`, tools/rich off) and posts it as a **public comment reply**. | Same job, `replyChannel: "private"` → generated text sent as a **DM**. |
 
@@ -482,7 +482,7 @@ Two text-heuristic caveats follow, and both are expected behaviour:
 `hasEmoji` is a regex on the comment text and works on every channel that can hide.
 `hasGif` needs attachment data, which only two channels expose — the builder shows the
 switch only there, and the service pins `hasGif` off on Instagram writes
-(`commentAutomationChannelSupportsHideGif` in `@chatbotx.io/database/partials`):
+(`commentAutomationChannelSupportsHideGif` in `@hitechcloud.vn/database/partials`):
 
 | Channel | GIF source |
 |---|---|
@@ -608,8 +608,8 @@ hidden in the inbox and then fail at the channel.
   capability to make this API call.` even when the app holds `instagram_manage_messages`,
   `pages_messaging` and Human Agent at **Advanced Access** — code 3 means "this edge does
   not exist here", not "permission missing", so chasing it in the App dashboard is a dead
-  end. This has regressed twice ([#875](https://github.com/ChatbotXIO/ChatbotX/pull/875)
-  moved it to `pageId`; [#945](https://github.com/ChatbotXIO/ChatbotX/pull/945) moved it
+  end. This has regressed twice ([#875](https://github.com/HiTechCloudOmnichannelIO/HiTechCloudOmnichannel/pull/875)
+  moved it to `pageId`; [#945](https://github.com/HiTechCloudOmnichannelIO/HiTechCloudOmnichannel/pull/945) moved it
   back to satisfy a stale test whose fixture had no `pageId`, so the endpoint silently
   became `/undefined/messages`). The blast radius is every private reply on that channel —
   automation `text`, `AIAgent`, the first message of a `flow` reply, **and** the agent's

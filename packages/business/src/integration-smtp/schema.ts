@@ -1,7 +1,7 @@
 import {
   createSelectSchema,
   integrationSmtpModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import { z } from "zod"
 
 export const integrationSmtpResource = createSelectSchema(

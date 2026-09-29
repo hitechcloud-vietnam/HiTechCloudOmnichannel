@@ -1,5 +1,5 @@
 import { Readable } from "node:stream"
-import { MAX_MESSAGING_AD_IMAGE_BYTES } from "@chatbotx.io/integration-facebook-ads"
+import { MAX_MESSAGING_AD_IMAGE_BYTES } from "@hitechcloud.vn/integration-facebook-ads"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
 // ---------------------------------------------------------------------------
@@ -17,11 +17,11 @@ const mocks = vi.hoisted(() => ({
   getObjectStream: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   fileRepository: { findByIdForWorkspace: mocks.findByIdForWorkspace },
 }))
 
-vi.mock("@chatbotx.io/filesystem", () => ({
+vi.mock("@hitechcloud.vn/filesystem", () => ({
   uploader: {
     headObject: mocks.headObject,
     getObjectStream: mocks.getObjectStream,
@@ -217,7 +217,7 @@ describe("resolveStoredImageBytes — rejections happen BEFORE any bytes are buf
 })
 
 describe("resolveStoredImageBytes — programming-error guard", () => {
-  test("throws (not a ChatbotXException) when called for a non-stored-image media input", async () => {
+  test("throws (not a HiTechCloudOmnichannelException) when called for a non-stored-image media input", async () => {
     await expect(
       resolveStoredImageBytes({
         workspaceId: WORKSPACE_ID,

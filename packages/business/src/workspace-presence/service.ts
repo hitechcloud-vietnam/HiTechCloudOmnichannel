@@ -1,9 +1,9 @@
-import { PRESENCE_TTL_MS } from "@chatbotx.io/partysocket-config/presence"
-import { presenceStore } from "@chatbotx.io/redis"
+import { PRESENCE_TTL_MS } from "@hitechcloud.vn/partysocket-config/presence"
+import { presenceStore } from "@hitechcloud.vn/redis"
 import { logger } from "../logger"
 import { workspaceMemberService } from "../workspace-member/service"
 
-export { PRESENCE_TTL_MS } from "@chatbotx.io/partysocket-config/presence"
+export { PRESENCE_TTL_MS } from "@hitechcloud.vn/partysocket-config/presence"
 
 /**
  * Upper bound on how many members listOnlineMembers scans from Redis before

@@ -3,7 +3,7 @@ import type {
   Handler,
   Oauth2AuthValue,
   Oauth2Config,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 
 export type GoogleSheetsConfig = Oauth2Config & {
   stateParams?: {

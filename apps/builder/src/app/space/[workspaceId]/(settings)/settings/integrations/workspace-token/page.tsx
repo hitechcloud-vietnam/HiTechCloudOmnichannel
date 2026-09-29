@@ -1,5 +1,5 @@
-import { workspaceApiTokenService } from "@chatbotx.io/business"
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { workspaceApiTokenService } from "@hitechcloud.vn/business"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { ManageWorkspaceTokens } from "@/features/workspaces/manage-workspace-tokens"
 import { toWorkspaceApiTokenDto } from "@/features/workspaces/schema/workspace-token-dto"

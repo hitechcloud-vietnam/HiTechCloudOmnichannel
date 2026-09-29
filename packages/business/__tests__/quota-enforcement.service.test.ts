@@ -6,14 +6,14 @@ const dbTransaction = vi.fn(
   async (fn: (tx: unknown) => Promise<unknown>) => await fn(fakeTx),
 )
 const setLocalStatementTimeout = vi.fn(async () => undefined)
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: { userModel: { findFirst: findFirstUser } },
     transaction: dbTransaction,
   },
   setLocalStatementTimeout,
 }))
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   ROOT_TENANT_ID: "1",
   workspaceUsageModel: { workspaceId: "workspaceId-column" },
 }))
@@ -25,7 +25,7 @@ const macTrackingService = {
 const macAnalyticsService = {
   getActiveContactCountByWorkspaceId: vi.fn(async () => 0),
 }
-vi.mock("@chatbotx.io/analytics", () => ({
+vi.mock("@hitechcloud.vn/analytics", () => ({
   macAnalyticsService,
   macTrackingService,
 }))
@@ -52,7 +52,7 @@ const distributedLock = {
 const withCache = vi.fn(
   async (_key: string, fn: () => unknown, _options?: unknown) => fn(),
 )
-vi.mock("@chatbotx.io/redis", () => ({ distributedLock, withCache }))
+vi.mock("@hitechcloud.vn/redis", () => ({ distributedLock, withCache }))
 
 const tenantService = {
   findByOwner: vi.fn(async () => undefined as unknown),

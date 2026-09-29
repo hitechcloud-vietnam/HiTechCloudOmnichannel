@@ -143,7 +143,7 @@ Read it before non-trivial changes. This skill is the quick map + the traps.
    of the run posts as a comment reply. A claimed private anchor is **not dropped** — it
    rides on as `spent: true` so each channel's `sendFlowStep` can tell a comment-triggered
    follow-up from a plain flow message and gate it on `contact.lastIncomingMessageAt` via
-   `assertCommentPrivateReplyFollowUpDeliverable` (`@chatbotx.io/sdk`): inside the 24h
+   `assertCommentPrivateReplyFollowUpDeliverable` (`@hitechcloud.vn/sdk`): inside the 24h
    window it sends as a normal DM, outside it throws
    `comment_private_reply_already_used` → visible `sendError`. Never "restore" the drop;
    that turns the failure back into a Send API rejection swallowed by `sendFlowStep`.

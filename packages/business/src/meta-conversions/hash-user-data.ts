@@ -1,5 +1,5 @@
-import { sha256Hex } from "@chatbotx.io/utils/crypto"
-import type { HashedCapiUserData } from "@chatbotx.io/utils/meta-capi"
+import { sha256Hex } from "@hitechcloud.vn/utils/crypto"
+import type { HashedCapiUserData } from "@hitechcloud.vn/utils/meta-capi"
 import { parsePhoneNumber } from "libphonenumber-js"
 
 /**
@@ -29,7 +29,7 @@ import { parsePhoneNumber } from "libphonenumber-js"
  *     match, so this never falls back to a loose parse.
  *   - external_id: SHA-256 of the OPAQUE `contact.id`, NOT normalized —
  *     approved plan Decision #2. (The SDK's own `getNormalizedExternalID`
- *     would lowercase + strip whitespace, but ChatbotX ids carry no
+ *     would lowercase + strip whitespace, but HiTechCloudOmnichannel ids carry no
  *     whitespace/casing noise, so this is a deliberate, documented
  *     simplification of an already-a-no-op step, not a normalization gap.)
  * Every field is UTF-8 encoded before SHA-256, hex-encoded lowercase, then

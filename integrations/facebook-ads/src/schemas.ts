@@ -3,7 +3,7 @@ import {
   type Context,
   customAuthSchema,
   type Handler,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { z } from "zod"
 import type { META_STATUS, MessagingAdChannel } from "./messaging-ads/constants"
 import type {

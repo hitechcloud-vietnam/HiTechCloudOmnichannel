@@ -1,30 +1,30 @@
 import {
   createMessageRepository,
   mediaLibraryFileRepository,
-} from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/repositories"
 import type {
   ContactInboxModel,
   ConversationModel,
   UserModel,
-} from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/types"
 import {
   guessFileTypeFromMimeType,
   pathJoin,
   type UploadedFile,
   uploader,
   uploadMultipleFiles,
-} from "@chatbotx.io/filesystem"
-import { RealtimeEventType } from "@chatbotx.io/partysocket-config"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/filesystem"
+import { RealtimeEventType } from "@hitechcloud.vn/partysocket-config"
+import { createId } from "@hitechcloud.vn/utils"
 import {
   ChatJobAction,
   chatQueue,
   IntegrationJobAction,
   integrationQueue,
-} from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/worker-config"
 import { contactInboxService } from "../contact-inbox/service"
 import { conversationService } from "../conversation/service"
-import { ChatbotXException } from "../errors"
+import { HiTechCloudOmnichannelException } from "../errors"
 import { logger } from "../logger"
 import { publishToWorkspaceParty } from "../platform/realtime-broadcast"
 import { resolveTenantSettings } from "../platform/settings"
@@ -150,7 +150,7 @@ export const createOutgoing = async (props: {
       path: parsedInput.mediaFile.path,
     })
     if (!mediaLibraryFile) {
-      throw new ChatbotXException("Media library file not found")
+      throw new HiTechCloudOmnichannelException("Media library file not found")
     }
 
     uploadedFiles = [
@@ -166,7 +166,7 @@ export const createOutgoing = async (props: {
       id: parsedInput.mediaFileId,
     })
     if (!mediaLibraryFile) {
-      throw new ChatbotXException("Media library file not found")
+      throw new HiTechCloudOmnichannelException("Media library file not found")
     }
 
     uploadedFiles = [
@@ -184,7 +184,7 @@ export const createOutgoing = async (props: {
           id: mediaFileId,
         })
         if (!mediaLibraryFile) {
-          throw new ChatbotXException("Media library file not found")
+          throw new HiTechCloudOmnichannelException("Media library file not found")
         }
 
         return copyMediaLibraryFileToConversationAttachment({

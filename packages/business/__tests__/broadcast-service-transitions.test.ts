@@ -33,12 +33,12 @@ const txMock = {
   },
 }
 
-vi.mock("@chatbotx.io/analytics", () => ({
+vi.mock("@hitechcloud.vn/analytics", () => ({
   broadcastAnalyticsService: { getContacts: vi.fn() },
   sequenceAnalyticsService: { getContacts: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       broadcastModel: {
@@ -68,7 +68,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   ),
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   broadcastStatuses: {
     enum: {
       scheduled: "scheduled",
@@ -90,7 +90,7 @@ vi.mock("@chatbotx.io/database/partials", () => ({
     submitted === undefined ? undefined : { sendRatePerMinute: submitted },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   broadcastModel: {
     id: "broadcast.id",
     workspaceId: "broadcast.workspaceId",
@@ -116,19 +116,19 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   whatsappMessageTemplateModel: {},
 }))
 
-vi.mock("@chatbotx.io/database/queries", () => ({
+vi.mock("@hitechcloud.vn/database/queries", () => ({
   buildContactInboxContactFilterSQL: vi.fn(),
   contactInboxInteractedWithin24hSQL: vi.fn(),
   pruneEmailPhoneFilterConditions: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   chunkById: vi.fn(),
   likeContains: (value: string) => `%${value}%`,
   getPaginationWithDefaults: vi.fn(() => ({ limit: 10, offset: 0 })),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   broadcastRepository: {
     listWithRelations: vi.fn(),
     count: vi.fn(),

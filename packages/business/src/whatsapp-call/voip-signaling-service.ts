@@ -1,5 +1,5 @@
-import { whatsappCallRepository } from "@chatbotx.io/database/repositories"
-import { casStore } from "@chatbotx.io/redis"
+import { whatsappCallRepository } from "@hitechcloud.vn/database/repositories"
+import { casStore } from "@hitechcloud.vn/redis"
 import {
   enqueueIntegrationJob,
   expireOutboundDialJobId,
@@ -12,7 +12,7 @@ import {
   whatsappVoipExpiryJobId,
   whatsappVoipSignalingJobId,
   whatsappVoipSignalingQueue,
-} from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/worker-config"
 import { logger } from "../logger"
 import {
   offerKey,

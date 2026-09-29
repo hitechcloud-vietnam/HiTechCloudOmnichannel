@@ -7,7 +7,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 // `bulkImportContacts`. These are the dedup / contact-resolution / event /
 // workspace-usage cases that used to live in the worker-level
 // `bulk-historical-import.test.ts` (mocking `coexistImportService` there via
-// the `@chatbotx.io/business` barrel) — moved here because the function now
+// the `@hitechcloud.vn/business` barrel) — moved here because the function now
 // lives in this package and imports its dependencies by relative path, so the
 // worker-level barrel mock can no longer intercept them. The worker test now
 // mocks `bulkImportChannelContacts` itself as an external dependency; its
@@ -38,8 +38,8 @@ vi.mock("../src/workspace-usage/service", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/event-bus", () => ({ emit: mockEmit }))
-vi.mock("@chatbotx.io/events", () => ({
+vi.mock("@hitechcloud.vn/event-bus", () => ({ emit: mockEmit }))
+vi.mock("@hitechcloud.vn/events", () => ({
   emitContactCreated: mockEmitContactCreated,
 }))
 

@@ -6,16 +6,16 @@ import {
   inArray,
   type RelationsFieldFilter,
   relationsFilterToSQL,
-} from "@chatbotx.io/database/client"
-import { aiAgentModel } from "@chatbotx.io/database/schema"
-import type { AIAgentModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/client"
+import { aiAgentModel } from "@hitechcloud.vn/database/schema"
+import type { AIAgentModel } from "@hitechcloud.vn/database/types"
 import {
   getPaginationWithDefaults,
   likeContains,
   parseOrderByAsObject,
-} from "@chatbotx.io/database/utils"
-import { withCache } from "@chatbotx.io/redis"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/utils"
+import { withCache } from "@hitechcloud.vn/redis"
+import { createId } from "@hitechcloud.vn/utils"
 import { isSameJsonValue } from "../audit/diff"
 import { BaseService } from "../base.service"
 import { notFoundException } from "../errors"

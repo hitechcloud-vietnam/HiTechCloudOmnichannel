@@ -1,10 +1,10 @@
-import { and, db, eq, isDatabaseError } from "@chatbotx.io/database/client"
+import { and, db, eq, isDatabaseError } from "@hitechcloud.vn/database/client"
 import {
   integrationModel,
   integrationOpenaiCompatibleModel,
-} from "@chatbotx.io/database/schema"
-import { AuthType, type SecretTextAuthValue } from "@chatbotx.io/sdk"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/schema"
+import { AuthType, type SecretTextAuthValue } from "@hitechcloud.vn/sdk"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import {
   normalizeOpenaiCompatibleBaseUrl,

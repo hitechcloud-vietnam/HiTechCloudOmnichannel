@@ -1,4 +1,4 @@
-import { WHATSAPP_CAPI_SCOPE } from "@chatbotx.io/business/integration-whatsapp/auth-schema"
+import { WHATSAPP_CAPI_SCOPE } from "@hitechcloud.vn/business/integration-whatsapp/auth-schema"
 import type { DebugTokenGranularScope } from "./auth"
 
 /**

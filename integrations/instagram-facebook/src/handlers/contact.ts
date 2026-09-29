@@ -1,4 +1,4 @@
-import type { ContactHandlers } from "@chatbotx.io/sdk"
+import type { ContactHandlers } from "@hitechcloud.vn/sdk"
 import { getContactProfilePicUrl, getUserProfile } from "../apis/user"
 import type { InstagramAuthValue } from "../schema"
 

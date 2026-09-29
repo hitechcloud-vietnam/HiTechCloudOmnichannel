@@ -1,9 +1,9 @@
-import { contactInboxService } from "@chatbotx.io/business"
+import { contactInboxService } from "@hitechcloud.vn/business"
 import {
   dynamicImageService,
   getDynamicElementIds,
-} from "@chatbotx.io/business/dynamic-image"
-import { resolveContactVariablesDeep } from "@chatbotx.io/variables"
+} from "@hitechcloud.vn/business/dynamic-image"
+import { resolveContactVariablesDeep } from "@hitechcloud.vn/variables"
 import { type NextRequest, NextResponse } from "next/server"
 import { loadServableWorkspace } from "@/lib/workspace/load-servable-workspace"
 

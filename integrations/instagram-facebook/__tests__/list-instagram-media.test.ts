@@ -1,4 +1,4 @@
-import { HttpResponse, http, server } from "@chatbotx.io/vitest-config/msw"
+import { HttpResponse, http, server } from "@hitechcloud.vn/vitest-config/msw"
 import { describe, expect, test } from "vitest"
 import { listInstagramMedia } from "../src/apis/post"
 import { API_URL, DEFAULT_API_VERSION } from "../src/constants"

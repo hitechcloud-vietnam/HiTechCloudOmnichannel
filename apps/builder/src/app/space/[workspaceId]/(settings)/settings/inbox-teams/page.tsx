@@ -1,4 +1,4 @@
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { Suspense } from "react"
 import { ListInboxTeams } from "@/enterprise/features/inbox-teams/list-inbox-teams"

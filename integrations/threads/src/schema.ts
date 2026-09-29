@@ -3,7 +3,7 @@ import type {
   Handler,
   Oauth2AuthValue,
   Oauth2Config,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import type { ThreadsPostDetails } from "./apis/post"
 
 export type ThreadsConfig = Oauth2Config & {

@@ -1,5 +1,5 @@
-import { db } from "@chatbotx.io/database/client"
-import { distributedStore } from "@chatbotx.io/redis"
+import { db } from "@hitechcloud.vn/database/client"
+import { distributedStore } from "@hitechcloud.vn/redis"
 import { logger } from "../lib/logger"
 import { calcEndOfDayTtl, workspaceMacCacheKey } from "../lib/mac-period"
 import { macRepository } from "../repositories/postgres/mac.repository"

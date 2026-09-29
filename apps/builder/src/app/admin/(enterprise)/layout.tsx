@@ -1,4 +1,4 @@
-import { hasEnterpriseFeatures } from "@chatbotx.io/business"
+import { hasEnterpriseFeatures } from "@hitechcloud.vn/business"
 import { notFound } from "next/navigation"
 
 export default async function AdminEnterpriseLayout({

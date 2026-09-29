@@ -7,7 +7,7 @@ import {
   ne,
   relationsFilterToSQL,
   sql,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   type CommentAutomationType,
   type CommentExcludeKeywordsType,
@@ -19,19 +19,19 @@ import {
   type IgCommentAutomationType,
   igCommentAutomationTypes,
   normalizeReplyTexts,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import {
   commentAutomationModel,
   commentAutomationReplyModel,
   contactInboxModel,
-} from "@chatbotx.io/database/schema"
-import type { CommentAutomationModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/schema"
+import type { CommentAutomationModel } from "@hitechcloud.vn/database/types"
 import {
   getPaginationWithDefaults,
   likeContains,
   parseOrderByAsObject,
-} from "@chatbotx.io/database/utils"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/utils"
+import { createId } from "@hitechcloud.vn/utils"
 import { formatInTimeZone } from "date-fns-tz"
 import { BaseService } from "../base.service"
 import { notFoundException } from "../errors"

@@ -1,17 +1,17 @@
-import { db } from "@chatbotx.io/database/client"
-import { fileContextTypes } from "@chatbotx.io/database/partials"
+import { db } from "@hitechcloud.vn/database/client"
+import { fileContextTypes } from "@hitechcloud.vn/database/partials"
 import {
   mediaLibraryFileRepository,
   mediaLibraryFolderRepository,
-} from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/repositories"
 import type {
   MediaLibraryFileModel,
   MediaLibraryFolderModel,
-} from "@chatbotx.io/database/types"
-import { uploader } from "@chatbotx.io/filesystem"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/types"
+import { uploader } from "@hitechcloud.vn/filesystem"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
-import { ChatbotXException, notFoundException } from "../errors"
+import { HiTechCloudOmnichannelException, notFoundException } from "../errors"
 import { fileService } from "../file/service"
 import { logger } from "../logger"
 import { resolveTenantSettings } from "../platform/settings"
@@ -147,7 +147,7 @@ class MediaLibraryService extends BaseService {
       input.path.startsWith(`workspaces/${input.workspaceId}/`) ||
       input.path.startsWith(`public/space/${input.workspaceId}/`)
     if (!isWorkspaceScopedPath) {
-      throw new ChatbotXException("Invalid file path", "invalidPath", 400)
+      throw new HiTechCloudOmnichannelException("Invalid file path", "invalidPath", 400)
     }
 
     const file = await mediaLibraryFileRepository.create({

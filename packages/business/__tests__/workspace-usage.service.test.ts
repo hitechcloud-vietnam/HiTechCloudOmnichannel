@@ -18,7 +18,7 @@ insertBuilder.onConflictDoUpdate.mockResolvedValue(undefined)
 
 const dbInsert = vi.fn(() => insertBuilder)
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     insert: dbInsert,
     query: { workspaceUsageModel: { findFirst: findFirstUsage } },
@@ -30,7 +30,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   })),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   workspaceUsageModel: {
     workspaceId: "workspaceId-column",
     contactsUsed: "contactsUsed-column",
@@ -50,7 +50,7 @@ const redisClient = {
 const cacheConnections = {
   useExisting: vi.fn(async () => redisClient),
 }
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   distributedStore: {
     get: vi.fn(async () => null),
     put: vi.fn(async () => undefined),

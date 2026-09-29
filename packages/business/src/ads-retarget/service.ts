@@ -1,8 +1,8 @@
-import { adsConversionChannelSchema } from "@chatbotx.io/database/schema"
+import { adsConversionChannelSchema } from "@hitechcloud.vn/database/schema"
 import {
   enqueueIntegrationJob,
   IntegrationJobAction,
-} from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/worker-config"
 import { z } from "zod"
 import { adsConversionExportSegments } from "../ads-conversion"
 import {

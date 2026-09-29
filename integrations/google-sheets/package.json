@@ -1,17 +1,17 @@
 {
-  "name": "@chatbotx.io/integration-google-sheets",
+  "name": "@hitechcloud.vn/integration-google-sheets",
   "version": "0.0.1",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@chatbotx.io/logger": "workspace:*",
-    "@chatbotx.io/sdk": "workspace:*",
+    "@hitechcloud.vn/logger": "workspace:*",
+    "@hitechcloud.vn/sdk": "workspace:*",
     "google-auth-library": "^10.6.2",
     "googleapis": "^171.4.0"
   },
   "devDependencies": {
-    "@chatbotx.io/typescript-config": "workspace:*",
-    "@chatbotx.io/vitest-config": "workspace:*",
+    "@hitechcloud.vn/typescript-config": "workspace:*",
+    "@hitechcloud.vn/vitest-config": "workspace:*",
     "@types/node": "^24.10.4",
     "msw": "^2.7.3",
     "typescript": "^5",

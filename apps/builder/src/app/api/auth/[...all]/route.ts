@@ -1,11 +1,11 @@
-import { SOCIAL_PROVIDERS, type SocialProvider } from "@chatbotx.io/auth/server"
+import { SOCIAL_PROVIDERS, type SocialProvider } from "@hitechcloud.vn/auth/server"
 import {
   resolveOAuthStateCallbackURL,
   resolveTenantByDomain,
   resolveTenantFromOAuthState,
   withTenant,
-} from "@chatbotx.io/auth/tenant"
-import { getPublicUrlFromRequest } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/auth/tenant"
+import { getPublicUrlFromRequest } from "@hitechcloud.vn/utils"
 import { auth } from "@/lib/auth/auth"
 import { getSocialAuthForTenant } from "@/lib/auth/auth-instances"
 import { rewriteAuthRedirectToPublicHost } from "@/lib/auth-redirect"
@@ -21,7 +21,7 @@ import { resolveRelayTarget } from "@/lib/oauth-referer"
  * root-tenant row only). So a reseller signs into the builder on both the platform URL and
  * their own domain; their sub-accounts only on the reseller's domain. This
  * fallback applies to every auth method, including OAuth social sign-in — see
- * the findOne reseller-owner fallback in `@chatbotx.io/auth` `server.ts`.
+ * the findOne reseller-owner fallback in `@hitechcloud.vn/auth` `server.ts`.
  *
  * OAuth still needs special tenant recovery: the provider redirects to a
  * redirect URI pinned per-credential (the reseller's own active custom domain

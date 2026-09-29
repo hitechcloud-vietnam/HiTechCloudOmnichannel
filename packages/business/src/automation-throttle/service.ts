@@ -1,9 +1,9 @@
-import type { AutomationThrottleType } from "@chatbotx.io/database/partials"
+import type { AutomationThrottleType } from "@hitechcloud.vn/database/partials"
 import {
   claimAutomationThrottle,
   releaseAutomationThrottle,
-} from "@chatbotx.io/database/repositories"
-import { distributedStore } from "@chatbotx.io/redis"
+} from "@hitechcloud.vn/database/repositories"
+import { distributedStore } from "@hitechcloud.vn/redis"
 import { BaseService } from "../base.service"
 import { logger } from "../logger"
 

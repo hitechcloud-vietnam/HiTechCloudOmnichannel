@@ -4,23 +4,23 @@ import {
   db,
   eq,
   relationsFilterToSQL,
-} from "@chatbotx.io/database/client"
-import { workspaceMemberRoles } from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/client"
+import { workspaceMemberRoles } from "@hitechcloud.vn/database/partials"
 import {
   type WorkspaceMemberPermissionsRow,
   workspaceMemberRepository,
-} from "@chatbotx.io/database/repositories"
-import { workspaceMemberModel } from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/repositories"
+import { workspaceMemberModel } from "@hitechcloud.vn/database/schema"
 import type {
   UserModel,
   WorkspaceMemberModel,
   WorkspaceModel,
-} from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/types"
 import {
   getPaginationWithDefaults,
   likeContains,
-} from "@chatbotx.io/database/utils"
-import { withCache } from "@chatbotx.io/redis"
+} from "@hitechcloud.vn/database/utils"
+import { withCache } from "@hitechcloud.vn/redis"
 import { BaseService } from "../base.service"
 import { notFoundException } from "../errors"
 import { logger } from "../logger"

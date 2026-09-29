@@ -2,7 +2,7 @@ import {
   COMMENT_AUTOMATION_PAYLOAD_TYPE,
   decodeButtonPayload,
   type MetadataPayload,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import { describe, expect, test, vi } from "vitest"
 import { getButtonTemplate } from "../src/handlers/message/outgoing-message/send-button"
 import { convertFlowStepMediaV2 } from "../src/handlers/message/outgoing-message/send-media-v2"

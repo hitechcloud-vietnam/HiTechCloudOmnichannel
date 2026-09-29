@@ -1,4 +1,4 @@
-import type { ContextQueue, HandleRequestProps } from "@chatbotx.io/sdk"
+import type { ContextQueue, HandleRequestProps } from "@hitechcloud.vn/sdk"
 import { describe, expect, test, vi } from "vitest"
 import { webhookHandler } from "../src/handlers/webhook"
 import type { ZaloConfig } from "../src/schema/definition"

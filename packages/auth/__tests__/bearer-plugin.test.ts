@@ -35,18 +35,18 @@ vi.mock("better-auth/plugins", () => ({
   oneTimeToken: () => ({ id: "one-time-token" }),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {},
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   accountModel: {},
   sessionModel: {},
   userModel: {},
   verificationModel: {},
 }))
 
-vi.mock("@chatbotx.io/business", () => ({
+vi.mock("@hitechcloud.vn/business", () => ({
   customDomainService: { listActiveDomains: vi.fn().mockResolvedValue([]) },
   platformCredentialService: {
     findDecryptedPlatform: vi.fn(),
@@ -55,12 +55,12 @@ vi.mock("@chatbotx.io/business", () => ({
   resolveTenantSettingsByDomain: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: () => "test-id",
   getPublicOriginFromRequest: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/mail", () => ({
+vi.mock("@hitechcloud.vn/mail", () => ({
   DEFAULT_FORGOT_PASSWORD_SUBJECT: "reset",
   DEFAULT_MAGIC_LINK_SUBJECT: "magic",
   DEFAULT_SIGNUP_SUBJECT: "signup",

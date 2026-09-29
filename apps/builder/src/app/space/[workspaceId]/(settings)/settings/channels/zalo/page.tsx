@@ -1,5 +1,5 @@
-import { platformCredentialService } from "@chatbotx.io/business"
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { platformCredentialService } from "@hitechcloud.vn/business"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { listIntegrationZalo } from "@/features/integration-zalo/queries"
 import { ZaloManage } from "@/features/integration-zalo/zalo-manage"

@@ -6,12 +6,12 @@ const mocks = vi.hoisted(() => ({
   transaction: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: { transaction: mocks.transaction },
   isUniqueViolationError: mocks.isUniqueViolationError,
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   INSTAGRAM_IG_ID_UNIQUE_CONSTRAINT: "IntegrationInstagram_igId_key",
   MESSENGER_PAGE_ID_UNIQUE_CONSTRAINT: "IntegrationMessenger_pageId_key",
   THREADS_USER_ID_UNIQUE_CONSTRAINT: "IntegrationThreads_threadsUserId_key",

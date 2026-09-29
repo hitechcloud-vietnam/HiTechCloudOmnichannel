@@ -1,5 +1,5 @@
 {
-  "name": "@chatbotx.io/integration-smtp",
+  "name": "@hitechcloud.vn/integration-smtp",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -8,13 +8,13 @@
     "./schema": "./src/schema.ts"
   },
   "dependencies": {
-    "@chatbotx.io/sdk": "workspace:*",
+    "@hitechcloud.vn/sdk": "workspace:*",
     "nodemailer": "^9.1.1",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@chatbotx.io/typescript-config": "workspace:*",
-    "@chatbotx.io/vitest-config": "workspace:*",
+    "@hitechcloud.vn/typescript-config": "workspace:*",
+    "@hitechcloud.vn/vitest-config": "workspace:*",
     "@types/node": "^24.10.4",
     "@types/nodemailer": "^8.0.0",
     "typescript": "^5",

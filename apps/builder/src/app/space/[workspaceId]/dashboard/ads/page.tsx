@@ -1,7 +1,7 @@
 import {
   adsEligibleChannelTypes,
   DEFAULT_ADS_CONVERSION_CHANNEL,
-} from "@chatbotx.io/utils/channel"
+} from "@hitechcloud.vn/utils/channel"
 import { redirect } from "next/navigation"
 import type { SearchParams } from "nuqs/server"
 import { buildRedirectSearch } from "@/lib/build-redirect-search"

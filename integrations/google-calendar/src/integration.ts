@@ -4,7 +4,7 @@ import {
   Integration,
   type IntegrationDefinition,
   SdkException,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { getBusyEvents } from "./apis/busy-events"
 import { verifyCalendarAccess } from "./apis/calendars"
 import { cancelEvent, createEvent } from "./apis/events"

@@ -11,8 +11,8 @@ import {
   notInArray,
   relationsFilterToSQL,
   sql,
-} from "@chatbotx.io/database/client"
-import { rootFolderId } from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/client"
+import { rootFolderId } from "@hitechcloud.vn/database/partials"
 import {
   contactInboxModel,
   contactModel,
@@ -20,16 +20,16 @@ import {
   contactToTagChannelModel,
   tagChannelModel,
   tagModel,
-} from "@chatbotx.io/database/schema"
-import type { TagChannelModel, TagModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/schema"
+import type { TagChannelModel, TagModel } from "@hitechcloud.vn/database/types"
 import {
   likeContains,
   parseOrderByAsObject,
   parsePagination,
-} from "@chatbotx.io/database/utils"
-import { emitTagApplied, emitTagRemoved } from "@chatbotx.io/events"
-import { withCache } from "@chatbotx.io/redis"
-import { createId, isNumericId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/utils"
+import { emitTagApplied, emitTagRemoved } from "@hitechcloud.vn/events"
+import { withCache } from "@hitechcloud.vn/redis"
+import { createId, isNumericId } from "@hitechcloud.vn/utils"
 import { adsConversionService } from "../ads-conversion/service"
 import { BaseService } from "../base.service"
 import { type ContactAccessScope, contactService } from "../contact"

@@ -1,4 +1,4 @@
-import type { MessageButtonTemplate } from "@chatbotx.io/sdk"
+import type { MessageButtonTemplate } from "@hitechcloud.vn/sdk"
 import { describe, expect, test, vi } from "vitest"
 import { convertFlowStepImage } from "../src/handlers/message/outgoing-message/send-image"
 import { convertFlowStepText } from "../src/handlers/message/outgoing-message/send-text"

@@ -49,26 +49,26 @@ vi.mock("../src/contact/service", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   findOrFail: (...args: unknown[]) => mockFindOrFail(...args),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   contactInboxModel: {},
   conversationModel: {},
   inboxModel: {},
 }))
 
-vi.mock("@chatbotx.io/event-bus", () => ({
+vi.mock("@hitechcloud.vn/event-bus", () => ({
   emit: (...args: unknown[]) => mockEmit(...args),
 }))
 
-vi.mock("@chatbotx.io/events", () => ({
+vi.mock("@hitechcloud.vn/events", () => ({
   emitContactCreated: (...args: unknown[]) => mockEmitContactCreated(...args),
 }))
 
-vi.mock("@chatbotx.io/utils", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@chatbotx.io/utils")>()
+vi.mock("@hitechcloud.vn/utils", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@hitechcloud.vn/utils")>()
   return {
     ...actual,
     createId: () => "generated-id",

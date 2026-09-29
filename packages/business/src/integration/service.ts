@@ -7,7 +7,7 @@ import {
   isNull,
   ne,
   or,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   integrationInstagramModel,
   integrationMessengerModel,
@@ -17,8 +17,8 @@ import {
   integrationTiktokModel,
   integrationWhatsappModel,
   integrationZaloModel,
-} from "@chatbotx.io/database/schema"
-import type { IntegrationModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/schema"
+import type { IntegrationModel } from "@hitechcloud.vn/database/types"
 import { BaseService } from "../base.service"
 
 export type TokenRefreshErrorChannel =
@@ -213,7 +213,7 @@ class IntegrationService extends BaseService {
   /**
    * Boolean gate for whether a workspace has any integration whose type is
    * in `integrationTypes` (e.g. an AI provider). The caller supplies the
-   * type list — business does not depend on `@chatbotx.io/ai`.
+   * type list — business does not depend on `@hitechcloud.vn/ai`.
    */
   async hasIntegrationOfTypes(props: {
     workspaceId: string

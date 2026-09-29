@@ -7,15 +7,15 @@ const { mockCreate, mockCreateId } = vi.hoisted(() => ({
   mockCreateId: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: { query: { savedReplyModel: {}, botFieldModel: {} } },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   savedReplyModel: { table: "SavedReply" },
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: mockCreateId,
 }))
 

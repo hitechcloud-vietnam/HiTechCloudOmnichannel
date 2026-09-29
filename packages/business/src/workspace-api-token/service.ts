@@ -1,18 +1,18 @@
-import { type DatabaseClient, db } from "@chatbotx.io/database/client"
+import { type DatabaseClient, db } from "@hitechcloud.vn/database/client"
 import type {
   TokenHash,
   WorkspaceApiTokenPermission,
   WorkspaceApiTokenScope,
-} from "@chatbotx.io/database/partials"
-import { workspaceApiTokenRepository } from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/partials"
+import { workspaceApiTokenRepository } from "@hitechcloud.vn/database/repositories"
 import type {
   WorkspaceApiTokenModel,
   WorkspaceModel,
-} from "@chatbotx.io/database/types"
-import { encryptUtils } from "@chatbotx.io/encryption"
-import { withCache } from "@chatbotx.io/redis"
+} from "@hitechcloud.vn/database/types"
+import { encryptUtils } from "@hitechcloud.vn/encryption"
+import { withCache } from "@hitechcloud.vn/redis"
 import { BaseService } from "../base.service"
-import { ChatbotXException } from "../errors"
+import { HiTechCloudOmnichannelException } from "../errors"
 import { logger } from "../logger"
 import { workspaceService } from "../workspace/service"
 import { generateWorkspaceToken } from "./credentials"
@@ -150,7 +150,7 @@ class WorkspaceApiTokenService extends BaseService {
         txClient,
       )
       if (count >= MAX_WORKSPACE_API_TOKENS) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           `Workspace has reached the maximum of ${MAX_WORKSPACE_API_TOKENS} API tokens`,
           "workspaceApiTokenLimitReached",
         )

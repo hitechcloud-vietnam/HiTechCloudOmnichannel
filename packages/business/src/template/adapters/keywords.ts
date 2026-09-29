@@ -1,5 +1,5 @@
-import { db } from "@chatbotx.io/database/client"
-import type { AutomatedResponseType } from "@chatbotx.io/database/partials"
+import { db } from "@hitechcloud.vn/database/client"
+import type { AutomatedResponseType } from "@hitechcloud.vn/database/partials"
 import { automatedResponseService } from "../../automated-response/service"
 import type {
   PatchTask,

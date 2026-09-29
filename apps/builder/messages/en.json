@@ -2560,7 +2560,7 @@
     },
     "limitedDataUse": {
       "label": "Limited Data Use (US privacy)",
-      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by ChatbotX."
+      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by HiTechCloudOmnichannel."
     },
     "actionSource": {
       "label": "Action source",
@@ -2888,7 +2888,7 @@
     "title": "General"
   },
   "facebookMarketingMessages": {
-    "deleteWarning": "This removes the campaign from ChatbotX only. The Meta message campaign keeps running — pause or delete it in Ads Manager.",
+    "deleteWarning": "This removes the campaign from HiTechCloudOmnichannel only. The Meta message campaign keeps running — pause or delete it in Ads Manager.",
     "title": "Facebook Marketing Messages",
     "description": "Drive engagement and sales with personalized promotional messages on Messenger.",
     "create": "Create New",
@@ -4275,7 +4275,7 @@
         "title": "Calling eligibility",
         "appSubscriptionMissing": "Configure the WhatsApp webhook for this app in the Meta App Dashboard first, then try again.",
         "appSubscriptionFailed": "Could not verify the app's 'calls' webhook subscription. Try again shortly.",
-        "callsNotSubscribed": "This app is not subscribed to the 'calls' webhook field, so call events cannot reach ChatbotX (Meta error 138018: technical pre-requisites are not met — ensure at least one app subscribed to the WABA also has the calls webhook field).",
+        "callsNotSubscribed": "This app is not subscribed to the 'calls' webhook field, so call events cannot reach HiTechCloudOmnichannel (Meta error 138018: technical pre-requisites are not met — ensure at least one app subscribed to the WABA also has the calls webhook field).",
         "fixButton": "Fix",
         "fixSuccess": "The app is now subscribed to WhatsApp call webhooks.",
         "manualIntegrationNotice": "This number was connected manually and has no app credentials here. Subscribe the 'calls' webhook field for your app in the Meta App Dashboard.",

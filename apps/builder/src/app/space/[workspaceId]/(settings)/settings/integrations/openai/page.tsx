@@ -1,4 +1,4 @@
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { OpenAIConnect } from "@/features/integration-openai/openai-connect"
 import { findIntegrationOpenAI } from "@/features/integration-openai/queries"

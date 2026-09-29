@@ -21,7 +21,7 @@ const mocks = vi.hoisted(() => ({
   isDatabaseError: vi.fn(() => false),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   messagingAdsConnectionRepository: {
     findForIntegration: mocks.findForIntegration,
     listForChannel: mocks.listForChannel,
@@ -32,16 +32,16 @@ vi.mock("@chatbotx.io/database/repositories", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   isDatabaseError: mocks.isDatabaseError,
 }))
 
-vi.mock("@chatbotx.io/encryption", () => ({
+vi.mock("@hitechcloud.vn/encryption", () => ({
   encryptUtils: { encryptObject: mocks.encryptObject },
 }))
 
-vi.mock("@chatbotx.io/utils", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@chatbotx.io/utils")>()
+vi.mock("@hitechcloud.vn/utils", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@hitechcloud.vn/utils")>()
   return { ...actual, createId: mocks.createId }
 })
 

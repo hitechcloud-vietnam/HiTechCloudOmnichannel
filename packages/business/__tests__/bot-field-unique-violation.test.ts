@@ -23,7 +23,7 @@ class UniqueViolationError extends Error {
   cause = { code: "23505" }
 }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       botFieldModel: { findFirst: mocks.findFirst },
@@ -54,21 +54,21 @@ vi.mock("@chatbotx.io/database/client", () => ({
   relationsFilterToSQL: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   rootFolderId: "root",
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   botFieldModel,
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   likeContains: (value: string) => value,
   parseOrderByAsObject: vi.fn(),
   parsePagination: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   withCache: (_key: string, fn: () => unknown) => fn(),
 }))
 
@@ -94,7 +94,7 @@ vi.mock("../src/errors", () => ({
     error.field = field
     return error
   },
-  ChatbotXException: class ChatbotXException extends Error {},
+  HiTechCloudOmnichannelException: class HiTechCloudOmnichannelException extends Error {},
 }))
 
 vi.mock("../src/folder/service", () => ({

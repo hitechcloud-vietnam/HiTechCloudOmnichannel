@@ -6,11 +6,11 @@ import {
   findOrFail,
   inArray,
   relationsFilterToSQL,
-} from "@chatbotx.io/database/client"
-import { spreadsheetModel } from "@chatbotx.io/database/schema"
-import type { SpreadsheetModel } from "@chatbotx.io/database/types"
-import { likeContains, parsePagination } from "@chatbotx.io/database/utils"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/client"
+import { spreadsheetModel } from "@hitechcloud.vn/database/schema"
+import type { SpreadsheetModel } from "@hitechcloud.vn/database/types"
+import { likeContains, parsePagination } from "@hitechcloud.vn/database/utils"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 
 type CreateSpreadsheetData = Omit<

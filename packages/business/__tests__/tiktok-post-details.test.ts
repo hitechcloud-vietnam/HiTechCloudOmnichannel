@@ -6,7 +6,7 @@ const mocks = vi.hoisted(() => ({
   loggerWarn: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: { integrationTiktokModel: { findFirst: vi.fn() } },
     transaction: vi.fn(),
@@ -19,11 +19,11 @@ vi.mock("@chatbotx.io/database/client", () => ({
   findOrFail: mocks.findOrFail,
 }))
 
-vi.mock("@chatbotx.io/integration-tiktok", async (importOriginal) => ({
+vi.mock("@hitechcloud.vn/integration-tiktok", async (importOriginal) => ({
   // `buildTiktokVideoUrl` and `tiktokCanListVideos` are pure — the point of
   // these tests is that the service reads the real scope list, so only the
   // network call is replaced.
-  ...(await importOriginal<typeof import("@chatbotx.io/integration-tiktok")>()),
+  ...(await importOriginal<typeof import("@hitechcloud.vn/integration-tiktok")>()),
   findTiktokVideo: mocks.findTiktokVideo,
 }))
 

@@ -1,10 +1,10 @@
-import { stepTypes } from "@chatbotx.io/flow-config"
+import { stepTypes } from "@hitechcloud.vn/flow-config"
 import {
   contentTypes,
   type MessageHandlers,
   type ReceivedMessageResult,
   type SendFlowStepData,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { z } from "zod"
 import { postSignedEnvelope } from "../../lib/delivery"
 import { logger } from "../../lib/logger"

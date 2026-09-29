@@ -1,9 +1,9 @@
-import { whatsappCallRepository } from "@chatbotx.io/database/repositories"
-import { uploader } from "@chatbotx.io/filesystem"
+import { whatsappCallRepository } from "@hitechcloud.vn/database/repositories"
+import { uploader } from "@hitechcloud.vn/filesystem"
 import {
   ALLOWED_RECORDING_CONTENT_TYPES,
   type RecordingContentType,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { notFoundException } from "../errors"
 
 const RECORDING_SIGNED_URL_TTL_SECONDS = 15 * 60
@@ -11,11 +11,11 @@ const PURGE_BATCH_SIZE_DEFAULT = 500
 
 /**
  * Re-exported for backward compatibility with existing importers —
- * @chatbotx.io/sdk's recording-content-type.ts is the single source of truth;
+ * @hitechcloud.vn/sdk's recording-content-type.ts is the single source of truth;
  * this module never redefines the map.
  */
-export type { RecordingContentType } from "@chatbotx.io/sdk"
-export { ALLOWED_RECORDING_CONTENT_TYPES } from "@chatbotx.io/sdk"
+export type { RecordingContentType } from "@hitechcloud.vn/sdk"
+export { ALLOWED_RECORDING_CONTENT_TYPES } from "@hitechcloud.vn/sdk"
 
 /** Meta-native recordings are Ogg/Opus; used whenever a caller does not name a type. */
 export const DEFAULT_RECORDING_CONTENT_TYPE: RecordingContentType = "audio/ogg"

@@ -1,4 +1,4 @@
-import type { OutgoingContact } from "@chatbotx.io/sdk"
+import type { OutgoingContact } from "@hitechcloud.vn/sdk"
 import { findRegisteredPersona } from "../../../lib/persona"
 import type { MessengerIntegrationDetail } from "../../../schema"
 

@@ -1,8 +1,8 @@
 "use client"
 
-import type { DashboardLoadStatus } from "@chatbotx.io/analytics-nextjs/provider/analysis-store"
-import { useAnalysisStore } from "@chatbotx.io/analytics-nextjs/provider/analysis-store-context"
-import { Card, CardContent } from "@chatbotx.io/ui/components/ui/card"
+import type { DashboardLoadStatus } from "@hitechcloud.vn/analytics-nextjs/provider/analysis-store"
+import { useAnalysisStore } from "@hitechcloud.vn/analytics-nextjs/provider/analysis-store-context"
+import { Card, CardContent } from "@hitechcloud.vn/ui/components/ui/card"
 import { useTranslations } from "next-intl"
 
 const isPending = (status: DashboardLoadStatus | undefined) =>

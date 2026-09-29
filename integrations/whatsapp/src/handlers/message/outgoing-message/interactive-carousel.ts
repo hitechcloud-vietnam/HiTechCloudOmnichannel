@@ -5,7 +5,7 @@ import {
   readCarouselCardUrlButton,
   readStrandedCarouselLinkButton,
   whatsappCarouselCardLimits,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import { chunk } from "remeda"
 import { logger } from "../../../lib/logger"
 import type {

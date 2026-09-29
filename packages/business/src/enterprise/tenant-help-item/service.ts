@@ -1,6 +1,6 @@
-import { and, asc, db, eq } from "@chatbotx.io/database/client"
-import { tenantHelpItemModel } from "@chatbotx.io/database/schema"
-import { invalidateCacheByTags, withCache } from "@chatbotx.io/redis"
+import { and, asc, db, eq } from "@hitechcloud.vn/database/client"
+import { tenantHelpItemModel } from "@hitechcloud.vn/database/schema"
+import { invalidateCacheByTags, withCache } from "@hitechcloud.vn/redis"
 import { notFoundException } from "../../errors"
 
 type HelpItemData = {

@@ -1,4 +1,4 @@
-import type { BotHandlers } from "@chatbotx.io/sdk"
+import type { BotHandlers } from "@hitechcloud.vn/sdk"
 import {
   addBranding,
   deleteProfileFields as deleteProfileFieldsApi,

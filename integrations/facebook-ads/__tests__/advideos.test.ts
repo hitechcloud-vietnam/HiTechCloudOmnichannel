@@ -1,4 +1,4 @@
-import { HttpResponse, http, server } from "@chatbotx.io/vitest-config/msw"
+import { HttpResponse, http, server } from "@hitechcloud.vn/vitest-config/msw"
 import { describe, expect, test } from "vitest"
 import { getAdVideoStatus, uploadAdVideo } from "../src/apis/advideos"
 import { DEFAULT_API_VERSION } from "../src/constants"

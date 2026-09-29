@@ -1,11 +1,11 @@
 import type {
   QuestionnaireQuestionImage,
   SupportedQuestionnaireQuestionType,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import type {
   QuestionnaireAnswerValue,
   QuestionnaireChoiceOption,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 
 export type QuestionnaireQuestionInput = {
   id?: string

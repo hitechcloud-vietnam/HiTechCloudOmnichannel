@@ -24,7 +24,7 @@ const mocks = vi.hoisted(() => ({
   invalidateCacheByTags: vi.fn(async () => undefined),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => {
+vi.mock("@hitechcloud.vn/database/client", () => {
   const dbMock = {
     query: {
       customFieldModel: {
@@ -53,16 +53,16 @@ vi.mock("@chatbotx.io/database/client", () => {
   return { db: dbMock, and: vi.fn(), eq: vi.fn(), inArray: vi.fn() }
 })
 
-vi.mock("@chatbotx.io/events", () => ({
+vi.mock("@hitechcloud.vn/events", () => ({
   emitCustomFieldChanged: mocks.emitCustomFieldChanged,
 }))
 
-vi.mock("@chatbotx.io/redis", async (importOriginal) => ({
+vi.mock("@hitechcloud.vn/redis", async (importOriginal) => ({
   ...(await importOriginal<Record<string, unknown>>()),
   invalidateCacheByTags: mocks.invalidateCacheByTags,
 }))
 
-vi.mock("@chatbotx.io/logger", () => ({
+vi.mock("@hitechcloud.vn/logger", () => ({
   getChildLogger: () => ({
     debug: vi.fn(),
     error: vi.fn(),

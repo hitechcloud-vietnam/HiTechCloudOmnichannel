@@ -57,7 +57,7 @@ const txHandle = {
   }),
 }
 
-vi.mock("@chatbotx.io/business/errors", () => ({
+vi.mock("@hitechcloud.vn/business/errors", () => ({
   notFoundException: (message: string) => new Error(message),
 }))
 
@@ -83,7 +83,7 @@ vi.mock("../src/contact-custom-field/normalize.ts", () => ({
   createSourceTimezoneResolver: () => vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: (...args: unknown[]) => args,
   eq: (...args: unknown[]) => args,
   db: {
@@ -96,13 +96,13 @@ vi.mock("@chatbotx.io/database/client", () => ({
 }))
 
 // This suite never exercises `listWithDefinitionByContact`/`findWithDefinition`,
-// but vitest's SSR deps optimizer bundles the whole `@chatbotx.io/database`
+// but vitest's SSR deps optimizer bundles the whole `@hitechcloud.vn/database`
 // package graph together once any subpath is imported, which otherwise pulls
 // in `contactCustomFieldRepository`'s real contact-filter query graph (needs
 // the real schema, conflicting with the narrow mock below).
-vi.mock("@chatbotx.io/database/repositories", () => ({}))
+vi.mock("@hitechcloud.vn/database/repositories", () => ({}))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   contactCustomFieldModel: {
     value: "value",
     contactId: "contactId",
@@ -112,19 +112,19 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   customFieldModel: {},
 }))
 
-vi.mock("@chatbotx.io/events", () => ({
+vi.mock("@hitechcloud.vn/events", () => ({
   emitCustomFieldChanged: (...args: unknown[]) => {
     callLog.push("emit")
     return mocks.emitCustomFieldChanged(...args)
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: (...args: unknown[]) =>
     mocks.invalidateCacheByTags(...args),
 }))
 
-vi.mock("@chatbotx.io/flow-config", () => ({
+vi.mock("@hitechcloud.vn/flow-config", () => ({
   FieldOperationType: {
     append: "append",
     prepend: "prepend",
@@ -134,8 +134,8 @@ vi.mock("@chatbotx.io/flow-config", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/utils", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@chatbotx.io/utils")>()
+vi.mock("@hitechcloud.vn/utils", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@hitechcloud.vn/utils")>()
   return { ...actual, createId: () => "generated-id" }
 })
 

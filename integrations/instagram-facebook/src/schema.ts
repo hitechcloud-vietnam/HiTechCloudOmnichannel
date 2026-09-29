@@ -1,4 +1,4 @@
-import type { Context, Oauth2AuthValue, Oauth2Config } from "@chatbotx.io/sdk"
+import type { Context, Oauth2AuthValue, Oauth2Config } from "@hitechcloud.vn/sdk"
 import { z } from "zod"
 
 export const INSTAGRAM_MESSAGE_METADATA = "SENT_FROM_CHATBOTX"

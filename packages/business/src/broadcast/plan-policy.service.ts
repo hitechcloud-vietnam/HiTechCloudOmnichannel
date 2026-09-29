@@ -1,4 +1,4 @@
-import { type DatabaseClient, sql } from "@chatbotx.io/database/client"
+import { type DatabaseClient, sql } from "@hitechcloud.vn/database/client"
 import {
   ACTIVE_BROADCAST_STATUSES,
   type BroadcastPlanPolicy,
@@ -9,8 +9,8 @@ import {
   resolveSendRateOverride as resolvePolicySendRateOverride,
   TRIAL_BROADCAST_PLAN_POLICY,
   UNRESTRICTED_BROADCAST_PLAN_POLICY,
-} from "@chatbotx.io/database/partials"
-import { broadcastRepository } from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/partials"
+import { broadcastRepository } from "@hitechcloud.vn/database/repositories"
 import { broadcastPlanLimitException } from "../errors"
 import { isCloud } from "../keys"
 import { userQuotaService } from "../user-quota/service"

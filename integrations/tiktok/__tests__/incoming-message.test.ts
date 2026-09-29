@@ -1,4 +1,4 @@
-import type { Context } from "@chatbotx.io/sdk"
+import type { Context } from "@hitechcloud.vn/sdk"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 import { receiveMessage } from "../src/handlers/message/incoming-message"
 import { logger } from "../src/lib/logger"

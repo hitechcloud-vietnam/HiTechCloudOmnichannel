@@ -1,6 +1,6 @@
-import { db, eq, inArray } from "@chatbotx.io/database/client"
-import { userModel } from "@chatbotx.io/database/schema"
-import type { UserModel } from "@chatbotx.io/database/types"
+import { db, eq, inArray } from "@hitechcloud.vn/database/client"
+import { userModel } from "@hitechcloud.vn/database/schema"
+import type { UserModel } from "@hitechcloud.vn/database/types"
 import { BaseService } from "../base.service"
 import { notFoundException } from "../errors"
 

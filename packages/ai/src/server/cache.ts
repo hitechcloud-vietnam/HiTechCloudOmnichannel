@@ -1,4 +1,4 @@
-import { invalidateCacheKeys, withCache } from "@chatbotx.io/redis"
+import { invalidateCacheKeys, withCache } from "@hitechcloud.vn/redis"
 import { env } from "../keys"
 import { getAIIntegrationInDB } from "./factory"
 

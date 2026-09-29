@@ -4,21 +4,21 @@ import {
   db,
   eq,
   inArray,
-} from "@chatbotx.io/database/client"
-import { inboxTeamMemberRepository } from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/client"
+import { inboxTeamMemberRepository } from "@hitechcloud.vn/database/repositories"
 import {
   inboxTeamMemberModel,
   inboxTeamModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import type {
   InboxTeamMemberModel,
   InboxTeamModel,
   UserModel,
-} from "@chatbotx.io/database/types"
-import { withCache } from "@chatbotx.io/redis"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/types"
+import { withCache } from "@hitechcloud.vn/redis"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../../base.service"
-import { ChatbotXException, notFoundException } from "../../errors"
+import { HiTechCloudOmnichannelException, notFoundException } from "../../errors"
 import { workspaceMemberService } from "../../workspace-member/service"
 
 type InboxTeamWithMembers = InboxTeamModel & {
@@ -99,7 +99,7 @@ class InboxTeamService extends BaseService {
     // through alongside them.
     const existingUserIds = new Set(existing.map((member) => member.userId))
     if (existingUserIds.size !== new Set(userIds).size) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "One or more userIds are not members of this workspace",
         "invalidTeamMember",
         400,
@@ -127,7 +127,7 @@ class InboxTeamService extends BaseService {
         })
         .returning()
       if (!created) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "Failed to create inbox team",
           "createFailed",
           500,

@@ -94,11 +94,11 @@ jobs:
         uses: docker/metadata-action@v6
         with:
           images: |
-            ${{ env.DOCKER_REGISTRY }}/${{ steps.image_namespace.outputs.owner_lc }}/chatbotx-builder
-            ${{ env.DOCKER_REGISTRY }}/${{ steps.image_namespace.outputs.owner_lc }}/chatbotx-worker
-            ${{ env.DOCKER_REGISTRY }}/${{ steps.image_namespace.outputs.owner_lc }}/chatbotx-realtime
-            ${{ env.DOCKER_REGISTRY }}/${{ steps.image_namespace.outputs.owner_lc }}/chatbotx-mcp
-            ${{ env.DOCKER_REGISTRY }}/${{ steps.image_namespace.outputs.owner_lc }}/chatbotx-javascript-executor
+            ${{ env.DOCKER_REGISTRY }}/${{ steps.image_namespace.outputs.owner_lc }}/hitechcloudomnichannel-builder
+            ${{ env.DOCKER_REGISTRY }}/${{ steps.image_namespace.outputs.owner_lc }}/hitechcloudomnichannel-worker
+            ${{ env.DOCKER_REGISTRY }}/${{ steps.image_namespace.outputs.owner_lc }}/hitechcloudomnichannel-realtime
+            ${{ env.DOCKER_REGISTRY }}/${{ steps.image_namespace.outputs.owner_lc }}/hitechcloudomnichannel-mcp
+            ${{ env.DOCKER_REGISTRY }}/${{ steps.image_namespace.outputs.owner_lc }}/hitechcloudomnichannel-javascript-executor
           tags: |
             type=ref,event=branch
             type=semver,pattern={{version}}
@@ -145,26 +145,26 @@ jobs:
           # A public repo makes larger-runner minutes free, not the runners
           # themselves. An unmatched label does not fail the job — it queues
           # until it times out — so this stays on `ubuntu-latest` until a real
-          # provisioned label is confirmed (`gh api /orgs/ChatbotXIO/actions/
+          # provisioned label is confirmed (`gh api /orgs/HiTechCloudOmnichannelIO/actions/
           # runner-groups` needs admin:org). Then it is a one-word change here.
           - label: builder
-            image: chatbotx-builder
+            image: hitechcloudomnichannel-builder
             dockerfile: ./apps/builder/docker/Dockerfile
             runner: ubuntu-latest
           - label: worker
-            image: chatbotx-worker
+            image: hitechcloudomnichannel-worker
             dockerfile: ./apps/worker/docker/Dockerfile
             runner: ubuntu-latest
           - label: realtime
-            image: chatbotx-realtime
+            image: hitechcloudomnichannel-realtime
             dockerfile: ./apps/realtime/docker/Dockerfile
             runner: ubuntu-latest
           - label: mcp-server
-            image: chatbotx-mcp
+            image: hitechcloudomnichannel-mcp
             dockerfile: ./apps/mcp-server/docker/Dockerfile
             runner: ubuntu-latest
           - label: javascript-executor
-            image: chatbotx-javascript-executor
+            image: hitechcloudomnichannel-javascript-executor
             dockerfile: ./apps/javascript-executor/docker/Dockerfile
             runner: ubuntu-latest
     # Baseline builder leg was ~16 min and the others ~1-2 min. Bounds a hung
@@ -261,23 +261,23 @@ jobs:
           REGISTRY="${{ env.DOCKER_REGISTRY }}/${{ needs.prepare-metadata.outputs.image_namespace }}"
           if [[ "${{ github.ref_name }}" == "main" ]]; then
             printf '%s\n' \
-              "Builder image (main): ${REGISTRY}/chatbotx-builder:main" \
-              "Worker image (main): ${REGISTRY}/chatbotx-worker:main" \
-              "Realtime image (main): ${REGISTRY}/chatbotx-realtime:main" \
-              "MCP Server image (main): ${REGISTRY}/chatbotx-mcp:main" \
-              "JavaScript Executor image (main): ${REGISTRY}/chatbotx-javascript-executor:main"
+              "Builder image (main): ${REGISTRY}/hitechcloudomnichannel-builder:main" \
+              "Worker image (main): ${REGISTRY}/hitechcloudomnichannel-worker:main" \
+              "Realtime image (main): ${REGISTRY}/hitechcloudomnichannel-realtime:main" \
+              "MCP Server image (main): ${REGISTRY}/hitechcloudomnichannel-mcp:main" \
+              "JavaScript Executor image (main): ${REGISTRY}/hitechcloudomnichannel-javascript-executor:main"
           elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
             printf '%s\n' \
-              "Builder image (version): ${REGISTRY}/chatbotx-builder:${VERSION}" \
-              "Builder image (latest): ${REGISTRY}/chatbotx-builder:latest" \
-              "Worker image (version): ${REGISTRY}/chatbotx-worker:${VERSION}" \
-              "Worker image (latest): ${REGISTRY}/chatbotx-worker:latest" \
-              "Realtime image (version): ${REGISTRY}/chatbotx-realtime:${VERSION}" \
-              "Realtime image (latest): ${REGISTRY}/chatbotx-realtime:latest" \
-              "MCP Server image (version): ${REGISTRY}/chatbotx-mcp:${VERSION}" \
-              "MCP Server image (latest): ${REGISTRY}/chatbotx-mcp:latest" \
-              "JavaScript Executor image (version): ${REGISTRY}/chatbotx-javascript-executor:${VERSION}" \
-              "JavaScript Executor image (latest): ${REGISTRY}/chatbotx-javascript-executor:latest"
+              "Builder image (version): ${REGISTRY}/hitechcloudomnichannel-builder:${VERSION}" \
+              "Builder image (latest): ${REGISTRY}/hitechcloudomnichannel-builder:latest" \
+              "Worker image (version): ${REGISTRY}/hitechcloudomnichannel-worker:${VERSION}" \
+              "Worker image (latest): ${REGISTRY}/hitechcloudomnichannel-worker:latest" \
+              "Realtime image (version): ${REGISTRY}/hitechcloudomnichannel-realtime:${VERSION}" \
+              "Realtime image (latest): ${REGISTRY}/hitechcloudomnichannel-realtime:latest" \
+              "MCP Server image (version): ${REGISTRY}/hitechcloudomnichannel-mcp:${VERSION}" \
+              "MCP Server image (latest): ${REGISTRY}/hitechcloudomnichannel-mcp:latest" \
+              "JavaScript Executor image (version): ${REGISTRY}/hitechcloudomnichannel-javascript-executor:${VERSION}" \
+              "JavaScript Executor image (latest): ${REGISTRY}/hitechcloudomnichannel-javascript-executor:latest"
           else
             echo "No publish tags for ref ${GITHUB_REF}."
           fi

@@ -1,4 +1,4 @@
-import { type FolderType, folderTypes } from "@chatbotx.io/database/partials"
+import { type FolderType, folderTypes } from "@hitechcloud.vn/database/partials"
 
 export function getFolderTypeFromFeature(
   featureName?: string,

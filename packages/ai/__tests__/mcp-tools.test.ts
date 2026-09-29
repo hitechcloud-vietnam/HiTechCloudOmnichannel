@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, test, vi } from "vitest"
 
 const { mockFindMany } = vi.hoisted(() => ({ mockFindMany: vi.fn() }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: { query: { aiMCPServerModel: { findMany: mockFindMany } } },
 }))
 

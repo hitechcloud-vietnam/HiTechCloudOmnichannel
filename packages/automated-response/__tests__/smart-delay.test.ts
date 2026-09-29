@@ -1,4 +1,4 @@
-import { SMART_RESPONSE_DELAY_OPTIONS } from "@chatbotx.io/database/partials"
+import { SMART_RESPONSE_DELAY_OPTIONS } from "@hitechcloud.vn/database/partials"
 import { describe, expect, test, vi } from "vitest"
 
 vi.mock("../src/keys", () => ({

@@ -1,4 +1,4 @@
-import { ChannelErrorCategory } from "@chatbotx.io/sdk"
+import { ChannelErrorCategory } from "@hitechcloud.vn/sdk"
 import { describe, expect, test } from "vitest"
 import { MessengerException } from "../src/exception"
 import {

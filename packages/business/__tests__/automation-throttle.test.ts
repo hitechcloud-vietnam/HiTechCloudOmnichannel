@@ -18,7 +18,7 @@ vi.mock("../src/logger", () => ({
 const existsMock = vi.fn(async () => false)
 const setNumberMock = vi.fn(async () => undefined)
 const deleteMock = vi.fn(async () => undefined)
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   distributedStore: {
     exists: existsMock,
     setNumber: setNumberMock,
@@ -28,7 +28,7 @@ vi.mock("@chatbotx.io/redis", () => ({
 
 const claimAutomationThrottleMock = vi.fn()
 const releaseAutomationThrottleMock = vi.fn(async () => undefined)
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   claimAutomationThrottle: claimAutomationThrottleMock,
   releaseAutomationThrottle: releaseAutomationThrottleMock,
 }))

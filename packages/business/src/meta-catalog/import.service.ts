@@ -1,8 +1,8 @@
-import { db } from "@chatbotx.io/database/client"
+import { db } from "@hitechcloud.vn/database/client"
 import {
   metaCatalogItemRepository,
   productRepository,
-} from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/repositories"
 import {
   getProductCategoryPathKey,
   productCategoryService,

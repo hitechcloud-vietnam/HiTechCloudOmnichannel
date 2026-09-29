@@ -1,6 +1,6 @@
 # White-label tenancy
 
-ChatbotX supports white-label resellers: a reseller runs a branded instance on
+HiTechCloudOmnichannel supports white-label resellers: a reseller runs a branded instance on
 their own domain, with their own end-customers, fully isolated from the platform
 and from every other reseller. This is modeled by a first-class **`Tenant`** table
 (the Auth0-tenant / Vercel-team / Stripe-Connect shape).
@@ -16,7 +16,7 @@ and from every other reseller. This is modeled by a first-class **`Tenant`** tab
 
 `ROOT_TENANT_ID` is defined in `packages/database/src/partials/shared.ts` (not in
 `tenant.ts`) so the eager constant sits outside the `tenant.ts` ↔ `auth-user.ts`
-circular FK; it is re-exported from `@chatbotx.io/database/schema`.
+circular FK; it is re-exported from `@hitechcloud.vn/database/schema`.
 
 ### Keys
 

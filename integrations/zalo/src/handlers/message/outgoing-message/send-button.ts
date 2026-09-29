@@ -6,8 +6,8 @@ import {
   extractMetadata,
   type MetadataPayload,
   ZALO_POSTBACK_TEXT_PREFIX,
-} from "@chatbotx.io/flow-config"
-import type { MessageButtonTemplate } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/flow-config"
+import type { MessageButtonTemplate } from "@hitechcloud.vn/sdk"
 import { chunk } from "remeda"
 import { MAX_BUTTONS } from "../../../constants"
 import type { ButtonPayload } from "../../../schema/webhook"

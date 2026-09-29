@@ -3,9 +3,9 @@ import {
   isPlatformAdmin,
   resolveTenantSettings,
   resolveTenantSettingsByDomain,
-} from "@chatbotx.io/business"
-import { fileContextTypes, uploadTypes } from "@chatbotx.io/database/partials"
-import { uploader } from "@chatbotx.io/filesystem"
+} from "@hitechcloud.vn/business"
+import { fileContextTypes, uploadTypes } from "@hitechcloud.vn/database/partials"
+import { uploader } from "@hitechcloud.vn/filesystem"
 import { type NextRequest, NextResponse } from "next/server"
 import { presignImportUploadRequest } from "@/features/import/schema/presign"
 import { assertWorkspaceSuperAdmin } from "@/lib/auth/assert-workspace-super-admin"

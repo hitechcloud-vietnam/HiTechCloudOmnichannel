@@ -2560,7 +2560,7 @@
     },
     "limitedDataUse": {
       "label": "Məlumatların məhdud istifadəsi (ABŞ-da məxfilik)",
-      "description": "ABŞ-ın müvafiq ştatlarındakı istifadəçilər üçün Meta-nın hadisə məlumatlarından istifadəsini məhdudlaşdırın. Meta istifadəçinin məkanını bu hadisədən avtomatik müəyyən edir; ChatbotX məkan məlumatı göndərmir."
+      "description": "ABŞ-ın müvafiq ştatlarındakı istifadəçilər üçün Meta-nın hadisə məlumatlarından istifadəsini məhdudlaşdırın. Meta istifadəçinin məkanını bu hadisədən avtomatik müəyyən edir; HiTechCloudOmnichannel məkan məlumatı göndərmir."
     },
     "actionSource": {
       "label": "Əməliyyat mənbəyi",
@@ -2888,7 +2888,7 @@
     "title": "Ümumi"
   },
   "facebookMarketingMessages": {
-    "deleteWarning": "Bu, kampaniyanı yalnız ChatbotX-dən çıxarır. Meta mesaj kampaniyası işləməyə davam edir, ona Ads Manager-də fasilə verin və ya onu silin.",
+    "deleteWarning": "Bu, kampaniyanı yalnız HiTechCloudOmnichannel-dən çıxarır. Meta mesaj kampaniyası işləməyə davam edir, ona Ads Manager-də fasilə verin və ya onu silin.",
     "title": "Facebook Marketing Messages",
     "description": "Messenger-də fərdiləşdirilmiş reklam mesajları ilə qarşılıqlı əlaqəni və satışları artırın.",
     "create": "Yenisini yarat",
@@ -4275,7 +4275,7 @@
         "title": "Zəng üçün uyğunluq",
         "appSubscriptionMissing": "Əvvəlcə Meta tətbiqinin idarə panelində bu tətbiq üçün WhatsApp Webhook-unu konfiqurasiya edin, sonra yenidən cəhd edin.",
         "appSubscriptionFailed": "Tətbiqin 'calls' Webhook abunəliyini doğrulamaq mümkün olmadı. Bir az sonra yenidən cəhd edin.",
-        "callsNotSubscribed": "Bu tətbiq 'calls' Webhook sahəsinə abunə deyil, buna görə zəng hadisələri ChatbotX-ə çata bilmir (Meta xətası 138018: texniki ilkin şərtlər ödənmir, WABA-ya abunə olan ən azı bir tətbiqin calls Webhook sahəsinə də abunə olduğuna əmin olun).",
+        "callsNotSubscribed": "Bu tətbiq 'calls' Webhook sahəsinə abunə deyil, buna görə zəng hadisələri HiTechCloudOmnichannel-ə çata bilmir (Meta xətası 138018: texniki ilkin şərtlər ödənmir, WABA-ya abunə olan ən azı bir tətbiqin calls Webhook sahəsinə də abunə olduğuna əmin olun).",
         "fixButton": "Düzəlt",
         "fixSuccess": "Tətbiq artıq WhatsApp zəng Webhook-larına abunədir.",
         "manualIntegrationNotice": "Bu nömrə əl ilə qoşulub və burada onun tətbiq giriş məlumatları yoxdur. Meta tətbiqinin idarə panelində tətbiqiniz üçün 'calls' Webhook sahəsinə abunə olun.",

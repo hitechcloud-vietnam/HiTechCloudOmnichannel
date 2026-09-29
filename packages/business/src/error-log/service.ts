@@ -1,22 +1,22 @@
-import { db, relationsFilterToSQL } from "@chatbotx.io/database/client"
-import { errorLogModel } from "@chatbotx.io/database/schema"
-import type { ContactModel, ErrorLogModel } from "@chatbotx.io/database/types"
+import { db, relationsFilterToSQL } from "@hitechcloud.vn/database/client"
+import { errorLogModel } from "@hitechcloud.vn/database/schema"
+import type { ContactModel, ErrorLogModel } from "@hitechcloud.vn/database/types"
 import {
   getPaginationWithDefaults,
   likeContains,
   parseOrderByAsObject,
-} from "@chatbotx.io/database/utils"
-import type { ErrorLogRecordedPayload } from "@chatbotx.io/event-bus"
-import { emit } from "@chatbotx.io/event-bus"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/utils"
+import type { ErrorLogRecordedPayload } from "@hitechcloud.vn/event-bus"
+import { emit } from "@hitechcloud.vn/event-bus"
+import { createId } from "@hitechcloud.vn/utils"
 import {
   type ErrorLogProvider,
   errorLogProviders,
   errorLogProvidersMatchingLabel,
   MAX_STACK_LENGTH,
   resolveStackFrames,
-} from "@chatbotx.io/utils/error-log"
-import { isNoRedisEnv } from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/utils/error-log"
+import { isNoRedisEnv } from "@hitechcloud.vn/worker-config"
 import { logger } from "../logger"
 import {
   SORTABLE_COLUMNS,

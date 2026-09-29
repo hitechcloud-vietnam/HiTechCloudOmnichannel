@@ -1,12 +1,12 @@
-import { db, sql } from "@chatbotx.io/database/client"
+import { db, sql } from "@hitechcloud.vn/database/client"
 // Narrow subpath, NOT the `queries` barrel: that barrel re-exports the
 // contact-filter modules, which dereference schema tables at module scope
-// and therefore crash any suite that mocks `@chatbotx.io/database/schema`
+// and therefore crash any suite that mocks `@hitechcloud.vn/database/schema`
 // narrowly. Analytics only needs the one timezone helper.
-import { resolvedTimezone } from "@chatbotx.io/database/queries/date-bucket"
-import { analyticsConversationEventModel } from "@chatbotx.io/database/schema"
-import type { EventBusMessageMetadata } from "@chatbotx.io/flow-config"
-import { createId } from "@chatbotx.io/utils"
+import { resolvedTimezone } from "@hitechcloud.vn/database/queries/date-bucket"
+import { analyticsConversationEventModel } from "@hitechcloud.vn/database/schema"
+import type { EventBusMessageMetadata } from "@hitechcloud.vn/flow-config"
+import { createId } from "@hitechcloud.vn/utils"
 import { shouldUseCagg } from "../../lib/time-series"
 import type {
   ConversationArchivedStats,

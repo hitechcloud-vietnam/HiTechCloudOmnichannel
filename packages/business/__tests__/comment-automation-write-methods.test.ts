@@ -10,7 +10,7 @@ const mocks = vi.hoisted(() => ({
   assertDeletable: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: (...args: unknown[]) => ({ and: args }),
   db: {
     query: {
@@ -31,9 +31,9 @@ vi.mock("@chatbotx.io/database/client", () => ({
   sql: (...args: unknown[]) => ({ sql: args }),
 }))
 
-vi.mock("@chatbotx.io/database/partials", async () => ({
+vi.mock("@hitechcloud.vn/database/partials", async () => ({
   // The real allowlist, so the pin below is tested against what ships. Read
-  // from the source file, not the barrel, which pulls in `@chatbotx.io/utils`
+  // from the source file, not the barrel, which pulls in `@hitechcloud.vn/utils`
   // (mocked below).
   commentAutomationChannelSupportsHideGif: (
     await vi.importActual<
@@ -47,13 +47,13 @@ vi.mock("@chatbotx.io/database/partials", async () => ({
   rootFolderId: "0",
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   contactInboxModel: {},
   commentAutomationModel: { name: "commentAutomation.name" },
   commentAutomationReplyModel: {},
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   getPaginationWithDefaults: (input: { page: number; perPage: number }) => ({
     limit: input.perPage,
     offset: (input.page - 1) * input.perPage,
@@ -62,7 +62,7 @@ vi.mock("@chatbotx.io/database/utils", () => ({
   parseOrderByAsObject: () => ({}),
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: () => "id-1",
 }))
 

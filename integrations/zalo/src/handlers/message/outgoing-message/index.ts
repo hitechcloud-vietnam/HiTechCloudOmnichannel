@@ -5,13 +5,13 @@ import {
   type SendMultipleImagesStepSchema,
   type SendTextStepSchema,
   stepTypes,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import type {
   MessageHandlers,
   OutgoingContact,
   OutgoingMessage,
   SendFlowStepProps,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { sendMessageToZaloOA, uploadAttachment } from "../../../api/message"
 import { mapToChannelError } from "../../../lib/error-mapper"
 import { logger } from "../../../lib/logger"

@@ -9,12 +9,12 @@ import { beforeEach, describe, expect, test, vi } from "vitest"
 // ---------------------------------------------------------------------------
 
 const findFirstQuota = vi.fn(async () => null as unknown)
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: { query: { userQuotaModel: { findFirst: findFirstQuota } } },
   eq: vi.fn(),
   sql: vi.fn(),
 }))
-vi.mock("@chatbotx.io/database/schema", () => ({ userQuotaModel: {} }))
+vi.mock("@hitechcloud.vn/database/schema", () => ({ userQuotaModel: {} }))
 
 // Metric → live-hash field order, as the store derives it from `usedColumns`.
 const METRIC_ORDER = [
@@ -37,7 +37,7 @@ const redisClient = {
 const cacheConnections = {
   useExisting: vi.fn(async () => redisClient),
 }
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   distributedStore: {
     get: vi.fn(async () => null),
     put: vi.fn(async () => undefined),
@@ -50,7 +50,7 @@ vi.mock("@chatbotx.io/redis", () => ({
 const { userQuotaService } = await import("../src/user-quota/service")
 
 const { distributedStore } = (await import(
-  "@chatbotx.io/redis"
+  "@hitechcloud.vn/redis"
 )) as unknown as {
   distributedStore: { delete: ReturnType<typeof vi.fn> }
 }

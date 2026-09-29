@@ -31,11 +31,11 @@ vi.mock("../src/logger", () => ({
   logger: { info: mocks.loggerInfo },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: mocks.invalidateCacheByTags,
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     update: mocks.update,
     select: mocks.select,
@@ -56,7 +56,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   ),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   tenantModel: { id: "tenant.id", brandName: "tenant.brandName" },
   userModel: { id: "user.id", name: "user.name", email: "user.email" },
   workspaceModel: {
@@ -69,7 +69,7 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   getPaginationWithDefaults: (input: {
     page?: number | null
     perPage?: number | null

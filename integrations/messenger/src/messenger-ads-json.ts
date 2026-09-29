@@ -4,7 +4,7 @@ import {
   type SendCardStepSchema,
   sendMessageNodeSchema,
   stepTypes,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import { chunk } from "remeda"
 import { getAttachmentTemplate } from "./handlers/message/outgoing-message/send-attachment"
 import { convertButtons } from "./handlers/message/outgoing-message/send-button"

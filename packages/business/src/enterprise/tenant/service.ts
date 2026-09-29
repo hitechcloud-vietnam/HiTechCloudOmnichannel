@@ -1,11 +1,11 @@
-import { db, eq } from "@chatbotx.io/database/client"
+import { db, eq } from "@hitechcloud.vn/database/client"
 import {
   type ChannelType,
   CREATABLE_CHANNELS,
   ROOT_TENANT_ID,
-} from "@chatbotx.io/database/partials"
-import { tenantModel } from "@chatbotx.io/database/schema"
-import { invalidateCacheByTags, withCache } from "@chatbotx.io/redis"
+} from "@hitechcloud.vn/database/partials"
+import { tenantModel } from "@hitechcloud.vn/database/schema"
+import { invalidateCacheByTags, withCache } from "@hitechcloud.vn/redis"
 import type { EmailTemplate } from "../../platform/settings"
 import { userQuotaService } from "../../user-quota/service"
 import { workspaceLifecycleService } from "../../workspace-lifecycle/service"

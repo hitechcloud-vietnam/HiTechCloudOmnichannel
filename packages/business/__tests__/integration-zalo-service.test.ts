@@ -31,7 +31,7 @@ const {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn((...conditions: unknown[]) => ({ conditions })),
   db: {
     delete: mockDelete,
@@ -42,11 +42,11 @@ vi.mock("@chatbotx.io/database/client", () => ({
   inArray: vi.fn((field: unknown, values: unknown[]) => ({ field, values })),
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   channelTypes: { enum: { zalo: "zalo" } },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   integrationZaloModel: { id: "id", openId: "openId" },
   tagChannelModel: {
     channelType: "channelType",
@@ -54,7 +54,7 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: mockInvalidateCacheByTags,
 }))
 

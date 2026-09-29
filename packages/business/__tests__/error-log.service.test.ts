@@ -1,9 +1,9 @@
-import { SdkException } from "@chatbotx.io/sdk"
+import { SdkException } from "@hitechcloud.vn/sdk"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 const emit = vi.fn()
 
-vi.mock("@chatbotx.io/event-bus", () => ({
+vi.mock("@hitechcloud.vn/event-bus", () => ({
   emit: (...args: unknown[]) => emit(...args),
 }))
 
@@ -12,7 +12,7 @@ vi.mock("@chatbotx.io/event-bus", () => ({
 // stub them so this file's existing tests, which never exercise
 // `listErrorLogs`, don't pay the cost of the real modules (and never
 // importOriginal the schema module — it opens a real DB connection).
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: { errorLogModel: { findMany: vi.fn() } },
     $count: vi.fn(),
@@ -20,11 +20,11 @@ vi.mock("@chatbotx.io/database/client", () => ({
   relationsFilterToSQL: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   errorLogModel: {},
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   getPaginationWithDefaults: vi.fn(() => ({ limit: 10, offset: 0 })),
   likeContains: (value: string) => `%${value}%`,
   parseOrderByAsObject: () => ({}),
@@ -33,14 +33,14 @@ vi.mock("@chatbotx.io/database/utils", () => ({
 // The service short-circuits under `isNoRedisEnv()` — true by default in
 // vitest — exactly as `defaultQueue` falls back to `fakeQueue`. These tests
 // exercise the real emit path, so they opt out of that fallback.
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   isNoRedisEnv: () => false,
 }))
 
-// `@chatbotx.io/utils` constructs a Snowflake singleton at module scope, which
+// `@hitechcloud.vn/utils` constructs a Snowflake singleton at module scope, which
 // throws "Place ID 0 already in use" when `vi.resetModules()` re-evaluates it.
 let nextId = 0
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: () => `id-${nextId++}`,
 }))
 

@@ -1,5 +1,5 @@
 name: "🐛 Bug Report"
-description: "Create a report to help us improve ChatbotX by fixing a bug."
+description: "Create a report to help us improve HiTechCloudOmnichannel by fixing a bug."
 title: "<Short description>"
 labels: ["bug", "triage"]
 body:
@@ -21,7 +21,7 @@ body:
     id: component
     attributes:
       label: "Affected Component"
-      description: "Which area of ChatbotX is experiencing the issue?"
+      description: "Which area of HiTechCloudOmnichannel is experiencing the issue?"
       options:
         - "📊 Analytics"
         - "💬 Inbox & Live Chat"
@@ -41,18 +41,18 @@ body:
     id: environment
     attributes:
       label: "Deployment Environment"
-      description: "How are you running ChatbotX?"
+      description: "How are you running HiTechCloudOmnichannel?"
       options:
         - "Self-Hosted (Docker Compose)"
         - "Self-Hosted (Source Code / Node.js)"
-        - "ChatbotX Cloud"
+        - "HiTechCloudOmnichannel Cloud"
     validations:
       required: true
 
   - type: input
     id: version
     attributes:
-      label: "ChatbotX Version"
+      label: "HiTechCloudOmnichannel Version"
       description: "Which version are you currently running? (Provide the version tag, e.g., v1.2.0)"
       placeholder: "e.g., v1.2.0 or 'latest'"
     validations:

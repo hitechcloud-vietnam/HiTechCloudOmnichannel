@@ -21,7 +21,7 @@ const mocks = vi.hoisted(() => ({
   workspaceFindById: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       integrationThreadsModel: {
@@ -43,7 +43,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   findOrFail: mocks.findOrFail,
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   integrationThreadsModel: {
     id: "IntegrationThreads.id",
     workspaceId: "IntegrationThreads.workspaceId",
@@ -107,8 +107,8 @@ describe("integrationThreadsService", () => {
       ownerId: "owner-1",
       auth: { token: "token" },
       threadsUserId: "user-1",
-      username: "chatbotx",
-      name: "ChatbotX",
+      username: "hitechcloudomnichannel",
+      name: "HiTechCloudOmnichannel",
     })
 
     expect(mocks.connectChannelIntegration).toHaveBeenCalledWith(
@@ -137,8 +137,8 @@ describe("integrationThreadsService", () => {
       ownerId: "owner-1",
       auth: { token: "token" },
       threadsUserId: "user-1",
-      username: "chatbotx",
-      name: "ChatbotX",
+      username: "hitechcloudomnichannel",
+      name: "HiTechCloudOmnichannel",
     })
 
     expect(mocks.runConnectTransaction).toHaveBeenCalledWith(
@@ -161,8 +161,8 @@ describe("integrationThreadsService", () => {
       ownerId: "owner-1",
       auth: { token: "token" },
       threadsUserId: "user-1",
-      username: "chatbotx",
-      name: "ChatbotX",
+      username: "hitechcloudomnichannel",
+      name: "HiTechCloudOmnichannel",
       tx: callerTx as never,
     })
 
@@ -177,8 +177,8 @@ describe("integrationThreadsService", () => {
       workspaceId: "workspace-1",
       id: "threads-1",
       auth: { token: "new-token" },
-      username: "chatbotx-updated",
-      name: "ChatbotX Updated",
+      username: "hitechcloudomnichannel-updated",
+      name: "HiTechCloudOmnichannel Updated",
     })
 
     expect(mocks.updateTable).toHaveBeenCalled()
@@ -314,8 +314,8 @@ describe("integrationThreadsService", () => {
       workspaceId: "workspace-1",
       id: "threads-1",
       auth: { tokens: { accessToken: "token-3" } },
-      username: "chatbotx",
-      name: "ChatbotX",
+      username: "hitechcloudomnichannel",
+      name: "HiTechCloudOmnichannel",
     })
     expect(mocks.updateSet).toHaveBeenCalledWith(
       expect.objectContaining({ tokenRefreshError: null }),
@@ -329,8 +329,8 @@ describe("integrationThreadsService", () => {
         workspaceId: "workspace-1",
         id: "threads-1",
         auth: { tokens: { accessToken: "token-2" } },
-        username: "chatbotx",
-        name: "ChatbotX",
+        username: "hitechcloudomnichannel",
+        name: "HiTechCloudOmnichannel",
       }),
     ).resolves.toBe(true)
 
@@ -340,8 +340,8 @@ describe("integrationThreadsService", () => {
         workspaceId: "workspace-1",
         id: "threads-missing",
         auth: { tokens: { accessToken: "token-2" } },
-        username: "chatbotx",
-        name: "ChatbotX",
+        username: "hitechcloudomnichannel",
+        name: "HiTechCloudOmnichannel",
       }),
     ).resolves.toBe(false)
   })

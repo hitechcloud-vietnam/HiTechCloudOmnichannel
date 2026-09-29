@@ -1,4 +1,4 @@
-import { integrationMessengerRepository } from "@chatbotx.io/database/repositories"
+import { integrationMessengerRepository } from "@hitechcloud.vn/database/repositories"
 import { z } from "zod"
 import { resolveCapiAccessToken } from "../token"
 import type { CapiReadinessAdapter } from "./types"

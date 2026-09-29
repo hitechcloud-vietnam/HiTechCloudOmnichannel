@@ -1,7 +1,7 @@
 ---
 name: builder-ui-i18n
 description: >-
-  Build or modify ChatbotX builder UI components, forms, tables, dialogs,
+  Build or modify HiTechCloudOmnichannel builder UI components, forms, tables, dialogs,
   shared UI usage, and translations. Use for user-facing React/Next.js UI in
   apps/builder, especially when labels, placeholders, menus, or validation
   messages are added or changed.
@@ -15,7 +15,7 @@ modules and pages.
 ## UI Stack
 
 - React 19 + Next.js app router.
-- Shared components come from `@chatbotx.io/ui/*`.
+- Shared components come from `@hitechcloud.vn/ui/*`.
 - Builder also has local components under `apps/builder/src/components`.
 - Forms use React Hook Form, Zod, and next-safe-action adapter.
 - URL state commonly uses `nuqs`.
@@ -90,16 +90,16 @@ meaningfully narrows the namespace blind spot.
 
 When building a form field, always choose the highest-priority option that fits:
 
-1. **Defined form field from `@chatbotx.io/ui/components/form/*`** — first choice.
+1. **Defined form field from `@hitechcloud.vn/ui/components/form/*`** — first choice.
    These components wrap `FormFieldWrapper` internally, handling label, optional
    marker, description, and `FormMessage` automatically. No manual
    `FormField`/`FormItem`/`FormControl` boilerplate needed.
-2. **Shadcn UI primitive from `@chatbotx.io/ui/components/ui/*`** wrapped in a
+2. **Shadcn UI primitive from `@hitechcloud.vn/ui/components/ui/*`** wrapped in a
    manual `FormField` + `FormItem` block — only when no defined field fits (e.g.
    custom composite inputs not covered by the list below).
 3. **Raw React/HTML element** — last resort only.
 
-Available defined fields (import from `@chatbotx.io/ui/components/form/<name>`):
+Available defined fields (import from `@hitechcloud.vn/ui/components/form/<name>`):
 
 | Component | Use for |
 |---|---|
@@ -122,9 +122,9 @@ All defined fields read `control` from `useFormContext`, so they only require a
 `<Form {...form}>` provider ancestor.
 
 ```typescript
-import { InputField } from "@chatbotx.io/ui/components/form/input-field"
-import { SelectField } from "@chatbotx.io/ui/components/form/select-field"
-import { InputNumberField } from "@chatbotx.io/ui/components/form/input-number-field"
+import { InputField } from "@hitechcloud.vn/ui/components/form/input-field"
+import { SelectField } from "@hitechcloud.vn/ui/components/form/select-field"
+import { InputNumberField } from "@hitechcloud.vn/ui/components/form/input-number-field"
 
 // CORRECT — uses defined form field
 <Form {...form}>

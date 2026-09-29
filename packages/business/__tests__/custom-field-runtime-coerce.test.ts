@@ -113,7 +113,7 @@ describe("runtime coercion — number (validate-or-throw, canonical output)", ()
     ["Infinity"],
     ["NaN"],
     ["abc"],
-  ])("throws a typed ChatbotXException for %s instead of persisting garbage", async (raw) => {
+  ])("throws a typed HiTechCloudOmnichannelException for %s instead of persisting garbage", async (raw) => {
     await expect(
       normalizeCustomFieldValueForStorage({
         type: "number",

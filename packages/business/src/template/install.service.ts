@@ -1,18 +1,18 @@
-import { type DatabaseClient, db, eq } from "@chatbotx.io/database/client"
+import { type DatabaseClient, db, eq } from "@hitechcloud.vn/database/client"
 import type {
   FolderType,
   TemplateCategory,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import {
   templateInstallationModel,
   templateInstalledResourceModel,
-} from "@chatbotx.io/database/schema"
-import { updateTriggerCache } from "@chatbotx.io/events"
+} from "@hitechcloud.vn/database/schema"
+import { updateTriggerCache } from "@hitechcloud.vn/events"
 import type {
   TemplateExport,
   TemplateFolderManifestEntry,
-} from "@chatbotx.io/flow-config"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/flow-config"
+import { createId } from "@hitechcloud.vn/utils"
 import { aiAgentService } from "../ai-agent/service"
 import { automatedResponseService } from "../automated-response/service"
 import { botFieldService } from "../bot-field/service"

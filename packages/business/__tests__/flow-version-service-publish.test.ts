@@ -32,7 +32,7 @@ const {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: { flowModel: { findFirst: mockFlowFindFirst } },
     transaction: mockDbTransaction,
@@ -42,7 +42,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   desc: (...args: unknown[]) => ({ desc: args }),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   flowModel: { id: "flowModel.id" },
   flowVersionModel: {
     id: "flowVersionModel.id",
@@ -51,13 +51,13 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   withCache: (_key: string, fn: () => Promise<unknown>): Promise<unknown> =>
     fn(),
   invalidateCacheByTags: mockInvalidateCacheTags,
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: mockCreateId,
 }))
 

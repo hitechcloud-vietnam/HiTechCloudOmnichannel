@@ -6,19 +6,19 @@ import {
   findOrFail,
   inArray,
   sql,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   channelTypes,
   type IntegrationUserInfo,
   type MessengerPersistentMenu,
-} from "@chatbotx.io/database/partials"
-import { integrationMessengerRepository } from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/partials"
+import { integrationMessengerRepository } from "@hitechcloud.vn/database/repositories"
 import {
   integrationMessengerModel,
   tagChannelModel,
-} from "@chatbotx.io/database/schema"
-import type { IntegrationMessengerModel } from "@chatbotx.io/database/types"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/schema"
+import type { IntegrationMessengerModel } from "@hitechcloud.vn/database/types"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import { notFoundException } from "../errors"
 import {

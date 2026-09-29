@@ -1,9 +1,9 @@
 ---
 name: reliability-concurrency
-description: Use when writing code that runs concurrently in ChatbotX — BullMQ worker consumers, sharded DB migrations, embedding replace-writes, or any multi-step operation that could be retried or run by two workers at once. Covers advisory locks, idempotency, transactions, and safe-retry patterns. Read before adding a worker job, migration runner, or replace-style write.
+description: Use when writing code that runs concurrently in HiTechCloudOmnichannel — BullMQ worker consumers, sharded DB migrations, embedding replace-writes, or any multi-step operation that could be retried or run by two workers at once. Covers advisory locks, idempotency, transactions, and safe-retry patterns. Read before adding a worker job, migration runner, or replace-style write.
 ---
 
-# Reliability & Concurrency (ChatbotX)
+# Reliability & Concurrency (HiTechCloudOmnichannel)
 
 Production runs multiple worker instances and re-tries failed jobs. Code that is correct single-threaded can corrupt data when two workers race or a job re-runs. Apply these patterns.
 

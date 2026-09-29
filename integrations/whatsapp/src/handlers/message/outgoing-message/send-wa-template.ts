@@ -2,13 +2,13 @@ import type {
   SendWaTemplateMessageStepSchema,
   WaTemplateButtonParam,
   WaTemplateCarouselCard,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import {
   encodeTemplateFlowToken,
   extractMetadata,
   TemplateFlowOrigin,
-} from "@chatbotx.io/flow-config"
-import type { MessageHandlers } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/flow-config"
+import type { MessageHandlers } from "@hitechcloud.vn/sdk"
 import { logger } from "../../../lib/logger"
 import type {
   TemplateMessage,

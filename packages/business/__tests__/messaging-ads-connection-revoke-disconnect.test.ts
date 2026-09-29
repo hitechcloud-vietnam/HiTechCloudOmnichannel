@@ -9,7 +9,7 @@ const mocks = vi.hoisted(() => ({
   error: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   messagingAdsConnectionRepository: {
     findForIntegration: mocks.findForIntegration,
     remove: mocks.remove,
@@ -20,7 +20,7 @@ vi.mock("../src/messaging-ads-connection/graph-cache", () => ({
   invalidateMessagingAdsCache: mocks.invalidateMessagingAdsCache,
 }))
 
-vi.mock("@chatbotx.io/encryption", () => ({
+vi.mock("@hitechcloud.vn/encryption", () => ({
   encryptedDataSchema: { parse: (value: unknown) => value },
   encryptUtils: {
     decryptObject: mocks.decryptObject,
@@ -28,7 +28,7 @@ vi.mock("@chatbotx.io/encryption", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/integration-facebook-ads", () => ({
+vi.mock("@hitechcloud.vn/integration-facebook-ads", () => ({
   facebookAdsAuthSchema: {},
   integration: {
     disconnect: mocks.disconnect,

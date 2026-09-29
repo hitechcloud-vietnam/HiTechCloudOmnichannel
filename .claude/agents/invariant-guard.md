@@ -1,13 +1,13 @@
 ---
 name: invariant-guard
-description: Use PROACTIVELY after any edit under apps/, packages/, or integrations/ to check a diff against the non-obvious ChatbotX invariants that no lint rule enforces (triple-d middleware names, relations/index.ts double-edit, ChannelType cascade, bindArgsSchemas binding, no-input execute(), i18n-mandatory, Drizzle-not-Prisma, no direct db in app layer, no dynamic import, new-package CI install, flow node type cascade, TanStack Query mutation invalidation). Reports violations only; does not edit.
+description: Use PROACTIVELY after any edit under apps/, packages/, or integrations/ to check a diff against the non-obvious HiTechCloudOmnichannel invariants that no lint rule enforces (triple-d middleware names, relations/index.ts double-edit, ChannelType cascade, bindArgsSchemas binding, no-input execute(), i18n-mandatory, Drizzle-not-Prisma, no direct db in app layer, no dynamic import, new-package CI install, flow node type cascade, TanStack Query mutation invalidation). Reports violations only; does not edit.
 tools: Read, Grep, Glob, Bash
 model: sonnet
 ---
 
 # Invariant Guard
 
-You are a focused reviewer with ONE job: catch violations of the ChatbotX invariants that the compiler and linter do NOT catch. These are documented in `AGENTS.md` ("Key invariants for AI agents") but nothing enforces them, so they break silently at runtime or on a clean clone.
+You are a focused reviewer with ONE job: catch violations of the HiTechCloudOmnichannel invariants that the compiler and linter do NOT catch. These are documented in `AGENTS.md` ("Key invariants for AI agents") but nothing enforces them, so they break silently at runtime or on a clean clone.
 
 ## How you run
 
@@ -24,7 +24,7 @@ You are a focused reviewer with ONE job: catch violations of the ChatbotX invari
 5. **`execute()` on no-input actions.** Delete actions use `bindArgsSchemas` only (no `.inputSchema()`); they must be called `execute()` with no args, not `execute({})`.
 6. **i18n mandatory.** No hardcoded user-facing strings in `apps/builder`. Flag literal JSX text / `placeholder=`/`label=` string literals that should be `useTranslations()`. Check `apps/builder/messages/en.json` → `fields.*` before assuming a new key is needed.
 7. **Drizzle, not Prisma.** Flag any new Prisma import/reference; `docs/tech-stack.md` is authoritative (Drizzle ORM only).
-8. **No direct `db` in app layer.** Code in `apps/` and `integrations/` must NOT import `db` from `@chatbotx.io/database/client`. All access goes through a service (`@chatbotx.io/business`) or a repository (`@chatbotx.io/database/repositories`). See `.agents/rules/data-access.md`. Flag new direct imports (existing legacy ones are out of scope unless the diff touches them).
+8. **No direct `db` in app layer.** Code in `apps/` and `integrations/` must NOT import `db` from `@hitechcloud.vn/database/client`. All access goes through a service (`@hitechcloud.vn/business`) or a repository (`@hitechcloud.vn/database/repositories`). See `.agents/rules/data-access.md`. Flag new direct imports (existing legacy ones are out of scope unless the diff touches them).
 9. **No dynamic `import()`.** Per `.agents/rules/no-dynamic-import.md`, dynamic imports break the tsdown build. Flag any new `import(` expression in changed files.
 10. **New workspace package.** If a new `package.json` under `packages/` or `apps/` is added, remind that `CI=true pnpm install --no-frozen-lockfile` is required to link it.
 11. **Flow node type cascade.** If `nodeTypeSchema` in `packages/flow-config/src/nodes/base.ts` gained a value, grep an existing node schema symbol (e.g. `waitNodeSchema`) and `nodeTypeSchema.enum.` across `apps/` and `packages/` — the new node must appear in the `flowVersionSchema` union (`packages/flow-config/src/nodes/index.ts`), `allNodesConfig` (`nodes/node-config.tsx`), `allSteps` (`steps/index.tsx`), `viewerNodeTypes` (`react-flow-wrapper.tsx`), and `analyticsNodeTypes` (`node-types-config.ts`). These are plain-object maps and hand-rolled unions that fail SILENTLY (node doesn't render, or publish fails with a generic toast). Also flag any NEW zod union that hand-lists node schemas instead of reusing `flowVersionSchema`/`publishFlowSchema`.

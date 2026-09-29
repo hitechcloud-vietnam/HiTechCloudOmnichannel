@@ -1,12 +1,12 @@
-import { count as countFn, db, sql } from "@chatbotx.io/database/client"
+import { count as countFn, db, sql } from "@hitechcloud.vn/database/client"
 import {
   contactModel,
   inboxModel,
   workspaceMemberModel,
   workspaceModel,
   workspaceUsageModel,
-} from "@chatbotx.io/database/schema"
-import type { WorkspaceUsageModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/schema"
+import type { WorkspaceUsageModel } from "@hitechcloud.vn/database/types"
 import { LiveCounterStore } from "../quota-shared/live-counter-store"
 
 export type ReconcileWorkspaceCounts = {
@@ -108,7 +108,7 @@ class WorkspaceUsageService {
    * `sync-user-quota.ts` reconcileWorkspaceUsage: the workspace-id list plus
    * the three grouped counts (contacts / channels / team members) the
    * display-only `WorkspaceUsage` breakdown is re-grounded from. MAC counts
-   * come from `@chatbotx.io/analytics`'s `macRepository`, which stays called
+   * come from `@hitechcloud.vn/analytics`'s `macRepository`, which stays called
    * from the handler and is merged with this method's result there.
    */
   async loadReconcileCounts(): Promise<ReconcileWorkspaceCounts> {

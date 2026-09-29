@@ -29,12 +29,12 @@ const {
   }
 })
 
-vi.mock("@chatbotx.io/analytics", () => ({
+vi.mock("@hitechcloud.vn/analytics", () => ({
   broadcastAnalyticsService: { getContacts: vi.fn() },
   sequenceAnalyticsService: { getContacts: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     transaction: mockDbTransaction,
   },
@@ -56,10 +56,10 @@ vi.mock("@chatbotx.io/database/client", () => ({
 // `normalizeBroadcastSendLimit` (and every other export this file doesn't
 // stub) comes from the real module via `vi.importActual` — a pure Phase-1
 // helper, so this test can't drift from its actual implementation.
-vi.mock("@chatbotx.io/database/partials", async () => {
+vi.mock("@hitechcloud.vn/database/partials", async () => {
   const actual = await vi.importActual<
-    typeof import("@chatbotx.io/database/partials")
-  >("@chatbotx.io/database/partials")
+    typeof import("@hitechcloud.vn/database/partials")
+  >("@hitechcloud.vn/database/partials")
   return {
     ...actual,
     broadcastStatuses: { enum: { draft: "draft", scheduled: "scheduled" } },
@@ -76,7 +76,7 @@ vi.mock("@chatbotx.io/database/partials", async () => {
   }
 })
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   broadcastModel: {},
   broadcastTargetModel: {},
   contactInboxModel: {},
@@ -89,19 +89,19 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   whatsappMessageTemplateModel: {},
 }))
 
-vi.mock("@chatbotx.io/database/queries", () => ({
+vi.mock("@hitechcloud.vn/database/queries", () => ({
   buildContactInboxContactFilterSQL: vi.fn(),
   contactInboxInteractedWithin24hSQL: vi.fn(),
   pruneEmailPhoneFilterConditions: vi.fn((filter: unknown) => filter),
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   chunkById: vi.fn(),
   likeContains: vi.fn(),
   getPaginationWithDefaults: vi.fn(() => ({ limit: 10, offset: 0 })),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   broadcastRepository: {
     listWithRelations: vi.fn(),
     count: vi.fn(),
@@ -111,14 +111,14 @@ vi.mock("@chatbotx.io/database/repositories", () => ({
   },
 }))
 
-// The real `@chatbotx.io/database/partials` barrel (imported actual above)
+// The real `@hitechcloud.vn/database/partials` barrel (imported actual above)
 // pulls in other partials (e.g. automated-response.ts) that need real utils
 // exports such as `zodBigintAsString`, so this mock spreads the actual
 // module rather than replacing it outright.
-vi.mock("@chatbotx.io/utils", async () => {
+vi.mock("@hitechcloud.vn/utils", async () => {
   const actual =
-    await vi.importActual<typeof import("@chatbotx.io/utils")>(
-      "@chatbotx.io/utils",
+    await vi.importActual<typeof import("@hitechcloud.vn/utils")>(
+      "@hitechcloud.vn/utils",
     )
   return {
     ...actual,
@@ -126,7 +126,7 @@ vi.mock("@chatbotx.io/utils", async () => {
   }
 })
 
-vi.mock("@chatbotx.io/flow-config", () => ({
+vi.mock("@hitechcloud.vn/flow-config", () => ({
   findTemplateStartStep: vi.fn(),
   stepTypes: {
     enum: {
@@ -159,7 +159,7 @@ vi.mock("../src/broadcast/plan-policy.service", () => ({
 }))
 
 const { pruneEmailPhoneFilterConditions } = await import(
-  "@chatbotx.io/database/queries"
+  "@hitechcloud.vn/database/queries"
 )
 const { broadcastPlanPolicyService } = await import(
   "../src/broadcast/plan-policy.service"

@@ -6,13 +6,13 @@ import {
   eq,
   inArray,
   or,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   automatedResponseTypeByFolderType,
   type FolderType,
   folderTypes,
   rootFolderId,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import {
   automatedResponseModel,
   commentAutomationModel,
@@ -25,11 +25,11 @@ import {
   tagModel,
   triggerModel,
   webhookModel,
-} from "@chatbotx.io/database/schema"
-import type { FolderModel } from "@chatbotx.io/database/types"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/schema"
+import type { FolderModel } from "@hitechcloud.vn/database/types"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
-import { ChatbotXException, notFoundException } from "../errors"
+import { HiTechCloudOmnichannelException, notFoundException } from "../errors"
 
 type ListFoldersInput = {
   workspaceId: string
@@ -136,7 +136,7 @@ class FolderService extends BaseService {
         where: { id: data.parentId },
       })
       if (!parentFolder) {
-        throw new ChatbotXException("Parent folder does not exist!")
+        throw new HiTechCloudOmnichannelException("Parent folder does not exist!")
       }
       paths = [...parentFolder.paths, parentFolder.id]
     }
@@ -227,7 +227,7 @@ class FolderService extends BaseService {
       .where(scopeConditions)
 
     if (!resources || resources.length === 0) {
-      throw new ChatbotXException("Resource not found")
+      throw new HiTechCloudOmnichannelException("Resource not found")
     }
 
     const resolvedFolderId =
@@ -268,7 +268,7 @@ class FolderService extends BaseService {
       case folderTypes.enum.igStory:
         return igStoryAutomationModel
       default:
-        throw new ChatbotXException("Invalid folder type")
+        throw new HiTechCloudOmnichannelException("Invalid folder type")
     }
   }
 }

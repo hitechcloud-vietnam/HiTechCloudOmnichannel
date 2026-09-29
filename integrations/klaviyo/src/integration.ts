@@ -2,7 +2,7 @@ import {
   Integration,
   type IntegrationDefinition,
   SdkException,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { z } from "zod"
 import { klaviyoRequest } from "./client"
 import {

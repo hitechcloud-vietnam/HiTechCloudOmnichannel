@@ -1,5 +1,5 @@
 {
-  "name": "@chatbotx.io/auth",
+  "name": "@hitechcloud.vn/auth",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,19 +11,19 @@
     "./tenant": "./src/tenant-context.ts"
   },
   "dependencies": {
-    "@chatbotx.io/business": "workspace:*",
-    "@chatbotx.io/database": "workspace:*",
-    "@chatbotx.io/logger": "workspace:*",
-    "@chatbotx.io/mail": "workspace:*",
-    "@chatbotx.io/sdk": "workspace:*",
-    "@chatbotx.io/utils": "workspace:*",
+    "@hitechcloud.vn/business": "workspace:*",
+    "@hitechcloud.vn/database": "workspace:*",
+    "@hitechcloud.vn/logger": "workspace:*",
+    "@hitechcloud.vn/mail": "workspace:*",
+    "@hitechcloud.vn/sdk": "workspace:*",
+    "@hitechcloud.vn/utils": "workspace:*",
     "@t3-oss/env-core": "^0.13.11",
     "better-auth": "^1.6.22",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@chatbotx.io/typescript-config": "workspace:*",
-    "@chatbotx.io/vitest-config": "workspace:*",
+    "@hitechcloud.vn/typescript-config": "workspace:*",
+    "@hitechcloud.vn/vitest-config": "workspace:*",
     "typescript": "^5",
     "vitest": "^4.1.0"
   },

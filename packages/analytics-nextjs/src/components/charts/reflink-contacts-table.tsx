@@ -1,18 +1,18 @@
 "use client"
 
-import type { FlowNodeContactData } from "@chatbotx.io/analytics"
+import type { FlowNodeContactData } from "@hitechcloud.vn/analytics"
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@chatbotx.io/ui/components/ui/avatar"
+} from "@hitechcloud.vn/ui/components/ui/avatar"
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
   PaginationNext,
   PaginationPrevious,
-} from "@chatbotx.io/ui/components/ui/pagination"
+} from "@hitechcloud.vn/ui/components/ui/pagination"
 import {
   Table,
   TableBody,
@@ -20,7 +20,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@chatbotx.io/ui/components/ui/table"
+} from "@hitechcloud.vn/ui/components/ui/table"
 import { useLocale, useTranslations } from "next-intl"
 import { useAnalysisStore } from "../../provider/analysis-store-context"
 import { formatDateWithYear } from "../../utils/date-format"

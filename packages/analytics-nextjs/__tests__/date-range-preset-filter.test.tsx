@@ -15,7 +15,7 @@ vi.mock("next-intl", () => ({
   useLocale: () => "en",
 }))
 
-vi.mock("@chatbotx.io/ui/components/ui/dialog", () => ({
+vi.mock("@hitechcloud.vn/ui/components/ui/dialog", () => ({
   Dialog: ({ children, open }: { children: ReactNode; open: boolean }) =>
     open ? <div data-testid="custom-range-dialog">{children}</div> : null,
   DialogContent: ({ children }: { children: ReactNode }) => children,
@@ -24,7 +24,7 @@ vi.mock("@chatbotx.io/ui/components/ui/dialog", () => ({
   DialogTitle: ({ children }: { children: ReactNode }) => children,
 }))
 
-vi.mock("@chatbotx.io/ui/components/ui/dropdown-menu", () => ({
+vi.mock("@hitechcloud.vn/ui/components/ui/dropdown-menu", () => ({
   DropdownMenu: ({ children }: { children: ReactNode }) => children,
   DropdownMenuContent: ({ children }: { children: ReactNode }) => children,
   DropdownMenuGroup: ({ children }: { children: ReactNode }) => children,
@@ -54,7 +54,7 @@ vi.mock("@chatbotx.io/ui/components/ui/dropdown-menu", () => ({
 const FAKE_CUSTOM_FROM = new Date("2026-08-01T12:00:00.000Z")
 const FAKE_CUSTOM_TO = new Date("2026-08-05T12:00:00.000Z")
 
-vi.mock("@chatbotx.io/ui/components/ui/calendar", () => ({
+vi.mock("@hitechcloud.vn/ui/components/ui/calendar", () => ({
   Calendar: ({
     onSelect,
   }: {

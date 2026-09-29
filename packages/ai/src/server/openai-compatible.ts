@@ -1,6 +1,6 @@
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible"
-import type { IntegrationOpenaiCompatibleModel } from "@chatbotx.io/database/types"
-import { secretTextAuthSchema } from "@chatbotx.io/sdk"
+import type { IntegrationOpenaiCompatibleModel } from "@hitechcloud.vn/database/types"
+import { secretTextAuthSchema } from "@hitechcloud.vn/sdk"
 
 class InvalidOpenaiCompatibleAuthError extends Error {
   constructor() {

@@ -1,6 +1,6 @@
 # Enterprise licensing
 
-How the **enterprise** edition of ChatbotX is unlocked and verified.
+How the **enterprise** edition of HiTechCloudOmnichannel is unlocked and verified.
 
 - **Model:** offline, GitLab-EE style. The license is a signed token verified
   fully offline against a public key baked into the app — **no phone-home, no
@@ -82,7 +82,7 @@ Compact JWS, header `{ alg: "EdDSA", kid, typ: "JWT" }`. Payload
 | Claim          | Meaning                                                          |
 | -------------- | -------------------------------------------------------------- |
 | `sub`          | Customer id (JWT subject).                                       |
-| `iss`          | Must equal `https://chatbotx.io/licenses` (`LICENSE_ISSUER`).    |
+| `iss`          | Must equal `https://hitechcloud.vn/licenses` (`LICENSE_ISSUER`).    |
 | `iat` / `exp`  | Issued-at / expiry (unix seconds). Required.                     |
 | `nbf`          | Optional not-before.                                             |
 | `customerName` | Human-readable customer name.                                    |
@@ -149,7 +149,7 @@ To gate an individual capability, add a server-side check at the read/creation
 point (all DB access stays in services — never in `apps/`):
 
 ```ts
-import { hasFeature, getLimit } from "@chatbotx.io/business"
+import { hasFeature, getLimit } from "@hitechcloud.vn/business"
 
 if (!(await hasFeature("customDomain"))) {
   // omit / block the feature

@@ -1,5 +1,5 @@
-import { tenantService } from "@chatbotx.io/business"
-import { ROOT_TENANT_ID } from "@chatbotx.io/database/schema"
+import { tenantService } from "@hitechcloud.vn/business"
+import { ROOT_TENANT_ID } from "@hitechcloud.vn/database/schema"
 import { getTranslations } from "next-intl/server"
 import { Suspense } from "react"
 import { PlatformBrandingSettings } from "@/enterprise/features/platform-branding/platform-branding-settings"

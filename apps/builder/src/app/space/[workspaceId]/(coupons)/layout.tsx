@@ -1,4 +1,4 @@
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import type { ReactNode } from "react"
 import { CouponTabs } from "@/features/coupons/components/coupon-tabs"

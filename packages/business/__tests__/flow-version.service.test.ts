@@ -22,7 +22,7 @@ const {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       flowVersionModel: {
@@ -38,7 +38,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   eq: (...args: unknown[]) => ({ eq: args }),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   flowVersionModel: {
     flowId: "flowVersionModel.flowId",
     workspaceId: "flowVersionModel.workspaceId",

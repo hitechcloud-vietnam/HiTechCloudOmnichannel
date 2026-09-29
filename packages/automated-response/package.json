@@ -1,5 +1,5 @@
 {
-  "name": "@chatbotx.io/automated-response",
+  "name": "@hitechcloud.vn/automated-response",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -8,21 +8,21 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@chatbotx.io/analytics": "workspace:*",
-    "@chatbotx.io/business": "workspace:*",
-    "@chatbotx.io/database": "workspace:*",
-    "@chatbotx.io/events": "workspace:*",
-    "@chatbotx.io/logger": "workspace:*",
-    "@chatbotx.io/redis": "workspace:*",
-    "@chatbotx.io/utils": "workspace:*",
-    "@chatbotx.io/variables": "workspace:*",
-    "@chatbotx.io/worker-config": "workspace:*",
+    "@hitechcloud.vn/analytics": "workspace:*",
+    "@hitechcloud.vn/business": "workspace:*",
+    "@hitechcloud.vn/database": "workspace:*",
+    "@hitechcloud.vn/events": "workspace:*",
+    "@hitechcloud.vn/logger": "workspace:*",
+    "@hitechcloud.vn/redis": "workspace:*",
+    "@hitechcloud.vn/utils": "workspace:*",
+    "@hitechcloud.vn/variables": "workspace:*",
+    "@hitechcloud.vn/worker-config": "workspace:*",
     "@t3-oss/env-core": "^0.13.11",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@chatbotx.io/typescript-config": "workspace:*",
-    "@chatbotx.io/vitest-config": "workspace:*",
+    "@hitechcloud.vn/typescript-config": "workspace:*",
+    "@hitechcloud.vn/vitest-config": "workspace:*",
     "@types/node": "~24.12.2",
     "typescript": "^5",
     "vitest": "^4.1.0"

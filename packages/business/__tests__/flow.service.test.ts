@@ -63,7 +63,7 @@ const transaction = {
   insert: mockInsert,
 }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     transaction: mockDbTransaction,
     insert: mockInsert,
@@ -78,26 +78,26 @@ vi.mock("@chatbotx.io/database/client", () => ({
 // The repositories barrel transitively pulls in the contact-filter query
 // builders, which read schema models this file does not mock. flowService only
 // uses `listIdsByIds` (covered elsewhere), so a stub keeps that chain out.
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   flowRepository: { listIdsByIds: vi.fn(async () => []) },
   whatsappMessageTemplateRepository: { listIdsByIntegration: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   rootFolderId: "0",
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   flowAnalyticsSessionModel,
   flowModel,
   flowVersionModel,
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: mockCreateId,
 }))
 
-vi.mock("@chatbotx.io/flow-config", () => ({
+vi.mock("@hitechcloud.vn/flow-config", () => ({
   remapFlowGraphReferences: vi.fn(),
   sendMessageNodeDefaultFn: vi.fn(() => ({ id: "default-node-1" })),
   // Mirror the REAL runtime values (O01–O05) — a made-up shape would silently

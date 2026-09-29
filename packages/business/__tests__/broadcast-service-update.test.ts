@@ -14,12 +14,12 @@ const { mockFindOrFail, mockUpdate, mockUpdateSet, mockDispatchAuditRecord } =
     }
   })
 
-vi.mock("@chatbotx.io/analytics", () => ({
+vi.mock("@hitechcloud.vn/analytics", () => ({
   broadcastAnalyticsService: { getContacts: vi.fn() },
   sequenceAnalyticsService: { getContacts: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: { update: mockUpdate },
   and: (...args: unknown[]) => ({ __and: args }),
   asc: vi.fn(),
@@ -36,12 +36,12 @@ vi.mock("@chatbotx.io/database/client", () => ({
   sql: Object.assign(vi.fn(), { raw: vi.fn() }),
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   broadcastStatuses: { enum: { draft: "draft", scheduled: "scheduled" } },
   findBroadcastChannelCapability: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   broadcastModel: { id: "broadcast.id" },
   contactInboxModel: {},
   contactModel: {},
@@ -53,19 +53,19 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   whatsappMessageTemplateModel: {},
 }))
 
-vi.mock("@chatbotx.io/database/queries", () => ({
+vi.mock("@hitechcloud.vn/database/queries", () => ({
   buildContactInboxContactFilterSQL: vi.fn(),
   contactInboxInteractedWithin24hSQL: vi.fn(),
   pruneEmailPhoneFilterConditions: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   chunkById: vi.fn(),
   likeContains: vi.fn(),
   getPaginationWithDefaults: vi.fn(() => ({ limit: 10, offset: 0 })),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   broadcastRepository: {
     listWithRelations: vi.fn(),
     count: vi.fn(),
@@ -75,11 +75,11 @@ vi.mock("@chatbotx.io/database/repositories", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: vi.fn(() => "generated-id"),
 }))
 
-vi.mock("@chatbotx.io/flow-config", () => ({
+vi.mock("@hitechcloud.vn/flow-config", () => ({
   findTemplateStartStep: vi.fn(),
   stepTypes: {
     enum: {

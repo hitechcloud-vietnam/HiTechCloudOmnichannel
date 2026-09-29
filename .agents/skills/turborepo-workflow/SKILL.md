@@ -83,16 +83,16 @@ pnpm check:unused
 ## Package Management
 
 - Use `pnpm add <pkg> --filter <workspace>` to add dependencies to specific workspace
-- Workspace packages use `@chatbotx.io/*` scope
-- Cross-workspace imports must go through a package's `exports` map: `@chatbotx.io/database/client`, `@chatbotx.io/ui/components/ui/button` (the UI package exports `./components/*`, `./lib/*`, `./hooks/*`, … — there is no bare `@chatbotx.io/ui/button`).
+- Workspace packages use `@hitechcloud.vn/*` scope
+- Cross-workspace imports must go through a package's `exports` map: `@hitechcloud.vn/database/client`, `@hitechcloud.vn/ui/components/ui/button` (the UI package exports `./components/*`, `./lib/*`, `./hooks/*`, … — there is no bare `@hitechcloud.vn/ui/button`).
 - Package exports are defined in each `package.json` `exports` field
 
 ### Adding a New Workspace Package
 
 When creating a new package (e.g. `integrations/<channel>/`):
 
-1. Create `package.json` with `"name": "@chatbotx.io/<name>"`
-2. Add `"@chatbotx.io/<name>": "workspace:*"` to consumer `package.json` dependencies
+1. Create `package.json` with `"name": "@hitechcloud.vn/<name>"`
+2. Add `"@hitechcloud.vn/<name>": "workspace:*"` to consumer `package.json` dependencies
 3. Run `CI=true pnpm install --no-frozen-lockfile` to link the package
    - **MUST** use `CI=true` to avoid TTY confirmation prompt in non-interactive shells
    - Without this step, imports of the new package will fail with `Cannot find module`

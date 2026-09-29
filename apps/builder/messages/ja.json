@@ -2546,7 +2546,7 @@
     "title": "一般"
   },
   "facebookMarketingMessages": {
-    "deleteWarning": "これはChatbotXからキャンペーンを削除するだけです。Metaのメッセージキャンペーンは実行され続けます — 広告マネージャで一時停止または削除してください。",
+    "deleteWarning": "これはHiTechCloudOmnichannelからキャンペーンを削除するだけです。Metaのメッセージキャンペーンは実行され続けます — 広告マネージャで一時停止または削除してください。",
     "title": "Facebookマーケティングメッセージ",
     "description": "Messengerでパーソナライズされたプロモーションメッセージを送り、エンゲージメントと売上を高めます。",
     "create": "新規作成",
@@ -4024,7 +4024,7 @@
         "title": "通話の利用資格",
         "appSubscriptionMissing": "まずMetaアプリダッシュボードでこのアプリのWhatsApp Webhookを設定してから、再度お試しください。",
         "appSubscriptionFailed": "アプリの「calls」Webhookのサブスクリプションを確認できませんでした。しばらくしてから再度お試しください。",
-        "callsNotSubscribed": "このアプリは「calls」Webhookフィールドをサブスクライブしていないため、通話イベントがChatbotXに届きません（Metaエラー138018：技術的な前提条件が満たされていません。WABAにサブスクライブしているアプリのうち、少なくとも1つが通話Webhookフィールドを持つようにしてください）。",
+        "callsNotSubscribed": "このアプリは「calls」Webhookフィールドをサブスクライブしていないため、通話イベントがHiTechCloudOmnichannelに届きません（Metaエラー138018：技術的な前提条件が満たされていません。WABAにサブスクライブしているアプリのうち、少なくとも1つが通話Webhookフィールドを持つようにしてください）。",
         "fixButton": "修正",
         "fixSuccess": "アプリはWhatsApp通話Webhookに正常にサブスクライブされました。",
         "manualIntegrationNotice": "この番号は手動で接続されており、ここにはアプリの認証情報がありません。Metaアプリダッシュボードでアプリの「calls」Webhookフィールドをサブスクライブしてください。",
@@ -6298,7 +6298,7 @@
     },
     "limitedDataUse": {
       "label": "Limited Data Use (US privacy)",
-      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by ChatbotX."
+      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by HiTechCloudOmnichannel."
     },
     "actionSource": {
       "label": "アクションのソース",

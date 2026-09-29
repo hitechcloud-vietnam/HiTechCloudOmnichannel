@@ -1,12 +1,12 @@
 name: "🚀 Feature Request"
-description: "Submit a proposal for a new feature for ChatbotX."
+description: "Submit a proposal for a new feature for HiTechCloudOmnichannel."
 title: "<Short description>"
 labels: ["enhancement", "feature-request"]
 body:
   - type: markdown
     attributes:
       value: |
-        Welcome to the ChatbotX Feature Requests! Your ideas help us build a better omnichannel agentic chatbot platform. 💡
+        Welcome to the HiTechCloudOmnichannel Feature Requests! Your ideas help us build a better omnichannel agentic chatbot platform. 💡
 
   - type: checkboxes
     id: search
@@ -21,7 +21,7 @@ body:
     id: feature_area
     attributes:
       label: "Feature Area"
-      description: "Which area of ChatbotX does this feature request relate to?"
+      description: "Which area of HiTechCloudOmnichannel does this feature request relate to?"
       options:
         - "📊 Analytics"
         - "💬 Inbox & Live Chat"

@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
-const BUILDER_URL = "https://app.chatbotx.io"
+const BUILDER_URL = "https://app.hitechcloud.vn"
 
 const mocks = vi.hoisted(() => ({
   env: {
-    NEXT_PUBLIC_BUILDER_URL: "https://app.chatbotx.io",
+    NEXT_PUBLIC_BUILDER_URL: "https://app.hitechcloud.vn",
     NEXT_PUBLIC_STORAGE_URL: undefined as string | undefined,
     FORCE_PUBLIC_HTTPS: false,
     REALTIME_BROADCAST_SECRET: "secret",
@@ -82,7 +82,7 @@ describe("resolveTenantSettings — enterprise entitlement gating", () => {
 
     const settings = await resolveTenantSettings({ workspaceId: "workspace-1" })
 
-    expect(settings.name).toBe("ChatbotX")
+    expect(settings.name).toBe("HiTechCloudOmnichannel")
     expect(settings.logoLightUrl).toBe(`${BUILDER_URL}/brand/logo_white.svg`)
     expect(settings.logoDarkUrl).toBe(`${BUILDER_URL}/brand/logo_black.svg`)
     expect(settings.faviconUrl).toBe(`${BUILDER_URL}/brand/icon_black.svg`)

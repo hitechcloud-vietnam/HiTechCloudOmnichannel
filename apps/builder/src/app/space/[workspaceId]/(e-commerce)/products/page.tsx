@@ -3,7 +3,7 @@ import {
   metaCatalogSyncRunService,
   productCategoryService,
   productService,
-} from "@chatbotx.io/business"
+} from "@hitechcloud.vn/business"
 import { listImports } from "@/features/import/queries/list-imports.queries"
 import { CategorySidebar } from "@/features/product-categories/components/category-sidebar"
 import { toSafeMetaCatalogConnection } from "@/features/products/lib/meta-catalog-connection"

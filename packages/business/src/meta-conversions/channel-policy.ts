@@ -1,7 +1,7 @@
 import {
   type MetaCapiActionSource,
   metaCapiActionSourcePolicy,
-} from "@chatbotx.io/utils/meta-capi"
+} from "@hitechcloud.vn/utils/meta-capi"
 import type { MetaConversionsChannel } from "./schema"
 
 type ChannelIdentityRules = {

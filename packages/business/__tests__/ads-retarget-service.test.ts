@@ -13,7 +13,7 @@ vi.mock("../src/integration-facebook-ads/graph-reads", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   IntegrationJobAction: {
     syncRetargetAudience: "syncRetargetAudience",
   },

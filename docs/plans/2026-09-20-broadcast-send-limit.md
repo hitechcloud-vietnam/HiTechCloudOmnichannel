@@ -163,7 +163,7 @@ rebuilt.
   `ContactOnBroadcast` writes (hand-off `sent` flips, delivery/seen webhook
   updates) the way a plain `CREATE INDEX` / `DROP INDEX` would on a table
   with hundreds of millions of rows.
-- Generated with `pnpm --filter @chatbotx.io/database make:migration <name>`
+- Generated with `pnpm --filter @hitechcloud.vn/database make:migration <name>`
   and hand-edited (the 64-way per-partition expansion is generated once with
   a throwaway script and the resulting SQL committed); **not applied
   automatically** (repo rule). Re-run safety is handled by the self-recovery
@@ -290,7 +290,7 @@ business layer only:
 async claimDispatchWindow(input: { broadcastId: string }): Promise<boolean>
 ```
 Key `broadcast:${broadcastId}:dispatch-window`, TTL `BROADCAST_DISPATCH_WINDOW_MS`,
-via `casStore.setIfAbsent` from `@chatbotx.io/redis` (already a business dependency).
+via `casStore.setIfAbsent` from `@hitechcloud.vn/redis` (already a business dependency).
 
 `listPendingRecipients` adds `orderBy: { contactInboxId: "asc" }` — see 3.5.
 
@@ -309,7 +309,7 @@ via `casStore.setIfAbsent` from `@chatbotx.io/redis` (already a business depende
      (`packages/database/src/client.ts:21-25`); at 1000 recipients a pool
      waiter can time out instead of queueing. Replace it with
      `mapWithConcurrency(rows, BROADCAST_HANDOFF_CONCURRENCY, handOffRecipient)`
-     from `@chatbotx.io/utils` (the helper `purge-broadcasts.ts:104` already
+     from `@hitechcloud.vn/utils` (the helper `purge-broadcasts.ts:104` already
      uses), `BROADCAST_HANDOFF_CONCURRENCY = 100` as a worker-local tuning
      constant next to the purge ones. Semantics are preserved exactly: the
      helper isolates per-item rejections as settled results, so the handler
@@ -479,7 +479,7 @@ broadcasts.detail.sendLimit              "Limit"
 fields.sendRatePerMinute.label           "Messages per minute"
 ```
 
-Worker tests mock `@chatbotx.io/database/partials` with `vi.importActual`, so
+Worker tests mock `@hitechcloud.vn/database/partials` with `vi.importActual`, so
 the new pure helpers resolve unchanged there; existing assertions on
 `limit: 500` stay valid because a null `sendRatePerMinute` resolves to 500.
 
@@ -671,8 +671,8 @@ broadcast), and `pg_stat_user_indexes` showing scans on
    schema/API/adapters/store → detail dialog → public resource → i18n ×20).
 
 ### Phase 5 — Verification
-10. `pnpm lint`; `check-types` for `builder`, `worker`, `@chatbotx.io/business`,
-    `@chatbotx.io/database`; `pnpm test` for the four workspaces; `invariant-guard`
+10. `pnpm lint`; `check-types` for `builder`, `worker`, `@hitechcloud.vn/business`,
+    `@hitechcloud.vn/database`; `pnpm test` for the four workspaces; `invariant-guard`
     agent pass on the diff.
 10b. Query-plan gate (against a seeded local database, after migration 2 is
     applied): `EXPLAIN (ANALYZE, BUFFERS)` of the prepare chunk query for

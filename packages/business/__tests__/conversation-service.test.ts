@@ -46,9 +46,9 @@ const {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", async (importOriginal) => {
+vi.mock("@hitechcloud.vn/database/client", async (importOriginal) => {
   const original =
-    await importOriginal<typeof import("@chatbotx.io/database/client")>()
+    await importOriginal<typeof import("@hitechcloud.vn/database/client")>()
   return {
     ...original,
     db: {
@@ -72,14 +72,14 @@ vi.mock("@chatbotx.io/database/client", async (importOriginal) => {
     },
   }
 })
-vi.mock("@chatbotx.io/database/repositories", async (importOriginal) => {
+vi.mock("@hitechcloud.vn/database/repositories", async (importOriginal) => {
   const original =
-    await importOriginal<typeof import("@chatbotx.io/database/repositories")>()
+    await importOriginal<typeof import("@hitechcloud.vn/database/repositories")>()
   return { ...original, createMessageRepository }
 })
-vi.mock("@chatbotx.io/worker-config", async (importOriginal) => {
+vi.mock("@hitechcloud.vn/worker-config", async (importOriginal) => {
   const original =
-    await importOriginal<typeof import("@chatbotx.io/worker-config")>()
+    await importOriginal<typeof import("@hitechcloud.vn/worker-config")>()
   return { ...original, chatQueue: { add: chatQueueAdd } }
 })
 vi.mock("../src/contact-inbox/service", () => ({
@@ -89,7 +89,7 @@ vi.mock("../src/contact-inbox/service", () => ({
     updateTracking,
   },
 }))
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags,
   withCache: vi.fn((_key: string, fn: () => unknown) => fn()),
   createRedisConnection: vi.fn(() => ({ on: vi.fn() })),
@@ -103,9 +103,9 @@ vi.mock("../src/platform/realtime-broadcast", () => ({
 // `conversationService` now imports `contactService` (for the location write
 // inside `recordInboundActivity`), which pulls the analytics package into the
 // import chain; its MAC tracking service reads `bloomFilter` off
-// `@chatbotx.io/redis` at module scope. Stub analytics rather than partially
+// `@hitechcloud.vn/redis` at module scope. Stub analytics rather than partially
 // mocking redis — matches the contact-service tests' convention.
-vi.mock("@chatbotx.io/analytics", () => ({
+vi.mock("@hitechcloud.vn/analytics", () => ({
   macAnalyticsService: {},
 }))
 

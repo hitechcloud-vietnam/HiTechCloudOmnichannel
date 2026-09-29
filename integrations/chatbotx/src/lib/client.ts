@@ -1,4 +1,4 @@
-import type { Context } from "@chatbotx.io/sdk"
+import type { Context } from "@hitechcloud.vn/sdk"
 import ky, { type KyInstance } from "ky"
 import type { ChatbotxAuthValue } from "../auth"
 

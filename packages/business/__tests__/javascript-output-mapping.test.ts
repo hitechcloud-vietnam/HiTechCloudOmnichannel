@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest"
-import type { ChatbotXException } from "../src/errors"
+import type { HiTechCloudOmnichannelException } from "../src/errors"
 import {
   collectJavascriptOutputWrites,
   completeJavascriptMapping,
@@ -115,7 +115,7 @@ describe("collectJavascriptOutputWrites", () => {
         mapping: gpsMapping,
       }),
     ).toThrowError(
-      expect.objectContaining<Partial<ChatbotXException>>({
+      expect.objectContaining<Partial<HiTechCloudOmnichannelException>>({
         code: "javascriptOutputNoMatchingFields",
       }),
     )
@@ -130,7 +130,7 @@ describe("collectJavascriptOutputWrites", () => {
         mapping: [],
       }),
     ).toThrowError(
-      expect.objectContaining<Partial<ChatbotXException>>({
+      expect.objectContaining<Partial<HiTechCloudOmnichannelException>>({
         code: "javascriptOutputFieldRequired",
       }),
     )

@@ -1,17 +1,17 @@
-import { and, db, eq, inArray } from "@chatbotx.io/database/client"
-import type { FolderType } from "@chatbotx.io/database/partials"
+import { and, db, eq, inArray } from "@hitechcloud.vn/database/client"
+import type { FolderType } from "@hitechcloud.vn/database/partials"
 import {
   conditionRepository,
   listWebhooksPaginated,
-} from "@chatbotx.io/database/repositories"
-import { conditionModel, webhookModel } from "@chatbotx.io/database/schema"
-import type { ConditionModel, WebhookModel } from "@chatbotx.io/database/types"
-import { removeWebhookCache, updateWebhookCache } from "@chatbotx.io/events"
-import { distributedLock } from "@chatbotx.io/redis"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/repositories"
+import { conditionModel, webhookModel } from "@hitechcloud.vn/database/schema"
+import type { ConditionModel, WebhookModel } from "@hitechcloud.vn/database/types"
+import { removeWebhookCache, updateWebhookCache } from "@hitechcloud.vn/events"
+import { distributedLock } from "@hitechcloud.vn/redis"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import {
-  ChatbotXException,
+  HiTechCloudOmnichannelException,
   notFoundException,
   validationException,
 } from "../errors"
@@ -143,7 +143,7 @@ class WebhookService extends BaseService {
     try {
       await assertPublicUrl(url, "Webhook URL")
     } catch (error) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         error instanceof Error ? error.message : "Invalid webhook URL",
         "invalidRequestData",
         422,
@@ -159,7 +159,7 @@ class WebhookService extends BaseService {
           eq(webhookModel.workspaceId, workspaceId),
         )
         if (count >= MAX_WEBHOOKS_PER_WORKSPACE) {
-          throw new ChatbotXException(
+          throw new HiTechCloudOmnichannelException(
             `Workspace has reached the maximum of ${MAX_WEBHOOKS_PER_WORKSPACE} webhooks`,
             "webhookLimitReached",
           )

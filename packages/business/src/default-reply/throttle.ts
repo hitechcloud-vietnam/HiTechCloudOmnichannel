@@ -1,4 +1,4 @@
-import type { DefaultReplyFrequency } from "@chatbotx.io/database/partials"
+import type { DefaultReplyFrequency } from "@hitechcloud.vn/database/partials"
 import {
   type AutomationThrottleClaim,
   automationThrottleService,

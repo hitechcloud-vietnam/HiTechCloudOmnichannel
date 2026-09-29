@@ -1,8 +1,8 @@
-import { DrizzleQueryError } from "@chatbotx.io/database/client"
-import { ChannelError, ChannelErrorCategory } from "@chatbotx.io/sdk"
+import { DrizzleQueryError } from "@hitechcloud.vn/database/client"
+import { ChannelError, ChannelErrorCategory } from "@hitechcloud.vn/sdk"
 import { describe, expect, test } from "vitest"
 import {
-  ChatbotXException,
+  HiTechCloudOmnichannelException,
   notFoundException,
   toPublicErrorMessage,
   validationException,
@@ -25,7 +25,7 @@ describe("toPublicErrorMessage", () => {
     const dumped =
       'Failed query: select "id" from "MetaCatalogItem" params: 11628104474492929'
 
-    expect(toPublicErrorMessage(new ChatbotXException(dumped), FALLBACK)).toBe(
+    expect(toPublicErrorMessage(new HiTechCloudOmnichannelException(dumped), FALLBACK)).toBe(
       FALLBACK,
     )
   })
@@ -33,7 +33,7 @@ describe("toPublicErrorMessage", () => {
   test("keeps an explicitly public application message", () => {
     const message = "(#100) The parameter item_type is required."
 
-    expect(toPublicErrorMessage(new ChatbotXException(message), FALLBACK)).toBe(
+    expect(toPublicErrorMessage(new HiTechCloudOmnichannelException(message), FALLBACK)).toBe(
       message,
     )
   })
@@ -51,7 +51,7 @@ describe("toPublicErrorMessage", () => {
   })
 
   test("redacts credentials and strips control characters from trusted messages", () => {
-    const message = new ChatbotXException(
+    const message = new HiTechCloudOmnichannelException(
       "Reconnect failed\nBearer abc.def access_token=secret password=hunter2",
     )
 
@@ -61,7 +61,7 @@ describe("toPublicErrorMessage", () => {
   })
 
   test("redacts JSON credentials, client secrets, and Basic authorization", () => {
-    const message = new ChatbotXException(
+    const message = new HiTechCloudOmnichannelException(
       'Meta said {"access_token":"SECRET"} client_secret=ANOTHER authorization: Basic dXNlcjpwYXNz',
     )
 
@@ -71,7 +71,7 @@ describe("toPublicErrorMessage", () => {
   })
 
   test("redacts additional token variants in query strings", () => {
-    const message = new ChatbotXException(
+    const message = new HiTechCloudOmnichannelException(
       "Request failed?client_id_token=SECRET&id_token=OTHER&private_key=KEY",
     )
 
@@ -82,7 +82,7 @@ describe("toPublicErrorMessage", () => {
 
   test("caps trusted public messages", () => {
     expect(
-      toPublicErrorMessage(new ChatbotXException("x".repeat(800)), FALLBACK),
+      toPublicErrorMessage(new HiTechCloudOmnichannelException("x".repeat(800)), FALLBACK),
     ).toHaveLength(500)
   })
 
@@ -155,7 +155,7 @@ describe("toPublicErrorMessage", () => {
     // The URL in these messages is the one the operator configured; the
     // connect row redacts it (see connect-outcome.test.ts) because there the
     // URL is our own OAuth endpoint, not theirs.
-    const error = new ChatbotXException(
+    const error = new HiTechCloudOmnichannelException(
       "Failed to POST https://api.customer.example/hook — 500",
     )
 
@@ -165,7 +165,7 @@ describe("toPublicErrorMessage", () => {
   })
 
   test("still redacts credentials that ride along with a URL", () => {
-    const error = new ChatbotXException(
+    const error = new HiTechCloudOmnichannelException(
       "GET https://graph.facebook.com/v21.0/me?access_token=SECRET failed",
     )
 
@@ -190,7 +190,7 @@ describe("validationException", () => {
   test("carries the validation code at status 422", () => {
     const error = validationException("name", "Name is already taken")
 
-    expect(error).toBeInstanceOf(ChatbotXException)
+    expect(error).toBeInstanceOf(HiTechCloudOmnichannelException)
     expect(error.code).toBe("validation")
     expect(error.httpStatusCode).toBe(422)
     expect(error.field).toBe("name")

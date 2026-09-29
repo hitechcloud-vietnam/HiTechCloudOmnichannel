@@ -1,5 +1,5 @@
 {
-  "name": "@chatbotx.io/analytics-nextjs",
+  "name": "@hitechcloud.vn/analytics-nextjs",
   "version": "0.1.0",
   "type": "module",
   "exports": {
@@ -12,11 +12,11 @@
     "./provider/analytics-api-context": "./src/provider/analytics-api-context.tsx"
   },
   "dependencies": {
-    "@chatbotx.io/analytics": "workspace:*",
-    "@chatbotx.io/database": "workspace:*",
-    "@chatbotx.io/logger": "workspace:*",
-    "@chatbotx.io/redis": "workspace:*",
-    "@chatbotx.io/ui": "workspace:*",
+    "@hitechcloud.vn/analytics": "workspace:*",
+    "@hitechcloud.vn/database": "workspace:*",
+    "@hitechcloud.vn/logger": "workspace:*",
+    "@hitechcloud.vn/redis": "workspace:*",
+    "@hitechcloud.vn/ui": "workspace:*",
     "@hookform/resolvers": "^5.2.2",
     "@orpc/client": "^1.14.0",
     "@orpc/server": "^1.14.0",
@@ -30,8 +30,8 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
-    "@chatbotx.io/typescript-config": "workspace:*",
-    "@chatbotx.io/vitest-config": "workspace:*",
+    "@hitechcloud.vn/typescript-config": "workspace:*",
+    "@hitechcloud.vn/vitest-config": "workspace:*",
     "@types/node": "^24.10.1",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",

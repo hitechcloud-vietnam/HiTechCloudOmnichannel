@@ -1,7 +1,7 @@
 import {
   MESSENGER_NATIVE_QUICK_REPLY,
   type MessageButtonTemplate,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 import { convertCanonicalQuickReplies } from "../src/handlers/message/outgoing-message/canonical-quick-replies"
 import { convertFlowStepFile } from "../src/handlers/message/outgoing-message/send-file"

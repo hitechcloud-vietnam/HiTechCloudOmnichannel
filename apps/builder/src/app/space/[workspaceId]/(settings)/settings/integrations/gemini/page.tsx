@@ -1,4 +1,4 @@
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { GeminiAIManage } from "@/features/integration-gemini/gemini-manage"
 import { findIntegrationGemini } from "@/features/integration-gemini/queries"

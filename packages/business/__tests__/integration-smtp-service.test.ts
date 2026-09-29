@@ -42,7 +42,7 @@ const {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn((...conditions: unknown[]) => ({ conditions })),
   db: {
     delete: mockDelete,
@@ -53,15 +53,15 @@ vi.mock("@chatbotx.io/database/client", () => ({
   findOrFail: mockFindOrFail,
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   channelTypes: { enum: { smtp: "smtp" } },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   integrationSmtpModel: { id: "id", workspaceId: "workspaceId" },
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: () => "smtp-1",
 }))
 

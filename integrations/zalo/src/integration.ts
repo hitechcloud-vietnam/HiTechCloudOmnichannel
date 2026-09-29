@@ -4,7 +4,7 @@ import {
   Integration,
   type IntegrationDefinition,
   SdkException,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { refreshAccessToken } from "./api/auth"
 import {
   getUserDetail,

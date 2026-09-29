@@ -1,8 +1,8 @@
 import type {
   SendImageStepSchema,
   SendVideoStepSchema,
-} from "@chatbotx.io/flow-config"
-import type { SendFlowStepProps } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/flow-config"
+import type { SendFlowStepProps } from "@hitechcloud.vn/sdk"
 import type { FacebookMessage, MessengerAuthValue } from "../../../schema"
 import { convertCanonicalQuickReplies } from "./canonical-quick-replies"
 import { convertMediaType, getAttachmentTemplate } from "./send-attachment"

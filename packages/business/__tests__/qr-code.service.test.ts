@@ -29,7 +29,7 @@ vi.mock("../src/flow/service", () => ({
   flowService: { exists: mocks.flowExists },
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: mocks.and,
   db: {
     insert: mocks.insert,
@@ -53,7 +53,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   isUniqueViolationError: mocks.isUniqueViolationError,
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   flowModel: {},
   reflinkModel: {
     id: "reflink.id",
@@ -63,7 +63,7 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   getPaginationWithDefaults: (input: { page: number; perPage: number }) => ({
     limit: input.perPage,
     offset: (input.page - 1) * input.perPage,
@@ -72,15 +72,15 @@ vi.mock("@chatbotx.io/database/utils", () => ({
   parseOrderBy: () => [],
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: mocks.invalidateCacheByTags,
   withCache: mocks.withCache,
 }))
 
-// `@chatbotx.io/utils` constructs a Snowflake singleton at module scope, which
+// `@hitechcloud.vn/utils` constructs a Snowflake singleton at module scope, which
 // throws "Place ID 0 already in use" when `vi.resetModules()` re-evaluates it.
 let nextId = 0
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: () => `id-${nextId++}`,
 }))
 

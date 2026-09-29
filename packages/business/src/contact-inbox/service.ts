@@ -11,17 +11,17 @@ import {
   or,
   type SQL,
   sql,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   type ContactInboxIdentityFields,
   type ContactInboxIdentityGuard,
   contactInboxOperationalColumns,
   contactInboxRepository,
-} from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/repositories"
 import type {
   ContactInboxIdentityChangeReason,
   ContactInboxReferral,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import {
   CONTACT_INBOX_IDENTITY_CHANGE_REASONS,
   CONTACT_INBOX_SOURCE_ID_KEY,
@@ -29,17 +29,17 @@ import {
   CONTACT_INBOX_SOURCE_USER_ID_KEY,
   contactInboxModel,
   contactModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import type {
   ContactInboxModel,
   ContactModel,
   ConversationModel,
-} from "@chatbotx.io/database/types"
-import { withCache } from "@chatbotx.io/redis"
+} from "@hitechcloud.vn/database/types"
+import { withCache } from "@hitechcloud.vn/redis"
 import type {
   IncomingContact,
   SourceScopedIdentityMatchedBy,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { BaseService } from "../base.service"
 import { PROFILE_NAME_BLANK_CHARACTERS } from "../contact/profile-refresh/rules"
 import { logger } from "../logger"

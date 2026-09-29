@@ -1,5 +1,5 @@
-import { integrationKlaviyoService } from "@chatbotx.io/business"
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { integrationKlaviyoService } from "@hitechcloud.vn/business"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { ManageKlaviyo } from "@/features/integration-klaviyo/components/manage-klaviyo"
 

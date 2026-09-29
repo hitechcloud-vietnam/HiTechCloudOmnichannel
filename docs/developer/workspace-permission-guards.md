@@ -130,7 +130,7 @@ the already-resolved permission scope explicitly.
 - Pass `restrictToAssignedUserId` when the member has assigned-only contact
   access.
 - Strip PII fields in the builder before enqueueing and again in the worker with
-  `stripContactPIIFields()` from `@chatbotx.io/worker-config/contact-pii`.
+  `stripContactPIIFields()` from `@hitechcloud.vn/worker-config/contact-pii`.
 - The worker's export filter in
   `apps/worker/src/default/handlers/export-contacts.ts` must mirror the builder
   contact list filter: workspace id, optional keyword and contact filter,

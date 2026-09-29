@@ -16,7 +16,7 @@ const mocks = vi.hoisted(() => ({
   runExclusive: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   whatsappCallRepository: {
     findByIdForWorkspace: mocks.findById,
     attachAiSummary: mocks.attachAiSummary,
@@ -27,7 +27,7 @@ vi.mock("@chatbotx.io/database/repositories", () => ({
 
 class MockLockAcquisitionError extends Error {}
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   distributedLock: { runExclusive: mocks.runExclusive },
   LockAcquisitionError: MockLockAcquisitionError,
 }))

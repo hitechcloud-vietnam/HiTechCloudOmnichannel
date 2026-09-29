@@ -2688,7 +2688,7 @@
     "title": "Genel"
   },
   "facebookMarketingMessages": {
-    "deleteWarning": "Bu, kampanyayı yalnızca ChatbotX'ten kaldırır. Meta mesaj kampanyası çalışmaya devam eder — Reklam Yöneticisi'nde duraklatın veya silin.",
+    "deleteWarning": "Bu, kampanyayı yalnızca HiTechCloudOmnichannel'ten kaldırır. Meta mesaj kampanyası çalışmaya devam eder — Reklam Yöneticisi'nde duraklatın veya silin.",
     "title": "Facebook Pazarlama Mesajları",
     "description": "Messenger'da kişiselleştirilmiş tanıtım mesajlarıyla etkileşimi ve satışları artırın.",
     "create": "Yeni Oluştur",
@@ -4045,7 +4045,7 @@
         "title": "Arama uygunluğu",
         "appSubscriptionMissing": "Önce Meta Uygulama Panosunda bu uygulama için WhatsApp webhook'unu yapılandırın, ardından tekrar deneyin.",
         "appSubscriptionFailed": "Uygulamanın 'calls' webhook aboneliği doğrulanamadı. Kısa süre sonra tekrar deneyin.",
-        "callsNotSubscribed": "Bu uygulama 'calls' webhook alanına abone değil, bu nedenle arama olayları ChatbotX'e ulaşamıyor (Meta hatası 138018: teknik ön koşullar karşılanmıyor — WABA'ya abone olan en az bir uygulamanın arama webhook alanına da sahip olduğundan emin olun).",
+        "callsNotSubscribed": "Bu uygulama 'calls' webhook alanına abone değil, bu nedenle arama olayları HiTechCloudOmnichannel'e ulaşamıyor (Meta hatası 138018: teknik ön koşullar karşılanmıyor — WABA'ya abone olan en az bir uygulamanın arama webhook alanına da sahip olduğundan emin olun).",
         "fixButton": "Düzelt",
         "fixSuccess": "Uygulama artık WhatsApp arama webhook'larına abone.",
         "manualIntegrationNotice": "Bu numara manuel olarak bağlandı ve burada uygulama kimlik bilgisi yok. Meta Uygulama Panosunda uygulamanız için 'calls' webhook alanına abone olun.",
@@ -6298,7 +6298,7 @@
     },
     "limitedDataUse": {
       "label": "Limited Data Use (US privacy)",
-      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by ChatbotX."
+      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by HiTechCloudOmnichannel."
     },
     "actionSource": {
       "label": "Eylem kaynağı",

@@ -1,5 +1,5 @@
-import { emailTopicAnalyticsService } from "@chatbotx.io/analytics"
-import { emailTopicService } from "@chatbotx.io/business"
+import { emailTopicAnalyticsService } from "@hitechcloud.vn/analytics"
+import { emailTopicService } from "@hitechcloud.vn/business"
 import { NextResponse } from "next/server"
 import { loadServableWorkspace } from "@/lib/workspace/load-servable-workspace"
 

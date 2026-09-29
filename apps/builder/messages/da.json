@@ -2546,7 +2546,7 @@
     "title": "Generelt"
   },
   "facebookMarketingMessages": {
-    "deleteWarning": "Dette fjerner kun kampagnen fra ChatbotX. Meta-beskedkampagnen kører videre — sæt den på pause eller slet den i Ads Manager.",
+    "deleteWarning": "Dette fjerner kun kampagnen fra HiTechCloudOmnichannel. Meta-beskedkampagnen kører videre — sæt den på pause eller slet den i Ads Manager.",
     "title": "Facebook Marketing Messages",
     "description": "Øg engagement og salg med personlige kampagnebeskeder på Messenger.",
     "create": "Opret ny",
@@ -4045,7 +4045,7 @@
         "title": "Opkaldsberettigelse",
         "appSubscriptionMissing": "Konfigurer først WhatsApp-webhooken for denne app i Meta App Dashboard, og forsøg derefter igen.",
         "appSubscriptionFailed": "Kunne ikke bekræfte appens 'calls'-webhook-abonnement. Forsøg igen om lidt.",
-        "callsNotSubscribed": "Denne app abonnerer ikke på 'calls'-webhookfeltet, så opkaldshændelser kan ikke nå ChatbotX (Meta-fejl 138018: tekniske forudsætninger er ikke opfyldt — sørg for, at mindst én app, der abonnerer på WABA'en, også har opkalds-webhookfeltet).",
+        "callsNotSubscribed": "Denne app abonnerer ikke på 'calls'-webhookfeltet, så opkaldshændelser kan ikke nå HiTechCloudOmnichannel (Meta-fejl 138018: tekniske forudsætninger er ikke opfyldt — sørg for, at mindst én app, der abonnerer på WABA'en, også har opkalds-webhookfeltet).",
         "fixButton": "Ret",
         "fixSuccess": "Appen abonnerer nu på WhatsApp-opkalds-webhooks.",
         "manualIntegrationNotice": "Dette nummer blev forbundet manuelt og har ingen app-legitimationsoplysninger her. Abonnér på 'calls'-webhookfeltet for din app i Meta App Dashboard.",
@@ -6298,7 +6298,7 @@
     },
     "limitedDataUse": {
       "label": "Limited Data Use (US privacy)",
-      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by ChatbotX."
+      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by HiTechCloudOmnichannel."
     },
     "actionSource": {
       "label": "Handlingskilde",

@@ -13,13 +13,13 @@ const mocks = vi.hoisted(() => ({
 
 const transactionClient = { name: "transaction-client" }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     transaction: (...args: unknown[]) => mocks.transaction(...args),
   },
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   metaCatalogItemRepository: {
     findByRetailerIds: (...args: unknown[]) => mocks.findByRetailerIds(...args),
     linkImported: (...args: unknown[]) => mocks.linkImported(...args),

@@ -3,7 +3,7 @@ import {
   Integration,
   type IntegrationDefinition,
   SdkException,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { exchangeLongLivedToken } from "./api/auth"
 import { getCallingSettings, updateCallingSettings } from "./api/calling"
 import { getFlowAssets } from "./api/flow"

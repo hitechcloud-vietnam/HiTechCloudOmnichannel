@@ -1,4 +1,4 @@
-import { zodBigintAsString } from "@chatbotx.io/utils"
+import { zodBigintAsString } from "@hitechcloud.vn/utils"
 import { z } from "zod"
 
 export const contactEventTypes = z.enum([

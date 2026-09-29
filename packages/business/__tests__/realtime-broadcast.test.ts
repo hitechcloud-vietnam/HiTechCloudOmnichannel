@@ -1,4 +1,4 @@
-import type * as PartysocketConfig from "@chatbotx.io/partysocket-config"
+import type * as PartysocketConfig from "@hitechcloud.vn/partysocket-config"
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest"
 import {
   broadcastToWorkspaceParty,
@@ -26,9 +26,9 @@ const {
   resolveTenantSettings: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/partysocket-config", async () => {
+vi.mock("@hitechcloud.vn/partysocket-config", async () => {
   const actual = await vi.importActual<typeof PartysocketConfig>(
-    "@chatbotx.io/partysocket-config",
+    "@hitechcloud.vn/partysocket-config",
   )
   return { ...actual, broadcastToWorkspaceParty: broadcastToWorkspacePartyLow }
 })

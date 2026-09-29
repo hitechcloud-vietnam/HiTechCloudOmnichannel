@@ -2,16 +2,16 @@
 
 ## Introduction
 
-The ChatbotX app is committed to ensuring the security and integrity of our
+The HiTechCloudOmnichannel app is committed to ensuring the security and integrity of our
 users' data. This security policy outlines our procedures for handling security
 vulnerabilities and our disclosure policy.
 
 ## Reporting Security Vulnerabilities
 
-If you discover a security vulnerability in the ChatbotX app, please report it
+If you discover a security vulnerability in the HiTechCloudOmnichannel app, please report it
 to us privately via email to our maintenance team at:
 
-- Email: security@chatbotx.io
+- Email: security@hitechcloud.vn
 
 When reporting a security vulnerability, please provide as much detail as
 possible, including:
@@ -23,7 +23,7 @@ possible, including:
 ## Supported Versions
 
 This project currently only supports the latest release. We recommend that users
-always use the latest version of the ChatbotX app to ensure they have the
+always use the latest version of the HiTechCloudOmnichannel app to ensure they have the
 latest security patches.
 
 ## Disclosure Guidelines
@@ -52,4 +52,4 @@ of vulnerabilities. Our response process includes:
 This SECURITY.md file is based on the
 [GitHub Security Policy Template](https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository).
 
-Thank you for helping to keep the `ChatbotX` secure!
+Thank you for helping to keep the `HiTechCloudOmnichannel` secure!

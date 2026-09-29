@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "@chatbotx.io/ui/styles/default.css";
+@import "@hitechcloud.vn/ui/styles/default.css";
 
 /**
  * Tailwind CSS official document:
@@ -8,5 +8,5 @@
  * if you ever need to explicitly add a source that's excluded by default,
  * you can always add it with the @source directive.
  */
-@source "../../node_modules/@chatbotx.io/ui";
-@source "../../node_modules/@chatbotx.io/minigame-ui";
+@source "../../node_modules/@hitechcloud.vn/ui";
+@source "../../node_modules/@hitechcloud.vn/minigame-ui";

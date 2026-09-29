@@ -1,11 +1,11 @@
 ---
 name: security-review
-description: Use before committing changes to auth, workspace scoping, channel webhooks, AI tools/MCP, permission settings, or anything handling untrusted channel content in ChatbotX. A repo-specific security checklist covering tenant isolation, prompt injection via channel content, the Bash permission allowlist, and secret handling. Read before security-sensitive work; pair with the global security-reviewer agent for deep dives.
+description: Use before committing changes to auth, workspace scoping, channel webhooks, AI tools/MCP, permission settings, or anything handling untrusted channel content in HiTechCloudOmnichannel. A repo-specific security checklist covering tenant isolation, prompt injection via channel content, the Bash permission allowlist, and secret handling. Read before security-sensitive work; pair with the global security-reviewer agent for deep dives.
 ---
 
-# Security Review (ChatbotX)
+# Security Review (HiTechCloudOmnichannel)
 
-A focused, repo-specific checklist. For OWASP-depth analysis dispatch the global `security-reviewer` agent; this skill is the ChatbotX-specific surface map and the things that bite here.
+A focused, repo-specific checklist. For OWASP-depth analysis dispatch the global `security-reviewer` agent; this skill is the HiTechCloudOmnichannel-specific surface map and the things that bite here.
 
 ## 1. Tenant isolation (the #1 risk in a multi-workspace product)
 
@@ -28,7 +28,7 @@ Invariants: `hasWorkspacePermission` treats missing jsonb keys as **denied** (fa
 
 - Tokens are stored **hash-only** (SHA-256 `tokenHash` in `WorkspaceApiToken`); the sole plaintext-recoverable row is the `isDefault` token backing `{{api_key}}` (AES-GCM `encryptedToken`, AAD-bound to its workspace). Never persist, cache, or log a raw token or its hash — handler context only ever sees the projected `RequestApiToken`.
 - Every workspace-token endpoint MUST use `workspaceTokenAuthAPIForScope("<scope>")` — there is no unscoped stack export. `permission: "read_only"` tokens are limited to GET/HEAD in the middleware; mutations additionally pass the owner-quota gate.
-- All bearer-credential material comes from `@chatbotx.io/business/workspace-api-token/credentials` (CSPRNG). Flag any token/secret minted from `Math.random()`-backed helpers.
+- All bearer-credential material comes from `@hitechcloud.vn/business/workspace-api-token/credentials` (CSPRNG). Flag any token/secret minted from `Math.random()`-backed helpers.
 - Minting/revoking tokens requires workspace `superAdmin` (`requireWorkspaceTokenSuperAdmin`) — a granular member must not escalate via a `full` token.
 
 ## 2. Prompt injection (untrusted channel content → agent context)
@@ -42,7 +42,7 @@ Invariants: `hasWorkspacePermission` treats missing jsonb keys as **denied** (fa
 - **Never** put credential literals (`PGPASSWORD`, `DATABASE_URL` with a real password) inside `Bash(...)` allow-patterns. Use env indirection.
 - **Never** grant wildcard exec: `Bash(pnpm *)`, `Bash(node *)`, `Bash(python3 *)`, `Bash(git *)`. Grant the specific commands you need (`Bash(pnpm lint)`, `Bash(pnpm --filter <x> test)`).
 - **Never** auto-approve `cp` of any `.env`, or reads of `~`/`/etc`. Scope filesystem grants to the repo.
-- Paths must be relative/repo-local, not machine-absolute, and must match this repo (`ChatbotX01`).
+- Paths must be relative/repo-local, not machine-absolute, and must match this repo (`HiTechCloudOmnichannel01`).
 
 ## 4. Secret handling
 

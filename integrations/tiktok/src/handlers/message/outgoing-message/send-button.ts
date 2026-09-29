@@ -7,8 +7,8 @@ import {
   extractMetadata,
   type MetadataPayload,
   TIKTOK_CARD_TITLE_MAX,
-} from "@chatbotx.io/flow-config"
-import type { MessageButtonTemplate } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/flow-config"
+import type { MessageButtonTemplate } from "@hitechcloud.vn/sdk"
 import { chunk } from "remeda"
 import { logger } from "../../../lib/logger"
 import type {
@@ -18,7 +18,7 @@ import type {
 
 export const MAX_TEMPLATE_BUTTONS = 3
 
-// TIKTOK_CARD_TITLE_MAX (shared with the flow editor via @chatbotx.io/flow-config)
+// TIKTOK_CARD_TITLE_MAX (shared with the flow editor via @hitechcloud.vn/flow-config)
 // bounds the card `title` (the message text) — a different field from the
 // button label, which is always clamped to BUTTON_LABEL_MAX instead. Labels
 // from ButtonStepProps are already bounded to BUTTON_LABEL_MAX by the

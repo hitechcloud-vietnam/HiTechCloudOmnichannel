@@ -2546,7 +2546,7 @@
     "title": "Geral"
   },
   "facebookMarketingMessages": {
-    "deleteWarning": "Isto remove a campanha apenas do ChatbotX. A campanha de mensagens da Meta continua ativa — coloque em pausa ou elimine no Gestor de Anúncios.",
+    "deleteWarning": "Isto remove a campanha apenas do HiTechCloudOmnichannel. A campanha de mensagens da Meta continua ativa — coloque em pausa ou elimine no Gestor de Anúncios.",
     "title": "Facebook Marketing Messages",
     "description": "Aumente o envolvimento e as vendas com mensagens promocionais personalizadas no Messenger.",
     "create": "Criar novo",
@@ -4045,7 +4045,7 @@
         "title": "Elegibilidade para chamadas",
         "appSubscriptionMissing": "Configura primeiro o webhook do WhatsApp para esta aplicação no Meta App Dashboard e tenta novamente.",
         "appSubscriptionFailed": "Não foi possível verificar a subscrição do webhook 'calls' da aplicação. Tenta novamente em breve.",
-        "callsNotSubscribed": "Esta aplicação não está subscrita ao campo de webhook 'calls', pelo que os eventos de chamada não conseguem chegar ao ChatbotX (erro da Meta 138018: os pré-requisitos técnicos não foram cumpridos — garante que pelo menos uma aplicação subscrita à WABA também tem o campo de webhook de chamadas).",
+        "callsNotSubscribed": "Esta aplicação não está subscrita ao campo de webhook 'calls', pelo que os eventos de chamada não conseguem chegar ao HiTechCloudOmnichannel (erro da Meta 138018: os pré-requisitos técnicos não foram cumpridos — garante que pelo menos uma aplicação subscrita à WABA também tem o campo de webhook de chamadas).",
         "fixButton": "Corrigir",
         "fixSuccess": "A aplicação está agora subscrita aos webhooks de chamadas do WhatsApp.",
         "manualIntegrationNotice": "Este número foi ligado manualmente e não tem credenciais de aplicação aqui. Subscreve o campo de webhook 'calls' da tua aplicação no Meta App Dashboard.",
@@ -6298,7 +6298,7 @@
     },
     "limitedDataUse": {
       "label": "Limited Data Use (US privacy)",
-      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by ChatbotX."
+      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by HiTechCloudOmnichannel."
     },
     "actionSource": {
       "label": "Origem da ação",

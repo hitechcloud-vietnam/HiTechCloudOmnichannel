@@ -1,4 +1,4 @@
-import { ChannelError, ChannelErrorCategory } from "@chatbotx.io/sdk"
+import { ChannelError, ChannelErrorCategory } from "@hitechcloud.vn/sdk"
 
 /**
  * The video a comment belongs to.

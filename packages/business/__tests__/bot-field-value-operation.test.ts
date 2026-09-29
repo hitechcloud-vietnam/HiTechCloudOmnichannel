@@ -1,7 +1,7 @@
 // @vitest-environment node
 
-import { FieldOperationType } from "@chatbotx.io/flow-config"
-import { TemporalInputParsing } from "@chatbotx.io/utils/datetime"
+import { FieldOperationType } from "@hitechcloud.vn/flow-config"
+import { TemporalInputParsing } from "@hitechcloud.vn/utils/datetime"
 import { afterEach, describe, expect, test, vi } from "vitest"
 
 // `sql` is mocked to capture its tagged-template call (strings + interpolated
@@ -57,7 +57,7 @@ const botFieldModel = {
   name: "BOT_FIELD_NAME_COL",
 }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       botFieldModel: {
@@ -97,21 +97,21 @@ vi.mock("@chatbotx.io/database/client", () => ({
   sql: mocks.sqlMock,
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   rootFolderId: "root",
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   botFieldModel,
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   likeContains: (value: string) => value,
   parseOrderByAsObject: mocks.parseOrderByAsObject,
   parsePagination: mocks.parsePagination,
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   withCache: (_key: string, fn: () => unknown) => fn(),
 }))
 
@@ -125,11 +125,11 @@ vi.mock("../src/base.service", () => ({
 
 vi.mock("../src/errors", () => ({
   notFoundException: (message: string) => new Error(message),
-  ChatbotXException: class ChatbotXException extends Error {
+  HiTechCloudOmnichannelException: class HiTechCloudOmnichannelException extends Error {
     code: string
     constructor(message: string, code?: string) {
       super(message)
-      this.name = "ChatbotXException"
+      this.name = "HiTechCloudOmnichannelException"
       this.code = code ?? "systemError"
     }
   },
@@ -144,7 +144,7 @@ vi.mock("../src/template/installed-resource.service", () => ({
 }))
 
 const { botFieldService } = await import("../src/bot-field/service")
-const { ChatbotXException } = await import("../src/errors")
+const { HiTechCloudOmnichannelException } = await import("../src/errors")
 
 // Zoned day-start ISO for a "now" stamp in Asia/Ho_Chi_Minh (+07:00).
 const NOW_STAMPED_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}T00:00:00\+07:00$/
@@ -262,7 +262,7 @@ describe("botFieldService.applyValueOperation — set", () => {
         operation: FieldOperationType.set,
         value: "1aaa1",
       }),
-    ).rejects.toBeInstanceOf(ChatbotXException)
+    ).rejects.toBeInstanceOf(HiTechCloudOmnichannelException)
 
     expect(mocks.updateSet).not.toHaveBeenCalled()
   })
@@ -698,7 +698,7 @@ describe("botFieldService.applyValueOperation — operation x type policy", () =
     }
   })
 
-  test("thrown exceptions are ChatbotXException instances", async () => {
+  test("thrown exceptions are HiTechCloudOmnichannelException instances", async () => {
     mocks.findFirst.mockResolvedValue(existingRow({ type: "boolean" }))
 
     await expect(
@@ -708,7 +708,7 @@ describe("botFieldService.applyValueOperation — operation x type policy", () =
         operation: FieldOperationType.increase,
         value: "1",
       }),
-    ).rejects.toBeInstanceOf(ChatbotXException)
+    ).rejects.toBeInstanceOf(HiTechCloudOmnichannelException)
   })
 })
 
@@ -861,7 +861,7 @@ describe("botFieldService.create — value normalization", () => {
         workspaceId: "ws-1",
         data: { name: "field", type: "number", value: "1aaa1" },
       }),
-    ).rejects.toBeInstanceOf(ChatbotXException)
+    ).rejects.toBeInstanceOf(HiTechCloudOmnichannelException)
 
     expect(mocks.insertValues).not.toHaveBeenCalled()
   })
@@ -948,7 +948,7 @@ describe("botFieldService.updateByKey — value normalization", () => {
         key: "field",
         data: { value: "1aaa1" },
       }),
-    ).rejects.toBeInstanceOf(ChatbotXException)
+    ).rejects.toBeInstanceOf(HiTechCloudOmnichannelException)
 
     expect(mocks.updateSet).not.toHaveBeenCalled()
   })

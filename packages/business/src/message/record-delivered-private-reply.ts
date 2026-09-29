@@ -1,9 +1,9 @@
-import { createMessageRepository } from "@chatbotx.io/database/repositories"
+import { createMessageRepository } from "@hitechcloud.vn/database/repositories"
 import type {
   ContactInboxModel,
   MessageModel,
-} from "@chatbotx.io/database/types"
-import { RealtimeEventType } from "@chatbotx.io/partysocket-config"
+} from "@hitechcloud.vn/database/types"
+import { RealtimeEventType } from "@hitechcloud.vn/partysocket-config"
 import { contactService } from "../contact/service"
 import { contactInboxService } from "../contact-inbox/service"
 import { conversationService } from "../conversation/service"

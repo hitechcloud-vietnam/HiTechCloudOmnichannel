@@ -1,9 +1,9 @@
-import { MessengerAPIException } from "@chatbotx.io/integration-messenger/exception"
+import { MessengerAPIException } from "@hitechcloud.vn/integration-messenger/exception"
 import {
   ChannelError,
   ChannelErrorCategory,
   SdkException,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
 const mocks = vi.hoisted(() => ({
@@ -26,7 +26,7 @@ const mocks = vi.hoisted(() => ({
 
 let lockTail = Promise.resolve()
 
-vi.mock("@chatbotx.io/business", () => ({
+vi.mock("@hitechcloud.vn/business", () => ({
   buildContext: mocks.buildContext,
   buildNoAvatarSentinel: (failedAtMs = Date.now()) =>
     `public/img/no_avatar.jpg?time=${failedAtMs}`,
@@ -54,19 +54,19 @@ vi.mock("@chatbotx.io/business", () => ({
   WA_MEDIA_PREFIX: "wa-media:",
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({ db: {} }))
+vi.mock("@hitechcloud.vn/database/client", () => ({ db: {} }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   createMessageRepository: mocks.createMessageRepository,
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   distributedLock: {
     runExclusive: mocks.runExclusive,
   },
 }))
 
-vi.mock("@chatbotx.io/logger", () => ({
+vi.mock("@hitechcloud.vn/logger", () => ({
   getChildLogger: () => ({ warn: mocks.loggerWarn }),
 }))
 
@@ -79,12 +79,12 @@ const runExclusive = <T>({ fn }: { fn: () => Promise<T> }): Promise<T> => {
   return result
 }
 
-vi.mock("@chatbotx.io/integration-whatsapp", () => ({
+vi.mock("@hitechcloud.vn/integration-whatsapp", () => ({
   getWhatsappClient: vi.fn(() => ({ retrieveMedia: mocks.retrieveMedia })),
 }))
 
-vi.mock("@chatbotx.io/utils", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@chatbotx.io/utils")>()),
+vi.mock("@hitechcloud.vn/utils", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@hitechcloud.vn/utils")>()),
   createId: mocks.createId,
 }))
 
@@ -887,7 +887,7 @@ describe("media hydration", () => {
   })
 
   test("logs integration failures while resolving a fresh avatar URL", async () => {
-    const { IntegrationException } = await import("@chatbotx.io/sdk")
+    const { IntegrationException } = await import("@hitechcloud.vn/sdk")
     mocks.findContactInbox.mockResolvedValue({
       id: "contact-inbox-1",
       contactId: "contact-1",

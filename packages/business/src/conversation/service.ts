@@ -10,15 +10,15 @@ import {
   or,
   type SQL,
   sql,
-} from "@chatbotx.io/database/client"
-import type { ConversationAttributes } from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/client"
+import type { ConversationAttributes } from "@hitechcloud.vn/database/partials"
 import {
   assignUserIfUnassigned,
   contactInboxOperationalColumns,
   createMessageRepository,
   getSafeSinceTime,
-} from "@chatbotx.io/database/repositories"
-import { conversationModel, inboxModel } from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/repositories"
+import { conversationModel, inboxModel } from "@hitechcloud.vn/database/schema"
 import type {
   AttachmentModel,
   ContactCustomFieldModel,
@@ -33,8 +33,8 @@ import type {
   SequenceModel,
   TagModel,
   UserModel,
-} from "@chatbotx.io/database/types"
-import { emit } from "@chatbotx.io/event-bus"
+} from "@hitechcloud.vn/database/types"
+import { emit } from "@hitechcloud.vn/event-bus"
 import {
   emitConversationArchived,
   emitConversationAssigned,
@@ -42,14 +42,14 @@ import {
   emitConversationTransferredToBot,
   emitConversationTransferredToHuman,
   emitConversationUnassigned,
-} from "@chatbotx.io/events"
-import { RealtimeEventType } from "@chatbotx.io/partysocket-config"
-import { withCache } from "@chatbotx.io/redis"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/events"
+import { RealtimeEventType } from "@hitechcloud.vn/partysocket-config"
+import { withCache } from "@hitechcloud.vn/redis"
+import { createId } from "@hitechcloud.vn/utils"
 import {
   NotificationJobAction,
   notificationQueue,
-} from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/worker-config"
 import { BaseService } from "../base.service"
 import { contactService } from "../contact"
 import type {
@@ -58,7 +58,7 @@ import type {
 } from "../contact-inbox/service"
 import { contactInboxService } from "../contact-inbox/service"
 import { inboxTeamService } from "../enterprise/inbox-team/service"
-import { ChatbotXException, notFoundException } from "../errors"
+import { HiTechCloudOmnichannelException, notFoundException } from "../errors"
 import { logger } from "../logger"
 import { publishToWorkspaceParty } from "../platform/realtime-broadcast"
 import { workspaceMemberService } from "../workspace-member/service"
@@ -773,7 +773,7 @@ class ConversationService extends BaseService {
       if (workspaceMember) {
         updatedData.assignedUserId = workspaceMember.userId
       } else if (onInvalid === "throw") {
-        throw new ChatbotXException("User is not valid", "invalidAssignee", 400)
+        throw new HiTechCloudOmnichannelException("User is not valid", "invalidAssignee", 400)
       }
     } else if (assignedId?.startsWith("t_")) {
       const inboxTeamId = assignedId.slice(2)
@@ -795,7 +795,7 @@ class ConversationService extends BaseService {
     } else if (assignedId != null && onInvalid === "throw") {
       // Schema validation should already reject this shape, but guard here too
       // so a caller can never silently unassign via an unrecognized prefix.
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "assignedId must start with 'u_' or 't_'",
         "invalidAssignee",
         400,

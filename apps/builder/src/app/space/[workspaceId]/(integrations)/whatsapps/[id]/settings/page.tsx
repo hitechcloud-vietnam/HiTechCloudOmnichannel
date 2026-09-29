@@ -1,11 +1,11 @@
-import type { WhatsappAuthValue } from "@chatbotx.io/integration-whatsapp"
-import { findConversationalAutomation } from "@chatbotx.io/integration-whatsapp/api/phone-number"
+import type { WhatsappAuthValue } from "@hitechcloud.vn/integration-whatsapp"
+import { findConversationalAutomation } from "@hitechcloud.vn/integration-whatsapp/api/phone-number"
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@chatbotx.io/ui/components/ui/card"
+} from "@hitechcloud.vn/ui/components/ui/card"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { WhatsappAutomationManage } from "@/features/integration-whatsapp/automation/whatsapp-automation-manage"

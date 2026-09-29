@@ -87,7 +87,7 @@ const mockSql = Object.assign(
   },
 )
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     execute: mockDbExecute,
     select: mockDbSelect,
@@ -110,11 +110,11 @@ vi.mock("@chatbotx.io/database/client", () => ({
 }))
 
 // This suite never exercises `listByContactIdUncached`, but vitest's SSR deps
-// optimizer bundles the whole `@chatbotx.io/database` package graph together
+// optimizer bundles the whole `@hitechcloud.vn/database` package graph together
 // once any subpath is imported, which otherwise pulls in
 // `contactInboxRepository`'s real contact-filter query graph (needs the real
 // schema, conflicting with the narrow mock below).
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   contactInboxOperationalColumns: { sourceIdentityHistory: false },
   contactInboxRepository: {
     findWithContact: mockFindWithContact,
@@ -122,7 +122,7 @@ vi.mock("@chatbotx.io/database/repositories", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   CONTACT_INBOX_IDENTITY_CHANGE_REASONS: {
     parentFallback: "parentFallback",
     phoneChanged: "phoneChanged",
@@ -153,7 +153,7 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: mockInvalidateCacheByTags,
   withCache: vi.fn((_key: string, fn: () => unknown) => fn()),
 }))

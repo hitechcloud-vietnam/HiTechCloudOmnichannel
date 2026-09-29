@@ -6,7 +6,7 @@ import {
   type IntegrationDefinition,
   type Oauth2AuthValue,
   type SecretTextAuthValue,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { generateText } from "ai"
 import type { OpenAIActions, OpenAIAuthValue } from "./schemas"
 

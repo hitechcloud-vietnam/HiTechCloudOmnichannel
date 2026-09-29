@@ -1,15 +1,15 @@
 {
-  "name": "@chatbotx.io/integration-instagram-facebook",
+  "name": "@hitechcloud.vn/integration-instagram-facebook",
   "version": "0.0.1",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@chatbotx.io/business": "workspace:*",
-    "@chatbotx.io/flow-config": "workspace:*",
-    "@chatbotx.io/integration-instagram": "workspace:*",
-    "@chatbotx.io/logger": "workspace:*",
-    "@chatbotx.io/sdk": "workspace:*",
-    "@chatbotx.io/utils": "workspace:*",
+    "@hitechcloud.vn/business": "workspace:*",
+    "@hitechcloud.vn/flow-config": "workspace:*",
+    "@hitechcloud.vn/integration-instagram": "workspace:*",
+    "@hitechcloud.vn/logger": "workspace:*",
+    "@hitechcloud.vn/sdk": "workspace:*",
+    "@hitechcloud.vn/utils": "workspace:*",
     "cross-fetch": "^4.1.0",
     "image-size": "^2.0.3",
     "ky": "^2.0.2",
@@ -17,8 +17,8 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@chatbotx.io/typescript-config": "workspace:*",
-    "@chatbotx.io/vitest-config": "workspace:*",
+    "@hitechcloud.vn/typescript-config": "workspace:*",
+    "@hitechcloud.vn/vitest-config": "workspace:*",
     "@types/node": "^24.10.4",
     "typescript": "^5",
     "vitest": "^4.1.0"

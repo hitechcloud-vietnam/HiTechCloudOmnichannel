@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto"
-import { getPublicOriginFromRequest } from "@chatbotx.io/utils"
+import { getPublicOriginFromRequest } from "@hitechcloud.vn/utils"
 import { OpenAPIGenerator } from "@orpc/openapi"
 import { ZodToJsonSchemaConverter } from "@orpc/zod/zod4"
 import "@/polyfill"

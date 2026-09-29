@@ -1,7 +1,7 @@
 import type {
   BroadcastTarget,
   RealtimeEventData,
-} from "@chatbotx.io/partysocket-config"
+} from "@hitechcloud.vn/partysocket-config"
 import {
   broadcastToGuestParty as broadcastToGuestPartyLow,
   broadcastToWorkspaceParty as broadcastToWorkspacePartyLow,
@@ -10,7 +10,7 @@ import {
   RealtimeEventType,
   revokeWorkspaceMemberConnections as revokeWorkspaceMemberConnectionsLow,
   sendToWorkspaceMember as sendToWorkspaceMemberLow,
-} from "@chatbotx.io/partysocket-config"
+} from "@hitechcloud.vn/partysocket-config"
 import { logger } from "../logger"
 import {
   resolveBroadcastSecret,

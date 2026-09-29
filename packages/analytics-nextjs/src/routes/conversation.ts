@@ -1,4 +1,4 @@
-import { conversationAnalyticsService } from "@chatbotx.io/analytics"
+import { conversationAnalyticsService } from "@hitechcloud.vn/analytics"
 import {
   getConversationArchivedResponseSchema,
   getConversationAssignedByAdminResponseSchema,
@@ -7,7 +7,7 @@ import {
   getConversationHandoffsResponseSchema,
   getUniqueConversationsByAdminResponseSchema,
   timeRangeQuerySchema,
-} from "@chatbotx.io/analytics/schemas"
+} from "@hitechcloud.vn/analytics/schemas"
 import { os } from "@orpc/server"
 import { logger } from "../lib/log"
 

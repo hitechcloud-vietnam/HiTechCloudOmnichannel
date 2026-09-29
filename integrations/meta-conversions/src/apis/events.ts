@@ -3,7 +3,7 @@ import type {
   MetaCapiActionSource,
   MetaCapiContentType,
   PurchaseContentItem,
-} from "@chatbotx.io/utils/meta-capi"
+} from "@hitechcloud.vn/utils/meta-capi"
 import { z } from "zod"
 import {
   DEFAULT_API_VERSION,

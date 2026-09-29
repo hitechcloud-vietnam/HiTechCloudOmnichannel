@@ -4,7 +4,7 @@ import {
   type Oauth2AuthValue,
   type Oauth2Config,
   oauth2AuthSchema,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { z } from "zod"
 
 export type GoogleCalendarConfig = Oauth2Config & {

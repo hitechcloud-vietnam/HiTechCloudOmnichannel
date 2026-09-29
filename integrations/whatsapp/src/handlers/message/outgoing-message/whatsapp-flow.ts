@@ -3,8 +3,8 @@ import {
   extractMetadata,
   WHATSAPP_FLOW_BUTTON_MAX,
   type WhatsappFlowStepSchema,
-} from "@chatbotx.io/flow-config"
-import type { MessageHandlers } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/flow-config"
+import type { MessageHandlers } from "@hitechcloud.vn/sdk"
 import { ActionFlow, Interactive } from "whatsapp-api-js/messages"
 import { WHATSAPP_FLOW_MESSAGE_VERSION } from "../../../constants"
 import { logger } from "../../../lib/logger"

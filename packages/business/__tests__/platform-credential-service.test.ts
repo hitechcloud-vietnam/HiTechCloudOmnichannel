@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest"
 const tenantService = { findByOwner: vi.fn() }
 vi.mock("../src/enterprise/tenant/service", () => ({ tenantService }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   asc: vi.fn((value) => value),
   db: {},
   and: vi.fn(),
@@ -11,14 +11,14 @@ vi.mock("@chatbotx.io/database/client", () => ({
   isNull: vi.fn(),
   sql: vi.fn((_strings: TemplateStringsArray, ...values: unknown[]) => values),
 }))
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   credentialEncryptedSchema: { parse: vi.fn((value) => value) },
   credentialPublicSchemas: {},
   credentialSchemas: {
     threads: {},
   },
 }))
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   platformCredentialModel: {
     id: "id",
     livemode: "livemode",
@@ -28,10 +28,10 @@ vi.mock("@chatbotx.io/database/schema", () => ({
     userId: "userId",
   },
 }))
-vi.mock("@chatbotx.io/encryption", () => ({
+vi.mock("@hitechcloud.vn/encryption", () => ({
   encryptUtils: { decryptObject: vi.fn(), encryptObject: vi.fn() },
 }))
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: vi.fn(async () => undefined),
   withCache: vi.fn(async (_key: string, fn: () => unknown) => fn()),
 }))
@@ -40,7 +40,7 @@ vi.mock("../src/logger", () => ({ logger: { error: vi.fn(), warn: vi.fn() } }))
 const { platformCredentialService } = await import(
   "../src/platform-credential/service"
 )
-const { encryptUtils } = await import("@chatbotx.io/encryption")
+const { encryptUtils } = await import("@hitechcloud.vn/encryption")
 
 const OWN = { id: "own", type: "messenger", publicConfig: { clientId: "own" } }
 const PLATFORM = {

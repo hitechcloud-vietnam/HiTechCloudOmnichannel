@@ -1,10 +1,10 @@
-import { db, eq } from "@chatbotx.io/database/client"
+import { db, eq } from "@hitechcloud.vn/database/client"
 import {
   integrationModel,
   integrationOpenrouterModel,
-} from "@chatbotx.io/database/schema"
-import { AuthType, type SecretTextAuthValue } from "@chatbotx.io/sdk"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/schema"
+import { AuthType, type SecretTextAuthValue } from "@hitechcloud.vn/sdk"
+import { createId } from "@hitechcloud.vn/utils"
 import { isSameJsonValue } from "../audit/diff"
 import { BaseService } from "../base.service"
 

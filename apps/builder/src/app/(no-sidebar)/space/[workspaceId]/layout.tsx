@@ -1,4 +1,4 @@
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound, redirect } from "next/navigation"
 import type { ReactNode } from "react"
 import { CouponTopicStoreProvider } from "@/features/coupons/provider/coupon-topic-store-context"

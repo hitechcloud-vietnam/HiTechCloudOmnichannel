@@ -99,7 +99,7 @@ const callEventItemSchema = z.object({
   biz_opaque_callback_data: z.string().optional(),
   // Validated separately so a malformed/oversized session never fails the whole
   // item. Absent means a session-less connect (Meta's SIP signalling, unused by
-  // ChatbotX). Present but invalid means a VoIP connect that must be Meta-
+  // HiTechCloudOmnichannel). Present but invalid means a VoIP connect that must be Meta-
   // rejected rather than dropped into the session-less path.
   session: z.unknown().optional(),
   // Present on `terminate` items when media dropped mid-call, so the handler
@@ -344,7 +344,7 @@ const readWebhookEntries = (rawBody: unknown): unknown[] => {
 
 /**
  * Result of validating a connect event's raw `session` field: `undefined` = no
- * session (SIP signalling, unused by ChatbotX); `"invalid"` = present but
+ * session (SIP signalling, unused by HiTechCloudOmnichannel); `"invalid"` = present but
  * malformed/oversized, must be Meta-rejected; otherwise a validated, bounded
  * SDP offer.
  */

@@ -1,4 +1,4 @@
-import { type EchoOrigin, echoOrigins } from "@chatbotx.io/sdk"
+import { type EchoOrigin, echoOrigins } from "@hitechcloud.vn/sdk"
 import {
   META_FIRST_PARTY_ECHO_APP_IDS,
   type MessengerAttachment,

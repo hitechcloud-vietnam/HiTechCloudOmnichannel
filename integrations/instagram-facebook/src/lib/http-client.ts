@@ -1,4 +1,4 @@
-import { UNKNOWN_ERROR } from "@chatbotx.io/sdk"
+import { UNKNOWN_ERROR } from "@hitechcloud.vn/sdk"
 import ky, { isHTTPError, type KyInstance } from "ky"
 import {
   type ChannelErrorSource,

@@ -1,10 +1,10 @@
-import type { MessagingAdChannel } from "@chatbotx.io/database/partials"
+import type { MessagingAdChannel } from "@hitechcloud.vn/database/partials"
 import {
   integrationInstagramRepository,
   integrationMessengerRepository,
   integrationWhatsappRepository,
-} from "@chatbotx.io/database/repositories"
-import { ChatbotXException, notFoundException } from "../errors"
+} from "@hitechcloud.vn/database/repositories"
+import { HiTechCloudOmnichannelException, notFoundException } from "../errors"
 
 export type MessagingAdChannelAssets = {
   pageId: string
@@ -63,7 +63,7 @@ const channelAssetResolvers: Record<
       throw notFoundException("Messenger integration not found")
     }
     if (!integration.pageId) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "This Messenger channel has no linked Facebook Page. Reconnect it before creating an ad.",
         "messagingAdPageMissing",
         400,
@@ -85,14 +85,14 @@ const channelAssetResolvers: Record<
     // step, leaving an orphaned paused campaign + ad set behind (CTID requires
     // object_story_spec.instagram_actor_id).
     if (!integration.pageId) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "This Instagram channel has no linked Facebook Page. Reconnect it before creating an ad.",
         "messagingAdPageMissing",
         400,
       )
     }
     if (!integration.igId) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "This Instagram channel is missing its Instagram professional account id. Reconnect it before creating an ad.",
         "messagingAdInstagramActorMissing",
         400,
@@ -106,7 +106,7 @@ const channelAssetResolvers: Record<
     whatsappPageIntegrationId,
   }) => {
     if (!whatsappPageIntegrationId) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "A connected Messenger Page must be selected to supply page_id for a WhatsApp messaging ad",
         "messagingAdWhatsappPageRequired",
         400,
@@ -129,7 +129,7 @@ const channelAssetResolvers: Record<
       throw notFoundException("Messenger (Page) integration not found")
     }
     if (!pageIntegration.pageId) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "The selected Facebook Page is not fully connected. Reconnect it before creating an ad.",
         "messagingAdPageMissing",
         400,
@@ -142,7 +142,7 @@ const channelAssetResolvers: Record<
       whatsappIntegration.displayPhoneNumber ?? "",
     )
     if (!whatsappPhoneNumber) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "This WhatsApp channel has no phone number configured. Reconnect it before creating an ad.",
         "messagingAdWhatsappPhoneMissing",
         400,

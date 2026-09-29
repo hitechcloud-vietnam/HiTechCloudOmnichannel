@@ -1,11 +1,11 @@
-import type { CustomFieldType } from "@chatbotx.io/database/partials"
+import type { CustomFieldType } from "@hitechcloud.vn/database/partials"
 import {
   isTemporalCustomFieldType,
   TemporalInputParsing,
-} from "@chatbotx.io/utils/datetime"
-import { normalizeTemporalValueForStorage } from "@chatbotx.io/utils/temporal-input"
+} from "@hitechcloud.vn/utils/datetime"
+import { normalizeTemporalValueForStorage } from "@hitechcloud.vn/utils/temporal-input"
 import { getProperty } from "dot-prop"
-import { ChatbotXException } from "../errors"
+import { HiTechCloudOmnichannelException } from "../errors"
 import { normalizeCustomFieldValueByType } from "./custom-field-value"
 
 const MAX_OUTPUT_BYTES = 64 * 1024
@@ -20,8 +20,8 @@ const typeMismatchException = (props: {
   candidate: string
   type: CustomFieldType
   fieldName: string
-}): ChatbotXException =>
-  new ChatbotXException(
+}): HiTechCloudOmnichannelException =>
+  new HiTechCloudOmnichannelException(
     `JavaScript returned "${preview(props.candidate)}", which is not a valid ${
       props.type
     } value for the output field "${props.fieldName}".`,
@@ -32,8 +32,8 @@ const typeMismatchException = (props: {
 const emptyValueException = (props: {
   type: CustomFieldType
   fieldName: string
-}): ChatbotXException =>
-  new ChatbotXException(
+}): HiTechCloudOmnichannelException =>
+  new HiTechCloudOmnichannelException(
     `JavaScript returned an empty value, which is not a valid ${props.type} value for the output field "${props.fieldName}".`,
     "javascriptOutputTypeMismatch",
     400,
@@ -51,7 +51,7 @@ const toCandidateString = (value: unknown): string | null => {
     return null
   }
   if (typeof value === "number" && !Number.isFinite(value)) {
-    throw new ChatbotXException(
+    throw new HiTechCloudOmnichannelException(
       `JavaScript returned ${String(value)}, which cannot be saved to a custom field.`,
       "javascriptOutputTypeMismatch",
       400,
@@ -72,7 +72,7 @@ const toCandidateString = (value: unknown): string | null => {
  * skipped entirely (the code returned `null`/`undefined`, matching prior
  * behavior).
  *
- * Throws a `ChatbotXException` (`javascriptOutputTypeMismatch`) when the
+ * Throws a `HiTechCloudOmnichannelException` (`javascriptOutputTypeMismatch`) when the
  * value cannot be represented as `type`, so the flow step's error state
  * catches it instead of silently persisting or silently skipping a bad
  * write — see packages/business/src/contact-custom-field/normalize.ts for
@@ -96,12 +96,12 @@ export const toValidatedCustomFieldValue = (props: {
   }
 
   if (Buffer.byteLength(candidate, "utf8") > MAX_OUTPUT_BYTES) {
-    // Distinct from @chatbotx.io/javascript-sandbox's "javascriptOutputTooLarge"
+    // Distinct from @hitechcloud.vn/javascript-sandbox's "javascriptOutputTooLarge"
     // (an oversized HTTP response from the executor) — this is a different
     // failure: the value itself is too large to persist into a custom field.
     // Kept as a separate code so callers branching on error codes can tell
     // the two conditions apart.
-    throw new ChatbotXException(
+    throw new HiTechCloudOmnichannelException(
       "JavaScript output is too large to save",
       "javascriptOutputValueTooLarge",
       400,
@@ -262,7 +262,7 @@ export const collectJavascriptOutputWrites = (props: {
   }
 
   if (completedMapping.length > 0 && !primaryField) {
-    throw new ChatbotXException(
+    throw new HiTechCloudOmnichannelException(
       "JavaScript returned a value, but none of the mapped JSON paths produced a value.",
       "javascriptOutputNoMatchingFields",
       400,
@@ -270,7 +270,7 @@ export const collectJavascriptOutputWrites = (props: {
   }
 
   if (!primaryField) {
-    throw new ChatbotXException(
+    throw new HiTechCloudOmnichannelException(
       "JavaScript returned a single value, so an output custom field is required.",
       "javascriptOutputFieldRequired",
       400,

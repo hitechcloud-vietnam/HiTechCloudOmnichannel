@@ -1,5 +1,5 @@
-import type { HandleRequestProps } from "@chatbotx.io/sdk"
-import { SdkException } from "@chatbotx.io/sdk"
+import type { HandleRequestProps } from "@hitechcloud.vn/sdk"
+import { SdkException } from "@hitechcloud.vn/sdk"
 import { exchangeCodeForToken } from "../apis/auth"
 import { getUserInfo } from "../apis/user"
 import { TiktokMissingScopesError } from "../exception"

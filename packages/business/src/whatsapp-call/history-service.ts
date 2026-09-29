@@ -3,14 +3,14 @@ import {
   type WhatsappCallDirection,
   type WhatsappCallOutcome,
   type WhatsappCallStatus,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import {
   type WhatsappCallHistoryScope,
   type WhatsappCallListCursor,
   type WhatsappCallListFilters,
   type WhatsappCallListRow,
   whatsappCallRepository,
-} from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/repositories"
 import {
   hasWorkspacePermission,
   type PermissionsInput,

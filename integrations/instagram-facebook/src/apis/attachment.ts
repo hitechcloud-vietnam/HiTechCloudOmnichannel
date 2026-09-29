@@ -3,8 +3,8 @@ import {
   type FileType,
   guessFileTypeFromMimeType,
   type IncomingAttachment,
-} from "@chatbotx.io/sdk"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/sdk"
+import { createId } from "@hitechcloud.vn/utils"
 import fetch from "cross-fetch"
 import imageSize from "image-size"
 import { rescue } from "../exception"

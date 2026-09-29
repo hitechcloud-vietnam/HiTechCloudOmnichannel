@@ -17,12 +17,12 @@ const updateReturning = vi.fn()
 const updateWhere = vi.fn()
 const insertOnConflictDoNothing = vi.fn()
 
-vi.mock("@chatbotx.io/analytics", () => ({
+vi.mock("@hitechcloud.vn/analytics", () => ({
   broadcastAnalyticsService: { getContacts: vi.fn() },
   sequenceAnalyticsService: { getContacts: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       broadcastModel: {
@@ -69,7 +69,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   ),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   broadcastModel: {
     id: "broadcast.id",
     workspaceId: "broadcast.workspaceId",
@@ -94,13 +94,13 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   whatsappMessageTemplateModel: {},
 }))
 
-vi.mock("@chatbotx.io/database/queries", () => ({
+vi.mock("@hitechcloud.vn/database/queries", () => ({
   buildContactInboxContactFilterSQL: vi.fn(),
   contactInboxInteractedWithin24hSQL: vi.fn(),
   pruneEmailPhoneFilterConditions: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   chunkById: vi.fn(),
   likeContains: (value: string) => `%${value}%`,
 }))

@@ -1,7 +1,7 @@
 import type {
   TemplateCategory,
   TemplateResourceCategory,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import { aiAgentsAdapter } from "./ai-agents"
 import { aiFunctionsAdapter } from "./ai-functions"
 import { calendarsAdapter } from "./calendars"

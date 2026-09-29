@@ -1,7 +1,7 @@
 import {
   type AIMcpServerAuth,
   aiMcpServerAuthTypes,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import ky, { type Options } from "ky"
 import { normalizeError } from "universal-error-normalizer"
 import { aiTimeouts, helpTexts, mcpConstants } from "../constants"

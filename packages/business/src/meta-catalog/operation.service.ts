@@ -1,7 +1,7 @@
-import { db } from "@chatbotx.io/database/client"
-import type { MetaCatalogSyncScope } from "@chatbotx.io/database/partials"
+import { db } from "@hitechcloud.vn/database/client"
+import type { MetaCatalogSyncScope } from "@hitechcloud.vn/database/partials"
 import { BaseService } from "../base.service"
-import { ChatbotXException } from "../errors"
+import { HiTechCloudOmnichannelException } from "../errors"
 import { integrationMetaCatalogService } from "./integration.service"
 import { metaCatalogSyncRunService } from "./sync-run.service"
 
@@ -28,7 +28,7 @@ class MetaCatalogOperationService extends BaseService {
       // Jobs created before sync runs existed are represented only by this
       // connection flag. They must finish before a push can rebind catalogId.
       if (ACTIVE_IMPORT_STATUSES.has(connection.importStatus)) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "A Meta Catalog sync is already running",
           "metaCatalogSyncAlreadyRunning",
         )
@@ -74,7 +74,7 @@ class MetaCatalogOperationService extends BaseService {
       // Legacy imports have no run row, so the unique active-run index cannot
       // see them. Respect the connection flag before reserving or rebinding.
       if (ACTIVE_IMPORT_STATUSES.has(connection.importStatus)) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "A Meta Catalog sync is already running",
           "metaCatalogSyncAlreadyRunning",
         )

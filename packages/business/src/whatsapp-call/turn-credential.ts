@@ -2,7 +2,7 @@
  * coturn use-auth-secret time-limited REST credentials, channel-agnostic so
  * it's shared across WebRTC transports. Web Crypto only (globalThis.crypto),
  * never node:crypto — must stay reachable from an Edge Runtime bundle, same
- * as @chatbotx.io/encryption's encryptUtils.
+ * as @hitechcloud.vn/encryption's encryptUtils.
  */
 
 export const TURN_CREDENTIAL_TTL_SECONDS = 60 * 60

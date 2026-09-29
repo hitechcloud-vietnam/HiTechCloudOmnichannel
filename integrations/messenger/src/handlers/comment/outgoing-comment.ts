@@ -2,7 +2,7 @@ import {
   ChannelError,
   ChannelErrorCategory,
   type CommentHandlers,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { replyToComment } from "../../apis/comment"
 import { mapToChannelError } from "../../lib/error-mapper"
 import type { MessengerAuthValue } from "../../schema"

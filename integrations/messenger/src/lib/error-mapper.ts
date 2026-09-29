@@ -2,7 +2,7 @@ import {
   ChannelError,
   ChannelErrorCategory,
   UNKNOWN_ERROR,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import {
   type ChannelErrorSource,
   MessengerException,

@@ -1,9 +1,9 @@
 import {
   signOpenLinkUrl,
   verifyOpenLinkUrl,
-} from "@chatbotx.io/encryption/open-link-token"
-import { matchDeepLinkApp } from "@chatbotx.io/flow-config"
-import type { ChannelType } from "@chatbotx.io/utils/channel"
+} from "@hitechcloud.vn/encryption/open-link-token"
+import { matchDeepLinkApp } from "@hitechcloud.vn/flow-config"
+import type { ChannelType } from "@hitechcloud.vn/utils/channel"
 
 /**
  * Build the interstitial URL a flow button's destination is replaced with.

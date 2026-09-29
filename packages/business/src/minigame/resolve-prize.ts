@@ -1,7 +1,7 @@
 import type {
   MinigamePrizeItem,
   MinigamePrizeSettings,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 
 export type MinigamePlayResult =
   | { type: "prize"; prize: MinigamePrizeItem }

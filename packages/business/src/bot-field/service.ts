@@ -8,29 +8,29 @@ import {
   relationsFilterToSQL,
   type SQL,
   sql,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   type CustomFieldType,
   rootFolderId,
-} from "@chatbotx.io/database/partials"
-import { botFieldModel } from "@chatbotx.io/database/schema"
-import type { BotFieldModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/partials"
+import { botFieldModel } from "@hitechcloud.vn/database/schema"
+import type { BotFieldModel } from "@hitechcloud.vn/database/types"
 import {
   likeContains,
   parseOrderByAsObject,
   parsePagination,
-} from "@chatbotx.io/database/utils"
-import { FieldOperationType } from "@chatbotx.io/flow-config"
-import { withCache } from "@chatbotx.io/redis"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/utils"
+import { FieldOperationType } from "@hitechcloud.vn/flow-config"
+import { withCache } from "@hitechcloud.vn/redis"
+import { createId } from "@hitechcloud.vn/utils"
 import {
   canonicalNumberLiteral,
   customFieldResolutionKey,
-} from "@chatbotx.io/utils/custom-field"
+} from "@hitechcloud.vn/utils/custom-field"
 import {
   SourceTimezoneStrategy,
   type TemporalInputParsing,
-} from "@chatbotx.io/utils/datetime"
+} from "@hitechcloud.vn/utils/datetime"
 import { BaseService } from "../base.service"
 import {
   createSourceTimezoneResolver,
@@ -38,7 +38,7 @@ import {
   type SourceTimezoneResolver,
 } from "../contact-custom-field/normalize"
 import {
-  ChatbotXException,
+  HiTechCloudOmnichannelException,
   notFoundException,
   validationException,
 } from "../errors"
@@ -432,7 +432,7 @@ class BotFieldService extends BaseService {
     })
 
     if (normalizedValue === null) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         `Invalid ${type} value for bot field`,
         "invalidFieldOperation",
       )
@@ -578,7 +578,7 @@ class BotFieldService extends BaseService {
     const existing = await this.findByKeyOrFail({ workspaceId, key })
 
     if (!isOperationAllowedForType(operation, existing.type)) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         `Operation "${operation}" is not supported for field type "${existing.type}"`,
         "invalidFieldOperation",
       )
@@ -598,7 +598,7 @@ class BotFieldService extends BaseService {
       })
 
       if (normalizedValue === null) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           `Invalid ${existing.type} value for bot field`,
           "invalidFieldOperation",
         )
@@ -648,7 +648,7 @@ class BotFieldService extends BaseService {
     if (isNumericOperation) {
       const canonicalOperand = canonicalNumberLiteral(value)
       if (canonicalOperand === null) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           `"${value}" is not a valid number value for this field.`,
           "invalidFieldOperation",
         )
@@ -670,7 +670,7 @@ class BotFieldService extends BaseService {
         .returning()
     } catch (error: unknown) {
       if (isNumericOperation) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "Bot field value is not numeric and cannot be increased or decreased",
           "invalidFieldOperation",
         )

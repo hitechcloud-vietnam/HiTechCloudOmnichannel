@@ -27,12 +27,12 @@ vi.mock("../service", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/encryption", () => ({
+vi.mock("@hitechcloud.vn/encryption", () => ({
   encryptedDataSchema: { parse: (value: unknown) => value },
   encryptUtils: { decryptObject: mocks.decryptObject },
 }))
 
-vi.mock("@chatbotx.io/integration-facebook-ads", () => ({
+vi.mock("@hitechcloud.vn/integration-facebook-ads", () => ({
   facebookAdsAuthSchema: {},
 }))
 

@@ -1,4 +1,4 @@
-import { customAuthSchema } from "@chatbotx.io/sdk"
+import { customAuthSchema } from "@hitechcloud.vn/sdk"
 import { z } from "zod"
 
 export const chatbotxAuthSchema = customAuthSchema.extend({

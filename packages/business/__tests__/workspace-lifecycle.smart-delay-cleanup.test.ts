@@ -4,7 +4,7 @@ const cancelActiveForWorkspace = vi.fn()
 const queueRemove = vi.fn()
 const loggerWarn = vi.fn()
 
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   integrationQueue: { remove: queueRemove },
 }))
 

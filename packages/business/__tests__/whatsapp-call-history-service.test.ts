@@ -4,7 +4,7 @@ const mocks = vi.hoisted(() => ({
   listForWorkspace: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   whatsappCallRepository: { listForWorkspace: mocks.listForWorkspace },
 }))
 

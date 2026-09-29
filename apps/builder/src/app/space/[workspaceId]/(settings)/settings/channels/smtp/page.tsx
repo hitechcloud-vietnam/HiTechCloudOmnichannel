@@ -1,4 +1,4 @@
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { listIntegrationSmtps } from "@/features/integration-smtp/queries"
 import { SmtpManage } from "@/features/integration-smtp/smtp-manage"

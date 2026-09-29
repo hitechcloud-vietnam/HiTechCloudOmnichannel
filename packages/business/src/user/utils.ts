@@ -1,4 +1,4 @@
-import type { UserModel } from "@chatbotx.io/database/types"
+import type { UserModel } from "@hitechcloud.vn/database/types"
 import { tenantService } from "../enterprise/tenant/service"
 import { isCloud, keys } from "../keys"
 

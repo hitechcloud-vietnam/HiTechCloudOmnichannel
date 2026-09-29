@@ -1,7 +1,7 @@
 import { createGoogleGenerativeAI } from "@ai-sdk/google"
 import { createOpenAI } from "@ai-sdk/openai"
-import { db } from "@chatbotx.io/database/client"
-import { secretTextAuthSchema } from "@chatbotx.io/sdk"
+import { db } from "@hitechcloud.vn/database/client"
+import { secretTextAuthSchema } from "@hitechcloud.vn/sdk"
 import type { EmbeddingModel } from "ai"
 import { geminiEmbeddingModels, openaiEmbeddingModels } from "../models"
 

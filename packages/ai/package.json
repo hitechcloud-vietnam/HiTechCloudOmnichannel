@@ -1,5 +1,5 @@
 {
-  "name": "@chatbotx.io/ai",
+  "name": "@hitechcloud.vn/ai",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -15,13 +15,13 @@
     "@ai-sdk/google": "^3.0.65",
     "@ai-sdk/openai": "^3.0.54",
     "@ai-sdk/openai-compatible": "^2.0.56",
-    "@chatbotx.io/business": "workspace:*",
-    "@chatbotx.io/database": "workspace:*",
-    "@chatbotx.io/flow-config": "workspace:*",
-    "@chatbotx.io/logger": "workspace:*",
-    "@chatbotx.io/redis": "workspace:*",
-    "@chatbotx.io/sdk": "workspace:*",
-    "@chatbotx.io/worker-config": "workspace:*",
+    "@hitechcloud.vn/business": "workspace:*",
+    "@hitechcloud.vn/database": "workspace:*",
+    "@hitechcloud.vn/flow-config": "workspace:*",
+    "@hitechcloud.vn/logger": "workspace:*",
+    "@hitechcloud.vn/redis": "workspace:*",
+    "@hitechcloud.vn/sdk": "workspace:*",
+    "@hitechcloud.vn/worker-config": "workspace:*",
     "@openrouter/ai-sdk-provider": "^2.9.1",
     "@t3-oss/env-core": "^0.13.11",
     "ai": "^6.0.170",
@@ -31,8 +31,8 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@chatbotx.io/typescript-config": "workspace:*",
-    "@chatbotx.io/vitest-config": "workspace:*",
+    "@hitechcloud.vn/typescript-config": "workspace:*",
+    "@hitechcloud.vn/vitest-config": "workspace:*",
     "@types/mime-types": "^3.0.1",
     "typescript": "^5",
     "vitest": "^4.1.0"

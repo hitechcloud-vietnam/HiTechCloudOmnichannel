@@ -1,4 +1,4 @@
-import { parseBucHeader } from "@chatbotx.io/integration-messenger/apis/usage"
+import { parseBucHeader } from "@hitechcloud.vn/integration-messenger/apis/usage"
 import { DEFAULT_API_VERSION } from "../constants"
 import { graphAuthHeaders, metaCatalogGraphClient } from "../lib/http-client"
 import type {

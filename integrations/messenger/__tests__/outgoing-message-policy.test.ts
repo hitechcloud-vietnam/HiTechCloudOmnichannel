@@ -1,4 +1,4 @@
-import { ChannelError } from "@chatbotx.io/sdk"
+import { ChannelError } from "@hitechcloud.vn/sdk"
 import { describe, expect, test } from "vitest"
 import { resolveMessagingPolicy } from "../src/handlers/message/outgoing-message"
 

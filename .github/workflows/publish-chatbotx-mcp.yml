@@ -1,8 +1,8 @@
-name: Publish chatbotx-mcp to npm
+name: Publish hitechcloudomnichannel-mcp to npm
 
-# Publishes apps/mcp-server to npmjs.com as `chatbotx-mcp`.
+# Publishes apps/mcp-server to npmjs.com as `hitechcloudomnichannel-mcp`.
 # The agent-distribution repo references this package from Cursor/Grok/Gemini
-# MCP manifests via `npx -y chatbotx-mcp`, so this package must exist
+# MCP manifests via `npx -y hitechcloudomnichannel-mcp`, so this package must exist
 # before submitting those marketplaces.
 #
 # Bootstrap (one-time, required before this workflow can publish anything):
@@ -13,9 +13,9 @@ name: Publish chatbotx-mcp to npm
 #   2. Manually stamp a real version into package.json (it holds the
 #      `0.0.0-dev` placeholder in the repo, same convention as apps/cli).
 #   3. `npm publish --access public` from apps/mcp-server (interactive 2FA).
-#   4. On npmjs.com → chatbotx-mcp → Settings → Trusted publishing, add a
-#      GitHub Actions publisher for repo `ChatbotXIO/ChatbotX`, workflow
-#      filename `publish-chatbotx-mcp.yml` (exact, case-sensitive).
+#   4. On npmjs.com → hitechcloudomnichannel-mcp → Settings → Trusted publishing, add a
+#      GitHub Actions publisher for repo `HiTechCloudOmnichannelIO/HiTechCloudOmnichannel`, workflow
+#      filename `publish-hitechcloudomnichannel-mcp.yml` (exact, case-sensitive).
 # Only after that does a `mcp-v*` tag push or workflow_dispatch succeed.
 #
 # Auth: OIDC trusted publishing (id-token: write), matching publish-cli.yml.
@@ -40,12 +40,12 @@ permissions:
   id-token: write
 
 concurrency:
-  group: publish-chatbotx-mcp-${{ github.ref }}
+  group: publish-hitechcloudomnichannel-mcp-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   publish:
-    name: Publish chatbotx-mcp
+    name: Publish hitechcloudomnichannel-mcp
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -97,7 +97,7 @@ jobs:
           fi
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           echo "dist_tag=${DIST_TAG}" >> "$GITHUB_OUTPUT"
-          echo "Publishing chatbotx-mcp@${VERSION} under dist-tag ${DIST_TAG}"
+          echo "Publishing hitechcloudomnichannel-mcp@${VERSION} under dist-tag ${DIST_TAG}"
 
       # Re-running a tag's workflow must not fail on E403 "cannot publish over
       # an existing version". Only guarded for tag pushes: a manual dispatch is
@@ -108,8 +108,8 @@ jobs:
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
-          if npm view "chatbotx-mcp@${VERSION}" version >/dev/null 2>&1; then
-            echo "chatbotx-mcp@${VERSION} is already on npm — skipping publish."
+          if npm view "hitechcloudomnichannel-mcp@${VERSION}" version >/dev/null 2>&1; then
+            echo "hitechcloudomnichannel-mcp@${VERSION} is already on npm — skipping publish."
             echo "should_publish=false" >> "$GITHUB_OUTPUT"
           else
             echo "should_publish=true" >> "$GITHUB_OUTPUT"
@@ -153,7 +153,7 @@ jobs:
           fi
           npm publish "${ARGS[@]}"
 
-      # Lets ChatbotXIO/chatbotx-agent's upstream-drift-check workflow run
+      # Lets HiTechCloudOmnichannelIO/hitechcloudomnichannel-agent's upstream-drift-check workflow run
       # immediately instead of waiting for its next scheduled run. Optional:
       # skipped entirely (via the empty-token guard below) when
       # CHATBOTX_AGENT_DISPATCH_TOKEN isn't configured, so this publish
@@ -162,14 +162,14 @@ jobs:
       # One-time setup required before this does anything — shared with
       # publish-cli.yml, set up once for both:
       #   1. Create a fine-grained GitHub PAT scoped to ONLY the
-      #      ChatbotXIO/chatbotx-agent repository, with "Contents: write"
+      #      HiTechCloudOmnichannelIO/hitechcloudomnichannel-agent repository, with "Contents: write"
       #      permission (needed to create a repository_dispatch event) and
       #      no other scopes.
       #   2. Add it as a secret named CHATBOTX_AGENT_DISPATCH_TOKEN on this
       #      repository (Settings → Secrets and variables → Actions).
       # The receiving workflow is .github/workflows/upstream-drift.yml in
-      # chatbotx-agent, listening for event_type "upstream-published".
-      - name: Notify chatbotx-agent of the new MCP publish
+      # hitechcloudomnichannel-agent, listening for event_type "upstream-published".
+      - name: Notify hitechcloudomnichannel-agent of the new MCP publish
         if: steps.guard.outputs.should_publish != 'false' && inputs.dry_run != true && steps.publish.outcome == 'success'
         continue-on-error: true
         env:
@@ -177,12 +177,12 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           if [[ -z "${GH_TOKEN}" ]]; then
-            echo "CHATBOTX_AGENT_DISPATCH_TOKEN not set — skipping chatbotx-agent notification." >> "$GITHUB_STEP_SUMMARY"
+            echo "CHATBOTX_AGENT_DISPATCH_TOKEN not set — skipping hitechcloudomnichannel-agent notification." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
-          gh api repos/ChatbotXIO/chatbotx-agent/dispatches \
+          gh api repos/HiTechCloudOmnichannelIO/hitechcloudomnichannel-agent/dispatches \
             -f event_type=upstream-published \
-            -f "client_payload[package]=chatbotx-mcp" \
+            -f "client_payload[package]=hitechcloudomnichannel-mcp" \
             -f "client_payload[version]=${VERSION}"
 
       - name: Summarize
@@ -195,11 +195,11 @@ jobs:
           PUBLISH_OUTCOME: ${{ steps.publish.outcome }}
         run: |
           if [[ "${SHOULD_PUBLISH}" == "false" ]]; then
-            echo "chatbotx-mcp@${VERSION} already published — skipped." >> "$GITHUB_STEP_SUMMARY"
+            echo "hitechcloudomnichannel-mcp@${VERSION} already published — skipped." >> "$GITHUB_STEP_SUMMARY"
           elif [[ "${PUBLISH_OUTCOME}" == "failure" ]]; then
-            echo "Publish failed for chatbotx-mcp@${VERSION} — nothing was confirmed uploaded; check the \"Publish to npm\" step log." >> "$GITHUB_STEP_SUMMARY"
+            echo "Publish failed for hitechcloudomnichannel-mcp@${VERSION} — nothing was confirmed uploaded; check the \"Publish to npm\" step log." >> "$GITHUB_STEP_SUMMARY"
           elif [[ "${DRY_RUN}" == "true" ]]; then
-            echo "Dry run for chatbotx-mcp@${VERSION} (${DIST_TAG}) — nothing uploaded." >> "$GITHUB_STEP_SUMMARY"
+            echo "Dry run for hitechcloudomnichannel-mcp@${VERSION} (${DIST_TAG}) — nothing uploaded." >> "$GITHUB_STEP_SUMMARY"
           else
-            echo "Published https://www.npmjs.com/package/chatbotx-mcp/v/${VERSION} (dist-tag \`${DIST_TAG}\`)" >> "$GITHUB_STEP_SUMMARY"
+            echo "Published https://www.npmjs.com/package/hitechcloudomnichannel-mcp/v/${VERSION} (dist-tag \`${DIST_TAG}\`)" >> "$GITHUB_STEP_SUMMARY"
           fi

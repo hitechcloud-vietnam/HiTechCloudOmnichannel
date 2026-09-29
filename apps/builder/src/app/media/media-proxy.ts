@@ -1,20 +1,20 @@
 export {
   isFailedOriginPath,
   isPendingOriginPath,
-} from "@chatbotx.io/business"
+} from "@hitechcloud.vn/business"
 
 import {
   resolveIntegrationForAttachment,
   TerminalMediaError,
-} from "@chatbotx.io/channel-registry/media-hydration"
-import type { MediaTokenPayload } from "@chatbotx.io/encryption"
-import { verifyMediaToken } from "@chatbotx.io/encryption"
-import { getPublicOriginFromRequest } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/channel-registry/media-hydration"
+import type { MediaTokenPayload } from "@hitechcloud.vn/encryption"
+import { verifyMediaToken } from "@hitechcloud.vn/encryption"
+import { getPublicOriginFromRequest } from "@hitechcloud.vn/utils"
 import {
   LowJobAction,
   type LowJobCoexistAttachmentDownload,
   lowQueue,
-} from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/worker-config"
 import { type NextRequest, NextResponse } from "next/server"
 import { httpLogger } from "@/lib/log"
 import {

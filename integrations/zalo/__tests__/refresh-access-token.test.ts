@@ -1,5 +1,5 @@
-import type { Oauth2Config } from "@chatbotx.io/sdk"
-import { HttpResponse, http, server } from "@chatbotx.io/vitest-config/msw"
+import type { Oauth2Config } from "@hitechcloud.vn/sdk"
+import { HttpResponse, http, server } from "@hitechcloud.vn/vitest-config/msw"
 import { describe, expect, test } from "vitest"
 import { refreshAccessToken } from "../src/api/auth"
 

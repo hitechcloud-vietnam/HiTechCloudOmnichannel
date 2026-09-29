@@ -16,7 +16,7 @@ const {
   mockWorkspaceFindById: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/business", () => ({
+vi.mock("@hitechcloud.vn/business", () => ({
   aiAgentService: {
     findDefault: mockAiAgentFindDefault,
   },
@@ -31,13 +31,13 @@ vi.mock("../src/utils", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   simpleQueue: {
     enqueue: mockSimpleQueueEnqueue,
   },
 }))
 
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   AIJobAction: {
     processAutomatedResponse: "processAutomatedResponse",
   },

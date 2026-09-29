@@ -1,5 +1,5 @@
 import { createHmac } from "node:crypto"
-import { sha256Hex } from "@chatbotx.io/utils/crypto"
+import { sha256Hex } from "@hitechcloud.vn/utils/crypto"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import type { OnMessageArgs } from "whatsapp-api-js/emitters"
 import { extractCoexistPayloads, webhookHandler } from "../src/handlers/webhook"
@@ -287,8 +287,8 @@ vi.mock("whatsapp-api-js/middleware/next", () => ({
 // vi.advanceTimersByTimeAsync cannot flush. Other exports (incl. `sha256Hex`,
 // used by the coexist jobId tests below) stay real; the extractCoexistPayloads
 // tests above never touch this module.
-vi.mock("@chatbotx.io/utils/crypto", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@chatbotx.io/utils/crypto")>()),
+vi.mock("@hitechcloud.vn/utils/crypto", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@hitechcloud.vn/utils/crypto")>()),
   verifyHmacSha256Signature: vi.fn().mockResolvedValue(true),
 }))
 

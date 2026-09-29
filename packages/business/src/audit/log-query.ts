@@ -1,11 +1,11 @@
-import { db, relationsFilterToSQL } from "@chatbotx.io/database/client"
-import { auditLogModel } from "@chatbotx.io/database/schema"
-import type { AuditLogModel, UserModel } from "@chatbotx.io/database/types"
+import { db, relationsFilterToSQL } from "@hitechcloud.vn/database/client"
+import { auditLogModel } from "@hitechcloud.vn/database/schema"
+import type { AuditLogModel, UserModel } from "@hitechcloud.vn/database/types"
 import {
   getPaginationWithDefaults,
   likeContains,
   parseOrderByAsObject,
-} from "@chatbotx.io/database/utils"
+} from "@hitechcloud.vn/database/utils"
 
 type ListAuditLogsInput = {
   workspaceId: string

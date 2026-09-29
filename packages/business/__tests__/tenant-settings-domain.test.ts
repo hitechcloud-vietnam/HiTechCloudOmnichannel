@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
-const BUILDER_URL = "https://app.chatbotx.io"
+const BUILDER_URL = "https://app.hitechcloud.vn"
 const CUSTOM_DOMAIN = "chat.customer.com"
-const ENV_STORAGE_URL = "https://files.chatbotx.io/assets"
+const ENV_STORAGE_URL = "https://files.hitechcloud.vn/assets"
 const TENANT_STORAGE_URL = "https://cdn.customer.com/public"
 
 const mocks = vi.hoisted(() => ({
   env: {
-    NEXT_PUBLIC_BUILDER_URL: "https://app.chatbotx.io",
+    NEXT_PUBLIC_BUILDER_URL: "https://app.hitechcloud.vn",
     NEXT_PUBLIC_STORAGE_URL: undefined as string | undefined,
     FORCE_PUBLIC_HTTPS: false,
     REALTIME_BROADCAST_SECRET: "secret",
@@ -169,8 +169,8 @@ describe("resolveTenantSettingsByDomain", () => {
   })
 
   test("forces HTTPS for env-derived default URLs when configured", async () => {
-    mocks.env.NEXT_PUBLIC_BUILDER_URL = "http://app.chatbotx.io"
-    mocks.env.NEXT_PUBLIC_STORAGE_URL = "http://files.chatbotx.io/assets"
+    mocks.env.NEXT_PUBLIC_BUILDER_URL = "http://app.hitechcloud.vn"
+    mocks.env.NEXT_PUBLIC_STORAGE_URL = "http://files.hitechcloud.vn/assets"
     mocks.env.FORCE_PUBLIC_HTTPS = true
     mocks.hasEnterpriseFeatures.mockResolvedValue(false)
 
@@ -178,7 +178,7 @@ describe("resolveTenantSettingsByDomain", () => {
 
     expect(settings.appUrl).toBe(BUILDER_URL)
     expect(settings.publicRealtimeUrl).toBe(`${BUILDER_URL}/ws/`)
-    expect(settings.storageUrl).toBe("https://files.chatbotx.io/assets/")
+    expect(settings.storageUrl).toBe("https://files.hitechcloud.vn/assets/")
     expect(settings.logoDarkUrl).toBe(`${BUILDER_URL}/brand/logo_black.svg`)
   })
 })
@@ -227,7 +227,7 @@ describe("resolveWorkspaceAppUrl", () => {
   })
 
   test("forces HTTPS for fallback workspace app links when configured", async () => {
-    mocks.env.NEXT_PUBLIC_BUILDER_URL = "http://app.chatbotx.io"
+    mocks.env.NEXT_PUBLIC_BUILDER_URL = "http://app.hitechcloud.vn"
     mocks.env.FORCE_PUBLIC_HTTPS = true
     mocks.findWorkspaceById.mockResolvedValue({
       id: "workspace-1",

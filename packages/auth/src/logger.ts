@@ -1,3 +1,3 @@
-import { getChildLogger } from "@chatbotx.io/logger"
+import { getChildLogger } from "@hitechcloud.vn/logger"
 
 export const logger = getChildLogger("Auth")

@@ -1,8 +1,8 @@
 import {
   broadcastPlanPolicyService,
   integrationWhatsappService,
-} from "@chatbotx.io/business"
-import { getIdFromParams } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/business"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import type { SearchParams } from "nuqs/server"
 import { CreateBroadcastForm } from "@/features/broadcasts/create-broadcast-form"

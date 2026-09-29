@@ -30,7 +30,7 @@ const { mockDbUpdate } = vi.hoisted(() => ({
   mockDbUpdate: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn((...args: unknown[]) => ({ __and: args })),
   db: { update: mockDbUpdate },
   eq: vi.fn((left: unknown, right: unknown) => ({ __eq: [left, right] })),
@@ -43,7 +43,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   })),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   contactInboxModel: { id: "ci.id", contactId: "ci.contactId" },
   contactModel: {
     id: "contact.id",
@@ -57,22 +57,22 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   inboxModel: { id: "inbox.id" },
 }))
 
-vi.mock("@chatbotx.io/database/queries", () => ({
+vi.mock("@hitechcloud.vn/database/queries", () => ({
   buildContactWhere: vi.fn(),
   contactFilterHasPredicate: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/event-bus", () => ({ emit: vi.fn() }))
-vi.mock("@chatbotx.io/events", () => ({
+vi.mock("@hitechcloud.vn/event-bus", () => ({ emit: vi.fn() }))
+vi.mock("@hitechcloud.vn/events", () => ({
   emitContactCreated: vi.fn(),
   emitContactInfoUpdated: vi.fn(),
 }))
-vi.mock("@chatbotx.io/filesystem", () => ({ uploadFileFromUrl: vi.fn() }))
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/filesystem", () => ({ uploadFileFromUrl: vi.fn() }))
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: vi.fn(),
   withCache: vi.fn(),
 }))
-vi.mock("@chatbotx.io/analytics", () => ({ macAnalyticsService: {} }))
+vi.mock("@hitechcloud.vn/analytics", () => ({ macAnalyticsService: {} }))
 vi.mock("../src/quota-enforcement/service", () => ({
   quotaEnforcementService: {},
 }))
@@ -83,7 +83,7 @@ vi.mock("../src/message-cleanup/service", () => ({ messageCleanupService: {} }))
 
 const { contactService } = await import("../src/contact/service")
 const { isNull: isNullMock, sql: sqlMock } = await import(
-  "@chatbotx.io/database/client"
+  "@hitechcloud.vn/database/client"
 )
 
 const buildUpdateClient = (returningRows: { id: string }[] = [{ id: "c" }]) => {

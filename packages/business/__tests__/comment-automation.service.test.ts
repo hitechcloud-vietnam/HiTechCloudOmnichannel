@@ -13,7 +13,7 @@ const mocks = vi.hoisted(() => ({
   count: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       commentAutomationModel: {
@@ -43,7 +43,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   }),
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   commentAutomationTypes: {
     enum: {
       threads: "threads",
@@ -61,7 +61,7 @@ vi.mock("@chatbotx.io/database/partials", () => ({
       : reply,
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   contactInboxModel: { contactId: "ContactInbox.contactId" },
   commentAutomationModel: {
     id: "CommentAutomation.id",
@@ -76,7 +76,7 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: () => "generated-id",
 }))
 

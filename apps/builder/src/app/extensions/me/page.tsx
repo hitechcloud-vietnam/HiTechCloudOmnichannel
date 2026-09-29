@@ -1,4 +1,4 @@
-import { systemFieldService } from "@chatbotx.io/business/system-field"
+import { systemFieldService } from "@hitechcloud.vn/business/system-field"
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { NextIntlClientProvider } from "next-intl"

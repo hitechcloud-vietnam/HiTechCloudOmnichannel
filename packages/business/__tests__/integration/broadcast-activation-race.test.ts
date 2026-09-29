@@ -1,15 +1,15 @@
 // @vitest-environment node
 
-import { db, eq, sql } from "@chatbotx.io/database/client"
+import { db, eq, sql } from "@hitechcloud.vn/database/client"
 import {
   broadcastModel,
   flowModel,
   userModel,
   userQuotaModel,
   workspaceModel,
-} from "@chatbotx.io/database/schema"
-import { createId } from "@chatbotx.io/utils"
-import { broadcastSubactions } from "@chatbotx.io/utils/broadcast"
+} from "@hitechcloud.vn/database/schema"
+import { createId } from "@hitechcloud.vn/utils"
+import { broadcastSubactions } from "@hitechcloud.vn/utils/broadcast"
 import {
   afterAll,
   beforeAll,

@@ -10,33 +10,33 @@ import {
   isPendingOriginPath,
   parseNoAvatarSentinel,
   WA_MEDIA_PREFIX,
-} from "@chatbotx.io/business"
-import { db } from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/business"
+import { db } from "@hitechcloud.vn/database/client"
 import {
   type AttachmentLookupRow,
   createMessageRepository,
   type IMessageRepository,
   type MessageWithAttachments,
-} from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/repositories"
 import type {
   AttachmentModel,
   ContactInboxModel,
   ContactModel,
-} from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/types"
 import {
   getWhatsappClient,
   type WhatsappAuthValue,
-} from "@chatbotx.io/integration-whatsapp"
-import { getChildLogger } from "@chatbotx.io/logger"
-import { distributedLock } from "@chatbotx.io/redis"
-import { IntegrationException, SdkException } from "@chatbotx.io/sdk"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/integration-whatsapp"
+import { getChildLogger } from "@hitechcloud.vn/logger"
+import { distributedLock } from "@hitechcloud.vn/redis"
+import { IntegrationException, SdkException } from "@hitechcloud.vn/sdk"
+import { createId } from "@hitechcloud.vn/utils"
 import {
   cancelBodyQuietly,
   MediaEmptyBodyError,
   MediaTooLargeError,
   readBodyWithCap as readBodyWithCapPrimitive,
-} from "@chatbotx.io/utils/media-download"
+} from "@hitechcloud.vn/utils/media-download"
 import imageSize from "image-size"
 import {
   type IntegrationRow,

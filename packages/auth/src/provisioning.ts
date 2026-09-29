@@ -2,14 +2,14 @@ import {
   platformCredentialService,
   resolveTenantSettingsByOwner,
   workspaceService,
-} from "@chatbotx.io/business"
-import { ChatbotXException } from "@chatbotx.io/business/errors"
-import { db, isUniqueViolationError } from "@chatbotx.io/database/client"
-import { accountModel, userModel } from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/business"
+import { HiTechCloudOmnichannelException } from "@hitechcloud.vn/business/errors"
+import { db, isUniqueViolationError } from "@hitechcloud.vn/database/client"
+import { accountModel, userModel } from "@hitechcloud.vn/database/schema"
 import {
   DEFAULT_ACCOUNT_CREDENTIALS_SUBJECT,
   sendAccountCredentials,
-} from "@chatbotx.io/mail"
+} from "@hitechcloud.vn/mail"
 import { generateRandomString, hashPassword } from "better-auth/crypto"
 
 const TEMP_PASSWORD_LENGTH = 16
@@ -59,7 +59,7 @@ export async function provisionResellerAccount(
     livemode,
   })
   if (!smtp) {
-    throw new ChatbotXException(
+    throw new HiTechCloudOmnichannelException(
       "Reseller has no SMTP credential configured; cannot send account credentials",
       "smtpCredentialMissing",
       400,
@@ -146,7 +146,7 @@ export async function provisionResellerAccount(
         .returning({ id: userModel.id })
 
       if (!createdUser) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "Failed to create provisioned user",
           "provisionFailed",
           500,

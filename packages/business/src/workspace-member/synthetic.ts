@@ -1,9 +1,9 @@
-import type { WorkspaceMemberPermissions } from "@chatbotx.io/database/partials"
+import type { WorkspaceMemberPermissions } from "@hitechcloud.vn/database/partials"
 import type {
   UserModel,
   WorkspaceMemberModel,
   WorkspaceModel,
-} from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/types"
 import { isSuperAdmin } from "../user/utils"
 import { FULL_WORKSPACE_MEMBER_PERMISSIONS } from "./permissions"
 import { isSupportAccessEnabled } from "./predicates"

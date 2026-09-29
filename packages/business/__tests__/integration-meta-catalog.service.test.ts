@@ -30,7 +30,7 @@ const transactionClient = {
   update: (...args: unknown[]) => mocks.update(...args),
 }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn((...conditions: unknown[]) => conditions),
   db: {
     query: transactionClient.query,
@@ -44,7 +44,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   notInArray: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   integrationMetaCatalogModel: {
     deletedAt: "deletedAt",
     id: "connectionId",
@@ -61,14 +61,14 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   },
 }))
 
-// vitest's SSR deps optimizer bundles the whole `@chatbotx.io/database`
+// vitest's SSR deps optimizer bundles the whole `@hitechcloud.vn/database`
 // package graph together once any subpath is imported, which otherwise pulls
 // in `contactRepository`'s real contact-filter query graph (needs the real
 // schema, conflicting with the narrow mock above) even though this service
-// never touches `@chatbotx.io/database/repositories`.
-vi.mock("@chatbotx.io/database/repositories", () => ({}))
+// never touches `@hitechcloud.vn/database/repositories`.
+vi.mock("@hitechcloud.vn/database/repositories", () => ({}))
 
-vi.mock("@chatbotx.io/encryption", () => ({
+vi.mock("@hitechcloud.vn/encryption", () => ({
   encryptedDataSchema: { parse: (value: unknown) => value },
   encryptUtils: {
     decryptObject: mocks.decryptObject,
@@ -76,7 +76,7 @@ vi.mock("@chatbotx.io/encryption", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: vi.fn(),
 }))
 

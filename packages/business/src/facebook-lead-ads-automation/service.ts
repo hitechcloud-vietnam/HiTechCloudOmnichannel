@@ -6,21 +6,21 @@ import {
   isUniqueViolationError,
   relationsFilterToSQL,
   sql,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   ALL_FORMS_ID,
   type FacebookLeadFieldMappings,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import {
   facebookLeadAdsAutomationModel,
   facebookLeadAdsLeadModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import {
   getPaginationWithDefaults,
   likeContains,
   parseOrderByAsObject,
-} from "@chatbotx.io/database/utils"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/utils"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import { validationException } from "../errors"
 import { flowService } from "../flow/service"

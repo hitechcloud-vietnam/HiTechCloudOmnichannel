@@ -22,13 +22,13 @@ const mocks = vi.hoisted(() => ({
   warn: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     transaction: mocks.transaction,
   },
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   mediaLibraryFileRepository: {
     listByFolder: mocks.listByFolder,
     deleteByFolder: mocks.deleteByFolder,
@@ -48,15 +48,15 @@ vi.mock("@chatbotx.io/database/repositories", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/filesystem", () => ({
+vi.mock("@hitechcloud.vn/filesystem", () => ({
   uploader: {
     deleteObject: mocks.deleteObject,
     getPresignedUpload: mocks.getPresignedUpload,
   },
 }))
 
-vi.mock("@chatbotx.io/utils", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@chatbotx.io/utils")>()
+vi.mock("@hitechcloud.vn/utils", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@hitechcloud.vn/utils")>()
   return {
     ...actual,
     createId: () => "id-1",

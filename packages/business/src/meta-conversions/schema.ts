@@ -2,14 +2,14 @@ import {
   metaCapiEventChannelSchema,
   metaCapiEventSourceSchema,
   metaCapiStatusSchema,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import type {
   IntegrationInstagramModel,
   IntegrationMessengerModel,
   IntegrationWhatsappModel,
   MetaCapiEventModel,
-} from "@chatbotx.io/database/types"
-import { withMetaCapiEventRefinements } from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/database/types"
+import { withMetaCapiEventRefinements } from "@hitechcloud.vn/flow-config"
 import {
   defaultMetaCapiActionSource,
   metaCapiActionSourceSchema,
@@ -17,7 +17,7 @@ import {
   metaCapiCurrencySchema,
   metaCapiEventNameSchema,
   metaCapiValueSchema,
-} from "@chatbotx.io/utils/meta-capi"
+} from "@hitechcloud.vn/utils/meta-capi"
 import { z } from "zod"
 import type { ChannelIdentity } from "./channel-identity"
 import { splitContentIds } from "./event-input"

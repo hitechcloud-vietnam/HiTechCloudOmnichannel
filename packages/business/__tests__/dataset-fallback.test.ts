@@ -1,4 +1,4 @@
-import { SdkException } from "@chatbotx.io/sdk"
+import { SdkException } from "@hitechcloud.vn/sdk"
 import { describe, expect, test, vi } from "vitest"
 import {
   createDatasetWithFallback,

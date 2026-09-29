@@ -3,7 +3,7 @@ import {
   HandleRequestType,
   Integration,
   type IntegrationDefinition,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { refreshAccessToken } from "./apis/auth"
 import { TiktokAPIException } from "./exception"
 import { callbackHandler } from "./handlers/callback"

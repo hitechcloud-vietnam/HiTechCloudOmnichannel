@@ -1,6 +1,6 @@
-import { db, eq } from "@chatbotx.io/database/client"
-import { integrationWebchatModel } from "@chatbotx.io/database/schema"
-import { ChatbotXException } from "../../errors"
+import { db, eq } from "@hitechcloud.vn/database/client"
+import { integrationWebchatModel } from "@hitechcloud.vn/database/schema"
+import { HiTechCloudOmnichannelException } from "../../errors"
 import {
   type CreateWebchatRequest,
   integrationWebchatService,
@@ -31,7 +31,7 @@ type TemplateWebchatEntry = {
 }
 
 const isChannelLimitReached = (error: unknown): boolean =>
-  error instanceof ChatbotXException && error.code === "channelLimitReached"
+  error instanceof HiTechCloudOmnichannelException && error.code === "channelLimitReached"
 
 /**
  * Webchats provision a brand-new Inbox per row, which consumes channel

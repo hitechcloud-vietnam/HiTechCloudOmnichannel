@@ -1,4 +1,4 @@
-import type { MessagingAdCreativeMediaInput } from "@chatbotx.io/database/partials"
+import type { MessagingAdCreativeMediaInput } from "@hitechcloud.vn/database/partials"
 import { describe, expect, test } from "vitest"
 import { mapCreativeMedia, mapTargeting } from "../mappers"
 

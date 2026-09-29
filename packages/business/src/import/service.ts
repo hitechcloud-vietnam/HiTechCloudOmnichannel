@@ -8,8 +8,8 @@ import {
   ilike,
   isDatabaseError,
   type SQL,
-} from "@chatbotx.io/database/client"
-import type { ContactImportMeta } from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/client"
+import type { ContactImportMeta } from "@hitechcloud.vn/database/partials"
 import {
   fileContextTypes,
   fileStatuses,
@@ -18,20 +18,20 @@ import {
   type ImportType,
   importStatuses,
   importTypes,
-} from "@chatbotx.io/database/partials"
-import { fileModel, importModel } from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/partials"
+import { fileModel, importModel } from "@hitechcloud.vn/database/schema"
 import {
   getPaginationWithDefaults,
   likeContains,
   parseOrderBy,
-} from "@chatbotx.io/database/utils"
-import { inferImportFormat } from "@chatbotx.io/imports"
-import { resolveImportFileFormat } from "@chatbotx.io/imports/file-validation"
-import { getImportEntry } from "@chatbotx.io/imports/registry"
-import { createId } from "@chatbotx.io/utils"
-import { DefaultJobAction, defaultQueue } from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/database/utils"
+import { inferImportFormat } from "@hitechcloud.vn/imports"
+import { resolveImportFileFormat } from "@hitechcloud.vn/imports/file-validation"
+import { getImportEntry } from "@hitechcloud.vn/imports/registry"
+import { createId } from "@hitechcloud.vn/utils"
+import { DefaultJobAction, defaultQueue } from "@hitechcloud.vn/worker-config"
 import { BaseService } from "../base.service"
-import { ChatbotXException, toPublicErrorMessage } from "../errors"
+import { HiTechCloudOmnichannelException, toPublicErrorMessage } from "../errors"
 import { inboxService } from "../inbox/service"
 
 const GENERIC_IMPORT_FAILURE =
@@ -85,7 +85,7 @@ class ImportService extends BaseService {
       where: { id: input.fileId, workspaceId },
     })
     if (!file) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "File not found",
         "contactImportFileNotFound",
         404,
@@ -95,7 +95,7 @@ class ImportService extends BaseService {
       file.contextType !== fileContextTypes.enum.import ||
       file.subType !== importTypes.enum.contacts
     ) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "File is not a contacts import",
         "contactImportFileTypeInvalid",
       )
@@ -107,7 +107,7 @@ class ImportService extends BaseService {
     })
     const contactsConfig = getImportEntry(importTypes.enum.contacts).config
     if (!(format && contactsConfig.acceptedFormats.includes(format))) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Unsupported file format",
         "contactImportUnsupportedFormat",
       )
@@ -117,7 +117,7 @@ class ImportService extends BaseService {
       where: { id: input.inboxId, workspaceId },
     })
     if (!inbox) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Inbox not found",
         "contactImportInboxNotFound",
         404,
@@ -133,7 +133,7 @@ class ImportService extends BaseService {
       columns: { id: true },
     })
     if (activeImport) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "An import is already in progress for this workspace. Please wait for it to complete.",
         "contactImportAlreadyRunning",
       )
@@ -203,7 +203,7 @@ class ImportService extends BaseService {
   }) {
     const file = await this.findFile(input)
     if (!file) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Product import file not found",
         "productImportFileNotFound",
       )
@@ -211,13 +211,13 @@ class ImportService extends BaseService {
     const config = getImportEntry("products").config
     const fileFormat = resolveImportFileFormat(config, file)
     if (file.subType !== "products" || !fileFormat) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Product import file type is invalid",
         "productImportFileTypeInvalid",
       )
     }
     if (fileFormat !== input.format) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Product import format does not match the uploaded file",
         "productImportFormatMismatch",
       )
@@ -231,7 +231,7 @@ class ImportService extends BaseService {
       columns: { id: true },
     })
     if (active) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "A product import is already running",
         "productImportAlreadyRunning",
       )
@@ -271,7 +271,7 @@ class ImportService extends BaseService {
       })
     } catch (error) {
       if (isActiveProductImportViolation(error)) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "A product import is already running",
           "productImportAlreadyRunning",
         )

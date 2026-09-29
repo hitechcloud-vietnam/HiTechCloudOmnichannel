@@ -1,16 +1,16 @@
-import { and, db, eq, inArray, sql } from "@chatbotx.io/database/client"
-import type { FolderType } from "@chatbotx.io/database/partials"
-import { triggerRepository } from "@chatbotx.io/database/repositories"
+import { and, db, eq, inArray, sql } from "@hitechcloud.vn/database/client"
+import type { FolderType } from "@hitechcloud.vn/database/partials"
+import { triggerRepository } from "@hitechcloud.vn/database/repositories"
 import {
   conditionModel,
   triggerContactHistoryModel,
   triggerExecutionModel,
   triggerModel,
   triggerStatsModel,
-} from "@chatbotx.io/database/schema"
-import type { ConditionModel, TriggerModel } from "@chatbotx.io/database/types"
-import { removeTriggerCache, updateTriggerCache } from "@chatbotx.io/events"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/schema"
+import type { ConditionModel, TriggerModel } from "@hitechcloud.vn/database/types"
+import { removeTriggerCache, updateTriggerCache } from "@hitechcloud.vn/events"
+import { createId } from "@hitechcloud.vn/utils"
 import { isSameJsonValue } from "../audit/diff"
 import { BaseService } from "../base.service"
 import { notFoundException, validationException } from "../errors"

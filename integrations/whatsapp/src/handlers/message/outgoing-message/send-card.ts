@@ -1,5 +1,5 @@
-import type { ButtonStepProps, MetadataPayload } from "@chatbotx.io/flow-config"
-import type { MessageButtonTemplate } from "@chatbotx.io/sdk"
+import type { ButtonStepProps, MetadataPayload } from "@hitechcloud.vn/flow-config"
+import type { MessageButtonTemplate } from "@hitechcloud.vn/sdk"
 import { Image, Text } from "whatsapp-api-js/messages"
 import type { ClientMessage } from "whatsapp-api-js/types"
 import { generateFooter } from "../interactive"

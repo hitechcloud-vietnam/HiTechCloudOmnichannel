@@ -1,9 +1,9 @@
-import { sequenceAnalyticsService } from "@chatbotx.io/analytics"
+import { sequenceAnalyticsService } from "@hitechcloud.vn/analytics"
 import {
   getSequenceStepStatsRequest,
   getSequenceStepStatsResponse,
-} from "@chatbotx.io/analytics/schemas"
-import { withCache } from "@chatbotx.io/redis"
+} from "@hitechcloud.vn/analytics/schemas"
+import { withCache } from "@hitechcloud.vn/redis"
 import { os } from "@orpc/server"
 import { logger } from "../lib/log"
 

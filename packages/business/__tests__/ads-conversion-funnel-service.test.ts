@@ -10,7 +10,7 @@ const mocks = vi.hoisted(() => ({
   countAllChannelConversationsByDayAndAd: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   adsConversionEventRepository: {
     countCtwaConversationsByAd: mocks.countCtwaConversationsByAd,
     countConversionEventsByAd: mocks.countConversionEventsByAd,
@@ -26,7 +26,7 @@ vi.mock("@chatbotx.io/database/repositories", () => ({
   integrationWhatsappRepository: {},
 }))
 
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   IntegrationJobAction: { sendConversionEvent: "sendConversionEvent" },
   enqueueIntegrationJob: vi.fn(),
 }))

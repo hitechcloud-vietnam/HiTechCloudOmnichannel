@@ -3,8 +3,8 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@chatbotx.io/ui/components/ui/card"
-import { getIdFromParams } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/ui/components/ui/card"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 

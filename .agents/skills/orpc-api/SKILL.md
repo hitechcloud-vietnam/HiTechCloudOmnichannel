@@ -38,11 +38,11 @@ The chain is `action | API handler → service → repository → DB` (see
 It never holds where-builders, pagination, or count logic itself.
 
 ```typescript
-import { myFeatureService } from "@chatbotx.io/business"
+import { myFeatureService } from "@hitechcloud.vn/business"
 import { authorizedAPI } from "@/orpc"
 import { workspaceAuthorizedMidddleware } from "@/middlewares/auth"
 import { z } from "zod"
-import { zodBigintAsString } from "@chatbotx.io/utils"
+import { zodBigintAsString } from "@hitechcloud.vn/utils"
 
 export const myFeatureAuthenticatedAPI = {
   listMyFeatureAPI: authorizedAPI
@@ -451,13 +451,13 @@ const data = await client.myFeatureAPI.listMyFeatureAPI({ workspaceId })
 
 ## Error Handling
 
-Throw `ChatbotXException` (`@chatbotx.io/business/errors`) or `ModelNotfoundException` (`@chatbotx.io/database/errors`) — they are auto-mapped to oRPC errors by `mapKnownOrpcErrors` (`apps/builder/src/orpc.ts`), the middleware-level `onError` interceptor shared by all three auth stacks: it warn-logs and remaps known errors, leaving anything else untouched. Unknown errors are logged exactly once at error level by `logUnexpectedOrpcErrorCallback` (`apps/builder/src/lib/orpc/handlers.ts`), the route-level interceptor used by the `/api` and `/rpc` handlers:
+Throw `HiTechCloudOmnichannelException` (`@hitechcloud.vn/business/errors`) or `ModelNotfoundException` (`@hitechcloud.vn/database/errors`) — they are auto-mapped to oRPC errors by `mapKnownOrpcErrors` (`apps/builder/src/orpc.ts`), the middleware-level `onError` interceptor shared by all three auth stacks: it warn-logs and remaps known errors, leaving anything else untouched. Unknown errors are logged exactly once at error level by `logUnexpectedOrpcErrorCallback` (`apps/builder/src/lib/orpc/handlers.ts`), the route-level interceptor used by the `/api` and `/rpc` handlers:
 
 ```typescript
-import { ChatbotXException, notFoundException } from "@chatbotx.io/business/errors"
+import { HiTechCloudOmnichannelException, notFoundException } from "@hitechcloud.vn/business/errors"
 
 throw notFoundException("Item not found")
-throw new ChatbotXException("Custom error", "BAD_REQUEST", 400)
+throw new HiTechCloudOmnichannelException("Custom error", "BAD_REQUEST", 400)
 ```
 
 ### Declared errors (`.errors()`) — public routes only
@@ -492,7 +492,7 @@ a route missing a universal code, and a duplicated one.
 (`validateORPCError` in `@orpc/contract`). On a miss it does not error — it
 returns the error with `defined: false`, so an undeclared code still reaches
 the client but never appears in the spec. That silent degrade is why a new
-`ChatbotXException` code thrown from a public route needs a matching entry in
+`HiTechCloudOmnichannelException` code thrown from a public route needs a matching entry in
 one of these sets.
 
 ## Logging

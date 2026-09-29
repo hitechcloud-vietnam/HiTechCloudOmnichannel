@@ -1,6 +1,6 @@
-import { db, eq, findOrFail } from "@chatbotx.io/database/client"
-import { savedReplyModel } from "@chatbotx.io/database/schema"
-import { createId } from "@chatbotx.io/utils"
+import { db, eq, findOrFail } from "@hitechcloud.vn/database/client"
+import { savedReplyModel } from "@hitechcloud.vn/database/schema"
+import { createId } from "@hitechcloud.vn/utils"
 import { assertDeletable } from "../template/installed-resource.service"
 
 type SavedReplyModel = typeof savedReplyModel.$inferSelect

@@ -8,7 +8,7 @@ const { mockFindByIdOrName, mockListAudience, mockCountAudience } = vi.hoisted(
   }),
 )
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   broadcastRepository: {
     findByIdOrName: mockFindByIdOrName,
     listAudience: mockListAudience,
@@ -16,7 +16,7 @@ vi.mock("@chatbotx.io/database/repositories", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   getPaginationWithDefaults: (input: { page?: number; perPage?: number }) => ({
     limit: input.perPage ?? 10,
     offset: ((input.page ?? 1) - 1) * (input.perPage ?? 10),

@@ -1,5 +1,5 @@
-import type { AdsConversionChannel } from "@chatbotx.io/database/schema"
-import { mapWithConcurrency } from "@chatbotx.io/utils"
+import type { AdsConversionChannel } from "@hitechcloud.vn/database/schema"
+import { mapWithConcurrency } from "@hitechcloud.vn/utils"
 import {
   type AdsEligibleChannel,
   adsConversionService,

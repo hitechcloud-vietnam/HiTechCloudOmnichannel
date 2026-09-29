@@ -95,8 +95,8 @@ Namespace `minigames.*` in `apps/builder/messages/en.json`. This repo's invarian
 ## Verify
 
 ```bash
-pnpm --filter @chatbotx.io/business vitest run __tests__/minigame-service-update.test.ts __tests__/resolve-minigame-prize.test.ts
-pnpm --filter @chatbotx.io/encryption vitest run __tests__/minigame-play-token.test.ts
+pnpm --filter @hitechcloud.vn/business vitest run __tests__/minigame-service-update.test.ts __tests__/resolve-minigame-prize.test.ts
+pnpm --filter @hitechcloud.vn/encryption vitest run __tests__/minigame-play-token.test.ts
 pnpm --filter builder check-types
 pnpm lint
 ```

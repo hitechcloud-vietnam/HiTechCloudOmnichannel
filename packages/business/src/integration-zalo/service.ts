@@ -1,11 +1,11 @@
-import type { DatabaseClient } from "@chatbotx.io/database/client"
-import { and, db, eq, findOrFail, inArray } from "@chatbotx.io/database/client"
-import { channelTypes } from "@chatbotx.io/database/partials"
+import type { DatabaseClient } from "@hitechcloud.vn/database/client"
+import { and, db, eq, findOrFail, inArray } from "@hitechcloud.vn/database/client"
+import { channelTypes } from "@hitechcloud.vn/database/partials"
 import {
   integrationZaloModel,
   tagChannelModel,
-} from "@chatbotx.io/database/schema"
-import type { IntegrationZaloModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/schema"
+import type { IntegrationZaloModel } from "@hitechcloud.vn/database/types"
 import { BaseService } from "../base.service"
 import { notFoundException } from "../errors"
 import { connectChannelIntegration } from "../inbox/connect-channel"

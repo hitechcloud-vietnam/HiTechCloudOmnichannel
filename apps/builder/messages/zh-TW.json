@@ -2868,7 +2868,7 @@
     "title": "常規"
   },
   "facebookMarketingMessages": {
-    "deleteWarning": "這只會從 ChatbotX 移除該廣告活動。Meta 訊息廣告活動仍在投放——請於廣告管理員中暫停或刪除。",
+    "deleteWarning": "這只會從 HiTechCloudOmnichannel 移除該廣告活動。Meta 訊息廣告活動仍在投放——請於廣告管理員中暫停或刪除。",
     "title": "Facebook 行銷訊息",
     "description": "透過 Messenger 上的個人化推廣訊息提升互動與銷售。",
     "create": "新增",
@@ -4078,7 +4078,7 @@
         "title": "通話資格",
         "appSubscriptionMissing": "請先在 Meta 應用程式儀表板中為此應用程式設定 WhatsApp webhook，然後再試一次。",
         "appSubscriptionFailed": "無法驗證應用程式的「calls」webhook 訂閱狀態，請稍後再試。",
-        "callsNotSubscribed": "此應用程式未訂閱「calls」webhook 欄位，因此通話事件無法傳送至 ChatbotX（Meta 錯誤 138018：未滿足技術先決條件 — 請確保訂閱 WABA 的至少一個應用程式也具有通話 webhook 欄位）。",
+        "callsNotSubscribed": "此應用程式未訂閱「calls」webhook 欄位，因此通話事件無法傳送至 HiTechCloudOmnichannel（Meta 錯誤 138018：未滿足技術先決條件 — 請確保訂閱 WABA 的至少一個應用程式也具有通話 webhook 欄位）。",
         "fixButton": "修復",
         "fixSuccess": "此應用程式現已訂閱 WhatsApp 通話 webhook。",
         "manualIntegrationNotice": "此號碼是手動連接的，此處沒有應用程式憑證。請在 Meta 應用程式儀表板中為您的應用程式訂閱「calls」webhook 欄位。",
@@ -6298,7 +6298,7 @@
     },
     "limitedDataUse": {
       "label": "Limited Data Use (US privacy)",
-      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by ChatbotX."
+      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by HiTechCloudOmnichannel."
     },
     "actionSource": {
       "label": "動作來源",

@@ -1,4 +1,4 @@
-import type { ContactHandlers } from "@chatbotx.io/sdk"
+import type { ContactHandlers } from "@hitechcloud.vn/sdk"
 import { assignLabelToUser, removeLabelFromUser } from "../apis/label"
 import {
   deleteUserPersistentMenu,

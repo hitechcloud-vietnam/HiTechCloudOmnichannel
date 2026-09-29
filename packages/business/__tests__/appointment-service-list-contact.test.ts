@@ -8,25 +8,25 @@ const mocks = vi.hoisted(() => ({
   signAppointmentScheduleToken: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {},
   sql: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   appointmentRepository: {
     listByContact: (...args: unknown[]) => mocks.listByContact(...args),
   },
   contactInboxRepository: {},
 }))
 
-vi.mock("@chatbotx.io/encryption", () => ({
+vi.mock("@hitechcloud.vn/encryption", () => ({
   signAppointmentCancelToken: vi.fn(),
   signAppointmentScheduleToken: (...args: unknown[]) =>
     mocks.signAppointmentScheduleToken(...args),
 }))
 
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   DefaultJobAction: {},
   defaultQueue: {},
   IntegrationJobAction: {},

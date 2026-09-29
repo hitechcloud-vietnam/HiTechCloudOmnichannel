@@ -2,11 +2,11 @@ import {
   adsAnalyticsService,
   type CapiDeliverySummary,
   perChannelIntegrationIds,
-} from "@chatbotx.io/business"
+} from "@hitechcloud.vn/business"
 import {
   type AdsEligibleChannelType,
   adsEligibleChannelTypes,
-} from "@chatbotx.io/utils/channel"
+} from "@hitechcloud.vn/utils/channel"
 import { notFound } from "next/navigation"
 import type { SearchParams } from "nuqs/server"
 import { Suspense } from "react"

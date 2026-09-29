@@ -1,4 +1,4 @@
-import type { ContentType, FileType } from "@chatbotx.io/database/partials"
+import type { ContentType, FileType } from "@hitechcloud.vn/database/partials"
 
 export interface ReplyInputAttachment {
   fileType: FileType

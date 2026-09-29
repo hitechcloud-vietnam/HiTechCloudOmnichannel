@@ -1,8 +1,8 @@
 import {
   platformCredentialService,
   workspaceService,
-} from "@chatbotx.io/business"
-import { getIdFromParams } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/business"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { ManageMake } from "@/features/integration-make/components/manage-make"
 import { resolveOwnerForWorkspace } from "@/lib/platform-credential-owner"

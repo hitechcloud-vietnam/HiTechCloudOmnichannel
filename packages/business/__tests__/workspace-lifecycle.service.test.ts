@@ -11,14 +11,14 @@ const loggerWarnMock = vi.fn()
 const listWithIntegrationsByWorkspaceMock = vi.fn()
 const tearDownForIntegrationMock = vi.fn()
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   eq: vi.fn((column: unknown, value: unknown) => ({ eq: [column, value] })),
   db: {
     transaction: transactionMock,
   },
 }))
 
-vi.mock("@chatbotx.io/sequence-scheduler/dispatch-cancel", () => ({
+vi.mock("@hitechcloud.vn/sequence-scheduler/dispatch-cancel", () => ({
   cancelPendingDispatchesForWorkspace: cancelPendingDispatchesForWorkspaceMock,
   removeDispatchesFromSchedule: removeDispatchesFromScheduleMock,
 }))

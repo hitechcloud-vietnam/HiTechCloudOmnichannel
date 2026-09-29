@@ -1,7 +1,7 @@
-import { macAnalyticsService, macTrackingService } from "@chatbotx.io/analytics"
-import { db, type Transaction } from "@chatbotx.io/database/client"
-import { ROOT_TENANT_ID } from "@chatbotx.io/database/schema"
-import { distributedLock, withCache } from "@chatbotx.io/redis"
+import { macAnalyticsService, macTrackingService } from "@hitechcloud.vn/analytics"
+import { db, type Transaction } from "@hitechcloud.vn/database/client"
+import { ROOT_TENANT_ID } from "@hitechcloud.vn/database/schema"
+import { distributedLock, withCache } from "@hitechcloud.vn/redis"
 import { tenantService } from "../enterprise/tenant/service"
 import { logger } from "../logger"
 import { type QuotaMetric, userQuotaService } from "../user-quota/service"
@@ -765,7 +765,7 @@ class QuotaEnforcementService {
       // `workspaceUsage.macUsed` is a Redis-cached mirror that only advances
       // when every MAC write-through succeeds. `macUsed` still gets written
       // (mirrors `contactsUsed`'s pattern) for callers that want the counter
-      // shape without an extra `@chatbotx.io/analytics` round-trip.
+      // shape without an extra `@hitechcloud.vn/analytics` round-trip.
       mac: { ...summary.mac, workspaceUsed: macUsed },
       // The monthly account total intentionally reuses the lifetime
       // per-workspace bot-message count as its display-only contribution.

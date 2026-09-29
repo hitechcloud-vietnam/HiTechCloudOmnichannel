@@ -5,8 +5,8 @@ import {
   WHATSAPP_OPTION_LIST_DESCRIPTION_MAX,
   WHATSAPP_OPTION_LIST_TITLE_MAX,
   type WhatsappOptionListStepSchema,
-} from "@chatbotx.io/flow-config"
-import type { MessageHandlers } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/flow-config"
+import type { MessageHandlers } from "@hitechcloud.vn/sdk"
 import {
   ActionList,
   Interactive,

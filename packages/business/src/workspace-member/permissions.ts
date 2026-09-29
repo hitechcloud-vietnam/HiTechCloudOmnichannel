@@ -1,4 +1,4 @@
-import type { WorkspaceMemberPermissions } from "@chatbotx.io/database/partials"
+import type { WorkspaceMemberPermissions } from "@hitechcloud.vn/database/partials"
 
 /**
  * Every `WorkspaceMemberPermissions` flag set to `true`. Used by the

@@ -1,4 +1,4 @@
-import { fetchAllCursorPages } from "@chatbotx.io/utils"
+import { fetchAllCursorPages } from "@hitechcloud.vn/utils"
 import { DEFAULT_API_VERSION } from "../constants"
 import { MessengerAPIException, rescue } from "../exception"
 import {

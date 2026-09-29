@@ -1,6 +1,6 @@
 "use client"
 
-import BarChart from "@chatbotx.io/ui/components/charts/bar-chart"
+import BarChart from "@hitechcloud.vn/ui/components/charts/bar-chart"
 import { useLocale, useTranslations } from "next-intl"
 import { useAnalysisStore } from "../../provider/analysis-store-context"
 import { formatTimeRangeDate } from "../../utils/date-format"

@@ -1,11 +1,11 @@
-name: chatbotx
+name: hitechcloudomnichannel
 
 x-network: &network
   networks:
-    - chatbotx-network
+    - hitechcloudomnichannel-network
 
 x-rustfs-environment: &rustfs-environment
-  RUSTFS_ACCESS_KEY: ${RUSTFS_ACCESS_KEY:-chatbotx}
+  RUSTFS_ACCESS_KEY: ${RUSTFS_ACCESS_KEY:-hitechcloudomnichannel}
   RUSTFS_SECRET_KEY: ${RUSTFS_SECRET_KEY:-secretkey}
   RUSTFS_API_CORS_ALLOW_ORIGIN: ${RUSTFS_API_CORS_ALLOW_ORIGIN:-*}
 
@@ -19,8 +19,8 @@ services:
       - db-data:/home/postgres/pgdata
     command: ["postgres", "-c", "log_statement=${POSTGRES_LOG_STATEMENT:-none}"]
     environment:
-      - POSTGRES_DB=${POSTGRES_DB:-chatbotx}
-      - POSTGRES_USER=${POSTGRES_USER:-chatbotx}
+      - POSTGRES_DB=${POSTGRES_DB:-hitechcloudomnichannel}
+      - POSTGRES_USER=${POSTGRES_USER:-hitechcloudomnichannel}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-secretkey}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
@@ -79,9 +79,9 @@ services:
       <<: *rustfs-environment
     entrypoint: >
       /bin/sh -c "rc alias set local http://filesystem:9000
-      $${RUSTFS_ACCESS_KEY} $${RUSTFS_SECRET_KEY}; rc mb local/chatbotx
+      $${RUSTFS_ACCESS_KEY} $${RUSTFS_SECRET_KEY}; rc mb local/hitechcloudomnichannel
       --ignore-existing; touch /tmp/empty && rc cp /tmp/empty
-      local/chatbotx/public/; rc anonymous set public local/chatbotx/public;"
+      local/hitechcloudomnichannel/public/; rc anonymous set public local/hitechcloudomnichannel/public;"
 
   redis:
     <<: *network
@@ -108,7 +108,7 @@ services:
       - redis-ui-data:/data
 
 networks:
-  chatbotx-network:
+  hitechcloudomnichannel-network:
     driver: bridge
 
 volumes:

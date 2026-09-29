@@ -12,7 +12,7 @@ import { beforeEach, describe, expect, test, vi } from "vitest"
 
 const findOrFailMock = vi.fn()
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn((...conditions: unknown[]) => ({ conditions })),
   db: {
     transaction: vi.fn(),
@@ -23,25 +23,25 @@ vi.mock("@chatbotx.io/database/client", () => ({
   isDatabaseError: vi.fn(() => false),
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   channelTypes: { enum: { zalo: "zalo", telegram: "telegram" } },
   integrationTypes: { enum: { telegram: "telegram" } },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   integrationZaloModel: { __table: "IntegrationZalo" },
   integrationTelegramModel: { __table: "IntegrationTelegram" },
   tagChannelModel: { __table: "TagChannel" },
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: vi.fn(() => "generated-id"),
 }))
 
 // These new imports (added alongside `connect`/`disconnect` on both
 // services) pull in real modules transitively — mock them at the boundary
 // so this narrow lookup test doesn't have to satisfy their own dependency
-// graphs (e.g. `@chatbotx.io/analytics`'s schema requirements).
+// graphs (e.g. `@hitechcloud.vn/analytics`'s schema requirements).
 vi.mock("../src/inbox/connect-channel", () => ({
   connectChannelIntegration: vi.fn(),
 }))

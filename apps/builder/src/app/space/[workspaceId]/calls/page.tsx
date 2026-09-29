@@ -1,5 +1,5 @@
-import { isCallHistoryAdmin } from "@chatbotx.io/business"
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { isCallHistoryAdmin } from "@hitechcloud.vn/business"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import type { SearchParams } from "nuqs/server"

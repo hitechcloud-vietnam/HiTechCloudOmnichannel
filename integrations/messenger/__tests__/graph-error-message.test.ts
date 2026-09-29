@@ -72,7 +72,7 @@ describe("parseOriginError message composition", () => {
 
 describe("the string that reaches ErrorLog.detail", () => {
   /**
-   * `toEntry` in `@chatbotx.io/business` writes `error.message` verbatim into
+   * `toEntry` in `@hitechcloud.vn/business` writes `error.message` verbatim into
    * `ErrorLog.detail`, and `parseSdkError` is what hands it over. Nothing
    * between here and the row re-derives the message, so pinning it at
    * `getErrorData()` pins the column.

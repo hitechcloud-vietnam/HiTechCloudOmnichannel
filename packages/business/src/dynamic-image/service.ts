@@ -1,17 +1,17 @@
-import { and, db, eq, ilike } from "@chatbotx.io/database/client"
-import type { DynamicImageDocument } from "@chatbotx.io/database/partials"
+import { and, db, eq, ilike } from "@hitechcloud.vn/database/client"
+import type { DynamicImageDocument } from "@hitechcloud.vn/database/partials"
 import {
   contactCustomFieldModel,
   dynamicImageModel,
-} from "@chatbotx.io/database/schema"
-import type { DynamicImageModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/schema"
+import type { DynamicImageModel } from "@hitechcloud.vn/database/types"
 import {
   getPaginationWithDefaults,
   likeContains,
   parseOrderBy,
-} from "@chatbotx.io/database/utils"
-import { uploader } from "@chatbotx.io/filesystem"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/utils"
+import { uploader } from "@hitechcloud.vn/filesystem"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import { contactCustomFieldService } from "../contact-custom-field/service"
 import { notFoundException } from "../errors"
@@ -384,7 +384,7 @@ class DynamicImageService extends BaseService {
   /**
    * Fills in `url` for `avatarUser`/`customField` image elements from the
    * contact's data. Text/QR `{{variable}}` placeholders are left untouched —
-   * the caller resolves those via `@chatbotx.io/variables` before rendering.
+   * the caller resolves those via `@hitechcloud.vn/variables` before rendering.
    */
   async resolveDynamicElements(input: {
     workspaceId: string

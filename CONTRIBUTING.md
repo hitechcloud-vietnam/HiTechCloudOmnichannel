@@ -1,10 +1,10 @@
-# Contributing to ChatbotX
+# Contributing to HiTechCloudOmnichannel
 
-Thank you for your interest in contributing to ChatbotX! This document provides guidelines and instructions for contributing to the project.
+Thank you for your interest in contributing to HiTechCloudOmnichannel! This document provides guidelines and instructions for contributing to the project.
 
 ## Read the developers guide
 
-The main documentation site has a [developer guide](https://chatbotx.io/docs/howitworks). That guide provides you a good understanding of the project structure, and how to setup your development environment. Read this document after you have read that guide. This document is intended to provide you a good understanding of how to submit your first contribution.
+The main documentation site has a [developer guide](https://hitechcloud.vn/docs/howitworks). That guide provides you a good understanding of the project structure, and how to setup your development environment. Read this document after you have read that guide. This document is intended to provide you a good understanding of how to submit your first contribution.
 
 
 ## Write code with others
@@ -12,7 +12,7 @@ The main documentation site has a [developer guide](https://chatbotx.io/docs/how
 This is an open source project, with an open and welcoming community that is always keen to welcome new contributors. We recommend the two best ways to interact with the community are:
 
 - **GitHub issues**: To discuss more slowly, or longer-written messages.
-- **[Discord chat](https://discord.chatbotx.io)**: To chat with people and get quicker feedback.
+- **[Discord chat](https://discord.hitechcloud.vn)**: To chat with people and get quicker feedback.
 
 As a general rule;
 
@@ -37,7 +37,7 @@ You are responsible for every line you submit. Make sure you understand your cha
 ## How to contribute
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/YOUR-USERNAME/chatbotx.git`
+2. Clone your fork: `git clone https://github.com/YOUR-USERNAME/hitechcloudomnichannel.git`
 3. Create a new branch: `git checkout -b feat/your-feature-name`
 4. Install dependencies: `pnpm install`
 5. Copy `.env.example` to `.env` and configure your environment variables
@@ -69,9 +69,9 @@ You are responsible for every line you submit. Make sure you understand your cha
 
 ## Need Help?
 
-- Join our [Discord chat](https://discord.chatbotx.io) for questions
+- Join our [Discord chat](https://discord.hitechcloud.vn) for questions
 - Check existing issues and pull requests
-- Email [security@chatbotx.io](mailto:security@chatbotx.io) for major concerns
+- Email [security@hitechcloud.vn](mailto:security@hitechcloud.vn) for major concerns
 
 ## Code of Conduct
 
@@ -81,4 +81,4 @@ We aim to foster an inclusive and welcoming community. Harassment and abusive be
 
 ## License
 
-By contributing to ChatbotX, you agree that your contributions will be licensed under the MIT License.
+By contributing to HiTechCloudOmnichannel, you agree that your contributions will be licensed under the MIT License.

@@ -1,9 +1,9 @@
-import { resolvePhoneTransition } from "@chatbotx.io/business/contact-inbox/identity-rotation"
-import { isDistinctPrimaryIdentity } from "@chatbotx.io/sdk"
+import { resolvePhoneTransition } from "@hitechcloud.vn/business/contact-inbox/identity-rotation"
+import { isDistinctPrimaryIdentity } from "@hitechcloud.vn/sdk"
 import type {
   WhatsappIdentityChange,
   WhatsappIdentityChangePayload,
-} from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/worker-config"
 import { z } from "zod"
 import { logger } from "./logger"
 import { readWebhookEntries } from "./value"

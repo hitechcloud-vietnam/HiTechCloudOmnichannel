@@ -1,11 +1,11 @@
-import { whatsappVoipSignalingService } from "@chatbotx.io/business"
+import { whatsappVoipSignalingService } from "@hitechcloud.vn/business"
 import {
   type HandleRequestProps,
   type ReceivedMessageProps,
   SdkException,
-} from "@chatbotx.io/sdk"
-import { sha256Hex, verifyHmacSha256Signature } from "@chatbotx.io/utils/crypto"
-import type { WhatsappIdentityChangePayload } from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/sdk"
+import { sha256Hex, verifyHmacSha256Signature } from "@hitechcloud.vn/utils/crypto"
+import type { WhatsappIdentityChangePayload } from "@hitechcloud.vn/worker-config"
 import type { OnMessageArgs, OnStatusArgs } from "whatsapp-api-js/emitters"
 import { WhatsAppAPI as Middleware } from "whatsapp-api-js/middleware/next"
 import type { GetParams } from "whatsapp-api-js/types"

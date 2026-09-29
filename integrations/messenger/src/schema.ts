@@ -4,7 +4,7 @@ import type {
   IncomingAttachment,
   Oauth2AuthValue,
   Oauth2Config,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { z } from "zod"
 import type {
   CloneMessengerTemplateProps,

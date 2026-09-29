@@ -1,4 +1,4 @@
-import type { FileType } from "@chatbotx.io/database/partials"
+import type { FileType } from "@hitechcloud.vn/database/partials"
 import type {
   ReplyInputKind,
   ReplyValidationResult,

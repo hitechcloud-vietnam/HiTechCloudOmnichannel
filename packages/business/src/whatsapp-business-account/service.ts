@@ -1,11 +1,11 @@
-import type { DatabaseClient } from "@chatbotx.io/database/client"
+import type { DatabaseClient } from "@hitechcloud.vn/database/client"
 import {
   type MarkWhatsappBusinessAccountProvisionedInput,
   type UpdateWhatsappBusinessAccountScopeCacheInput,
   whatsappBusinessAccountRepository,
-} from "@chatbotx.io/database/repositories"
-import type { WhatsappBusinessAccountModel } from "@chatbotx.io/database/types"
-import { encryptedDataSchema, encryptUtils } from "@chatbotx.io/encryption"
+} from "@hitechcloud.vn/database/repositories"
+import type { WhatsappBusinessAccountModel } from "@hitechcloud.vn/database/types"
+import { encryptedDataSchema, encryptUtils } from "@hitechcloud.vn/encryption"
 import { z } from "zod"
 import { BaseService } from "../base.service"
 

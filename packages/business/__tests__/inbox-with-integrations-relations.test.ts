@@ -1,5 +1,5 @@
 import { beforeEach, expect, test, vi } from "vitest"
-// Deep relative import on purpose: `@chatbotx.io/database` publishes no
+// Deep relative import on purpose: `@hitechcloud.vn/database` publishes no
 // `./relations` subpath (the relation parts are internal to `client.ts`), and
 // this test's whole point is to compare against the *actual* definition rather
 // than a copy of it. `packages/business/tsconfig.json` only type-checks
@@ -22,7 +22,7 @@ import { inboxRelations } from "../../database/src/relations/inbox"
 const findManyMock = vi.fn()
 const findFirstMock = vi.fn()
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn((...args: unknown[]) => ({ and: args })),
   db: {
     $count: vi.fn().mockResolvedValue(0),

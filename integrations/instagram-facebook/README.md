@@ -1,4 +1,4 @@
-# @chatbotx.io/integration-instagram-facebook
+# @hitechcloud.vn/integration-instagram-facebook
 
 Instagram DM and post-comment integration via the Facebook Graph API.
 
@@ -8,7 +8,7 @@ Integration name in code: **`instagramFacebook`**
 
 ## Overview
 
-This integration connects Instagram Business or Creator accounts to ChatbotX through the Facebook Graph API (Meta). It supports two channels:
+This integration connects Instagram Business or Creator accounts to HiTechCloudOmnichannel through the Facebook Graph API (Meta). It supports two channels:
 
 - **DMs** — real-time private messaging with Instagram users
 - **Post comments** — receive new comments on Instagram posts, and reply/hide/like/delete them
@@ -30,7 +30,7 @@ Personal Instagram accounts are not supported (filtered during the OAuth account
   - `pages_read_engagement`
   - `business_management`
 - The Instagram account must be a **Business** or **Creator** account linked to a Facebook Page.
-- Platform credentials (App ID + App Secret) stored in ChatbotX settings.
+- Platform credentials (App ID + App Secret) stored in HiTechCloudOmnichannel settings.
 
 ---
 

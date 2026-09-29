@@ -1,9 +1,9 @@
-import { type DatabaseClient, db } from "@chatbotx.io/database/client"
-import type { CustomFieldType } from "@chatbotx.io/database/partials"
+import { type DatabaseClient, db } from "@hitechcloud.vn/database/client"
+import type { CustomFieldType } from "@hitechcloud.vn/database/partials"
 import {
   canonicalNumberLiteral,
   coerceBooleanLiteral,
-} from "@chatbotx.io/utils/custom-field"
+} from "@hitechcloud.vn/utils/custom-field"
 import {
   currentTemporalLiteral,
   DEFAULT_FILTER_TIMEZONE,
@@ -13,10 +13,10 @@ import {
   SourceTimezoneStrategy,
   type TemporalCustomFieldType,
   TemporalInputParsing,
-} from "@chatbotx.io/utils/datetime"
-import { normalizeTemporalValueForStorage } from "@chatbotx.io/utils/temporal-input"
+} from "@hitechcloud.vn/utils/datetime"
+import { normalizeTemporalValueForStorage } from "@hitechcloud.vn/utils/temporal-input"
 import { normalizeStoredTimezone } from "../contact-locale"
-import { ChatbotXException } from "../errors"
+import { HiTechCloudOmnichannelException } from "../errors"
 
 export type SourceTimezoneResolver = () => Promise<string>
 
@@ -27,8 +27,8 @@ const previewValue = (value: string): string =>
     ? `${value.slice(0, MAX_ERROR_VALUE_LENGTH)}…`
     : value
 
-const invalidNumberException = (value: string): ChatbotXException =>
-  new ChatbotXException(
+const invalidNumberException = (value: string): HiTechCloudOmnichannelException =>
+  new HiTechCloudOmnichannelException(
     `"${previewValue(value)}" is not a valid number value for this field.`,
     "invalidCustomFieldValue",
     400,
@@ -45,7 +45,7 @@ type NonTemporalCustomFieldType = Exclude<
  * write that carries arbitrary user text can never persist garbage:
  * - `boolean` never throws (see `coerceBooleanLiteral`) — a chatbot flow must
  *   not crash on unexpected text.
- * - `number` throws a typed `ChatbotXException` on unparseable input (unlike
+ * - `number` throws a typed `HiTechCloudOmnichannelException` on unparseable input (unlike
  *   boolean, silently coercing a bad number would hide a real authoring bug)
  *   — a blank string stays blank (means "unset", not "invalid").
  * - `shortText`/`longText`/`email`/`phoneNumber` pass through byte-identical:

@@ -9,14 +9,14 @@ const mocks = vi.hoisted(() => ({
   findById: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/filesystem", () => ({
+vi.mock("@hitechcloud.vn/filesystem", () => ({
   uploader: {
     putObject: mocks.putObject,
     getPresignedDownload: mocks.getPresignedDownload,
     deleteObject: mocks.deleteObject,
   },
 }))
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   whatsappCallRepository: {
     listRecordingsPastRetention: mocks.listRecordingsPastRetention,
     clearRecording: mocks.clearRecording,

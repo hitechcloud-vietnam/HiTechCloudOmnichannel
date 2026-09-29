@@ -4,39 +4,39 @@ import {
   inboxService,
   integrationThreadsService,
   workspaceService,
-} from "@chatbotx.io/business"
-import { findOrFail } from "@chatbotx.io/database/client"
-import type { IntegrationType } from "@chatbotx.io/database/partials"
-import { integrationLookupRepository } from "@chatbotx.io/database/repositories"
-import { inboxModel } from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/business"
+import { findOrFail } from "@hitechcloud.vn/database/client"
+import type { IntegrationType } from "@hitechcloud.vn/database/partials"
+import { integrationLookupRepository } from "@hitechcloud.vn/database/repositories"
+import { inboxModel } from "@hitechcloud.vn/database/schema"
 import type {
   ContactInboxModel,
   InboxModel,
   WorkspaceModel,
-} from "@chatbotx.io/database/types"
-import { integration as integrationActiveCampaign } from "@chatbotx.io/integration-active-campaign"
-import { integration as integrationApi } from "@chatbotx.io/integration-api"
-import { integration as integrationChatbotx } from "@chatbotx.io/integration-chatbotx"
-import { integration as integrationDrip } from "@chatbotx.io/integration-drip"
-import { integration as integrationFacebookAds } from "@chatbotx.io/integration-facebook-ads"
-import { integration as integrationGetResponse } from "@chatbotx.io/integration-get-response"
-import { integration as integrationGoogleCalendar } from "@chatbotx.io/integration-google-calendar"
-import { integration as integrationGoogleSheets } from "@chatbotx.io/integration-google-sheets"
-import { integration as integrationInstagram } from "@chatbotx.io/integration-instagram"
-import { integration as integrationInstagramFacebook } from "@chatbotx.io/integration-instagram-facebook"
-import { integration as integrationKlaviyo } from "@chatbotx.io/integration-klaviyo"
-import { integration as integrationMailchimp } from "@chatbotx.io/integration-mailchimp"
-import { integration as integrationMailerLite } from "@chatbotx.io/integration-mailer-lite"
-import { integration as integrationMessenger } from "@chatbotx.io/integration-messenger"
-import { integration as integrationMoosend } from "@chatbotx.io/integration-moosend"
-import { integration as integrationSendGrid } from "@chatbotx.io/integration-sendgrid"
-import { integration as integrationSmtp } from "@chatbotx.io/integration-smtp"
-import { integration as integrationTelegram } from "@chatbotx.io/integration-telegram"
-import { integration as integrationThreads } from "@chatbotx.io/integration-threads"
-import { integration as integrationTiktok } from "@chatbotx.io/integration-tiktok"
-import { integration as integrationWebchat } from "@chatbotx.io/integration-webchat"
-import { integration as integrationWhatsapp } from "@chatbotx.io/integration-whatsapp"
-import { integration as integrationZalo } from "@chatbotx.io/integration-zalo"
+} from "@hitechcloud.vn/database/types"
+import { integration as integrationActiveCampaign } from "@hitechcloud.vn/integration-active-campaign"
+import { integration as integrationApi } from "@hitechcloud.vn/integration-api"
+import { integration as integrationChatbotx } from "@hitechcloud.vn/integration-hitechcloudomnichannel"
+import { integration as integrationDrip } from "@hitechcloud.vn/integration-drip"
+import { integration as integrationFacebookAds } from "@hitechcloud.vn/integration-facebook-ads"
+import { integration as integrationGetResponse } from "@hitechcloud.vn/integration-get-response"
+import { integration as integrationGoogleCalendar } from "@hitechcloud.vn/integration-google-calendar"
+import { integration as integrationGoogleSheets } from "@hitechcloud.vn/integration-google-sheets"
+import { integration as integrationInstagram } from "@hitechcloud.vn/integration-instagram"
+import { integration as integrationInstagramFacebook } from "@hitechcloud.vn/integration-instagram-facebook"
+import { integration as integrationKlaviyo } from "@hitechcloud.vn/integration-klaviyo"
+import { integration as integrationMailchimp } from "@hitechcloud.vn/integration-mailchimp"
+import { integration as integrationMailerLite } from "@hitechcloud.vn/integration-mailer-lite"
+import { integration as integrationMessenger } from "@hitechcloud.vn/integration-messenger"
+import { integration as integrationMoosend } from "@hitechcloud.vn/integration-moosend"
+import { integration as integrationSendGrid } from "@hitechcloud.vn/integration-sendgrid"
+import { integration as integrationSmtp } from "@hitechcloud.vn/integration-smtp"
+import { integration as integrationTelegram } from "@hitechcloud.vn/integration-telegram"
+import { integration as integrationThreads } from "@hitechcloud.vn/integration-threads"
+import { integration as integrationTiktok } from "@hitechcloud.vn/integration-tiktok"
+import { integration as integrationWebchat } from "@hitechcloud.vn/integration-webchat"
+import { integration as integrationWhatsapp } from "@hitechcloud.vn/integration-whatsapp"
+import { integration as integrationZalo } from "@hitechcloud.vn/integration-zalo"
 import {
   type AuthValue,
   type BaseConfig,
@@ -45,7 +45,7 @@ import {
   type Integration,
   type IntegrationDefinition,
   SdkException,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { IntegrationNotFoundError } from "./errors"
 
 export { IntegrationNotFoundError } from "./errors"
@@ -53,7 +53,7 @@ export { IntegrationNotFoundError } from "./errors"
 export const integrations = {
   activeCampaign: integrationActiveCampaign,
   api: integrationApi,
-  chatbotx: integrationChatbotx,
+  hitechcloudomnichannel: integrationChatbotx,
   drip: integrationDrip,
   facebookAds: integrationFacebookAds,
   getResponse: integrationGetResponse,

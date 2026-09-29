@@ -63,7 +63,7 @@ const {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     insert: dbInsert,
     select: dbSelect,
@@ -82,9 +82,9 @@ vi.mock("@chatbotx.io/database/client", () => ({
   sum: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({ planStatuses: {} }))
+vi.mock("@hitechcloud.vn/database/partials", () => ({ planStatuses: {} }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   ROOT_TENANT_ID: "1",
   contactModel: { workspaceId: "contact.workspaceId" },
   inboxModel: { workspaceId: "inbox.workspaceId" },
@@ -94,7 +94,7 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   workspaceModel: { id: "workspace.id", ownerId: "workspace.ownerId" },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   cacheConnections: {
     useExisting: vi.fn(async () => ({ hset })),
   },

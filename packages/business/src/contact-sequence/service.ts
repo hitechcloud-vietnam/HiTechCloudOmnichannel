@@ -5,15 +5,15 @@ import {
   eq,
   inArray,
   type Transaction,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   contactsOnSequenceModel,
   sequenceModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import {
   emitSequenceSubscribed,
   emitSequenceUnsubscribed,
-} from "@chatbotx.io/events"
+} from "@hitechcloud.vn/events"
 import {
   calculateNextRunAtFromStep,
   cancelPendingDispatches,
@@ -21,7 +21,7 @@ import {
   enrollContactsInSequenceBulk,
   removeDispatchesFromSchedule,
   sequenceDispatchUtils,
-} from "@chatbotx.io/sequence-scheduler"
+} from "@hitechcloud.vn/sequence-scheduler"
 import { BaseService } from "../base.service"
 import { type ContactAccessScope, contactService } from "../contact/service"
 import { notFoundException } from "../errors"

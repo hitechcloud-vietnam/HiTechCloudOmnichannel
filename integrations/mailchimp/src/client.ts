@@ -1,4 +1,4 @@
-import { AuthType } from "@chatbotx.io/sdk"
+import { AuthType } from "@hitechcloud.vn/sdk"
 import { md5 } from "@noble/hashes/legacy.js"
 import { bytesToHex } from "@noble/hashes/utils.js"
 import ky, { type Options } from "ky"

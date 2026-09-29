@@ -1,15 +1,15 @@
 {
-  "name": "@chatbotx.io/integration-webchat",
+  "name": "@hitechcloud.vn/integration-webchat",
   "version": "0.0.1",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@chatbotx.io/sdk": "workspace:*",
+    "@hitechcloud.vn/sdk": "workspace:*",
     "ky": "^2.0.2"
   },
   "devDependencies": {
-    "@chatbotx.io/typescript-config": "workspace:*",
-    "@chatbotx.io/vitest-config": "workspace:*",
+    "@hitechcloud.vn/typescript-config": "workspace:*",
+    "@hitechcloud.vn/vitest-config": "workspace:*",
     "@types/node": "^24.10.4",
     "typescript": "^5",
     "vitest": "^4.1.0"

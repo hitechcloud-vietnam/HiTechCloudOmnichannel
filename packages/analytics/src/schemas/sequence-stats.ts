@@ -1,9 +1,9 @@
-import { channelTypes } from "@chatbotx.io/database/partials"
+import { channelTypes } from "@hitechcloud.vn/database/partials"
 import {
   clickedPayloadSchema,
   flowEventTypeSchema,
   messageEventTypeSchema,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import { z } from "zod"
 
 export const sequenceStepEventTypes = z.enum([

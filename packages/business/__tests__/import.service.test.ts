@@ -19,7 +19,7 @@ const { mockFindFile, mockTransaction, mockInsertValues } = vi.hoisted(() => {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       fileModel: {
@@ -32,7 +32,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   eq: (...args: unknown[]) => ({ eq: args }),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   workspaceUsageModel: {},
   userQuotaModel: {},
   refLinkStatModel: {},
@@ -41,29 +41,29 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   importModel: {},
 }))
 
-// vitest's SSR deps optimizer bundles the whole `@chatbotx.io/database`
+// vitest's SSR deps optimizer bundles the whole `@hitechcloud.vn/database`
 // package graph together once any subpath is imported, which otherwise pulls
 // in `contactRepository`'s real contact-filter query graph (needs the real
 // schema, conflicting with the narrow mock above) even though this service
-// never touches `@chatbotx.io/database/repositories`.
-vi.mock("@chatbotx.io/database/repositories", () => ({}))
+// never touches `@hitechcloud.vn/database/repositories`.
+vi.mock("@hitechcloud.vn/database/repositories", () => ({}))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   getPaginationWithDefaults: vi.fn(),
   likeContains: vi.fn(),
   parseOrderBy: vi.fn(() => []),
 }))
 
-vi.mock("@chatbotx.io/imports/file-validation", () => ({
+vi.mock("@hitechcloud.vn/imports/file-validation", () => ({
   resolveImportFileFormat: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/imports/registry", () => ({
+vi.mock("@hitechcloud.vn/imports/registry", () => ({
   getImportEntry: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/utils", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@chatbotx.io/utils")>()
+vi.mock("@hitechcloud.vn/utils", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@hitechcloud.vn/utils")>()
   return {
     ...actual,
     createId: vi.fn(() => "generated-import-id"),

@@ -5,11 +5,11 @@ import {
   extractMetadata,
   getButtonLinkUrl,
   type MetadataPayload,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import {
   getCanonicalReplyPayload,
   type MessageButtonTemplate,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import {
   ActionButtons,
   ActionCTA,

@@ -1,4 +1,4 @@
-import type { DynamicImageFontFamily } from "@chatbotx.io/database/partials"
+import type { DynamicImageFontFamily } from "@hitechcloud.vn/database/partials"
 import { GlobalFonts } from "@napi-rs/canvas"
 import {
   GREAT_VIBES_LATIN_400_NORMAL,
@@ -17,15 +17,15 @@ import {
   ROBOTO_VIETNAMESE_700_NORMAL,
 } from "./font-data"
 
-const SANS_ALIAS = "ChatbotXSans"
-const SERIF_ALIAS = "ChatbotXSerif"
-const SCRIPT_ALIAS = "ChatbotXScript"
+const SANS_ALIAS = "HiTechCloudOmnichannelSans"
+const SERIF_ALIAS = "HiTechCloudOmnichannelSerif"
+const SCRIPT_ALIAS = "HiTechCloudOmnichannelScript"
 
 /**
  * Skia has no fonts of its own — a bare server container ships none either,
  * so `ctx.fillText` silently draws nothing unless a font is registered here.
  * Both `latin` and `vietnamese` subsets are registered under the same alias
- * — Skia picks whichever face covers the glyph being drawn — since ChatbotX
+ * — Skia picks whichever face covers the glyph being drawn — since HiTechCloudOmnichannel
  * serves Vietnamese contacts.
  *
  * The bytes come from `font-data.ts` (base64 string constants), not a

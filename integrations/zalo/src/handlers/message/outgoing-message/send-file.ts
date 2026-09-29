@@ -1,5 +1,5 @@
-import type { SendFileStepSchema } from "@chatbotx.io/flow-config"
-import type { SendFlowStepProps } from "@chatbotx.io/sdk"
+import type { SendFileStepSchema } from "@hitechcloud.vn/flow-config"
+import type { SendFlowStepProps } from "@hitechcloud.vn/sdk"
 import { uploadAttachment } from "../../../api/message"
 import type { ZaloAuthValue } from "../../../schema/definition"
 import type { MessageTemplate } from "../../../schema/webhook"

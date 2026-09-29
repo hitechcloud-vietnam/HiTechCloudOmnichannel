@@ -3,15 +3,15 @@ import {
   db,
   isUniqueViolationError,
   relationsFilterToSQL,
-} from "@chatbotx.io/database/client"
-import { magicLinkModel } from "@chatbotx.io/database/schema"
-import type { MagicLinkModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/client"
+import { magicLinkModel } from "@hitechcloud.vn/database/schema"
+import type { MagicLinkModel } from "@hitechcloud.vn/database/types"
 import {
   getPaginationWithDefaults,
   likeContains,
   parseOrderByAsObject,
-} from "@chatbotx.io/database/utils"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/utils"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import { validationException } from "../errors"
 

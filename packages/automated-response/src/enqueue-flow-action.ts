@@ -3,7 +3,7 @@ import {
   type IntegrationJobSendFlowPostback,
   type IntegrationJobSendFlowQuickReply,
   integrationQueue,
-} from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/worker-config"
 import { getFlowActionKey } from "./constants"
 import { logger } from "./lib/logger"
 import { resolveAutomatedResponseTiming } from "./smart-delay"

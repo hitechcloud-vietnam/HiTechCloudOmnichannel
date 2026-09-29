@@ -1,10 +1,10 @@
-import { messengerIntegrationService } from "@chatbotx.io/business"
+import { messengerIntegrationService } from "@hitechcloud.vn/business"
 import {
   getUserPages,
   mapToChannelError,
-} from "@chatbotx.io/integration-messenger"
-import type { ConnectableFacebookPage } from "@chatbotx.io/integration-messenger/schema"
-import { UNKNOWN_ERROR } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/integration-messenger"
+import type { ConnectableFacebookPage } from "@hitechcloud.vn/integration-messenger/schema"
+import { UNKNOWN_ERROR } from "@hitechcloud.vn/sdk"
 import { redirect } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import {

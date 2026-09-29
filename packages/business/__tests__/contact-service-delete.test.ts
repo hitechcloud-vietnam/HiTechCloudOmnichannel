@@ -1,5 +1,5 @@
-import { macAnalyticsService } from "@chatbotx.io/analytics"
-import { db } from "@chatbotx.io/database/client"
+import { macAnalyticsService } from "@hitechcloud.vn/analytics"
+import { db } from "@hitechcloud.vn/database/client"
 import { afterEach, describe, expect, test, vi } from "vitest"
 import { contactService } from "../src/contact"
 import { messageCleanupService } from "../src/message-cleanup"

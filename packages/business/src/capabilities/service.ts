@@ -2,13 +2,13 @@ import type {
   FlowAuthoringContext,
   FlowSpecStepType,
   TemplateComponent,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import {
   extractTemplateParams,
   flowSpecStepTypes,
   waitStepDelayUnits,
-} from "@chatbotx.io/flow-config"
-import { channelTypes } from "@chatbotx.io/utils/channel"
+} from "@hitechcloud.vn/flow-config"
+import { channelTypes } from "@hitechcloud.vn/utils/channel"
 import { aiAgentService } from "../ai-agent/service"
 import { botFieldService } from "../bot-field/service"
 import { customFieldService } from "../custom-field/service"
@@ -302,7 +302,7 @@ export async function getCapabilities(props: {
 }
 
 /**
- * The exact reference maps `compileFlowSpec` (`@chatbotx.io/flow-config`)
+ * The exact reference maps `compileFlowSpec` (`@hitechcloud.vn/flow-config`)
  * needs to resolve DSL names — fetched directly (independent of the public
  * `include` filter above) since a flow-spec compile always needs every one
  * of these, regardless of what a `capabilities.get` caller asked to see.

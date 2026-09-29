@@ -1,8 +1,8 @@
-import { channelTypes } from "@chatbotx.io/database/partials"
+import { channelTypes } from "@hitechcloud.vn/database/partials"
 // biome-ignore lint/performance/noNamespaceImport: the schema barrel is indexed by model name to derive the per-channel matrix
-import * as schema from "@chatbotx.io/database/schema"
+import * as schema from "@hitechcloud.vn/database/schema"
 import { beforeEach, expect, test, vi } from "vitest"
-// Deep relative import on purpose: `@chatbotx.io/database` publishes no
+// Deep relative import on purpose: `@hitechcloud.vn/database` publishes no
 // `./relations` subpath. See the same note in
 // `inbox-with-integrations-relations.test.ts`, which pins these relation names
 // to be exactly the set `InboxService.withIntegrations` eager-loads — so this
@@ -29,7 +29,7 @@ import { inboxRelations } from "../../database/src/relations/inbox"
 const listWithIntegrationsByWorkspaceMock = vi.fn()
 const disconnectInboxMock = vi.fn()
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn((...args: unknown[]) => ({ and: args })),
   db: {},
   eq: vi.fn((column: unknown, value: unknown) => ({ eq: [column, value] })),
@@ -40,7 +40,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   sql: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/sequence-scheduler/dispatch-cancel", () => ({
+vi.mock("@hitechcloud.vn/sequence-scheduler/dispatch-cancel", () => ({
   cancelPendingDispatchesForWorkspace: vi.fn().mockResolvedValue([]),
   removeDispatchesFromSchedule: vi.fn(),
 }))

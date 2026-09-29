@@ -1,7 +1,7 @@
-import { db } from "@chatbotx.io/database/client"
-import { whatsappFlowRepository } from "@chatbotx.io/database/repositories"
-import type { ContactInboxModel } from "@chatbotx.io/database/types"
-import type { WhatsappFlowFieldMapping } from "@chatbotx.io/flow-config"
+import { db } from "@hitechcloud.vn/database/client"
+import { whatsappFlowRepository } from "@hitechcloud.vn/database/repositories"
+import type { ContactInboxModel } from "@hitechcloud.vn/database/types"
+import type { WhatsappFlowFieldMapping } from "@hitechcloud.vn/flow-config"
 import { contactCustomFieldService } from "../contact-custom-field/service"
 import { logger } from "../logger"
 

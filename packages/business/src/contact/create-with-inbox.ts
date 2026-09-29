@@ -1,23 +1,23 @@
-import { findOrFail } from "@chatbotx.io/database/client"
+import { findOrFail } from "@hitechcloud.vn/database/client"
 import {
   type ChannelType,
   channelTypes,
   contactSources,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import {
   contactInboxModel,
   conversationModel,
   inboxModel,
-} from "@chatbotx.io/database/schema"
-import type { ContactModel } from "@chatbotx.io/database/types"
-import { emit } from "@chatbotx.io/event-bus"
-import { emitContactCreated } from "@chatbotx.io/events"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/schema"
+import type { ContactModel } from "@hitechcloud.vn/database/types"
+import { emit } from "@hitechcloud.vn/event-bus"
+import { emitContactCreated } from "@hitechcloud.vn/events"
+import { createId } from "@hitechcloud.vn/utils"
 import { type CountryCode, parsePhoneNumberFromString } from "libphonenumber-js"
 import { randomString } from "remeda"
 import { dispatchAuditRecord } from "../audit/dispatcher"
 import { contactInboxService } from "../contact-inbox/service"
-import { ChatbotXException, validationException } from "../errors"
+import { HiTechCloudOmnichannelException, validationException } from "../errors"
 import { messageCleanupService } from "../message-cleanup/service"
 import { quotaEnforcementService } from "../quota-enforcement/service"
 import { workspaceService } from "../workspace/service"
@@ -176,7 +176,7 @@ export const createContactWithInbox = async ({
           })
           .returning()
         if (!contactInbox) {
-          throw new ChatbotXException("Contact inbox not found")
+          throw new HiTechCloudOmnichannelException("Contact inbox not found")
         }
 
         // A re-created contact keeps its history: cancel any pending message

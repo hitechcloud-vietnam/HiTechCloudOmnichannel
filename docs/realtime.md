@@ -49,7 +49,7 @@ An event is only dispatched to subscribers if:
    ignored — this keeps staggered deploys forward-compatible).
 2. When a zod schema exists for that event in
    `features/realtime/realtime-event-validation.ts` (sourced from
-   `@chatbotx.io/partysocket-config`), the payload passes it. A schema
+   `@hitechcloud.vn/partysocket-config`), the payload passes it. A schema
    failure is logged (`logger.warn`) and the event is dropped — your
    handler is never called with a payload that failed validation.
 
@@ -62,7 +62,7 @@ schema in `features/realtime/`; only reuse schemas that already exist in
 
 - `features/realtime/` is channel-agnostic: it must never import chat or
   WhatsApp code. It only knows about `RealtimeEventName`/`RealtimeEventData`
-  from `@chatbotx.io/partysocket-config`.
+  from `@hitechcloud.vn/partysocket-config`.
 - Chat's subscriber: `features/chat/chat-realtime.tsx` (`ChatRealtime`).
 - WhatsApp calling's subscriber:
   `features/integration-whatsapp/calling/voip/whatsapp-call-realtime.tsx`
@@ -137,7 +137,7 @@ agents). Presence now flows entirely server-to-server:
   with 500 online agents still sends exactly one report every
   `PRESENCE_REPORT_INTERVAL_MS`, not 500.
 - A room with more connected users than `MAX_PRESENCE_USER_IDS_PER_REPORT`
-  (5,000, `@chatbotx.io/partysocket-config/presence`) has its report
+  (5,000, `@hitechcloud.vn/partysocket-config/presence`) has its report
   truncated to the cap before it is ever sent, rather than sending an
   oversized batch that would otherwise have to be rejected — an oversized
   workspace reports its first 5,000 connected members rather than going
@@ -169,7 +169,7 @@ covering a gap the other two cannot:
    `apps/builder/src/features/realtime/workspace-realtime-provider.tsx`)
    sends a tiny frame — `{ type: "presence-ping" }`,
    `serializePresencePingMessage()` in
-   `@chatbotx.io/partysocket-config/presence` — over the ALREADY-OPEN
+   `@hitechcloud.vn/partysocket-config/presence` — over the ALREADY-OPEN
    workspace socket every `PRESENCE_REPORT_INTERVAL_MS`, the SAME interval
    the realtime side reports on (both owned in one module so they cannot
    drift). This follows a widely used presence pattern: a heartbeat sent
@@ -193,7 +193,7 @@ covering a gap the other two cannot:
    where the loop is already healthy.
 
 `PRESENCE_REPORT_INTERVAL_MS` and `PRESENCE_TTL_MS` are owned together in
-ONE place, `@chatbotx.io/partysocket-config/presence` (imported by both
+ONE place, `@hitechcloud.vn/partysocket-config/presence` (imported by both
 `apps/realtime` and `packages/business`), specifically so they cannot drift
 apart again: the report interval (10s) is HALF the TTL (20s), enforced by
 both a guard test and an import-time assertion, so a single slow or lost
@@ -393,10 +393,10 @@ websocket path.
 
 `apps/builder/src/lib/http/same-site-request.ts` (the same-site check
 behind `api/whatsapp-voip-call-hangup`)
-and `@chatbotx.io/utils`'s `getPublicHostFromRequest`/
+and `@hitechcloud.vn/utils`'s `getPublicHostFromRequest`/
 `getPublicUrlFromRequest` (OAuth callbacks, `proxy.ts`) all trust the
 `Forwarded` and `X-Forwarded-Host` request headers as the deployment's real
-public host. Any reverse proxy in front of a ChatbotX deployment (nginx,
+public host. Any reverse proxy in front of a HiTechCloudOmnichannel deployment (nginx,
 an ALB, Cloudflare, etc.) MUST overwrite these headers with the values it
 itself determines for the inbound connection — never simply pass through
 whatever a client happened to send. This is safe specifically because a

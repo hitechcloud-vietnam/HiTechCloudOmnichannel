@@ -1,9 +1,9 @@
-import { db } from "@chatbotx.io/database/client"
-import type { FolderModel } from "@chatbotx.io/database/types"
+import { db } from "@hitechcloud.vn/database/client"
+import type { FolderModel } from "@hitechcloud.vn/database/types"
 import type {
   TemplateFolderManifestEntry,
   TemplateProductCategoryManifestEntry,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 
 /**
  * Walks each given folder id up to its root and returns manifest entries

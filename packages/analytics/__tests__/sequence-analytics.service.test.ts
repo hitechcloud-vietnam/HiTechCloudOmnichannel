@@ -1,14 +1,14 @@
 import type {
   MessageDeliveredPayload,
   MessageSeenPayload,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
 const findDispatchesForUpdate = vi.fn()
 const findCompletedUnseenDispatches = vi.fn()
 const updateOccurredAtBulk = vi.fn()
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   channelTypes: { enum: { whatsapp: "whatsapp" } },
 }))
 

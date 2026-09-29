@@ -1,5 +1,5 @@
-import { SdkException } from "@chatbotx.io/sdk"
-import { ChatbotXException, sanitizePublicText } from "../errors"
+import { SdkException } from "@hitechcloud.vn/sdk"
+import { HiTechCloudOmnichannelException, sanitizePublicText } from "../errors"
 import {
   CONNECT_FAILURE_REASONS,
   CONNECT_SESSION_ERROR_CODES,
@@ -13,7 +13,7 @@ import {
  * Exception-code mapping functions for the shared connect-outcome
  * vocabulary. The pure constants/types live in `./connect-outcome-types.ts`
  * (dependency-free — re-exported below unchanged) so client code can import
- * just those without pulling in `ChatbotXException`/`SdkException` and their
+ * just those without pulling in `HiTechCloudOmnichannelException`/`SdkException` and their
  * transitive dependencies (Pino, drizzle-orm). Never redefine the values
  * re-exported here — `connect-outcome-types.ts` stays the single source of
  * truth.
@@ -63,14 +63,14 @@ const SESSION_ERROR_BY_EXCEPTION_CODE: Readonly<
 export function toConnectSessionError(
   error: unknown,
 ): ConnectSessionErrorCode | null {
-  if (!(error instanceof ChatbotXException && error.code)) {
+  if (!(error instanceof HiTechCloudOmnichannelException && error.code)) {
     return null
   }
   return SESSION_ERROR_BY_EXCEPTION_CODE[error.code] ?? null
 }
 
 function baseConnectItemFailure(error: unknown): ConnectFailureOutcome {
-  if (error instanceof ChatbotXException && error.code) {
+  if (error instanceof HiTechCloudOmnichannelException && error.code) {
     return (
       OUTCOME_BY_EXCEPTION_CODE[error.code] ?? {
         status: "failed",

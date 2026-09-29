@@ -34,7 +34,7 @@ class DatabaseErrorStub extends Error {
   }
 }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     delete: mockDelete,
     transaction: mockTransaction,
@@ -45,15 +45,15 @@ vi.mock("@chatbotx.io/database/client", () => ({
   isDatabaseError: (error: unknown) => error instanceof DatabaseErrorStub,
 }))
 
-vi.mock("@chatbotx.io/database/partials", () => ({
+vi.mock("@hitechcloud.vn/database/partials", () => ({
   integrationTypes: { enum: { telegram: "telegram" } },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   integrationTelegramModel: { id: "id", botId: "botId" },
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: () => "generated-id",
 }))
 
@@ -151,7 +151,7 @@ describe("telegramIntegrationService.connect", () => {
     expect(result.workspaceId).toBe("ws-new")
   })
 
-  test("a 23505 database error surfaces as ChatbotXException('Bot already connected')", async () => {
+  test("a 23505 database error surfaces as HiTechCloudOmnichannelException('Bot already connected')", async () => {
     mockTransaction.mockImplementation(() => {
       throw new DatabaseErrorStub("23505")
     })

@@ -2,7 +2,7 @@ import type {
   DynamicImageDocument,
   DynamicImageElement,
   DynamicImageFontFamily,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import { createCanvas, loadImage, type SKRSContext2D } from "@napi-rs/canvas"
 import {
   ensureDynamicImageFontsRegistered,

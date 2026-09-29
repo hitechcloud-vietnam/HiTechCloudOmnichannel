@@ -50,7 +50,7 @@ export function formatDateWithYear(value: DateInput, locale: string): string {
   }).format(date)
 }
 
-/** Mirrors `resolveRangeGranularity` in `@chatbotx.io/analytics`: past 60 days
+/** Mirrors `resolveRangeGranularity` in `@hitechcloud.vn/analytics`: past 60 days
  * a series is bucketed by month, so its labels must name months, not days. */
 function isMonthlyRange(fromValue: DateInput, toValue: DateInput): boolean {
   const from = toValidDate(fromValue)

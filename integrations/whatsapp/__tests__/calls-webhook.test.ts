@@ -35,7 +35,7 @@ vi.mock("../src/lib/logger", () => ({
   logger: mockLogger,
 }))
 
-vi.mock("@chatbotx.io/business", () => ({
+vi.mock("@hitechcloud.vn/business", () => ({
   whatsappVoipCallService: {},
   whatsappVoipSignalingService: {
     captureConnectOffer: mockCaptureConnectOffer,

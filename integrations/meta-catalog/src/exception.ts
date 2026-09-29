@@ -1,4 +1,4 @@
-import { SdkException } from "@chatbotx.io/sdk"
+import { SdkException } from "@hitechcloud.vn/sdk"
 
 export class MetaCatalogException extends SdkException {
   readonly statusCode: number

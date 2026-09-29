@@ -23,7 +23,7 @@ const {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: { triggerModel: { findFirst: mockTriggerFindFirst } },
     update: mockDbUpdate,
@@ -33,21 +33,21 @@ vi.mock("@chatbotx.io/database/client", () => ({
   inArray: (...args: unknown[]) => ({ inArray: args }),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   conditionModel: {},
   triggerModel: { id: "triggerModel.id" },
 }))
 
 const mockFindWithConditions = vi.fn()
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   triggerRepository: {
     listPaginatedWithConditions: vi.fn(),
     findWithConditions: mockFindWithConditions,
   },
 }))
 
-vi.mock("@chatbotx.io/events", () => ({
+vi.mock("@hitechcloud.vn/events", () => ({
   removeTriggerCache: vi.fn(),
   updateTriggerCache: vi.fn(),
 }))

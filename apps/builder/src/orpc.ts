@@ -1,11 +1,11 @@
 import {
-  ChatbotXException,
+  HiTechCloudOmnichannelException,
   toPublicErrorMessage,
-} from "@chatbotx.io/business/errors"
-import { ModelNotfoundException } from "@chatbotx.io/database/errors"
-import type { WorkspaceApiTokenScope } from "@chatbotx.io/database/partials"
-import { FlowAuthoringException } from "@chatbotx.io/flow-config"
-import { SdkException } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/business/errors"
+import { ModelNotfoundException } from "@hitechcloud.vn/database/errors"
+import type { WorkspaceApiTokenScope } from "@hitechcloud.vn/database/partials"
+import { FlowAuthoringException } from "@hitechcloud.vn/flow-config"
+import { SdkException } from "@hitechcloud.vn/sdk"
 import { oo } from "@orpc/openapi"
 import { ORPCError, onError, ValidationError } from "@orpc/server"
 import { ActionValidationError } from "next-safe-action"
@@ -35,7 +35,7 @@ const CHANNEL_ERROR_FALLBACK = "The provider rejected the request."
  * hand-roll its own error wrapping.
  */
 /**
- * A `ChatbotXException` carrying `data` holds an i18n KEY in `message` (e.g.
+ * A `HiTechCloudOmnichannelException` carrying `data` holds an i18n KEY in `message` (e.g.
  * `"validation.maxItemsReached"`), which server actions re-localize in their
  * own catch via `getTranslations()`. This interceptor is sync and has no
  * request-scoped translator, so it cannot localize — but it must never emit a
@@ -43,7 +43,7 @@ const CHANNEL_ERROR_FALLBACK = "The provider rejected the request."
  * response is at least self-describing; a handler that wants real
  * localization should translate before the error reaches here.
  */
-function toDisplayMessage(error: ChatbotXException): string {
+function toDisplayMessage(error: HiTechCloudOmnichannelException): string {
   if (!error.data) {
     return error.message
   }
@@ -56,7 +56,7 @@ function toDisplayMessage(error: ChatbotXException): string {
 function toKnownOrpcError(
   error: unknown,
 ): ORPCError<string, unknown> | undefined {
-  if (error instanceof ChatbotXException) {
+  if (error instanceof HiTechCloudOmnichannelException) {
     return new ORPCError(error.code, {
       message: toDisplayMessage(error),
       status: error.httpStatusCode ?? 400,
@@ -85,7 +85,7 @@ function toKnownOrpcError(
     })
   }
 
-  // `compileFlowSpec` (`@chatbotx.io/flow-config`) rejects an agent-authored
+  // `compileFlowSpec` (`@hitechcloud.vn/flow-config`) rejects an agent-authored
   // flow spec with every error it found (unknown template/flow names, an
   // unreachable step, a bad `goto` target, ...) — same 422 shape as
   // `ActionValidationError` above so a caller has one error contract to

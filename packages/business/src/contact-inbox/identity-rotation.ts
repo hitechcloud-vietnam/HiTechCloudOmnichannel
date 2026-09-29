@@ -1,17 +1,17 @@
 import type {
   ContactInboxIdentityFields,
   ContactInboxIdentityGuard,
-} from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/repositories"
 import type {
   ContactInboxModel,
   ContactInboxOperationalModel,
   ContactModel,
-} from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/types"
 import {
   type IncomingContact,
   isDistinctPrimaryIdentity,
   isSourceUserIdKeyedIdentity,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 
 export type ContactInboxWithContact = ContactInboxModel & {
   contact: ContactModel

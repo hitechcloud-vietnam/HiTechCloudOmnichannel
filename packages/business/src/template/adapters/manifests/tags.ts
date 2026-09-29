@@ -1,4 +1,4 @@
-import type { TemplateTagManifestEntry } from "@chatbotx.io/flow-config"
+import type { TemplateTagManifestEntry } from "@hitechcloud.vn/flow-config"
 import { tagService } from "../../../tag/service"
 import type { TemplateInstallContext } from "../types"
 

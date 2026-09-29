@@ -1,5 +1,5 @@
-import { integrationMailchimpService } from "@chatbotx.io/business"
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { integrationMailchimpService } from "@hitechcloud.vn/business"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { ManageMailchimp } from "@/features/integration-mailchimp/components/manage-mailchimp"
 

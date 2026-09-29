@@ -27,7 +27,7 @@ description: >-
 
 ## Architecture Overview
 
-Integrations are standalone packages under `integrations/` that implement the `IntegrationDefinition` contract from `@chatbotx.io/sdk`.
+Integrations are standalone packages under `integrations/` that implement the `IntegrationDefinition` contract from `@hitechcloud.vn/sdk`.
 
 **Flow:** External platform → webhook → builder route → BullMQ queue → worker → integration handler
 
@@ -37,7 +37,7 @@ Before writing any code, you **MUST** resolve the 3 questions below. Analyze the
 
 ### Question 1: Integration name
 
-Channel name → determines package name (`@chatbotx.io/integration-<channel>`), DB table (`Integration<Channel>`), all file paths.
+Channel name → determines package name (`@hitechcloud.vn/integration-<channel>`), DB table (`Integration<Channel>`), all file paths.
 
 ### Question 2: Auth fields
 
@@ -89,14 +89,14 @@ Then rename throughout and strip Telegram-specific logic. The five files that ma
 
 | File | What to change |
 |---|---|
-| `package.json` | `name` → `@chatbotx.io/integration-<channel>`. Keep the `exports` and `scripts` blocks as-is. Drop deps the new channel doesn't use. |
-| `tsconfig.json` | Nothing — it just extends `@chatbotx.io/typescript-config/base.json`. |
+| `package.json` | `name` → `@hitechcloud.vn/integration-<channel>`. Keep the `exports` and `scripts` blocks as-is. Drop deps the new channel doesn't use. |
+| `tsconfig.json` | Nothing — it just extends `@hitechcloud.vn/typescript-config/base.json`. |
 | `src/index.ts` | Nothing — re-exports `./integration`. |
 | `src/schema.ts` | `<channel>AuthSchema` — extend `customAuthSchema` (SDK) with the auth fields from the confirmation step, or use `Oauth2AuthValue` for OAuth channels. Export `<Channel>Config`, `<Channel>AuthValue`, `<Channel>Actions`. |
 | `src/integration.ts` | `name: "<channel>"`, the `channels`/`actions` maps, and the `handleRequest` switch that routes the URL's last path segment (`case "webhook"`) to your handler. Implement `disconnect` if the platform supports it. |
 | `src/handlers/webhook.ts` | Parse the platform's payload and `props.queue?.add("incomingMessage", { type: "incomingMessage", data: { integrationType: "<channel>", integrationIdentifier, payload } })`. |
 
-The `Integration` class and `customAuthSchema` come from `@chatbotx.io/sdk`
+The `Integration` class and `customAuthSchema` come from `@hitechcloud.vn/sdk`
 (`packages/sdk/src/lib/integration.ts`, `packages/sdk/src/lib/auth/index.ts`).
 
 ### Phase 2: Database (create schema + register in 7 files)
@@ -172,10 +172,10 @@ After editing, immediately read back each file to verify both import AND spread 
 
 | #   | File                                       | Edit                                                                                                                                           |
 | --- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | `apps/builder/src/integration.ts`          | Add `import { integration as integration<Channel> } from "@chatbotx.io/integration-<channel>"` AND `<channel>: integration<Channel>` in object |
+| 1   | `apps/builder/src/integration.ts`          | Add `import { integration as integration<Channel> } from "@hitechcloud.vn/integration-<channel>"` AND `<channel>: integration<Channel>` in object |
 | 2   | `apps/worker/src/services/integrations.ts` | Add `import ...` AND `<channel>: integration<Channel>` in `allIntegrations`                                                                    |
-| 3   | `apps/builder/package.json`                | Add `"@chatbotx.io/integration-<channel>": "workspace:*"` to dependencies                                                                      |
-| 4   | `apps/worker/package.json`                 | Add `"@chatbotx.io/integration-<channel>": "workspace:*"` to dependencies                                                                      |
+| 3   | `apps/builder/package.json`                | Add `"@hitechcloud.vn/integration-<channel>": "workspace:*"` to dependencies                                                                      |
+| 4   | `apps/worker/package.json`                 | Add `"@hitechcloud.vn/integration-<channel>": "workspace:*"` to dependencies                                                                      |
 
 **CRITICAL — verify imports:** After each StrReplace on `integration.ts` and `integrations.ts`, immediately read back lines 1-10 to confirm the import line is actually present. The `import` and the usage are TWO separate edits.
 
@@ -219,7 +219,7 @@ apps/builder/src/features/integration-<channel>/
 **`schema/mutation.ts`** — Zod schemas for create/update:
 
 ```typescript
-import { zodBigintAsString } from "@chatbotx.io/utils"
+import { zodBigintAsString } from "@hitechcloud.vn/utils"
 import { z } from "zod"
 
 export const create<Channel>Request = z.object({
@@ -236,7 +236,7 @@ export type Update<Channel>Request = z.infer<typeof update<Channel>Request>
 **`schema/resource.ts`** — Select schema for responses:
 
 ```typescript
-import { createSelectSchema, integration<Channel>Model } from "@chatbotx.io/database/schema"
+import { createSelectSchema, integration<Channel>Model } from "@hitechcloud.vn/database/schema"
 import type { z } from "zod"
 
 export const integration<Channel>Resource = createSelectSchema(integration<Channel>Model).pick({
@@ -263,11 +263,11 @@ export type Integration<Channel>Resource = z.infer<typeof integration<Channel>Re
 
 **`queries/index.ts`** — A thin adapter over the service, per
 `.agents/rules/data-access.md`: resolve session context → plain params → call the service →
-shape the response. **No `db` / `@chatbotx.io/database/schema` import, and no `"use server"`**
+shape the response. **No `db` / `@hitechcloud.vn/database/schema` import, and no `"use server"`**
 (a query file is not a server-action module).
 
 ```typescript
-import { integration<Channel>Service } from "@chatbotx.io/business"
+import { integration<Channel>Service } from "@hitechcloud.vn/business"
 import { assertCurrentUserCanAccessChatbot } from "@/lib/auth/utils"
 
 export const listIntegration<Channel>s = async (input: { workspaceId: string }) => {
@@ -278,7 +278,7 @@ export const listIntegration<Channel>s = async (input: { workspaceId: string }) 
 
 > **Do not copy a sibling channel's `queries/index.ts` verbatim.** Every existing channel
 > feature (e.g. `apps/builder/src/features/integration-telegram/queries/index.ts`) still opens
-> with `import { db } from "@chatbotx.io/database/client"` — those are legacy exceptions that
+> with `import { db } from "@hitechcloud.vn/database/client"` — those are legacy exceptions that
 > predate the rule, not the pattern. New code calls a service.
 
 **`components/create-<channel>-form.tsx`** — Form pattern:
@@ -309,7 +309,7 @@ with `requireVisibleChannel` — it 404s for hidden channels and returns the
 request-scoped `ChannelPolicy`:
 
 ```typescript
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { <Channel>Manage } from "@/features/integration-<channel>/<channel>-manage"
 import { listIntegration<Channel>s } from "@/features/integration-<channel>/queries"
@@ -357,7 +357,7 @@ Run these checks **in order**:
 
 | Error                                                                  | Cause                                                   | Fix                                                            |
 | ---------------------------------------------------------------------- | ------------------------------------------------------- | -------------------------------------------------------------- |
-| `Cannot find module '@chatbotx.io/integration-<channel>'`              | Package not linked                                      | Run `pnpm install --no-frozen-lockfile`                        |
+| `Cannot find module '@hitechcloud.vn/integration-<channel>'`              | Package not linked                                      | Run `pnpm install --no-frozen-lockfile`                        |
 | `Property '<channel>' is missing in type ... Record<ChannelType, ...>` | Enum value added but not all Records updated            | Grep `Record<ChannelType` and add missing entry                |
 | `The ... variable is undeclared`                                       | Import missing                                          | Read back file to verify import line exists, re-add if missing |
 | `Target signature provides too few arguments`                          | Action uses `bindArgsSchemas` but form didn't `.bind()` | Use `action.bind(null, workspaceId)` in useHookFormAction      |
@@ -525,4 +525,4 @@ they connect an external service but carry no inbox conversation.
 | instagram-facebook  | OAuth2    | YES                   | Meta/Facebook app (clientId/clientSecret); auth via Facebook Graph API for Instagram Business/Creator accounts linked to FB Pages; handles DMs + post comments; Personal accounts filtered out; integration name in code: `instagramFacebook` |
 | smtp                | Custom    | NO                    | SMTP with provider presets                                                                                                         |
 | webchat             | Custom    | NO                    | PartySocket-based                                                                                                                  |
-| chatbotx            | Custom    | NO                    | Internal chatbot                                                                                                                   |
+| hitechcloudomnichannel            | Custom    | NO                    | Internal chatbot                                                                                                                   |

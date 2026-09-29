@@ -1,6 +1,6 @@
-import { db } from "@chatbotx.io/database/client"
-import { integrationTypes } from "@chatbotx.io/database/partials"
-import type { IntegrationModel } from "@chatbotx.io/database/types"
+import { db } from "@hitechcloud.vn/database/client"
+import { integrationTypes } from "@hitechcloud.vn/database/partials"
+import type { IntegrationModel } from "@hitechcloud.vn/database/types"
 import { type AIProvider, aiProviders } from "./schemas"
 
 export async function getAllWorkspaceAIIntegrations(

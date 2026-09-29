@@ -1,4 +1,4 @@
-import { MESSENGER_NATIVE_QUICK_REPLY } from "@chatbotx.io/sdk"
+import { MESSENGER_NATIVE_QUICK_REPLY } from "@hitechcloud.vn/sdk"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
 const {

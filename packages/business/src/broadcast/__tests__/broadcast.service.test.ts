@@ -28,11 +28,11 @@ const mocks = vi.hoisted(() => ({
   loggerError: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/analytics", () => ({
+vi.mock("@hitechcloud.vn/analytics", () => ({
   broadcastAnalyticsService: { getContacts: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: vi.fn(),
   casStore: { setIfAbsent: mocks.setIfAbsent },
 }))
@@ -47,7 +47,7 @@ vi.mock("../../inbox/service", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   broadcastModel: {
     id: "Broadcast.id",
     name: "Broadcast.name",
@@ -119,7 +119,7 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     $count: mocks.count,
     query: {
@@ -184,7 +184,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   ne: (left: unknown, right: unknown) => ({ __ne: [left, right] }),
 }))
 
-vi.mock("@chatbotx.io/database/queries", () => ({
+vi.mock("@hitechcloud.vn/database/queries", () => ({
   buildContactInboxContactFilterSQL: mocks.buildContactInboxContactFilterSQL,
   contactInboxInteractedWithin24hSQL: mocks.contactInboxInteractedWithin24hSQL,
   pruneEmailPhoneFilterConditions: (
@@ -212,7 +212,7 @@ vi.mock("@chatbotx.io/database/queries", () => ({
         },
 }))
 
-vi.mock("@chatbotx.io/database/utils", () => ({
+vi.mock("@hitechcloud.vn/database/utils", () => ({
   chunkById: mocks.chunkById,
 }))
 
@@ -223,8 +223,8 @@ const { broadcastService, broadcastTemplateSelections } = await import(
 // `forEachAudienceChunk` window tests so they prove the actual stop/continue
 // contract instead of a hand-rolled re-implementation of it.
 const { chunkById: actualChunkById } = await vi.importActual<
-  typeof import("@chatbotx.io/database/utils")
->("@chatbotx.io/database/utils")
+  typeof import("@hitechcloud.vn/database/utils")
+>("@hitechcloud.vn/database/utils")
 
 const contactFilter = {
   operator: "and" as const,

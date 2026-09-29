@@ -1,5 +1,5 @@
-import type { DatabaseClient } from "@chatbotx.io/database/client"
-import type { MacEventType } from "@chatbotx.io/database/partials"
+import type { DatabaseClient } from "@hitechcloud.vn/database/client"
+import type { MacEventType } from "@hitechcloud.vn/database/partials"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 import type {
   CountDelta,
@@ -61,7 +61,7 @@ const gt = vi.fn((...args: unknown[]) => ({ op: "gt", args }))
 const inArray = vi.fn((...args: unknown[]) => ({ op: "inArray", args }))
 const lte = vi.fn((...args: unknown[]) => ({ op: "lte", args }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     execute: dbExecute,
     insert: dbInsert,
@@ -81,7 +81,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   lte,
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   workspaceMacModel: {
     id: "wm.id",
     periodEnd: "wm.periodEnd",

@@ -1,15 +1,15 @@
-import type { DatabaseClient } from "@chatbotx.io/database/client"
+import type { DatabaseClient } from "@hitechcloud.vn/database/client"
 import {
   and,
   db,
   eq,
   findOrFail,
   relationsFilterToSQL,
-} from "@chatbotx.io/database/client"
-import { integrationWebchatModel } from "@chatbotx.io/database/schema"
-import type { IntegrationWebchatModel } from "@chatbotx.io/database/types"
-import { parsePagination } from "@chatbotx.io/database/utils"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/client"
+import { integrationWebchatModel } from "@hitechcloud.vn/database/schema"
+import type { IntegrationWebchatModel } from "@hitechcloud.vn/database/types"
+import { parsePagination } from "@hitechcloud.vn/database/utils"
+import { createId } from "@hitechcloud.vn/utils"
 import { dispatchAuditRecord } from "../audit/dispatcher"
 import { BaseService } from "../base.service"
 import { notFoundException } from "../errors"

@@ -1,12 +1,12 @@
-import { db } from "@chatbotx.io/database/client"
+import { db } from "@hitechcloud.vn/database/client"
 import type {
   ContactInboxModel,
   ContactModel,
-} from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/types"
 import type {
   IncomingContact,
   SourceScopedIdentityMatchedBy,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { contactService } from "../contact/service"
 import {
   resolveParentFallbackRotationPlan,

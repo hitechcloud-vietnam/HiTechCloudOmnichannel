@@ -1,1 +1,1 @@
-export { default } from "@chatbotx.io/vitest-config/nextjs"
+export { default } from "@hitechcloud.vn/vitest-config/nextjs"

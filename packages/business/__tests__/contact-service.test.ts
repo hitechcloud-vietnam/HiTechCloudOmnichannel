@@ -1,4 +1,4 @@
-import type { ContactModel } from "@chatbotx.io/database/types"
+import type { ContactModel } from "@hitechcloud.vn/database/types"
 import { afterEach, describe, expect, test, vi } from "vitest"
 import { contactService } from "../src/contact"
 

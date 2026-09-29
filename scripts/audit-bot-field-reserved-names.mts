@@ -44,12 +44,12 @@ process.loadEnvFile(envFile)
 process.env.SKIP_ENV_CHECK = "true"
 
 // Import AFTER env is loaded — package env schemas read process.env at import
-// time. Imported by relative path (not the `@chatbotx.io/database/client`
+// time. Imported by relative path (not the `@hitechcloud.vn/database/client`
 // bare specifier) because this script lives at the repo root, outside any
 // workspace package's own dependency graph — Node resolves a relative
 // import's bare specifiers against ITS OWN location, so this reaches
 // `packages/database`'s node_modules instead of the repo root's (which does
-// not depend on `@chatbotx.io/database` at all). Mirrors the same trick
+// not depend on `@hitechcloud.vn/database` at all). Mirrors the same trick
 // `scripts/debug-run-job.mts` uses for its handler import.
 // `db.query.*` resolves against the schema already wired into the client, so
 // the table modules themselves don't need importing here.

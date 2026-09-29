@@ -10,4 +10,4 @@ export type MetaMessagingChannel = z.infer<typeof metaMessagingChannelSchema>
 export {
   type MetaCapiEventName,
   metaCapiEventNameSchema,
-} from "@chatbotx.io/utils/meta-capi"
+} from "@hitechcloud.vn/utils/meta-capi"

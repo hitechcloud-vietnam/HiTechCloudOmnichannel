@@ -1,20 +1,20 @@
-import { type DatabaseClient, db, eq } from "@chatbotx.io/database/client"
+import { type DatabaseClient, db, eq } from "@hitechcloud.vn/database/client"
 import {
   productCategoryRepository,
   productRepository,
-} from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/repositories"
 import {
   productAddonModel,
   productVariantModel,
   productVariantOptionModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import type {
   ProductAddonModel,
   ProductModel,
   ProductVariantModel,
   ProductVariantOptionModel,
-} from "@chatbotx.io/database/types"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/types"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import { notFoundException } from "../errors"
 import { assertDeletable } from "../template/installed-resource.service"

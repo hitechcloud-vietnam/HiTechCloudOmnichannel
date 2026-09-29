@@ -1,7 +1,7 @@
 import {
   ReplyFormat,
   type ReplyFormat as ReplyFormatValue,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import {
   asCoordinatePair,
   asEmail,

@@ -1,4 +1,4 @@
-import { encryptedDataSchema, encryptUtils } from "@chatbotx.io/encryption"
+import { encryptedDataSchema, encryptUtils } from "@hitechcloud.vn/encryption"
 import { z } from "zod"
 import type { MetaConversionsIntegration } from "./schema"
 

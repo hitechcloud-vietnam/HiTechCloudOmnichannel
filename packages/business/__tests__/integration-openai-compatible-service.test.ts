@@ -18,7 +18,7 @@ vi.mock("../src/integration-openai-compatible/validate-base-url", () => ({
 
 vi.mock("../src/audit/dispatcher", () => ({ dispatchAuditRecord: vi.fn() }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: vi.fn(),
   db: {
     query: {
@@ -36,16 +36,16 @@ vi.mock("@chatbotx.io/database/client", () => ({
   isDatabaseError: vi.fn(() => false),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   integrationModel: { id: "id" },
   integrationOpenaiCompatibleModel: { id: "id", workspaceId: "workspaceId" },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: vi.fn(() => "generated-id"),
 }))
 

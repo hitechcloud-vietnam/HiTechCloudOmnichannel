@@ -8,8 +8,8 @@ import {
   notInArray,
   or,
   sql,
-} from "@chatbotx.io/database/client"
-import { sequenceDispatchModel } from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/client"
+import { sequenceDispatchModel } from "@hitechcloud.vn/database/schema"
 import type { ContactEventData } from "../../schemas/common"
 import type {
   SequenceFailedBulkUpdateItem,

@@ -575,7 +575,7 @@
     "title": "כללי"
   },
   "facebookMarketingMessages": {
-    "deleteWarning": "פעולה זו מסירה את הקמפיין מ-ChatbotX בלבד. קמפיין ההודעות של Meta ממשיך לפעול — השהה או מחק אותו במנהל המודעות.",
+    "deleteWarning": "פעולה זו מסירה את הקמפיין מ-HiTechCloudOmnichannel בלבד. קמפיין ההודעות של Meta ממשיך לפעול — השהה או מחק אותו במנהל המודעות.",
     "title": "Facebook Marketing Messages",
     "description": "הגדל מעורבות ומכירות בעזרת הודעות קידום מותאמות אישית ב-Messenger.",
     "create": "צור חדש",
@@ -2074,7 +2074,7 @@
         "title": "זכאות לשיחות",
         "appSubscriptionMissing": "הגדר תחילה את ה-webhook של WhatsApp לאפליקציה זו בלוח הבקרה של אפליקציות Meta, ולאחר מכן נסה שוב.",
         "appSubscriptionFailed": "לא ניתן היה לאמת את הרשמת ה-webhook של 'calls' עבור האפליקציה. נסה שוב בקרוב.",
-        "callsNotSubscribed": "אפליקציה זו לא רשומה לשדה ה-webhook 'calls', כך שאירועי שיחה לא יכולים להגיע ל-ChatbotX (שגיאת Meta 138018: הדרישות המקדימות הטכניות לא מתקיימות — יש לוודא שלפחות אפליקציה אחת הרשומה ל-WABA כוללת גם את שדה ה-webhook של שיחות).",
+        "callsNotSubscribed": "אפליקציה זו לא רשומה לשדה ה-webhook 'calls', כך שאירועי שיחה לא יכולים להגיע ל-HiTechCloudOmnichannel (שגיאת Meta 138018: הדרישות המקדימות הטכניות לא מתקיימות — יש לוודא שלפחות אפליקציה אחת הרשומה ל-WABA כוללת גם את שדה ה-webhook של שיחות).",
         "fixButton": "תיקון",
         "fixSuccess": "האפליקציה רשומה כעת ל-webhooks של שיחות WhatsApp.",
         "manualIntegrationNotice": "מספר זה חובר באופן ידני ואין לו כאן פרטי אפליקציה. יש להירשם לשדה ה-webhook 'calls' עבור האפליקציה שלך בלוח הבקרה של אפליקציות Meta.",
@@ -6298,7 +6298,7 @@
     },
     "limitedDataUse": {
       "label": "Limited Data Use (US privacy)",
-      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by ChatbotX."
+      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by HiTechCloudOmnichannel."
     },
     "actionSource": {
       "label": "מקור הפעולה",

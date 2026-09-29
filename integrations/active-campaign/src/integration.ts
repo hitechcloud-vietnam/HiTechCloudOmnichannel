@@ -2,7 +2,7 @@ import {
   Integration,
   type IntegrationDefinition,
   SdkException,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { activeCampaignRequest } from "./client"
 import {
   activeCampaignAccountsPath,

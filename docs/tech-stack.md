@@ -30,7 +30,7 @@ Key components of the project's tech stack.
 ### Database
 
 - [Drizzle ORM](https://orm.drizzle.team/) + **PostgreSQL** (with **pgvector** for vector search)
-- Package: `packages/database` (`@chatbotx.io/database`)
+- Package: `packages/database` (`@hitechcloud.vn/database`)
 
 ### Authentication
 
@@ -41,7 +41,7 @@ Key components of the project's tech stack.
 - [BullMQ](https://bullmq.io/) backed by **Redis / Dragonfly**
 - **Kafka** for high-throughput sequence dispatch
 - Push notifications via the **Expo Push Service** (`notification` queue/worker)
-- Package: `packages/worker-config` (`@chatbotx.io/worker-config`)
+- Package: `packages/worker-config` (`@hitechcloud.vn/worker-config`)
 
 ### Realtime
 

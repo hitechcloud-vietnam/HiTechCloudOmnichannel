@@ -3,7 +3,7 @@ import type {
   Context,
   Handler,
   Oauth2AuthValue,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import type { ServerMessage } from "whatsapp-api-js/types"
 import z from "zod"
 import type { WhatsappCallingSettings } from "./api/calling"

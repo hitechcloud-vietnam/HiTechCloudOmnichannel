@@ -2,7 +2,7 @@ import {
   Integration,
   type IntegrationDefinition,
   SdkException,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { sendGridRequest } from "./client"
 import {
   SENDGRID_API_BASE_URL,

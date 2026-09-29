@@ -1,5 +1,5 @@
-import type { DatabaseClient } from "@chatbotx.io/database/client"
-import type { MessengerPersistentMenu } from "@chatbotx.io/database/partials"
+import type { DatabaseClient } from "@hitechcloud.vn/database/client"
+import type { MessengerPersistentMenu } from "@hitechcloud.vn/database/partials"
 import {
   createUserPersistentMenu,
   deleteUserPersistentMenus,
@@ -7,9 +7,9 @@ import {
   listUserPersistentMenusByWorkspace,
   type UserPersistentMenuModel,
   updateUserPersistentMenu,
-} from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/repositories"
 import { BaseService } from "../base.service"
-import { ChatbotXException, notFoundException } from "../errors"
+import { HiTechCloudOmnichannelException, notFoundException } from "../errors"
 
 class UserPersistentMenuService extends BaseService {
   listByWorkspace(input: {
@@ -56,7 +56,7 @@ class UserPersistentMenuService extends BaseService {
       input.tx,
     )
     if (!created) {
-      throw new ChatbotXException("Failed to create user persistent menu")
+      throw new HiTechCloudOmnichannelException("Failed to create user persistent menu")
     }
     return created
   }

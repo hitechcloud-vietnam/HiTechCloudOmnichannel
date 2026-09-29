@@ -3,14 +3,14 @@ import {
   customFieldService,
   flowService,
   flowVersionService,
-} from "@chatbotx.io/business"
+} from "@hitechcloud.vn/business"
 import {
   collectFieldReferences,
   FLOW_EXPORT_FORMAT_VERSION,
   type FlowExportBotField,
   type FlowExportCustomField,
   flowExportSchema,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import { withWorkspaceIdAndIdSchema } from "@/features/workspaces/schema/resource"
 import {
   hasWorkspacePermission,
@@ -29,7 +29,7 @@ const toExportFileName = (name: string): string => {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "") || "flow"
-  return `${slug}.chatbotx-flow.json`
+  return `${slug}.hitechcloudomnichannel-flow.json`
 }
 
 export async function GET(

@@ -1,5 +1,5 @@
-import type { FolderModel } from "@chatbotx.io/database/types"
-import { getIdFromParams } from "@chatbotx.io/utils"
+import type { FolderModel } from "@hitechcloud.vn/database/types"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { createLoader, type SearchParams } from "nuqs/server"

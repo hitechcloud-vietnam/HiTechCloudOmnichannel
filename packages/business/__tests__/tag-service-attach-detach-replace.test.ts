@@ -44,7 +44,7 @@ const mockTx = {
   },
 }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     transaction: vi.fn(async (cb: (tx: typeof mockTx) => Promise<unknown>) =>
       cb(mockTx),
@@ -72,7 +72,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   notInArray: (col: unknown, vals: unknown) => ({ notInArray: [col, vals] }),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   tagModel: { workspaceId: "tagModel.workspaceId", name: "tagModel.name" },
   contactModel: {
     id: "contactModel.id",
@@ -125,7 +125,7 @@ vi.mock("../src/folder/service", () => ({
 const emitTagApplied = vi.fn(async () => undefined)
 const emitTagRemoved = vi.fn(async () => undefined)
 
-vi.mock("@chatbotx.io/events", () => ({
+vi.mock("@hitechcloud.vn/events", () => ({
   emitTagApplied,
   emitTagRemoved,
 }))
@@ -133,13 +133,13 @@ vi.mock("@chatbotx.io/events", () => ({
 let idCounter = 0
 const createId = vi.fn(() => `generated-id-${++idCounter}`)
 
-vi.mock("@chatbotx.io/utils", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@chatbotx.io/utils")>()
+vi.mock("@hitechcloud.vn/utils", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@hitechcloud.vn/utils")>()
   return { ...actual, createId }
 })
 
 const invalidateCacheByTags = vi.fn()
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags,
   withCache: async (_key: string, callback: () => Promise<unknown>) =>
     await callback(),
@@ -184,7 +184,7 @@ describe("tagService.attachByNamesToContacts", () => {
   })
 
   test("returns early when contactIds array is empty", async () => {
-    const { db } = await import("@chatbotx.io/database/client")
+    const { db } = await import("@hitechcloud.vn/database/client")
     await tagService.attachByNamesToContacts({
       workspaceId: "ws-1",
       contactIds: [],
@@ -516,7 +516,7 @@ describe("tagService.detachByNamesFromContacts", () => {
   })
 
   test("returns early when contactIds array is empty", async () => {
-    const { db } = await import("@chatbotx.io/database/client")
+    const { db } = await import("@hitechcloud.vn/database/client")
     await tagService.detachByNamesFromContacts({
       workspaceId: "ws-1",
       contactIds: [],
@@ -529,7 +529,7 @@ describe("tagService.detachByNamesFromContacts", () => {
   })
 
   test("returns early when names array is empty", async () => {
-    const { db } = await import("@chatbotx.io/database/client")
+    const { db } = await import("@hitechcloud.vn/database/client")
     await tagService.detachByNamesFromContacts({
       workspaceId: "ws-1",
       contactIds: ["c-1"],
@@ -543,7 +543,7 @@ describe("tagService.detachByNamesFromContacts", () => {
 
   test("returns early when tag names not found in DB", async () => {
     state.tagFindMany = []
-    const { db } = await import("@chatbotx.io/database/client")
+    const { db } = await import("@hitechcloud.vn/database/client")
 
     await tagService.detachByNamesFromContacts({
       workspaceId: "ws-1",
@@ -559,7 +559,7 @@ describe("tagService.detachByNamesFromContacts", () => {
   test("skips chunk when no contacts found in chunk", async () => {
     state.tagFindMany = [{ id: "tag-1" }]
     state.contactFindMany = []
-    const { db } = await import("@chatbotx.io/database/client")
+    const { db } = await import("@hitechcloud.vn/database/client")
 
     await tagService.detachByNamesFromContacts({
       workspaceId: "ws-1",
@@ -575,7 +575,7 @@ describe("tagService.detachByNamesFromContacts", () => {
   test("deletes and enqueues detach for each contact×tag pair", async () => {
     state.tagFindMany = [{ id: "tag-1" }, { id: "tag-2" }]
     state.contactFindMany = [{ id: "c-1" }, { id: "c-2" }]
-    const { db } = await import("@chatbotx.io/database/client")
+    const { db } = await import("@hitechcloud.vn/database/client")
 
     await tagService.detachByNamesFromContacts({
       workspaceId: "ws-1",

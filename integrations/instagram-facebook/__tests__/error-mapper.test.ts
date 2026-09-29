@@ -1,4 +1,4 @@
-import { ChannelErrorCategory } from "@chatbotx.io/sdk"
+import { ChannelErrorCategory } from "@hitechcloud.vn/sdk"
 import { describe, expect, test } from "vitest"
 import { InstagramException } from "../src/exception"
 import { isRevokedTokenError, mapToChannelError } from "../src/lib/error-mapper"

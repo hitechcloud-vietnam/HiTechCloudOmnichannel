@@ -1,5 +1,5 @@
-import { genderTypes } from "@chatbotx.io/database/partials"
-import { normalizeGender } from "@chatbotx.io/sdk"
+import { genderTypes } from "@hitechcloud.vn/database/partials"
+import { normalizeGender } from "@hitechcloud.vn/sdk"
 import { describe, expect, test } from "vitest"
 
 describe("profile field normalization", () => {

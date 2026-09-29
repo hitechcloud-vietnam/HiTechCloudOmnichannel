@@ -4,29 +4,29 @@ import {
   db,
   eq,
   inArray,
-} from "@chatbotx.io/database/client"
-import { contactCustomFieldRepository } from "@chatbotx.io/database/repositories"
-import { contactCustomFieldModel } from "@chatbotx.io/database/schema"
-import { emitCustomFieldChanged } from "@chatbotx.io/events"
+} from "@hitechcloud.vn/database/client"
+import { contactCustomFieldRepository } from "@hitechcloud.vn/database/repositories"
+import { contactCustomFieldModel } from "@hitechcloud.vn/database/schema"
+import { emitCustomFieldChanged } from "@hitechcloud.vn/events"
 import {
   FieldOperationType,
   FieldReferenceKind,
   parseFieldReference,
-} from "@chatbotx.io/flow-config"
-import { createId, isNumericId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/flow-config"
+import { createId, isNumericId } from "@hitechcloud.vn/utils"
 import {
   canonicalBooleanLiteral,
   canonicalNumberLiteral,
-} from "@chatbotx.io/utils/custom-field"
+} from "@hitechcloud.vn/utils/custom-field"
 import {
   type SourceTimezoneStrategy,
   TemporalInputParsing,
-} from "@chatbotx.io/utils/datetime"
+} from "@hitechcloud.vn/utils/datetime"
 import { BaseService } from "../base.service"
 import { botFieldService } from "../bot-field/service"
 import { type ContactAccessScope, contactService } from "../contact/service"
 import { customFieldService } from "../custom-field/service"
-import { ChatbotXException, notFoundException } from "../errors"
+import { HiTechCloudOmnichannelException, notFoundException } from "../errors"
 import { logger } from "../logger"
 import {
   createSourceTimezoneResolver,
@@ -765,7 +765,7 @@ class ContactCustomFieldService extends BaseService {
         (type === "boolean" && canonicalBooleanLiteral(value) === value) ||
         (type === "number" && canonicalNumberLiteral(value) === value)
       if ((type === "boolean" || type === "number") && !isCanonical) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           `Non-canonical ${type} value for custom field ${customFieldId}; normalize before calling insertNormalizedValuesForNewContacts.`,
           "invalidCustomFieldValue",
           400,

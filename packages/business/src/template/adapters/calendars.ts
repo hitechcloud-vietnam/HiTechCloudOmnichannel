@@ -1,11 +1,11 @@
-import { db } from "@chatbotx.io/database/client"
+import { db } from "@hitechcloud.vn/database/client"
 import type {
   AppointmentLocationType,
   AppointmentReminderTimingUnit,
   AppointmentScheduleWindowType,
-} from "@chatbotx.io/database/partials"
-import { appointmentCalendarRepository } from "@chatbotx.io/database/repositories"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/partials"
+import { appointmentCalendarRepository } from "@hitechcloud.vn/database/repositories"
+import { createId } from "@hitechcloud.vn/utils"
 import type {
   PatchTask,
   ResourceAdapter,

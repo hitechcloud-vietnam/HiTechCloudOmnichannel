@@ -1,4 +1,4 @@
-// Deliberately not a re-export of `@chatbotx.io/utils/crypto` (unlike the other
+// Deliberately not a re-export of `@hitechcloud.vn/utils/crypto` (unlike the other
 // channels): this `timingSafeStringEqual` compares decoded hex bytes, so an
 // upper-case signature still matches and non-hex input is rejected.
 const NON_HEX_REGEX = /[^0-9a-f]/iu

@@ -38,20 +38,20 @@ const mocks = vi.hoisted(() => {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   and: mocks.and,
   db: mocks.db,
   eq: mocks.eq,
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   tenantHelpItemModel: {
     id: "TenantHelpItem.id",
     tenantId: "TenantHelpItem.tenantId",
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: mocks.invalidateCacheByTags,
   withCache: mocks.withCache,
 }))
@@ -59,7 +59,7 @@ vi.mock("@chatbotx.io/redis", () => ({
 const { tenantHelpItemService } = await import(
   "../src/enterprise/tenant-help-item/service"
 )
-const { tenantHelpItemModel } = await import("@chatbotx.io/database/schema")
+const { tenantHelpItemModel } = await import("@hitechcloud.vn/database/schema")
 
 beforeEach(() => {
   vi.clearAllMocks()

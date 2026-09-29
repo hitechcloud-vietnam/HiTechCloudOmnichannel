@@ -7,21 +7,21 @@ import {
   isDatabaseError,
   type RelationsFieldFilter,
   relationsFilterToSQL,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   type CustomFieldType,
   rootFolderId,
-} from "@chatbotx.io/database/partials"
-import { customFieldModel } from "@chatbotx.io/database/schema"
-import type { CustomFieldModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/partials"
+import { customFieldModel } from "@hitechcloud.vn/database/schema"
+import type { CustomFieldModel } from "@hitechcloud.vn/database/types"
 import {
   likeContains,
   parseOrderByAsObject,
   parsePagination,
-} from "@chatbotx.io/database/utils"
-import { withCache } from "@chatbotx.io/redis"
-import { createId, isNumericId } from "@chatbotx.io/utils"
-import { customFieldResolutionKey } from "@chatbotx.io/utils/custom-field"
+} from "@hitechcloud.vn/database/utils"
+import { withCache } from "@hitechcloud.vn/redis"
+import { createId, isNumericId } from "@hitechcloud.vn/utils"
+import { customFieldResolutionKey } from "@hitechcloud.vn/utils/custom-field"
 import { BaseService } from "../base.service"
 import { notFoundException, validationException } from "../errors"
 import { folderService } from "../folder/service"

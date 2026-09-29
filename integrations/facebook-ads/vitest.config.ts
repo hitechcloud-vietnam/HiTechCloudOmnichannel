@@ -1,4 +1,4 @@
-import preset, { mswSetupFiles } from "@chatbotx.io/vitest-config/node"
+import preset, { mswSetupFiles } from "@hitechcloud.vn/vitest-config/node"
 import { mergeConfig, type ViteUserConfig } from "vitest/config"
 
 /**

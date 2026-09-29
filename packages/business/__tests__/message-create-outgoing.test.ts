@@ -9,28 +9,28 @@ const mockChatQueueAdd = vi.fn()
 const mockResolveTenantSettings = vi.fn()
 const mockBroadcastToWorkspaceParty = vi.fn()
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   createMessageRepository: mockCreateMessageRepository,
   mediaLibraryFileRepository: { findByPath: vi.fn(), findById: vi.fn() },
 }))
 
-vi.mock("@chatbotx.io/filesystem", () => ({
+vi.mock("@hitechcloud.vn/filesystem", () => ({
   guessFileTypeFromMimeType: vi.fn(() => "image"),
   pathJoin: (...parts: string[]) => parts.join("/"),
   uploader: { copyObject: vi.fn(), getPresignedDownload: vi.fn() },
   uploadMultipleFiles: vi.fn(async () => []),
 }))
 
-vi.mock("@chatbotx.io/partysocket-config", () => ({
+vi.mock("@hitechcloud.vn/partysocket-config", () => ({
   RealtimeEventType: { messageCreated: "messageCreated" },
 }))
 
-vi.mock("@chatbotx.io/utils", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@chatbotx.io/utils")>()
+vi.mock("@hitechcloud.vn/utils", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@hitechcloud.vn/utils")>()
   return { ...actual, createId: () => "generated-id" }
 })
 
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   ChatJobAction: {
     broadcastEvent: "broadcastEvent",
     sendChannelMessage: "sendChannelMessage",

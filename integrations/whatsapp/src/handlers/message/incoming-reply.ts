@@ -1,12 +1,12 @@
 import {
   decodeButtonPayload,
   isTemplateFlowToken,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import type {
   IncomingMessage,
   MessageWhatsappCallPermissionReplyEntity,
   MessageWhatsappFlowResponseEntity,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import type {
   ServerButtonMessage,
   ServerInteractiveMessage,

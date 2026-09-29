@@ -4,7 +4,7 @@ import {
   platformCredentialService,
   resolveCapiScopeStateForChannel,
   workspaceService,
-} from "@chatbotx.io/business"
+} from "@hitechcloud.vn/business"
 import { notFound } from "next/navigation"
 import { WhatsappCapiTab } from "@/features/integration-whatsapp/components/whatsapp-capi-tab"
 import { hasWhatsappCapiScope } from "@/features/integration-whatsapp/libs/capi-scope"

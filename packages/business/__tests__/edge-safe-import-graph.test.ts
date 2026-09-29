@@ -6,12 +6,12 @@ import { describe, expect, test } from "vitest"
 /**
  * The builder's `instrumentation.ts` is compiled for BOTH the node and the edge
  * runtime, and Next.js traces its import graph into each bundle. Anything the
- * `@chatbotx.io/business` barrel reaches statically therefore has to survive the
+ * `@hitechcloud.vn/business` barrel reaches statically therefore has to survive the
  * Edge Runtime, which has no Node built-ins — a single `import "crypto"` deep in
  * the graph turns into a hard "Ecmascript file had an error" at build time.
  *
  * Scope is deliberate: this walks relative imports inside `packages/business`
- * plus `@chatbotx.io/sequence-scheduler` (resolved through its `exports` map),
+ * plus `@hitechcloud.vn/sequence-scheduler` (resolved through its `exports` map),
  * because that is the boundary where the barrel drags queue/scheduler internals
  * in. It is not a whole-monorepo Edge audit.
  */
@@ -52,7 +52,7 @@ const NODE_BUILTINS = new Set([
   "zlib",
 ])
 
-const SCHEDULER_BARREL_IMPORT = /from "@chatbotx\.io\/sequence-scheduler"/
+const SCHEDULER_BARREL_IMPORT = /from "@hitechcloudomnichannel\.io\/sequence-scheduler"/
 
 const isNodeBuiltin = (specifier: string): boolean =>
   specifier.startsWith("node:") || NODE_BUILTINS.has(specifier)
@@ -118,13 +118,13 @@ const resolveSpecifier = (
     return resolveFile(resolve(dirname(importerPath), specifier))
   }
 
-  if (specifier === "@chatbotx.io/sequence-scheduler") {
+  if (specifier === "@hitechcloud.vn/sequence-scheduler") {
     const target = schedulerExports()["."]
     return target ? join(SCHEDULER_ROOT, target) : null
   }
 
-  if (specifier.startsWith("@chatbotx.io/sequence-scheduler/")) {
-    const subpath = `.${specifier.slice("@chatbotx.io/sequence-scheduler".length)}`
+  if (specifier.startsWith("@hitechcloud.vn/sequence-scheduler/")) {
+    const subpath = `.${specifier.slice("@hitechcloud.vn/sequence-scheduler".length)}`
     const target = schedulerExports()[subpath]
     return target ? join(SCHEDULER_ROOT, target) : null
   }
@@ -175,7 +175,7 @@ const auditFrom = (entry: string): Violation[] => {
   return violations
 }
 
-describe("@chatbotx.io/business barrel stays Edge-Runtime safe", () => {
+describe("@hitechcloud.vn/business barrel stays Edge-Runtime safe", () => {
   test("reaches no Node built-in through the sequence-scheduler boundary", () => {
     const violations = auditFrom(join(BUSINESS_SRC, "index.ts"))
 

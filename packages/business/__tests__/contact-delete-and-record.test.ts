@@ -8,7 +8,7 @@ vi.mock("../src/audit/dispatcher", () => ({
   dispatchAuditRecord: (...args: unknown[]) => mockDispatchAuditRecord(...args),
 }))
 
-vi.mock("@chatbotx.io/event-bus", () => ({
+vi.mock("@hitechcloud.vn/event-bus", () => ({
   emit: (...args: unknown[]) => mockEmit(...args),
 }))
 

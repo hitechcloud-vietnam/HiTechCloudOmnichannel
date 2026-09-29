@@ -2,7 +2,7 @@
 name: data-access
 description: >-
   Enforces the action/API handler → service → repository → DB chain in
-  ChatbotX. Read before adding or reviewing code in apps/builder,
+  HiTechCloudOmnichannel. Read before adding or reviewing code in apps/builder,
   apps/worker, integrations/*, packages/business, or packages/database that
   reads or writes data.
 globs:
@@ -18,7 +18,7 @@ globs:
 
 ## Principle
 
-The chain is: **action / API handler → service (`packages/business/`) → repository (`packages/database/src/repositories/`) → DB**. No app-layer code (`apps/builder`, `apps/worker`, `integrations/`) may import `db` from `@chatbotx.io/database/client` and execute queries directly. The one exception is a **pure read with zero business logic** — see the carve-out below.
+The chain is: **action / API handler → service (`packages/business/`) → repository (`packages/database/src/repositories/`) → DB**. No app-layer code (`apps/builder`, `apps/worker`, `integrations/`) may import `db` from `@hitechcloud.vn/database/client` and execute queries directly. The one exception is a **pure read with zero business logic** — see the carve-out below.
 
 ## Why
 
@@ -76,8 +76,8 @@ Many older features still import `db` directly in actions and queries. These are
 
 Before marking a task done:
 
-- [ ] No new `import { db } from "@chatbotx.io/database/client"` in `apps/` or `integrations/` (outside the pure-read repository exception)
-- [ ] No new `import ... from "@chatbotx.io/database/schema"` with direct query execution in `apps/` or `integrations/`
+- [ ] No new `import { db } from "@hitechcloud.vn/database/client"` in `apps/` or `integrations/` (outside the pure-read repository exception)
+- [ ] No new `import ... from "@hitechcloud.vn/database/schema"` with direct query execution in `apps/` or `integrations/`
 - [ ] All DB mutations go through a service method
 - [ ] All DB reads go through a service (or, for a pure read with zero business logic, a repository)
 - [ ] A public API handler and its private-path equivalent call the same service method, with only the caller's scope differing

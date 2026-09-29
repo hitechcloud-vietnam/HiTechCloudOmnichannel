@@ -1,4 +1,4 @@
-import type { UserQuotaModel } from "@chatbotx.io/database/types"
+import type { UserQuotaModel } from "@hitechcloud.vn/database/types"
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
 // ---------------------------------------------------------------------------
@@ -30,7 +30,7 @@ const select = vi.fn(() => {
 })
 const countDistinct = vi.fn((column: unknown) => ({ countDistinct: column }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: { userQuotaModel: { findFirst: findFirstQuota } },
     insert,
@@ -50,7 +50,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   ),
   sum: vi.fn(),
 }))
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   ROOT_TENANT_ID: "1",
   userQuotaModel: {
     userId: "userId",
@@ -99,7 +99,7 @@ const distributedStore = {
   delete: vi.fn(async () => undefined),
 }
 const logger = { warn: vi.fn() }
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   distributedStore,
   cacheConnections,
   invalidateCacheByTags: vi.fn(async () => undefined),

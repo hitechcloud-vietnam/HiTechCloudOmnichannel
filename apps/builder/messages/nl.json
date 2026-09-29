@@ -2546,7 +2546,7 @@
     "title": "Algemeen"
   },
   "facebookMarketingMessages": {
-    "deleteWarning": "Hiermee verwijder je de campagne alleen uit ChatbotX. De Meta-berichtcampagne blijft lopen — pauzeer of verwijder deze in Advertentiebeheer.",
+    "deleteWarning": "Hiermee verwijder je de campagne alleen uit HiTechCloudOmnichannel. De Meta-berichtcampagne blijft lopen — pauzeer of verwijder deze in Advertentiebeheer.",
     "title": "Facebook Marketing Messages",
     "description": "Verhoog betrokkenheid en verkoop met gepersonaliseerde promotieberichten op Messenger.",
     "create": "Nieuw maken",
@@ -4045,7 +4045,7 @@
         "title": "Belgeschiktheid",
         "appSubscriptionMissing": "Configureer eerst de WhatsApp-webhook voor deze app in het Meta App Dashboard en probeer het daarna opnieuw.",
         "appSubscriptionFailed": "Kan het 'calls'-webhookabonnement van de app niet verifiëren. Probeer het straks opnieuw.",
-        "callsNotSubscribed": "Deze app is niet geabonneerd op het 'calls'-webhookveld, waardoor oproepgebeurtenissen ChatbotX niet kunnen bereiken (Meta-fout 138018: technische vereisten zijn niet vervuld — zorg dat minstens één app die op de WABA is geabonneerd ook het webhookveld voor oproepen heeft).",
+        "callsNotSubscribed": "Deze app is niet geabonneerd op het 'calls'-webhookveld, waardoor oproepgebeurtenissen HiTechCloudOmnichannel niet kunnen bereiken (Meta-fout 138018: technische vereisten zijn niet vervuld — zorg dat minstens één app die op de WABA is geabonneerd ook het webhookveld voor oproepen heeft).",
         "fixButton": "Oplossen",
         "fixSuccess": "De app is nu geabonneerd op WhatsApp-oproepwebhooks.",
         "manualIntegrationNotice": "Dit nummer is handmatig verbonden en heeft hier geen app-gegevens. Abonneer het 'calls'-webhookveld van je app in het Meta App Dashboard.",
@@ -6298,7 +6298,7 @@
     },
     "limitedDataUse": {
       "label": "Limited Data Use (US privacy)",
-      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by ChatbotX."
+      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by HiTechCloudOmnichannel."
     },
     "actionSource": {
       "label": "Actiebron",

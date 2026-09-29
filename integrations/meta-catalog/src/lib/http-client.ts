@@ -1,4 +1,4 @@
-import { formatGraphError } from "@chatbotx.io/utils/graph-error"
+import { formatGraphError } from "@hitechcloud.vn/utils/graph-error"
 import ky, { isHTTPError, type KyInstance } from "ky"
 import { GRAPH_API_URL } from "../constants"
 import { MetaCatalogException } from "../exception"

@@ -39,7 +39,7 @@ export function dispatchAuditRecord(
 
   if (process.env.NODE_ENV !== "production") {
     throw new Error(
-      'Audit recorder is not registered. Import "@chatbotx.io/business/audit" before dispatching explicit audit records.',
+      'Audit recorder is not registered. Import "@hitechcloud.vn/business/audit" before dispatching explicit audit records.',
     )
   }
 }

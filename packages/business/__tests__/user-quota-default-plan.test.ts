@@ -4,7 +4,7 @@ const DEFAULT_PLAN_ENTITLEMENT_KEY = "entitlements:default-plan"
 
 const findFirstQuota = vi.fn(async () => null as unknown)
 const findFirstUser = vi.fn(async () => null as unknown)
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       userQuotaModel: { findFirst: findFirstQuota },
@@ -14,7 +14,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   eq: vi.fn(),
   sql: vi.fn(),
 }))
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   userQuotaModel: {},
   ROOT_TENANT_ID: "1",
 }))
@@ -32,7 +32,7 @@ const cacheConnections = {
     hincrby: vi.fn(async () => 1),
   })),
 }
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   distributedStore,
   cacheConnections,
   invalidateCacheByTags: vi.fn(async () => undefined),

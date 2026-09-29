@@ -1,5 +1,5 @@
-import { db } from "@chatbotx.io/database/client"
-import { withCache } from "@chatbotx.io/redis"
+import { db } from "@hitechcloud.vn/database/client"
+import { withCache } from "@hitechcloud.vn/redis"
 
 // Read-only service. Write and domain-verification operations live in the
 // private enterprise source — they are not available in the OSS edition.

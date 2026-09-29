@@ -5,7 +5,7 @@ import {
   type MessageHandlers,
   type MessageSharedPostEntity,
   messageTypes,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { TiktokException } from "../../exception"
 import { logger } from "../../lib/logger"
 import type { TiktokAuthValue, TiktokDmMessageContent } from "../../schema"

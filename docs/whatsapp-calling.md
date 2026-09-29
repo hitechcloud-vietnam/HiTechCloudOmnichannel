@@ -1,6 +1,6 @@
 # WhatsApp Business Calling
 
-WhatsApp calling in ChatbotX runs entirely over **VoIP (browser WebRTC ↔ Meta
+WhatsApp calling in HiTechCloudOmnichannel runs entirely over **VoIP (browser WebRTC ↔ Meta
 Cloud API)**. There is no self-hosted media server: agents place and answer
 calls in the inbox, and Meta records/transcribes server-side.
 

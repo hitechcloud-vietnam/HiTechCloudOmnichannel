@@ -1,4 +1,4 @@
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { DeepSeekConnect } from "@/features/integration-deepseek/deepseek-connect"
 import { findIntegrationDeepSeek } from "@/features/integration-deepseek/queries"

@@ -1,5 +1,5 @@
 import { createHmac } from "node:crypto"
-import type { HandleRequestProps } from "@chatbotx.io/sdk"
+import type { HandleRequestProps } from "@hitechcloud.vn/sdk"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { webhookHandler } from "../src/handlers/webhook"
 import type { MessengerConfig } from "../src/schema"

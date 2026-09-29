@@ -1,10 +1,10 @@
-import type { DatabaseClient } from "@chatbotx.io/database/client"
-import { and, db, eq, isNull, sql } from "@chatbotx.io/database/client"
+import type { DatabaseClient } from "@hitechcloud.vn/database/client"
+import { and, db, eq, isNull, sql } from "@hitechcloud.vn/database/client"
 import {
   analyticsEmailTopicModel,
   emailTopicModel,
-} from "@chatbotx.io/database/schema"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/schema"
+import { createId } from "@hitechcloud.vn/utils"
 
 export type CreateEmailRecipientInput = {
   topicId: string

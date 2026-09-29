@@ -10,29 +10,29 @@ import {
   isNull,
   isUniqueViolationError,
   sql,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   type QuestionnaireQuestionImage,
   type SupportedQuestionnaireQuestionType,
   supportedQuestionnaireQuestionTypes,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import {
   questionnaireAnswerModel,
   questionnaireModel,
   questionnaireQuestionModel,
   questionnaireSubmissionModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import {
   getPaginationWithDefaults,
   likeContains,
-} from "@chatbotx.io/database/utils"
-import { createId, isNumericId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/utils"
+import { createId, isNumericId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import {
   isRichSystemContactField,
   type RichSystemContactField,
 } from "../contact/service"
-import { ChatbotXException, notFoundException } from "../errors"
+import { HiTechCloudOmnichannelException, notFoundException } from "../errors"
 import type { UpdateQuestionnaireInput } from "./types"
 
 const SYSTEM_FIELDS_BY_QUESTION_TYPE: Record<
@@ -407,13 +407,13 @@ export class QuestionnaireService extends BaseService {
 
   private async validateEditInput(input: UpdateQuestionnaireInput) {
     if (input.questions.length > 100) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Questionnaire can have at most 100 questions",
         "tooManyQuestions",
       )
     }
     if (!input.questions.some((question) => question.active)) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Questionnaire requires at least one active question",
         "noActiveQuestions",
       )
@@ -440,7 +440,7 @@ export class QuestionnaireService extends BaseService {
       if (
         !supportedQuestionnaireQuestionTypes.safeParse(question.type).success
       ) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "Unsupported question type",
           "unsupportedQuestionType",
         )
@@ -450,13 +450,13 @@ export class QuestionnaireService extends BaseService {
           option.label.trim(),
         )
         if (labels.length < 2) {
-          throw new ChatbotXException(
+          throw new HiTechCloudOmnichannelException(
             "Multiple choice questions require at least two options",
             "invalidOptions",
           )
         }
         if (new Set(labels).size !== labels.length) {
-          throw new ChatbotXException(
+          throw new HiTechCloudOmnichannelException(
             "Multiple choice option labels must be unique",
             "invalidOptions",
           )
@@ -469,7 +469,7 @@ export class QuestionnaireService extends BaseService {
           (field) => field.id === fieldMapping.customFieldId,
         )
         if (!customField) {
-          throw new ChatbotXException(
+          throw new HiTechCloudOmnichannelException(
             "Custom field does not exist in the workspace",
             "invalidCustomField",
           )
@@ -479,7 +479,7 @@ export class QuestionnaireService extends BaseService {
         const allowedSystemFields =
           SYSTEM_FIELDS_BY_QUESTION_TYPE[question.type]
         if (!allowedSystemFields.includes(fieldMapping.systemFieldKey)) {
-          throw new ChatbotXException(
+          throw new HiTechCloudOmnichannelException(
             "System field does not match question type",
             "invalidSystemField",
           )
@@ -551,7 +551,7 @@ export class QuestionnaireService extends BaseService {
 
   private throwMappedUniqueError(error: unknown): never | undefined {
     if (isUniqueViolationError(error)) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Questionnaire name already exists",
         "nameAlreadyExists",
         409,

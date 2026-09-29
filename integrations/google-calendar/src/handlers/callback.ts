@@ -2,7 +2,7 @@ import {
   AuthType,
   type HandleRequestProps,
   SdkException,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { verifyCalendarAccess } from "../apis/calendars"
 import { getClient } from "../client"
 import { handleError } from "../error"

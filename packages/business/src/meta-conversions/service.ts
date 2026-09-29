@@ -1,16 +1,16 @@
-import { metaCapiEventRepository } from "@chatbotx.io/database/repositories"
-import type { MetaCapiEventModel } from "@chatbotx.io/database/types"
-import { encryptUtils } from "@chatbotx.io/encryption"
-import { createId } from "@chatbotx.io/utils"
+import { metaCapiEventRepository } from "@hitechcloud.vn/database/repositories"
+import type { MetaCapiEventModel } from "@hitechcloud.vn/database/types"
+import { encryptUtils } from "@hitechcloud.vn/encryption"
+import { createId } from "@hitechcloud.vn/utils"
 import {
   capiTestMessagingIdSchema,
   defaultMetaCapiActionSource,
   type MetaCapiActionSource,
-} from "@chatbotx.io/utils/meta-capi"
+} from "@hitechcloud.vn/utils/meta-capi"
 import {
   enqueueIntegrationJob,
   IntegrationJobAction,
-} from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/worker-config"
 import { BaseService } from "../base.service"
 import { instagramIntegrationService } from "../integration-instagram/service"
 import { messengerIntegrationService } from "../integration-messenger/service"

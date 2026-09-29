@@ -1,8 +1,8 @@
 import type {
   SendAudioStepSchema,
   SendFileStepSchema,
-} from "@chatbotx.io/flow-config"
-import type { SendFlowStepProps } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/flow-config"
+import type { SendFlowStepProps } from "@hitechcloud.vn/sdk"
 import { uploadAttachment } from "../../../apis/attachment"
 import { logger } from "../../../lib/logger"
 import type { MessengerAuthValue } from "../../../schema"

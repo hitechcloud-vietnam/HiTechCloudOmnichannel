@@ -13,13 +13,13 @@ const distributedStore = {
   getNumber: vi.fn(async () => null as number | null),
   setNumberIfNotExists: vi.fn(async () => undefined),
 }
-vi.mock("@chatbotx.io/redis", () => ({ distributedStore }))
+vi.mock("@hitechcloud.vn/redis", () => ({ distributedStore }))
 
 const txClient = { tx: true }
 const db = {
   transaction: vi.fn(async (cb: (tx: unknown) => unknown) => cb(txClient)),
 }
-vi.mock("@chatbotx.io/database/client", () => ({ db }))
+vi.mock("@hitechcloud.vn/database/client", () => ({ db }))
 
 const logger = { warn: vi.fn(), error: vi.fn(), info: vi.fn() }
 vi.mock("../src/lib/logger", () => ({ logger }))

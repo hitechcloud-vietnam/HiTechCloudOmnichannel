@@ -1,6 +1,6 @@
 "use client"
 
-import type { ChannelType } from "@chatbotx.io/database/partials"
+import type { ChannelType } from "@hitechcloud.vn/database/partials"
 import { useParams } from "next/navigation"
 import type { ReactNode } from "react"
 import { RouteAccordionShell } from "@/components/route-accordion-shell"

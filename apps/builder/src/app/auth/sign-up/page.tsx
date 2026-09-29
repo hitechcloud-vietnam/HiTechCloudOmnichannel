@@ -1,4 +1,4 @@
-import { SOCIAL_PROVIDERS } from "@chatbotx.io/auth/server"
+import { SOCIAL_PROVIDERS } from "@hitechcloud.vn/auth/server"
 import { SignUpForm } from "@/features/auth/sign-up"
 import { resolveEnabledProvidersForDomain } from "@/lib/auth/auth-instances"
 import { getDomainFromHeader } from "@/lib/domain"

@@ -1,4 +1,4 @@
-import { macAnalyticsService } from "@chatbotx.io/analytics"
+import { macAnalyticsService } from "@hitechcloud.vn/analytics"
 import {
   and,
   type DatabaseClient,
@@ -9,36 +9,36 @@ import {
   isNull,
   or,
   sql,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   type ContactSource,
   channelTypes,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import {
   buildContactWhere,
   type ContactFilterCriteriaInput,
   contactFilterHasPredicate,
-} from "@chatbotx.io/database/queries"
-import { contactRepository } from "@chatbotx.io/database/repositories"
+} from "@hitechcloud.vn/database/queries"
+import { contactRepository } from "@hitechcloud.vn/database/repositories"
 import {
   contactInboxModel,
   contactModel,
   conversationModel,
   inboxModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import type {
   ContactInboxModel,
   ContactModel,
-} from "@chatbotx.io/database/types"
-import { emit } from "@chatbotx.io/event-bus"
-import { emitContactCreated } from "@chatbotx.io/events"
-import { uploadFileFromUrl } from "@chatbotx.io/filesystem"
-import { invalidateCacheByTags, withCache } from "@chatbotx.io/redis"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/types"
+import { emit } from "@hitechcloud.vn/event-bus"
+import { emitContactCreated } from "@hitechcloud.vn/events"
+import { uploadFileFromUrl } from "@hitechcloud.vn/filesystem"
+import { invalidateCacheByTags, withCache } from "@hitechcloud.vn/redis"
+import { createId } from "@hitechcloud.vn/utils"
 import { dispatchAuditRecord } from "../audit/dispatcher"
 import { BaseService } from "../base.service"
 import { getContactInboxSinceTime } from "../contact-inbox/service"
-import { ChatbotXException, notFoundException } from "../errors"
+import { HiTechCloudOmnichannelException, notFoundException } from "../errors"
 import { logger } from "../logger"
 import { NO_AVATAR_SENTINEL_KEY } from "../media/no-avatar-sentinel"
 import { messageCleanupService } from "../message-cleanup/service"
@@ -865,7 +865,7 @@ class ContactService extends BaseService {
         columns: { id: true },
       })
       if (phoneConflict) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "Phone number already exists",
           "phoneExists",
           422,
@@ -914,7 +914,7 @@ class ContactService extends BaseService {
             })
             .returning()
           if (!newContactInbox) {
-            throw new ChatbotXException("Contact inbox not found")
+            throw new HiTechCloudOmnichannelException("Contact inbox not found")
           }
 
           // No cancelByInboxSource here: this path mints a fresh random sourceId,

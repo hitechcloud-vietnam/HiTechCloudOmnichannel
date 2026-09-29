@@ -1,4 +1,4 @@
-import type { ConversationHandlers } from "@chatbotx.io/sdk"
+import type { ConversationHandlers } from "@hitechcloud.vn/sdk"
 import ky from "ky"
 import type { WebchatAuthValue } from "../schema"
 

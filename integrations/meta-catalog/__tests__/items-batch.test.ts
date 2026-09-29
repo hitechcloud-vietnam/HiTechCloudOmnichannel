@@ -15,7 +15,7 @@ vi.mock("../src/lib/http-client", () => ({
   }),
 }))
 
-vi.mock("@chatbotx.io/integration-messenger/apis/usage", () => ({
+vi.mock("@hitechcloud.vn/integration-messenger/apis/usage", () => ({
   parseBucHeader: vi.fn(),
 }))
 

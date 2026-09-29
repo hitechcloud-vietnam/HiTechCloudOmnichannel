@@ -1,16 +1,16 @@
-import type { DatabaseClient } from "@chatbotx.io/database/client"
+import type { DatabaseClient } from "@hitechcloud.vn/database/client"
 import {
   type AdEligibleInboxChannel,
   adsConversionEventRepository,
   integrationInstagramRepository,
   integrationMessengerRepository,
   integrationWhatsappRepository,
-} from "@chatbotx.io/database/repositories"
-import type { AdsConversionEventModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/repositories"
+import type { AdsConversionEventModel } from "@hitechcloud.vn/database/types"
 import {
   enqueueIntegrationJob,
   IntegrationJobAction,
-} from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/worker-config"
 
 /**
  * Shared plumbing used by `service.ts` (rule-based evaluators). Kept in its

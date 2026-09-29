@@ -1,4 +1,4 @@
-import type { IntegrationType } from "@chatbotx.io/database/partials"
+import type { IntegrationType } from "@hitechcloud.vn/database/partials"
 
 export class IntegrationNotFoundError extends Error {
   readonly channel: IntegrationType

@@ -1,7 +1,7 @@
 ---
 name: contact-filter
 description: >-
-  Work with the ChatbotX contact filter system — the shared filter model behind
+  Work with the HiTechCloudOmnichannel contact filter system — the shared filter model behind
   the contacts list, conversations, and broadcast audiences. Use when adding a
   filter field or operator, changing the filter UI, editing the SQL query
   builder, or enforcing an audience constraint. Covers the definitions
@@ -18,7 +18,7 @@ Lives in two packages:
 - **Frontend feature** — `apps/builder/src/features/contact-filter/` (Zod schemas,
   UI config, React components). Barrel: `index.ts`.
 - **Backend query builder** — `packages/database/src/queries/contact-filter/`
-  (`@chatbotx.io/database/queries`). Shared by the builder app **and** the worker
+  (`@hitechcloud.vn/database/queries`). Shared by the builder app **and** the worker
   so both resolve the same contacts. **`queries/contact-filter.ts` is now a one-line
   re-export barrel** (`export * from "./contact-filter/index"`) — the real code is the
   14-file directory beside it:
@@ -176,4 +176,4 @@ source for `lastIncomingMessageAt >= NOW() - INTERVAL '24 hours'`, used by:
 - [ ] Option source + group wired (if `optionSource !== "none"`)
 - [ ] Tests: `apps/builder/__tests__/contact-filter-*.test.ts` and
       `packages/database/__tests__/contact-filter.test.ts`
-- [ ] `pnpm lint` + `check-types` for `builder` and `@chatbotx.io/database`
+- [ ] `pnpm lint` + `check-types` for `builder` and `@hitechcloud.vn/database`

@@ -1,18 +1,18 @@
-import type { DatabaseClient } from "@chatbotx.io/database/client"
+import type { DatabaseClient } from "@hitechcloud.vn/database/client"
 import {
   appointmentCalendarRepository,
   appointmentReminderDispatchRepository,
   appointmentRepository,
-} from "@chatbotx.io/database/repositories"
-import type { AppointmentReminderDispatchModel } from "@chatbotx.io/database/types"
-import { distributedLock } from "@chatbotx.io/redis"
+} from "@hitechcloud.vn/database/repositories"
+import type { AppointmentReminderDispatchModel } from "@hitechcloud.vn/database/types"
+import { distributedLock } from "@hitechcloud.vn/redis"
 import {
   DefaultJobAction,
   defaultQueue,
   IntegrationJobAction,
   integrationQueue,
   sendAppointmentReminderJobId,
-} from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/worker-config"
 import { subDays } from "date-fns"
 import { fromZonedTime, toZonedTime } from "date-fns-tz"
 import { normalizeError } from "universal-error-normalizer"

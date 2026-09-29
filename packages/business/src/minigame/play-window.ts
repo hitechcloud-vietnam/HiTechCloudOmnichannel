@@ -1,4 +1,4 @@
-import type { MinigameModel } from "@chatbotx.io/database/types"
+import type { MinigameModel } from "@hitechcloud.vn/database/types"
 
 /**
  * Whether a minigame is inside its configured campaign window.

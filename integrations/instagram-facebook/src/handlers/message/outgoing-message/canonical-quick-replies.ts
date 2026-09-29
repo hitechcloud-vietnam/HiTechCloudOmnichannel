@@ -1,7 +1,7 @@
 import {
   getCanonicalReplyPayload,
   type MessageButtonTemplate,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import type { InstagramQuickReply } from "../../../schema"
 
 export function convertCanonicalQuickReplies(

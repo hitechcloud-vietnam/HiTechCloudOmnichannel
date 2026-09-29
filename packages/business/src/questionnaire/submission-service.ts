@@ -11,22 +11,22 @@ import {
   isUniqueViolationError,
   sql,
   sum,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import type {
   QuestionnaireAnswerValue,
   QuestionnaireChoiceOption,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import {
   contactModel,
   questionnaireAnswerModel,
   type questionnaireQuestionModel,
   questionnaireSubmissionModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import {
   getPaginationWithDefaults,
   likeContains,
-} from "@chatbotx.io/database/utils"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/utils"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import { contactService, isRichSystemContactField } from "../contact/service"
 import { contactCustomFieldService } from "../contact-custom-field/service"

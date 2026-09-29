@@ -1,4 +1,4 @@
-import { ReplyFormat } from "@chatbotx.io/flow-config"
+import { ReplyFormat } from "@hitechcloud.vn/flow-config"
 import { describe, expect, test } from "vitest"
 import {
   accepted,

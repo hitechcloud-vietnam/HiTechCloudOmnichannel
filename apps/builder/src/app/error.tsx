@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from "@chatbotx.io/ui/components/ui/button"
+import { Button } from "@hitechcloud.vn/ui/components/ui/button"
 import { useEffect } from "react"
 
 export default function DefaultErrorPage({

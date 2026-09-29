@@ -4,7 +4,7 @@ import {
   encodeButtonPayload,
   extractMetadata,
   type MetadataPayload,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import { chunk } from "remeda"
 import { MAX_BUTTONS } from "../../../constants"
 import type { InstagramButton } from "../../../schema"

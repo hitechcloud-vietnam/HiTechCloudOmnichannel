@@ -1,4 +1,4 @@
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { ApiManage } from "@/features/integration-api/api-manage"
 import { listIntegrationApis } from "@/features/integration-api/queries"

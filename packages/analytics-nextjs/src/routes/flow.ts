@@ -1,9 +1,9 @@
-import { flowAnalyticsService } from "@chatbotx.io/analytics"
+import { flowAnalyticsService } from "@hitechcloud.vn/analytics"
 import {
   flowNodeStatsResponse,
   flowStatsRequest,
-} from "@chatbotx.io/analytics/schemas"
-import { invalidateCacheByTags, withCache } from "@chatbotx.io/redis"
+} from "@hitechcloud.vn/analytics/schemas"
+import { invalidateCacheByTags, withCache } from "@hitechcloud.vn/redis"
 import { os } from "@orpc/server"
 import { logger } from "../lib/log"
 

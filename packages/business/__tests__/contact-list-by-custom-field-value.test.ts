@@ -15,7 +15,7 @@ import { beforeEach, describe, expect, test, vi } from "vitest"
 //    custom field value update").
 // ---------------------------------------------------------------------------
 
-const { contactRepository } = await import("@chatbotx.io/database/repositories")
+const { contactRepository } = await import("@hitechcloud.vn/database/repositories")
 const { listByCustomFieldValue } = await import("../src/contact/list")
 
 beforeEach(() => {

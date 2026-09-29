@@ -2,10 +2,10 @@ import {
   customDomainService,
   tenantService,
   userQuotaService,
-} from "@chatbotx.io/business"
-import type { PortalPricingState } from "@chatbotx.io/ui/components/portal/pricing-nav-item"
-import type { PortalSaasFlags } from "@chatbotx.io/ui/config/portal-nav"
-import { buildResellerPricingUrl } from "@chatbotx.io/ui/lib/portal-pricing-url"
+} from "@hitechcloud.vn/business"
+import type { PortalPricingState } from "@hitechcloud.vn/ui/components/portal/pricing-nav-item"
+import type { PortalSaasFlags } from "@hitechcloud.vn/ui/config/portal-nav"
+import { buildResellerPricingUrl } from "@hitechcloud.vn/ui/lib/portal-pricing-url"
 import { notFound } from "next/navigation"
 import { PortalManageSidebar } from "@/enterprise/features/manage/components/portal-manage-sidebar"
 import { isCloud } from "@/env"

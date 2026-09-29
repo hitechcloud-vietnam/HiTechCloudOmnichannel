@@ -1,5 +1,5 @@
-import { integrationGetResponseService } from "@chatbotx.io/business"
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { integrationGetResponseService } from "@hitechcloud.vn/business"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { ManageGetResponse } from "@/features/integration-get-response/components/manage-get-response"
 

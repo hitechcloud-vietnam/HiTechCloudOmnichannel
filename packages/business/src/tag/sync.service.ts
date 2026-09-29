@@ -1,8 +1,8 @@
-import type { DatabaseClient } from "@chatbotx.io/database/client"
-import type { ChannelType } from "@chatbotx.io/database/partials"
-import { tagChannelRepository } from "@chatbotx.io/database/repositories"
-import type { TagChannelModel } from "@chatbotx.io/database/types"
-import { DefaultJobAction, defaultQueue } from "@chatbotx.io/worker-config"
+import type { DatabaseClient } from "@hitechcloud.vn/database/client"
+import type { ChannelType } from "@hitechcloud.vn/database/partials"
+import { tagChannelRepository } from "@hitechcloud.vn/database/repositories"
+import type { TagChannelModel } from "@hitechcloud.vn/database/types"
+import { DefaultJobAction, defaultQueue } from "@hitechcloud.vn/worker-config"
 import { BaseService } from "../base.service"
 
 const SYNC_TAG_BULK_CHUNK_SIZE = 1000

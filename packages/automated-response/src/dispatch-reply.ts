@@ -1,21 +1,21 @@
-import { trackingResponseTypes } from "@chatbotx.io/analytics"
-import { adsConversionService } from "@chatbotx.io/business"
-import { db } from "@chatbotx.io/database/client"
-import type { AutomatedResponseType } from "@chatbotx.io/database/partials"
+import { trackingResponseTypes } from "@hitechcloud.vn/analytics"
+import { adsConversionService } from "@hitechcloud.vn/business"
+import { db } from "@hitechcloud.vn/database/client"
+import type { AutomatedResponseType } from "@hitechcloud.vn/database/partials"
 import type {
   AutomatedResponseModel,
   ContactInboxModel,
   ConversationModel,
-} from "@chatbotx.io/database/types"
-import { webhookChannelOrigin } from "@chatbotx.io/events/context"
-import { applySpintax } from "@chatbotx.io/utils/spintax"
-import { contactVariableService } from "@chatbotx.io/variables"
+} from "@hitechcloud.vn/database/types"
+import { webhookChannelOrigin } from "@hitechcloud.vn/events/context"
+import { applySpintax } from "@hitechcloud.vn/utils/spintax"
+import { contactVariableService } from "@hitechcloud.vn/variables"
 import {
   ChatJobAction,
   chatQueue,
   IntegrationJobAction,
   integrationQueue,
-} from "@chatbotx.io/worker-config"
+} from "@hitechcloud.vn/worker-config"
 import {
   keywordMatchesText,
   keywordMatchModeByAutomatedResponseType,

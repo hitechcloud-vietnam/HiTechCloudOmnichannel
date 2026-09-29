@@ -5,13 +5,13 @@ import {
   type MessagingAdOperationInput,
   type MessagingAdTargetingInput,
   type MessagingAdWelcomeMessageInput,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import {
   integrationMessengerRepository,
   messagingAdOperationRepository,
-} from "@chatbotx.io/database/repositories"
-import type { MessagingAdOperationModel } from "@chatbotx.io/database/types"
-import { uploader } from "@chatbotx.io/filesystem"
+} from "@hitechcloud.vn/database/repositories"
+import type { MessagingAdOperationModel } from "@hitechcloud.vn/database/types"
+import { uploader } from "@hitechcloud.vn/filesystem"
 import {
   buildPromotedObject,
   type FacebookAdsAuthValue,
@@ -24,10 +24,10 @@ import {
   type MetaCampaign,
   messagingAdConfigByChannel,
   type SpecialAdCategory,
-} from "@chatbotx.io/integration-facebook-ads"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/integration-facebook-ads"
+import { createId } from "@hitechcloud.vn/utils"
 import { perChannelIntegrationIdsOrNull } from "../ads-conversion/channel-fields"
-import { ChatbotXException, toPublicErrorMessage } from "../errors"
+import { HiTechCloudOmnichannelException, toPublicErrorMessage } from "../errors"
 import type { IntegrationContext } from "../integration-context/build-context"
 import {
   buildMessagingAdsContext,
@@ -200,7 +200,7 @@ class MessagingAdCampaignService {
       workspaceId: input.workspaceId,
     })
     if (!claimed) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "This ad is already being retried or is not in a retryable state.",
         "messagingAdNotRetryable",
         409,
@@ -749,7 +749,7 @@ class MessagingAdCampaignService {
     return updated ?? record
   }
 
-  /** Best-effort delete/archive, scoped to this ChatbotX-created campaign — async on Meta's side, observable via `cleanupError`. */
+  /** Best-effort delete/archive, scoped to this HiTechCloudOmnichannel-created campaign — async on Meta's side, observable via `cleanupError`. */
   async deleteOperation(input: {
     workspaceId: string
     operationId: string

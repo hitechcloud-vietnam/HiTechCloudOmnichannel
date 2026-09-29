@@ -1,4 +1,4 @@
-import type { ContactHandlers } from "@chatbotx.io/sdk"
+import type { ContactHandlers } from "@hitechcloud.vn/sdk"
 import { getUserProfile } from "../apis/user"
 import type { TelegramAuthValue } from "../schema"
 

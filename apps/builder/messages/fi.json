@@ -2546,7 +2546,7 @@
     "title": "Yleiset"
   },
   "facebookMarketingMessages": {
-    "deleteWarning": "Tämä poistaa kampanjan vain ChatbotX:stä. Metan viestikampanja jatkuu — keskeytä tai poista se Ads Managerissa.",
+    "deleteWarning": "Tämä poistaa kampanjan vain HiTechCloudOmnichannel:stä. Metan viestikampanja jatkuu — keskeytä tai poista se Ads Managerissa.",
     "title": "Facebook Marketing Messages",
     "description": "Kasvata sitoutumista ja myyntiä personoiduilla mainosviesteillä Messengerissä.",
     "create": "Luo uusi",
@@ -4045,7 +4045,7 @@
         "title": "Puheluoikeus",
         "appSubscriptionMissing": "Määritä ensin WhatsApp-webhook tälle sovellukselle Meta-sovelluspaneelissa ja yritä sitten uudelleen.",
         "appSubscriptionFailed": "Sovelluksen 'calls'-webhook-tilausta ei voitu vahvistaa. Yritä pian uudelleen.",
-        "callsNotSubscribed": "Tämä sovellus ei ole tilannut 'calls'-webhook-kenttää, joten puhelutapahtumat eivät voi tavoittaa ChatbotX:ää (Meta-virhe 138018: tekniset edellytykset eivät täyty — varmista, että ainakin yhdellä WABA:an tilatulla sovelluksella on myös puhelujen webhook-kenttä).",
+        "callsNotSubscribed": "Tämä sovellus ei ole tilannut 'calls'-webhook-kenttää, joten puhelutapahtumat eivät voi tavoittaa HiTechCloudOmnichannel:ää (Meta-virhe 138018: tekniset edellytykset eivät täyty — varmista, että ainakin yhdellä WABA:an tilatulla sovelluksella on myös puhelujen webhook-kenttä).",
         "fixButton": "Korjaa",
         "fixSuccess": "Sovellus on nyt tilannut WhatsApp-puheluwebhookit.",
         "manualIntegrationNotice": "Tämä numero yhdistettiin manuaalisesti, ja sillä ei ole sovellustunnuksia tässä. Tilaa 'calls'-webhook-kenttä sovellukselle Meta-sovelluspaneelissa.",
@@ -6298,7 +6298,7 @@
     },
     "limitedDataUse": {
       "label": "Limited Data Use (US privacy)",
-      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by ChatbotX."
+      "description": "Restrict Meta's use of event data for users in applicable US states. Meta auto-detects the user's location from this event; no location data is sent by HiTechCloudOmnichannel."
     },
     "actionSource": {
       "label": "Toiminnon lähde",

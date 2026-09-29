@@ -1,5 +1,5 @@
-import { buildJobId } from "@chatbotx.io/flow-config"
-import { integrationQueue } from "@chatbotx.io/worker-config"
+import { buildJobId } from "@hitechcloud.vn/flow-config"
+import { integrationQueue } from "@hitechcloud.vn/worker-config"
 import { logger } from "../logger"
 import { smartDelayService } from "../smart-delay/service"
 

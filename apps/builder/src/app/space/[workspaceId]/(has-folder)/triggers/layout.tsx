@@ -1,4 +1,4 @@
-import { folderTypes } from "@chatbotx.io/database/partials"
+import { folderTypes } from "@hitechcloud.vn/database/partials"
 import type { ReactNode } from "react"
 import { FolderStoreProvider } from "@/features/folders/provider/folder-store-context"
 import { resolveGuardedWorkspaceId } from "@/lib/auth/require-workspace-permission"

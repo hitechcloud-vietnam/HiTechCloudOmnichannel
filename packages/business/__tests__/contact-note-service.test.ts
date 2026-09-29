@@ -35,7 +35,7 @@ const deleteBuilder = {
   returning: (...args: unknown[]) => mocks.deleteReturning(...args),
 }
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     insert: vi.fn(() => insertBuilder),
     update: vi.fn(() => updateBuilder),
@@ -51,21 +51,21 @@ vi.mock("@chatbotx.io/database/client", () => ({
   findOrFail: (...args: unknown[]) => mocks.findOrFail(...args),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   contactNoteModel: {
     id: "contactNoteModel.id",
     contactId: "contactNoteModel.contactId",
   },
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   invalidateCacheByTags: (...args: unknown[]) =>
     mocks.invalidateCacheByTags(...args),
   withCache: async (_key: string, callback: () => Promise<unknown>) =>
     await callback(),
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: () => "generated-id",
 }))
 

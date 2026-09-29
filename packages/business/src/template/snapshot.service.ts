@@ -1,18 +1,18 @@
-import { db } from "@chatbotx.io/database/client"
+import { db } from "@hitechcloud.vn/database/client"
 import type {
   TemplateCategoryCounts,
   TemplateResourceCategory,
   TemplateSelection,
-} from "@chatbotx.io/database/partials"
-import { templateCategories } from "@chatbotx.io/database/partials"
-import type { CustomFieldModel, TagModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/partials"
+import { templateCategories } from "@hitechcloud.vn/database/partials"
+import type { CustomFieldModel, TagModel } from "@hitechcloud.vn/database/types"
 import {
   parseTemplateExport,
   TEMPLATE_EXPORT_FORMAT_VERSION,
   type TemplateExport,
   type TemplateFlowEntry,
-} from "@chatbotx.io/flow-config"
-import { ChatbotXException } from "../errors"
+} from "@hitechcloud.vn/flow-config"
+import { HiTechCloudOmnichannelException } from "../errors"
 import {
   collectFolderAncestry,
   collectProductCategoryAncestry,
@@ -25,19 +25,19 @@ const MAX_PAYLOAD_RESOURCES = 200
 const MAX_PAYLOAD_BYTES = 10 * 1024 * 1024
 
 export const templateSaveValidationException = () =>
-  new ChatbotXException(
+  new HiTechCloudOmnichannelException(
     "One or more selected resources could not be found in this workspace",
     "templateSaveInvalidSelection",
   )
 
 export const templatePayloadTooLargeException = () =>
-  new ChatbotXException(
+  new HiTechCloudOmnichannelException(
     "This template selection is too large to save",
     "templatePayloadTooLarge",
   )
 
 export const templatePayloadTooManyBytesException = () =>
-  new ChatbotXException(
+  new HiTechCloudOmnichannelException(
     "This template's data is too large to save",
     "templatePayloadTooManyBytes",
   )
@@ -380,7 +380,7 @@ export const buildTemplateSnapshot = async (
 
   const parsed = parseTemplateExport(payload)
   if (!parsed.ok) {
-    throw new ChatbotXException(
+    throw new HiTechCloudOmnichannelException(
       `Template snapshot failed validation: ${parsed.reason}`,
       "templateSnapshotInvalid",
     )

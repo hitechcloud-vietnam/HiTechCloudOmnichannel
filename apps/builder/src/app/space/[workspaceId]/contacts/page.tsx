@@ -1,4 +1,4 @@
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { ContactsTable } from "@/features/contacts/contacts-table"

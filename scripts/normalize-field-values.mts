@@ -45,7 +45,7 @@
  * contact whose custom-field value this script rewrote may keep serving the
  * OLD value from cache until its tag-scoped entries expire by TTL. To force
  * an immediate refresh for affected contacts, call
- * `invalidateCacheByTags([`contacts:${contactId}`, ...])` from `@chatbotx.io/redis`
+ * `invalidateCacheByTags([`contacts:${contactId}`, ...])` from `@hitechcloud.vn/redis`
  * for each affected contactId (or `contacts:<workspaceId>` to cover a whole
  * workspace) — never a global cache flush, which would drop unrelated keys.
  *
@@ -62,7 +62,7 @@ const envFile = cliArgs.find((arg) => !arg.startsWith("--")) ?? ".env.prod"
 process.loadEnvFile(envFile)
 process.env.SKIP_ENV_CHECK = "true"
 
-// Imported by relative path (not the `@chatbotx.io/database/client` bare
+// Imported by relative path (not the `@hitechcloud.vn/database/client` bare
 // specifier) — this script lives at the repo root, outside any workspace
 // package's own dependency graph. Node resolves a relative import's OWN bare
 // specifiers against ITS location, so this reaches packages/database's (and
@@ -420,7 +420,7 @@ if (fix && grandTotal.fixable > 0) {
       "with up to a 24h TTL. This script did not purge the cache — affected " +
       "contacts may keep serving the old value until their tagged entries " +
       "expire, unless you call invalidateCacheByTags with a contacts:<contactId> " +
-      "tag from @chatbotx.io/redis for each contact this run touched.",
+      "tag from @hitechcloud.vn/redis for each contact this run touched.",
   )
 } else if (!fix && grandTotal.fixable > 0) {
   console.log(

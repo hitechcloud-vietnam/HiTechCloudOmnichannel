@@ -1,4 +1,4 @@
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { UserPersistentMenuList } from "@/features/user-persistent-menus/components/user-persistent-menu-list"
 import { listUserPersistentMenus } from "@/features/user-persistent-menus/queries"

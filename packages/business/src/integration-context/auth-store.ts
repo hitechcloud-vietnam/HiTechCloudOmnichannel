@@ -1,7 +1,7 @@
-import { db, eq, sql } from "@chatbotx.io/database/client"
-import { inboxModel } from "@chatbotx.io/database/schema"
-import { distributedLock } from "@chatbotx.io/redis"
-import { type AuthStore, type AuthValue, SdkException } from "@chatbotx.io/sdk"
+import { db, eq, sql } from "@hitechcloud.vn/database/client"
+import { inboxModel } from "@hitechcloud.vn/database/schema"
+import { distributedLock } from "@hitechcloud.vn/redis"
+import { type AuthStore, type AuthValue, SdkException } from "@hitechcloud.vn/sdk"
 
 const REFRESH_LOCK_TIMEOUT_SECONDS = 10
 
@@ -32,7 +32,7 @@ export type AuthStoreIntegrationRow = {
  * `makeAuthStore` derives (e.g. `MessagingAdsConnection`, which is keyed to a
  * channel integration but is not itself an `Integration<Channel>` row) —
  * see `buildMessagingAdsContext` in
- * `@chatbotx.io/business/messaging-ads-connection`, added per
+ * `@hitechcloud.vn/business/messaging-ads-connection`, added per
  * out/plan/ctwa-ctm-ctid-box-merge.md v3 correction #4 ("Auth-store
  * coupling"): passing a `MessagingAdsConnection` row through `makeAuthStore`
  * would read/write the WRONG table (`channelToIntegrationTable` would derive

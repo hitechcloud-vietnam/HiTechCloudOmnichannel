@@ -12,11 +12,11 @@ const { repositoryMock, encryptObjectMock, decryptObjectMock } = vi.hoisted(
   }),
 )
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   whatsappBusinessAccountRepository: repositoryMock,
 }))
 
-vi.mock("@chatbotx.io/encryption", () => ({
+vi.mock("@hitechcloud.vn/encryption", () => ({
   encryptedDataSchema: { parse: vi.fn((value: unknown) => value) },
   encryptUtils: {
     encryptObject: encryptObjectMock,

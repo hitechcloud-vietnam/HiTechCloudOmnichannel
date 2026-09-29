@@ -1,5 +1,5 @@
-import { ChatbotXException } from "@chatbotx.io/business/errors"
-import { zodBigintAsString } from "@chatbotx.io/utils"
+import { HiTechCloudOmnichannelException } from "@hitechcloud.vn/business/errors"
+import { zodBigintAsString } from "@hitechcloud.vn/utils"
 import { type NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 import { endVoipCallAsAgent } from "@/features/integration-whatsapp/calling/actions/end-voip-call-as-agent"
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     const { workspaceId, whatsappCallId } = parsed.data
 
     // Membership check, mirroring api/whatsapp-call-recording — thrown as a
-    // ChatbotXException and mapped to a 4xx by serverErrorHandler.
+    // HiTechCloudOmnichannelException and mapped to a 4xx by serverErrorHandler.
     await assertCurrentUserCanAccessChatbot(workspaceId)
 
     await endVoipCallAsAgent({
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true })
   } catch (error) {
-    if (!(error instanceof ChatbotXException)) {
+    if (!(error instanceof HiTechCloudOmnichannelException)) {
       logger.error({ err: error }, "WhatsApp VoIP call hangup beacon failed")
     }
     return serverErrorHandler(error)

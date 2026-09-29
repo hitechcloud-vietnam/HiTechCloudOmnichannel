@@ -1,5 +1,5 @@
-import { integrationDripService } from "@chatbotx.io/business"
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { integrationDripService } from "@hitechcloud.vn/business"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { ManageDrip } from "@/features/integration-drip/components/manage-drip"
 

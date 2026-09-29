@@ -14,7 +14,7 @@ const mockSql = (strings: TemplateStringsArray, ...values: unknown[]) => ({
   values,
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: { select: mocks.select },
   and: (...conditions: unknown[]) => ({
     and: conditions.filter((condition) => condition !== undefined),
@@ -25,13 +25,13 @@ vi.mock("@chatbotx.io/database/client", () => ({
 }))
 
 // The messenger/instagram services now also import
-// `@chatbotx.io/database/repositories` (for `connectPage`/`connectAccount`),
+// `@hitechcloud.vn/database/repositories` (for `connectPage`/`connectAccount`),
 // whose barrel transitively touches every table in the schema (e.g. via
-// `@chatbotx.io/analytics`'s repositories) — so this mock must carry the real
+// `@hitechcloud.vn/analytics`'s repositories) — so this mock must carry the real
 // schema forward and only override the two models these tests inspect.
-vi.mock("@chatbotx.io/database/schema", async (importOriginal) => {
+vi.mock("@hitechcloud.vn/database/schema", async (importOriginal) => {
   const actual =
-    await importOriginal<typeof import("@chatbotx.io/database/schema")>()
+    await importOriginal<typeof import("@hitechcloud.vn/database/schema")>()
   return {
     ...actual,
     integrationInstagramModel: {

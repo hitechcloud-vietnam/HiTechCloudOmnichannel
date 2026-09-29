@@ -1,4 +1,4 @@
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { listIntegrationTelegrams } from "@/features/integration-telegram/queries"
 import { TelegramManage } from "@/features/integration-telegram/telegram-manage"

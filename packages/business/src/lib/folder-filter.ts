@@ -1,4 +1,4 @@
-import { rootFolderId } from "@chatbotx.io/database/partials"
+import { rootFolderId } from "@hitechcloud.vn/database/partials"
 
 /**
  * Root-folder semantics for a list backed by a folder column. The builder

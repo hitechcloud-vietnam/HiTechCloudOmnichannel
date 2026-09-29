@@ -17,7 +17,7 @@ const dbTransaction = vi.fn(async (callback: (tx: unknown) => unknown) =>
 const and = vi.fn((...args: unknown[]) => ({ op: "and", args }))
 const eq = vi.fn((...args: unknown[]) => ({ op: "eq", args }))
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       flowModel: { findFirst: findFirstFlow },
@@ -38,7 +38,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   }),
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   conversationModel: {},
   flowAnalyticsSessionModel: {
     workspaceId: "fas.workspaceId",
@@ -48,8 +48,8 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   flowNodeStatModel: {},
 }))
 
-vi.mock("@chatbotx.io/utils", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@chatbotx.io/utils")>()
+vi.mock("@hitechcloud.vn/utils", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@hitechcloud.vn/utils")>()
   return {
     ...actual,
     createId: () => "generated-id",

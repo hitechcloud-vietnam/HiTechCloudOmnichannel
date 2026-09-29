@@ -16,7 +16,7 @@ import {
   openrouterModels,
 } from "../src/models"
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: { query: {} },
 }))
 

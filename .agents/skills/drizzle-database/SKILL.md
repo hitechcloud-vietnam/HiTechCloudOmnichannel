@@ -8,7 +8,7 @@ description: >-
 
 # Drizzle Database
 
-Package: `packages/database` (`@chatbotx.io/database`)
+Package: `packages/database` (`@hitechcloud.vn/database`)
 
 ## Table Definition
 
@@ -176,7 +176,7 @@ When adding a new channel or integration type:
 ### Relational Queries (inside a service or repository)
 
 ```typescript
-import { db } from "@chatbotx.io/database/client"
+import { db } from "@hitechcloud.vn/database/client"
 
 const items = await db.query.myModel.findMany({
   where: { workspaceId },
@@ -192,8 +192,8 @@ const item = await db.query.myModel.findFirst({
 ### SQL Builder (inside a service or repository)
 
 ```typescript
-import { db, eq, and, inArray } from "@chatbotx.io/database/client"
-import { myModel } from "@chatbotx.io/database/schema"
+import { db, eq, and, inArray } from "@hitechcloud.vn/database/client"
+import { myModel } from "@hitechcloud.vn/database/schema"
 
 await db
   .update(myModel)
@@ -206,8 +206,8 @@ await db.insert(myModel).values({ name, workspaceId })
 ### Helpers (inside a service or repository)
 
 ```typescript
-import { findOrFail } from "@chatbotx.io/database/client"
-import { myModel } from "@chatbotx.io/database/schema"
+import { findOrFail } from "@hitechcloud.vn/database/client"
+import { myModel } from "@hitechcloud.vn/database/schema"
 
 const item = await findOrFail({ table: myModel, where: { id } })
 ```
@@ -227,7 +227,7 @@ soft-delete state.
 **Rule:** Use `db.transaction()` whenever an action performs 2 or more write operations (INSERT, UPDATE, DELETE) so all succeed or fail together.
 
 ```typescript
-import { db } from "@chatbotx.io/database/client"
+import { db } from "@hitechcloud.vn/database/client"
 
 await db.transaction(async (tx) => {
   const product = await productService.create({ data, tx })
@@ -247,8 +247,8 @@ await db.transaction(async (tx) => {
 
 | What | Import from |
 |------|-------------|
-| `db`, `eq`, `and`, `inArray`, etc. | `@chatbotx.io/database/client` |
-| Table models | `@chatbotx.io/database/schema` |
-| TypeScript types | `@chatbotx.io/database/types` |
-| Partials, Zod enums | `@chatbotx.io/database/partials` |
+| `db`, `eq`, `and`, `inArray`, etc. | `@hitechcloud.vn/database/client` |
+| Table models | `@hitechcloud.vn/database/schema` |
+| TypeScript types | `@hitechcloud.vn/database/types` |
+| Partials, Zod enums | `@hitechcloud.vn/database/partials` |
 | `sharedColumns`, `bigintAsString` | `../partials/shared` (within package) |

@@ -2,7 +2,7 @@ import {
   getCanonicalReplyPayload,
   type MessageButtonTemplate,
   type SendFlowStepProps,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import type {
   InstagramAuthValue,
   InstagramQuickReply,

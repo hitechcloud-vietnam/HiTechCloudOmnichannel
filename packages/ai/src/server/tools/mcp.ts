@@ -1,8 +1,8 @@
-import { db } from "@chatbotx.io/database/client"
+import { db } from "@hitechcloud.vn/database/client"
 import {
   type AIMcpServerAuth,
   aiMcpServerAuth,
-} from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/partials"
 import { jsonSchema, type ToolSet, tool } from "ai"
 import { normalizeError } from "universal-error-normalizer"
 import { z } from "zod"

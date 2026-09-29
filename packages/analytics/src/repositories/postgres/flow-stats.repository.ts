@@ -1,16 +1,16 @@
-import { and, count, db, eq, inArray, sql } from "@chatbotx.io/database/client"
+import { and, count, db, eq, inArray, sql } from "@hitechcloud.vn/database/client"
 import {
   conversationModel,
   flowAnalyticsSessionModel,
   flowNodeStatModel,
-} from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/schema"
 import {
   type FlowNode,
   messageEventTypeSchema,
   nodeTypeSchema,
   type SendMessageNodeSchema,
-} from "@chatbotx.io/flow-config"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/flow-config"
+import { createId } from "@hitechcloud.vn/utils"
 import type { ContactEventData } from "../../schemas/common"
 import type {
   FlowNodeEventType,

@@ -1,5 +1,5 @@
-import type { Context } from "@chatbotx.io/sdk"
-import { HttpResponse, http, server } from "@chatbotx.io/vitest-config/msw"
+import type { Context } from "@hitechcloud.vn/sdk"
+import { HttpResponse, http, server } from "@hitechcloud.vn/vitest-config/msw"
 import { describe, expect, test } from "vitest"
 import {
   assignLabelToUser,

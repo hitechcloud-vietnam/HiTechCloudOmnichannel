@@ -1,5 +1,5 @@
-import { SdkException } from "@chatbotx.io/sdk"
-import { formatGraphError } from "@chatbotx.io/utils/graph-error"
+import { SdkException } from "@hitechcloud.vn/sdk"
+import { formatGraphError } from "@hitechcloud.vn/utils/graph-error"
 import { isHTTPError } from "ky"
 import { logger } from "./lib/logger"
 

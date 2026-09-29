@@ -4,8 +4,8 @@ import {
   moveBrandingMenuLast,
 } from "../src/platform/branding"
 
-const BRANDING_URL = "https://app.chatbotx.io/?ref=selfhosted&channel=webchat"
-const ENTRY = { label: "⚡ Built with chatbotx.io", url: BRANDING_URL }
+const BRANDING_URL = "https://app.hitechcloud.vn/?ref=selfhosted&channel=webchat"
+const ENTRY = { label: "⚡ Built with hitechcloud.vn", url: BRANDING_URL }
 
 describe("ensureBrandingMenuEntry", () => {
   test("appends the branding entry when absent", () => {

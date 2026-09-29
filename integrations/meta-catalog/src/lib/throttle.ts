@@ -1,4 +1,4 @@
 export {
   concurrencyForUsage,
   parseBucHeader,
-} from "@chatbotx.io/integration-messenger/apis/usage"
+} from "@hitechcloud.vn/integration-messenger/apis/usage"

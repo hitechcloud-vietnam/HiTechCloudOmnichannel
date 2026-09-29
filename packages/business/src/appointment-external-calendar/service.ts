@@ -7,23 +7,23 @@ import {
   eq,
   inArray,
   isNull,
-} from "@chatbotx.io/database/client"
-import { integrationTypes } from "@chatbotx.io/database/partials"
+} from "@hitechcloud.vn/database/client"
+import { integrationTypes } from "@hitechcloud.vn/database/partials"
 import {
   appointmentCalendarModel,
   integrationGoogleCalendarModel,
   integrationModel,
-} from "@chatbotx.io/database/schema"
-import type { IntegrationGoogleCalendarModel } from "@chatbotx.io/database/types"
+} from "@hitechcloud.vn/database/schema"
+import type { IntegrationGoogleCalendarModel } from "@hitechcloud.vn/database/types"
 import {
   type GoogleCalendarAuthValue,
   googleCalendarAuthSchema,
   integration as integrationGoogleCalendar,
-} from "@chatbotx.io/integration-google-calendar"
-import type { Oauth2AuthValue } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/integration-google-calendar"
+import type { Oauth2AuthValue } from "@hitechcloud.vn/sdk"
 import { normalizeError } from "universal-error-normalizer"
 import { BaseService } from "../base.service"
-import { ChatbotXException, notFoundException } from "../errors"
+import { HiTechCloudOmnichannelException, notFoundException } from "../errors"
 import { buildContext } from "../integration-context"
 import { logger } from "../logger"
 
@@ -116,7 +116,7 @@ class AppointmentExternalCalendarService extends BaseService {
         .returning({ id: integrationModel.id })
 
       if (!integration) {
-        throw new ChatbotXException(
+        throw new HiTechCloudOmnichannelException(
           "Failed to create Google Calendar connection",
         )
       }
@@ -341,7 +341,7 @@ class AppointmentExternalCalendarService extends BaseService {
     }
 
     if (connection.connectedCount > 0) {
-      throw new ChatbotXException(
+      throw new HiTechCloudOmnichannelException(
         "Connection is in use",
         "connectionInUse",
         409,

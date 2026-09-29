@@ -1,4 +1,4 @@
-import { whatsappMessageTemplateService } from "@chatbotx.io/business"
+import { whatsappMessageTemplateService } from "@hitechcloud.vn/business"
 import { notFound } from "next/navigation"
 import { Suspense } from "react"
 import { WhatsappMessageTemplatesTable } from "@/features/integration-whatsapp/message-templates/message-templates-table"

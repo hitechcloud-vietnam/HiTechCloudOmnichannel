@@ -1,11 +1,11 @@
-import { channelTypes } from "@chatbotx.io/database/partials"
+import { channelTypes } from "@hitechcloud.vn/database/partials"
 import {
   type MessageDeliveredPayload,
   type MessageFailedPayload,
   type MessageSeenPayload,
   type MessageSentPayload,
   SEQUENCE_SCHEDULE_PAYLOAD_TYPE,
-} from "@chatbotx.io/flow-config"
+} from "@hitechcloud.vn/flow-config"
 import { toDate } from "../lib/date"
 import { logger } from "../lib/logger"
 import { sequenceStatsRepository } from "../repositories/postgres"

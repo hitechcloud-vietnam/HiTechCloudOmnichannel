@@ -1,14 +1,14 @@
 import { beforeEach, describe, expect, test, vi } from "vitest"
 
 // ---------------------------------------------------------------------------
-// Mock @chatbotx.io/worker-config before any module under test is imported.
+// Mock @hitechcloud.vn/worker-config before any module under test is imported.
 // We expose:
 //   - DefaultJobAction: a plain object mirroring the real const-enum values
 //   - defaultQueue.add: a spy to capture all enqueue calls
 // ---------------------------------------------------------------------------
 const mockQueueAdd = vi.fn(async () => undefined)
 
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   DefaultJobAction: {
     exportContacts: "exportContacts",
     sendAuditLog: "sendAuditLog",
@@ -23,7 +23,7 @@ vi.mock("@chatbotx.io/worker-config", () => ({
 // Import the module under test AFTER mocks are registered (dynamic import so
 // Vitest's hoisting of vi.mock() takes effect before the module graph runs).
 const { tagSyncService } = await import("../src/tag/sync.service")
-const { DefaultJobAction } = await import("@chatbotx.io/worker-config")
+const { DefaultJobAction } = await import("@hitechcloud.vn/worker-config")
 
 // ---------------------------------------------------------------------------
 // Shared test fixtures

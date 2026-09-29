@@ -1,7 +1,7 @@
 import {
   createProductImportTemplate,
   type ProductTemplateLabels,
-} from "@chatbotx.io/imports"
+} from "@hitechcloud.vn/imports"
 import { getLocale, getTranslations } from "next-intl/server"
 
 export async function GET() {

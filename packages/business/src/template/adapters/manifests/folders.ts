@@ -1,9 +1,9 @@
-import type { TemplateCategory } from "@chatbotx.io/database/partials"
-import { rootFolderId } from "@chatbotx.io/database/partials"
-import { folderModel } from "@chatbotx.io/database/schema"
-import type { FolderModel } from "@chatbotx.io/database/types"
-import type { TemplateFolderManifestEntry } from "@chatbotx.io/flow-config"
-import { createId } from "@chatbotx.io/utils"
+import type { TemplateCategory } from "@hitechcloud.vn/database/partials"
+import { rootFolderId } from "@hitechcloud.vn/database/partials"
+import { folderModel } from "@hitechcloud.vn/database/schema"
+import type { FolderModel } from "@hitechcloud.vn/database/types"
+import type { TemplateFolderManifestEntry } from "@hitechcloud.vn/flow-config"
+import { createId } from "@hitechcloud.vn/utils"
 import type { TemplateInstallContext } from "../types"
 
 /**

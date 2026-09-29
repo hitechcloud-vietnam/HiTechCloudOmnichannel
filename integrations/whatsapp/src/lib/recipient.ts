@@ -1,7 +1,7 @@
 import {
   type SourceScopedIdentity,
   shouldAddressBySourceUserId,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 
 export type WhatsappRecipientParams = { to: string } | { recipient: string }
 

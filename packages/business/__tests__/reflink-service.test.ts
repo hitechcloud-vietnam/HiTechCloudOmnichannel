@@ -36,7 +36,7 @@ const {
   }
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: { insert: mockInsert, update: mockUpdate },
   and: (...args: unknown[]) => ({ __and: args }),
   desc: vi.fn(),
@@ -45,7 +45,7 @@ vi.mock("@chatbotx.io/database/client", () => ({
   isUniqueViolationError: mockIsUniqueViolationError,
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   reflinkRepository: {
     listPaginated: mockListPaginated,
     count: mockCount,
@@ -53,7 +53,7 @@ vi.mock("@chatbotx.io/database/repositories", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   reflinkModel: {
     id: "reflink.id",
     workspaceId: "reflink.workspaceId",
@@ -63,7 +63,7 @@ vi.mock("@chatbotx.io/database/schema", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: vi.fn(() => "generated-id"),
 }))
 

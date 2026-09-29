@@ -2,7 +2,7 @@ import {
   HandleRequestType,
   Integration,
   type IntegrationDefinition,
-} from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/sdk"
 import { connect, deleteWebhook, registerWebhook } from "./apis/bot"
 import { TelegramAPIException } from "./exception"
 import { contactHandlers } from "./handlers/contact"

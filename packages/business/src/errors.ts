@@ -2,8 +2,8 @@ import type {
   BroadcastPlanLimitData,
   BroadcastPlanLimitReason,
   RestrictedBroadcastPlanPolicy,
-} from "@chatbotx.io/database/partials"
-import { SdkException } from "@chatbotx.io/sdk"
+} from "@hitechcloud.vn/database/partials"
+import { SdkException } from "@hitechcloud.vn/sdk"
 import { DrizzleQueryError } from "drizzle-orm"
 
 /**
@@ -143,14 +143,14 @@ export const toPublicErrorMessage = (
   }
   const message =
     channelErrorMessage(error) ??
-    (error instanceof ChatbotXException ? error.message : undefined)
+    (error instanceof HiTechCloudOmnichannelException ? error.message : undefined)
   if (!message || QUERY_DUMP_REGEX.test(message)) {
     return fallback
   }
   return sanitizePublicText(message) || fallback
 }
 
-export class ChatbotXException extends Error {
+export class HiTechCloudOmnichannelException extends Error {
   field?: string
   code = "systemError"
   httpStatusCode = 400
@@ -174,13 +174,13 @@ export class ChatbotXException extends Error {
     }
 
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, ChatbotXException)
+      Error.captureStackTrace(this, HiTechCloudOmnichannelException)
     }
   }
 }
 
 export const notFoundException = (message: string) =>
-  new ChatbotXException(message, "notFound", 404)
+  new HiTechCloudOmnichannelException(message, "notFound", 404)
 
 /**
  * A field-scoped validation failure raised from inside a service. The
@@ -194,7 +194,7 @@ export const validationException = (
   message: string,
   data?: Record<string, string | number>,
 ) => {
-  const error = new ChatbotXException(message, "validation", 422)
+  const error = new HiTechCloudOmnichannelException(message, "validation", 422)
   error.field = field
   error.data = data
   return error
@@ -219,7 +219,7 @@ export const broadcastPlanLimitException = (
     planName: string | null
   },
 ) => {
-  const error = new ChatbotXException(
+  const error = new HiTechCloudOmnichannelException(
     broadcastPlanLimitMessages[reason](ctx.policy),
     BROADCAST_PLAN_LIMIT_CODE,
     403,
@@ -238,7 +238,7 @@ export const broadcastPlanLimitException = (
 }
 
 export const channelDuplicatedException = () =>
-  new ChatbotXException(
+  new HiTechCloudOmnichannelException(
     "This account is already connected to another workspace.",
     "channelDuplicated",
   )
@@ -246,13 +246,13 @@ export const channelDuplicatedException = () =>
 /**
  * The workspace's platform owner has no configured credential (Meta app,
  * WhatsApp Business app, etc.) for the channel being connected. Kept
- * distinct from a generic `ChatbotXException` so `toConnectSessionError`
+ * distinct from a generic `HiTechCloudOmnichannelException` so `toConnectSessionError`
  * (`packages/business/src/inbox/connect-outcome.ts`) can map it to the
  * `credentialMissing` session-error code without every call site having to
  * remember the exact code string.
  */
 export const credentialMissingException = (message: string) =>
-  new ChatbotXException(message, "credentialMissing")
+  new HiTechCloudOmnichannelException(message, "credentialMissing")
 
 /**
  * A connect flow's session (the pending-auth cookie for Messenger/Instagram,
@@ -272,7 +272,7 @@ export const connectSessionExpiredException = (
   code:
     | "connectSessionExpired"
     | "signupSessionExpired" = "connectSessionExpired",
-) => new ChatbotXException(message, code)
+) => new HiTechCloudOmnichannelException(message, code)
 
 /**
  * The acting user resolved a workspace id that they are not a member of.
@@ -281,14 +281,14 @@ export const connectSessionExpiredException = (
  * "not found".
  */
 export const notWorkspaceMemberException = () =>
-  new ChatbotXException(
+  new HiTechCloudOmnichannelException(
     "You are not a member of this workspace.",
     "notWorkspaceMember",
     403,
   )
 
 export const channelLimitReachedException = () =>
-  new ChatbotXException(
+  new HiTechCloudOmnichannelException(
     "Channel limit reached for this plan",
     "channelLimitReached",
   )
@@ -301,14 +301,14 @@ export const channelLimitReachedException = () =>
  * a hard failure.
  */
 export const summaryAlreadyGeneratingException = () =>
-  new ChatbotXException(
+  new HiTechCloudOmnichannelException(
     "A summary is already being generated for this call.",
     "summaryAlreadyGenerating",
     409,
   )
 
 export const workspaceLimitReachedException = () =>
-  new ChatbotXException(
+  new HiTechCloudOmnichannelException(
     "Workspace limit reached for this plan",
     "workspaceLimitReached",
   )

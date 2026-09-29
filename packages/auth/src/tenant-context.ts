@@ -1,7 +1,7 @@
 import { AsyncLocalStorage } from "node:async_hooks"
-import { customDomainService, tenantService } from "@chatbotx.io/business"
-import { db, eq } from "@chatbotx.io/database/client"
-import { ROOT_TENANT_ID, verificationModel } from "@chatbotx.io/database/schema"
+import { customDomainService, tenantService } from "@hitechcloud.vn/business"
+import { db, eq } from "@hitechcloud.vn/database/client"
+import { ROOT_TENANT_ID, verificationModel } from "@hitechcloud.vn/database/schema"
 
 /**
  * Tenant scoping for white-label isolation.
@@ -21,7 +21,7 @@ type TenantStore = { tenantId: string }
 
 /**
  * The tenant ALS instance MUST be a process-wide singleton. `withTenant` (called
- * from the route handler via `@chatbotx.io/auth/tenant`) and `getTenantId` (called
+ * from the route handler via `@hitechcloud.vn/auth/tenant`) and `getTenantId` (called
  * from the adapter in `server.ts` via `./tenant-context`) must read and write the
  * same store. If this module is evaluated more than once — e.g. duplicated across
  * Next.js bundles/layers because it is reached through two different import

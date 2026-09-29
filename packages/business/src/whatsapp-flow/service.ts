@@ -4,9 +4,9 @@ import {
   eq,
   findOrFail,
   inArray,
-} from "@chatbotx.io/database/client"
-import { whatsappFlowModel } from "@chatbotx.io/database/schema"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/client"
+import { whatsappFlowModel } from "@hitechcloud.vn/database/schema"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 
 /** WhatsApp's flow shape, as returned by `listFlows`. */

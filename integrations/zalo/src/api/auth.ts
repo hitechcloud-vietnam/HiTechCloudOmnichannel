@@ -1,4 +1,4 @@
-import type { Oauth2Config } from "@chatbotx.io/sdk"
+import type { Oauth2Config } from "@hitechcloud.vn/sdk"
 import { ZALO_API_ENDPOINTS, ZALO_OAUTH_BASE_URL } from "../constants"
 import { handleZaloError, ZaloException } from "../lib/exception"
 import { ZaloHttpClient } from "../lib/http-client"

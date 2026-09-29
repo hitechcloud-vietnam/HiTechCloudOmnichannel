@@ -1,5 +1,5 @@
-import { db } from "@chatbotx.io/database/client"
-import { refLinkStatModel } from "@chatbotx.io/database/schema"
+import { db } from "@hitechcloud.vn/database/client"
+import { refLinkStatModel } from "@hitechcloud.vn/database/schema"
 import { LinkStatsRepository } from "./link-stats.repository"
 
 export const refLinkStatsRepository = new LinkStatsRepository(

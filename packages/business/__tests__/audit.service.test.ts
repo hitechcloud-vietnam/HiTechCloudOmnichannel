@@ -11,7 +11,7 @@ const mocks = vi.hoisted(() => ({
 
 const auditRecorderNotRegisteredMessage = /Audit recorder is not registered/
 
-vi.mock("@chatbotx.io/worker-config", () => ({
+vi.mock("@hitechcloud.vn/worker-config", () => ({
   DefaultJobAction: {
     sendAuditLog: "sendAuditLog",
   },
@@ -20,7 +20,7 @@ vi.mock("@chatbotx.io/worker-config", () => ({
   },
 }))
 
-vi.mock("@chatbotx.io/utils", () => ({
+vi.mock("@hitechcloud.vn/utils", () => ({
   createId: vi.fn(() => "11643703873355776"),
 }))
 

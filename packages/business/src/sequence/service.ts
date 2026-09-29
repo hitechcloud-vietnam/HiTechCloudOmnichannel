@@ -1,23 +1,23 @@
-import { sequenceAnalyticsService } from "@chatbotx.io/analytics"
-import type { SequenceStepEventType } from "@chatbotx.io/analytics/schemas"
+import { sequenceAnalyticsService } from "@hitechcloud.vn/analytics"
+import type { SequenceStepEventType } from "@hitechcloud.vn/analytics/schemas"
 import {
   and,
   db,
   eq,
   findOrFail,
   isUniqueViolationError,
-} from "@chatbotx.io/database/client"
+} from "@hitechcloud.vn/database/client"
 import {
   type SequenceListInput,
   sequenceRepository,
-} from "@chatbotx.io/database/repositories"
-import { sequenceModel, sequenceStepModel } from "@chatbotx.io/database/schema"
+} from "@hitechcloud.vn/database/repositories"
+import { sequenceModel, sequenceStepModel } from "@hitechcloud.vn/database/schema"
 import type {
   SequenceModel,
   SequenceStepModel,
-} from "@chatbotx.io/database/types"
-import { getPaginationWithDefaults } from "@chatbotx.io/database/utils"
-import { createId } from "@chatbotx.io/utils"
+} from "@hitechcloud.vn/database/types"
+import { getPaginationWithDefaults } from "@hitechcloud.vn/database/utils"
+import { createId } from "@hitechcloud.vn/utils"
 import { BaseService } from "../base.service"
 import {
   mapStatsContactRow,

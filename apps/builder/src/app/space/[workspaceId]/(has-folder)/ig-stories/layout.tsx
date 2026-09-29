@@ -1,5 +1,5 @@
-import { folderTypes } from "@chatbotx.io/database/partials"
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { folderTypes } from "@hitechcloud.vn/database/partials"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { type ReactNode, Suspense } from "react"
 

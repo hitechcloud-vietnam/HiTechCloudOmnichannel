@@ -1,5 +1,5 @@
-import { integrationSendGridService } from "@chatbotx.io/business"
-import { getIdFromParams } from "@chatbotx.io/utils"
+import { integrationSendGridService } from "@hitechcloud.vn/business"
+import { getIdFromParams } from "@hitechcloud.vn/utils"
 import { notFound } from "next/navigation"
 import { ManageSendGrid } from "@/features/integration-sendgrid/components/manage-sendgrid"
 

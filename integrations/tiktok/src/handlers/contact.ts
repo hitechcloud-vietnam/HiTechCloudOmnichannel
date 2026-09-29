@@ -1,4 +1,4 @@
-import type { ContactHandlers } from "@chatbotx.io/sdk"
+import type { ContactHandlers } from "@hitechcloud.vn/sdk"
 import type { TiktokAuthValue } from "../schema"
 
 // Contact name comes from content.from in the webhook payload (set in incoming-message.ts).

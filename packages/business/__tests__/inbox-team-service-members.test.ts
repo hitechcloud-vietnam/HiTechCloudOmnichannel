@@ -34,7 +34,7 @@ const makeTx = () => ({
   },
 })
 
-vi.mock("@chatbotx.io/database/client", () => ({
+vi.mock("@hitechcloud.vn/database/client", () => ({
   db: {
     query: {
       inboxTeamModel: { findFirst: mocks.teamFindFirst },
@@ -49,17 +49,17 @@ vi.mock("@chatbotx.io/database/client", () => ({
 
 // Plain object stubs only — importing the real schema opens a database
 // connection through the sharding client.
-vi.mock("@chatbotx.io/database/schema", () => ({
+vi.mock("@hitechcloud.vn/database/schema", () => ({
   inboxTeamModel: {},
   inboxTeamMemberModel: {},
 }))
 
-vi.mock("@chatbotx.io/redis", () => ({
+vi.mock("@hitechcloud.vn/redis", () => ({
   withCache: vi.fn(),
   invalidateCacheByTags: vi.fn(),
 }))
 
-vi.mock("@chatbotx.io/database/repositories", () => ({
+vi.mock("@hitechcloud.vn/database/repositories", () => ({
   inboxTeamMemberRepository: {
     listUserIdsByTeamId: mocks.listUserIdsByTeamId,
   },

@@ -1,6 +1,6 @@
-import { keys as database } from "@chatbotx.io/database/keys"
-import { keys as mail } from "@chatbotx.io/mail/keys"
-import { keys as partysocket } from "@chatbotx.io/partysocket-config/keys"
+import { keys as database } from "@hitechcloud.vn/database/keys"
+import { keys as mail } from "@hitechcloud.vn/mail/keys"
+import { keys as partysocket } from "@hitechcloud.vn/partysocket-config/keys"
 import { createEnv } from "@t3-oss/env-nextjs"
 import { z } from "zod"
 import { clientEnv } from "./lib/client-env"
@@ -36,7 +36,7 @@ export const env = createEnv({
     NEXT_PUBLIC_INTERNAL_STORAGE_URL: z
       .url()
       .optional()
-      .default("http://localhost:9000/chatbotx/"),
+      .default("http://localhost:9000/hitechcloudomnichannel/"),
     NEXT_PUBLIC_STORAGE_URL: z.url().optional(),
     NEXT_PUBLIC_PANCAKE_CHAT_PAGE_ID: z.string().optional(),
     NEXT_PUBLIC_ALLOWED_DEV_ORIGINS: z
@@ -55,7 +55,7 @@ export const env = createEnv({
     NEXT_PUBLIC_BROKER_URL: clientEnv("NEXT_PUBLIC_BROKER_URL"),
     NEXT_PUBLIC_INTERNAL_STORAGE_URL:
       clientEnv("NEXT_PUBLIC_INTERNAL_STORAGE_URL") ||
-      "http://localhost:9000/chatbotx/",
+      "http://localhost:9000/hitechcloudomnichannel/",
     NEXT_PUBLIC_EDITION: clientEnv("NEXT_PUBLIC_EDITION") || "community",
     NEXT_PUBLIC_STORAGE_URL: clientEnv("NEXT_PUBLIC_STORAGE_URL"),
     NEXT_PUBLIC_PANCAKE_CHAT_PAGE_ID: clientEnv(
